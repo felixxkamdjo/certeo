@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "31JDQGhbzkk=",
+  "success": true,
+  "projectFilePath": "/home/kmd/projects/certeo/backend/src/Certeo.Gateway/Certeo.Gateway.csproj",
+  "expectedPackageFiles": [
+    "/home/kmd/.nuget/packages/microsoft.aspnetcore.openapi/10.0.11/microsoft.aspnetcore.openapi.10.0.11.nupkg.sha512",
+    "/home/kmd/.nuget/packages/microsoft.openapi/2.7.5/microsoft.openapi.2.7.5.nupkg.sha512"
+  ],
+  "logs": []
+}
