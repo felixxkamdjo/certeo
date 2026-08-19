@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 
 @Component({
@@ -13,21 +14,22 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
 
+  private readonly router = inject(Router);
+
+  showPassword = signal(false);
+
   loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
+    email: ['admin@orange.com', [Validators.required, Validators.email]],
+    password: ['password', Validators.required],
   });
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.getRawValue() as any).subscribe({
-        next: () => {
-          // Navigation is handled by auth service
-        },
-        error: (err) => {
-          console.error('Login failed', err);
-        }
-      });
-    }
+  togglePasswordVisibility(): void {
+    this.showPassword.update((val) => !val);
+  }
+
+  onSubmit(): void {
+    // Redirection directe vers le dashboard sans attendre l'API backend
+    this.router.navigate(['/admin/dashboard']);
   }
 }
+

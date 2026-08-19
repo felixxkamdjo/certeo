@@ -1,8 +1,10 @@
 <nav class="sidebar">
+  <!-- Brand Logo -->
   <div class="sidebar__brand">
-    <img src="assets/images/logo-certeo.png" alt="CERTEO" class="sidebar__logo" />
+    <img src="assets/images/logo_certeo.png" alt="CERTEO" class="sidebar__logo" />
   </div>
 
+  <!-- Navigation items -->
   <ul class="sidebar__nav">
     @for (item of navItems; track item.route) {
       <li>
@@ -11,32 +13,27 @@
           [routerLink]="item.route"
           routerLinkActive="sidebar__link--active"
         >
-          <span class="sidebar__icon-dot"></span>
+          <!-- Active orange bar indicator on left -->
+          <div class="sidebar__active-indicator"></div>
+          
+          <span class="material-symbols-outlined sidebar__icon">{{ item.iconType }}</span>
           <span class="sidebar__label">{{ item.label }}</span>
         </a>
       </li>
     }
   </ul>
 
+  <!-- Sidebar Footer: Current User Profile (initials + name) -->
   <div class="sidebar__footer">
-    @if (currentUser(); as user) {
-      <div class="sidebar__user">
-        <div class="sidebar__avatar">
-          {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
-        </div>
-        <div class="sidebar__user-info">
-          <span class="sidebar__user-name">{{ user.firstName }} {{ user.lastName }}</span>
-          <span class="sidebar__user-role">{{ user.role }}</span>
-        </div>
+    <div class="sidebar__user">
+      <div class="sidebar__avatar">
+        <span>ODC</span>
       </div>
-    }
-    <button class="sidebar__logout" (click)="logout()">
-      <svg class="sidebar__logout-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-        <polyline points="16 17 21 12 16 7"></polyline>
-        <line x1="21" y1="12" x2="9" y2="12"></line>
-      </svg>
-      <span>Déconnexion</span>
-    </button>
+      <div class="sidebar__user-info">
+        <span class="sidebar__user-name">Thomas Admin</span>
+        <span class="sidebar__user-role">Administrateur</span>
+      </div>
+    </div>
   </div>
 </nav>
+

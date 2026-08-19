@@ -1,6 +1,94 @@
-<div class="certificate-view">
-  <div class="certificate-view__header">
-    <h1 class="heading-3">Attestation Officielle de Réussite</h1>
-    <p class="text-muted">Visualisation et vérification officielle du certificat ODC certifié.</p>
+@if (participant(); as p) {
+  <div class="certificate-view-container" [class.is-public]="isPublicView()">
+    
+    <!-- Page Header & Actions -->
+    <div class="view-header">
+      <div class="view-header__text">
+        <h1 class="text-headline-lg">Attestation de Réussite</h1>
+        <p class="text-body-md text-secondary">Aperçu officiel du certificat généré par CERTEO.</p>
+      </div>
+      <div class="view-header__actions">
+        <button class="btn-action btn-action--dark" (click)="downloadPdf()" [disabled]="!isPublicView()" [title]="!isPublicView() ? 'Action indisponible en prévisualisation admin' : ''">
+          <span class="material-symbols-outlined">download</span>
+          Télécharger en PDF
+        </button>
+        <button class="btn-action btn-action--primary" (click)="shareLinkedIn()" [disabled]="!isPublicView()" [title]="!isPublicView() ? 'Action indisponible en prévisualisation admin' : ''">
+          <span class="material-symbols-outlined">share</span>
+          Partager sur LinkedIn
+        </button>
+      </div>
+    </div>
+
+    <!-- Certificate Canvas -->
+    <div class="certificate-canvas">
+      <!-- Decorative Elements -->
+      <div class="decor decor--top-left"></div>
+      <div class="decor decor--bottom-right"></div>
+      <div class="decor decor--gradient-bar"></div>
+      <div class="decor decor--border-outer"></div>
+      <div class="decor decor--border-inner"></div>
+
+      <!-- Certificate Content -->
+      <div class="certificate-content">
+        
+        <!-- Header / Logos -->
+        <div class="cert-header">
+          <div class="cert-logo">
+            <span class="cert-logo__certeo">CERTEO</span>
+            <span class="cert-logo__odc">Orange Digital Center</span>
+          </div>
+          <div class="cert-badge">
+            <span class="material-symbols-outlined">workspace_premium</span>
+          </div>
+        </div>
+
+        <!-- Title -->
+        <h2 class="cert-title">Attestation de Réussite</h2>
+        <p class="cert-text">Nous certifions par la présente que</p>
+
+        <!-- Candidate Name -->
+        <h1 class="cert-candidate">{{ p.firstName }} {{ p.lastName }}</h1>
+        <p class="cert-text">a suivi avec succès et validé l'ensemble des modules de la formation</p>
+
+        <!-- Training Name -->
+        <h3 class="cert-training">{{ p.trainingTitle }}</h3>
+        <div class="cert-divider"></div>
+
+        <!-- Footer Details -->
+        <div class="cert-footer">
+          <!-- Date & Location -->
+          <div class="cert-footer__details">
+            <p>Fait à <strong>Paris</strong></p>
+            <p>Le <strong>24 Octobre 2026</strong></p>
+          </div>
+
+          <!-- QR Code -->
+          <div class="cert-footer__qr">
+            <div class="qr-box">
+              <div class="qr-pattern">
+                <span class="material-symbols-outlined">qr_code_2</span>
+              </div>
+            </div>
+            <span class="qr-id">ID: {{ p.certificateId }}</span>
+          </div>
+
+          <!-- Signature -->
+          <div class="cert-footer__signature">
+            <div class="signature-img">
+              <span>S. Martin</span>
+            </div>
+            <div class="signature-line"></div>
+            <p class="signature-name">Sophie Martin</p>
+            <p class="signature-role">Directrice des Formations ODC</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+} @else {
+  <div class="certificate-not-found">
+    <span class="material-symbols-outlined">error</span>
+    <h2>Certificat Introuvable</h2>
+    <p>Ce certificat n'existe pas ou n'est plus disponible.</p>
+  </div>
+}

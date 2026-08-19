@@ -1,13 +1,65 @@
 <header class="header">
+  <!-- Left Side: Search Bar Input -->
   <div class="header__left">
-    <!-- Page title will be dynamic per feature -->
+    <div class="search-input-wrapper">
+      <span class="material-symbols-outlined search-icon">search</span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Rechercher une formation, participant, dossier..."
+      />
+    </div>
   </div>
 
+  <!-- Right Side: Actions (Notifications & User Profile Menu) -->
   <div class="header__right">
-    @if (currentUser(); as user) {
-      <div class="header__user">
-        <span class="header__greeting">Bonjour, {{ user.firstName }}</span>
-      </div>
-    }
+    <!-- Notifications Button with Badge -->
+    <button class="header__action-btn" type="button" aria-label="Notifications">
+      <span class="material-symbols-outlined">notifications</span>
+      <span class="header__badge"></span>
+    </button>
+
+    <!-- User Profile Avatar with Dropdown Menu -->
+    <div class="header__user-dropdown">
+      <button
+        class="header__profile-trigger"
+        type="button"
+        (click)="toggleDropdown()"
+        aria-label="Menu utilisateur"
+      >
+        <div class="user-avatar">
+          <span>ODC</span>
+        </div>
+        <span class="material-symbols-outlined dropdown-chevron">expand_more</span>
+      </button>
+
+      @if (showDropdown()) {
+        <div class="dropdown-menu">
+          <div class="dropdown-menu__header">
+            <span class="dropdown-menu__name">Thomas Admin</span>
+            <span class="dropdown-menu__email">admin&#64;orange.com</span>
+          </div>
+          <div class="dropdown-menu__divider"></div>
+          <a
+            routerLink="/admin/settings"
+            class="dropdown-menu__item"
+            (click)="closeDropdown()"
+          >
+            <span class="material-symbols-outlined">person</span>
+            <span>Mon Profil</span>
+          </a>
+          <button
+            type="button"
+            class="dropdown-menu__item dropdown-menu__item--danger"
+            (click)="logout()"
+          >
+            <span class="material-symbols-outlined">logout</span>
+            <span>Déconnexion</span>
+          </button>
+        </div>
+      }
+    </div>
   </div>
 </header>
+
+
