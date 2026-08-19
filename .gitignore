@@ -1,0 +1,18 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+appsettings.Development.json
+
+# Node / Angular
+node_modules/
+.angular/
+dist/
+*.log
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
