@@ -84,6 +84,10 @@
 
       &:hover {
         background-color: rgba($color-primary, 0.12);
+        
+        .sidebar__icon {
+          color: $color-white;
+        }
       }
     }
   }
