@@ -1,0 +1,38 @@
+@use 'sass:color';
+@use 'styles/variables' as *;
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: $radius-full;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+
+  &--success {
+    background-color: $color-success-light;
+    color: color.adjust($color-success, $lightness: -10%);
+  }
+
+  &--warning {
+    background-color: $color-warning-light;
+    color: color.adjust($color-warning, $lightness: -15%);
+  }
+
+  &--danger {
+    background-color: $color-danger-light;
+    color: color.adjust($color-danger, $lightness: -10%);
+  }
+
+  &--info {
+    background-color: $color-info-light;
+    color: color.adjust($color-info, $lightness: -10%);
+  }
+
+  &--default {
+    background-color: $color-gray-200;
+    color: $color-gray-700;
+  }
+}

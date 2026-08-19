@@ -1,0 +1,27 @@
+<div class="data-table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        @for (col of columns; track col.key) {
+          <th>{{ col.header }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of data; track row.id || $index) {
+        <tr (click)="rowClick.emit(row)" class="data-table__row">
+          @for (col of columns; track col.key) {
+            <td>{{ row[col.key] }}</td>
+          }
+        </tr>
+      }
+      @if (data.length === 0) {
+        <tr>
+          <td [attr.colspan]="columns.length" class="data-table__empty">
+            Aucune donnée à afficher.
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,398 @@
+<!DOCTYPE html><html class="light" lang="fr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>CERTEO - Gestion des Formations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "surface-bright": "#fbf9f8",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#5c2700",
+                        "on-surface": "#1b1c1c",
+                        "on-secondary-fixed-variant": "#474747",
+                        "surface-container-low": "#f5f3f3",
+                        "background": "#fbf9f8",
+                        "on-error": "#ffffff",
+                        "outline": "#8c7263",
+                        "inverse-primary": "#ffb68c",
+                        "surface-container-highest": "#e4e2e2",
+                        "surface": "#fbf9f8",
+                        "secondary-container": "#e2e2e2",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#e0c0af",
+                        "surface-tint": "#9a4600",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-background": "#1b1c1c",
+                        "on-primary-fixed-variant": "#753400",
+                        "primary-container": "#ff7900",
+                        "on-tertiary-container": "#353737",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#5d5f5f",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "secondary": "#5e5e5e",
+                        "on-secondary-container": "#646464",
+                        "inverse-on-surface": "#f2f0f0",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "error": "#ba1a1a",
+                        "surface-container": "#efeded",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-surface-variant": "#584235",
+                        "on-primary-fixed": "#321200",
+                        "surface-variant": "#e4e2e2",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "tertiary-container": "#9fa0a0",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#303031",
+                        "error-container": "#ffdad6",
+                        "primary": "#9a4600",
+                        "surface-container-high": "#e9e8e7",
+                        "primary-fixed": "#ffdbc9",
+                        "surface-dim": "#dbdad9",
+                        "primary-fixed-dim": "#ffb68c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    },
+                    "boxShadow": {
+                        'soft': '0 4px 12px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen flex overflow-hidden">
+<!-- SideNavBar (from shared components) -->
+<nav class="hidden md:flex flex-col bg-surface-container-lowest border-r border-outline-variant h-full w-[280px] py-base transition-all duration-200 ease-in-out shrink-0 z-40">
+<div class="px-gutter mb-8 flex items-center justify-center mt-4">
+<img alt="CERTEO Logo" class="h-12 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3Mpq6yitytUUWo49dUy1ueND8ZAVoOOuFgpQ23m9b8tFUMnqCr8E6J2mLCBpUmqCNbNXfPZh35R7ZR2D4k2bw6RF2IhCJI-2SIxVP8Lno39TMHpaTw7A_1U94lu73uypfcRQbTediyjq1rdcDw9AJ6pBKAoMTbEhfSYyMZagKGUe1PLQ6gKBe2cn6wMjb0ByTxeUAu_MdHXf76qs_o_W0L7pJ7mNxNzhO4rDtjPGEwQzaF--D0Mgcrs4-ZUe2WZb0nA">
+</div>
+<div class="px-gutter mb-6">
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-1">Admin Portal</h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Orange Digital Center</p>
+</div>
+<div class="px-gutter mb-6">
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-3 rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                Créer une formation
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto overflow-x-hidden">
+<ul class="space-y-1 font-label-md text-label-md">
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high mx-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high mx-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">how_to_reg</span>
+                        Présence ODC
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high mx-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+                        Administrateurs
+                    </a>
+</li>
+<!-- Active State applied here based on semantic intent -->
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary rounded-lg mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+                        Formations
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high mx-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+                        Candidatures
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high mx-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+                        Participants
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high mx-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">assignment</span>
+                        Évaluations
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high mx-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">workspace_premium</span>
+                        Certificats
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high mx-2 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                        Rapports
+                    </a>
+</li>
+</ul>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant px-2">
+<ul class="space-y-1 font-label-md text-label-md">
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+                        Paramètres
+                    </a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+                        Logout
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-full bg-surface-bright overflow-hidden relative">
+<!-- TopAppBar (from shared components config, modified for this view) -->
+<header class="bg-surface w-full px-margin-desktop h-16 z-30 flex justify-between items-center shrink-0 border-b border-outline-variant shadow-sm">
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-on-surface-variant mr-4 p-2 hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Search Bar -->
+<div class="flex-1 max-w-md relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors" placeholder="Rechercher une formation..." type="text">
+</div>
+<div class="flex items-center gap-4 ml-auto">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary-container rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<button class="flex items-center gap-2 hover:bg-surface-container-low p-1 pr-3 rounded-full transition-colors border border-transparent hover:border-outline-variant">
+<img alt="User profile avatar" class="w-8 h-8 rounded-full object-cover bg-surface-container-high border border-outline-variant" data-alt="A professional headshot of a corporate administrator in a modern office setting. The lighting is bright and clean, reflecting a high-tech corporate environment. The administrator has a confident, welcoming expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxb8uE4HCXWC8RKTGUvjzx6E0kyDoYzcxwi2ORaYUDr5uAlK2jLgrje2RZniqIApp6JiNSqbj9A0-6vDMRNIZhPFjSjXzgpAgARW27d3DkoWgVOhu6SVAZUWaw7IJ1tbYvNgd5dyanxYsaiCLKgpExKXcAMEVa_Sw-salZJK27-a3Xs813UKeL8PAx1RDhmgTsfziM0os_PCFLYjIgczhSlMu9ecjb9iIozzkGDnxN66R7L5lQD9RT">
+<span class="font-label-md text-label-md text-on-surface hidden lg:block">Admin. Profile</span>
+<span class="material-symbols-outlined text-on-surface-variant hidden lg:block">arrow_drop_down</span>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+<div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Gestion des Formations</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Gérez le catalogue des formations et le suivi des cohortes.</p>
+</div>
+<button class="bg-primary-container text-on-primary font-label-md text-label-md px-6 py-3 rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-2 whitespace-nowrap shadow-soft shrink-0">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Créer une formation
+                    </button>
+</div>
+<!-- Stats Overview (Bento style hint) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-8">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-soft border border-surface-container-highest flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Formations Actives</p>
+<p class="font-headline-md text-headline-md text-on-surface">12</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-soft border border-surface-container-highest flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">group</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Total Participants</p>
+<p class="font-headline-md text-headline-md text-on-surface">348</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-soft border border-surface-container-highest flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">event_available</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Formations Clôturées</p>
+<p class="font-headline-md text-headline-md text-on-surface">45</p>
+</div>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface-container-lowest rounded-xl shadow-soft overflow-hidden border border-surface-container-highest">
+<!-- Table Toolbar -->
+<div class="p-4 border-b border-surface-container-highest flex flex-col sm:flex-row justify-between items-center gap-4 bg-surface-bright">
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 font-label-md text-label-md bg-on-surface text-on-primary rounded-lg">Toutes</button>
+<button class="px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">Ouvertes</button>
+<button class="px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">Fermées</button>
+</div>
+<div class="flex items-center gap-3">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-container-highest">
+<th class="py-3 px-6 font-label-md text-label-md text-on-surface uppercase tracking-wider">Titre de la formation</th>
+<th class="py-3 px-6 font-label-md text-label-md text-on-surface uppercase tracking-wider">Date de début</th>
+<th class="py-3 px-6 font-label-md text-label-md text-on-surface uppercase tracking-wider">Date de fin</th>
+<th class="py-3 px-6 font-label-md text-label-md text-on-surface uppercase tracking-wider text-center">Participants</th>
+<th class="py-3 px-6 font-label-md text-label-md text-on-surface uppercase tracking-wider">Statut</th>
+<th class="py-3 px-6 font-label-md text-label-md text-on-surface uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-surface-container-highest hover:bg-surface-bright transition-colors group">
+<td class="py-4 px-6">
+<div class="font-label-md text-label-md">Full-Stack Web Development</div>
+<div class="text-on-surface-variant text-sm mt-0.5">Cohorte 4 - Présentiel</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">15 Oct 2023</td>
+<td class="py-4 px-6 text-on-surface-variant">15 Jan 2024</td>
+<td class="py-4 px-6 text-center">24 / 30</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-fixed text-primary-container">
+                                            Ouverte
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2"><button class="p-2 text-on-surface-variant hover:text-primary-container hover:bg-surface-container-low rounded-full transition-colors" title="Voir les détails"><span class="material-symbols-outlined text-[20px]">visibility</span></button><button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-full transition-colors" title="Modifier"><span class="material-symbols-outlined text-[20px]">edit</span></button><button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-full transition-colors" title="Voir les candidatures"><span class="material-symbols-outlined text-[20px]">person_search</span></button><button class="p-2 text-on-surface-variant hover:text-error hover:bg-surface-container-low rounded-full transition-colors" title="Archiver"><span class="material-symbols-outlined text-[20px]">archive</span></button></div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-container-highest hover:bg-surface-bright transition-colors group">
+<td class="py-4 px-6">
+<div class="font-label-md text-label-md">Design UI/UX Intensif</div>
+<div class="text-on-surface-variant text-sm mt-0.5">Atelier - Hybride</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">01 Nov 2023</td>
+<td class="py-4 px-6 text-on-surface-variant">30 Nov 2023</td>
+<td class="py-4 px-6 text-center">15 / 15</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container-highest text-on-surface">
+                                            Fermée
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2"><button class="p-2 text-on-surface-variant hover:text-primary-container hover:bg-surface-container-low rounded-full transition-colors" title="Voir les détails"><span class="material-symbols-outlined text-[20px]">visibility</span></button><button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-full transition-colors" title="Modifier"><span class="material-symbols-outlined text-[20px]">edit</span></button><button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-full transition-colors" title="Voir les candidatures"><span class="material-symbols-outlined text-[20px]">person_search</span></button><button class="p-2 text-on-surface-variant hover:text-error hover:bg-surface-container-low rounded-full transition-colors" title="Archiver"><span class="material-symbols-outlined text-[20px]">archive</span></button></div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-surface-container-highest hover:bg-surface-bright transition-colors group">
+<td class="py-4 px-6">
+<div class="font-label-md text-label-md">Introduction Data Science</div>
+<div class="text-on-surface-variant text-sm mt-0.5">En ligne</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">10 Sep 2023</td>
+<td class="py-4 px-6 text-on-surface-variant">10 Oct 2023</td>
+<td class="py-4 px-6 text-center">50 / 50</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant">
+                                            Archivée
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2"><button class="p-2 text-on-surface-variant hover:text-primary-container hover:bg-surface-container-low rounded-full transition-colors" title="Voir les détails"><span class="material-symbols-outlined text-[20px]">visibility</span></button><button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-full transition-colors" title="Modifier"><span class="material-symbols-outlined text-[20px]">edit</span></button><button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-full transition-colors" title="Voir les candidatures"><span class="material-symbols-outlined text-[20px]">person_search</span></button><button class="p-2 text-on-surface-variant hover:text-error hover:bg-surface-container-low rounded-full transition-colors" title="Archiver"><span class="material-symbols-outlined text-[20px]">archive</span></button></div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-surface-container-highest hover:bg-surface-bright transition-colors group">
+<td class="py-4 px-6">
+<div class="font-label-md text-label-md">Développement Mobile iOS</div>
+<div class="text-on-surface-variant text-sm mt-0.5">Cohorte 1 - Présentiel</div>
+</td>
+<td class="py-4 px-6 text-on-surface-variant">05 Dec 2023</td>
+<td class="py-4 px-6 text-on-surface-variant">05 Mar 2024</td>
+<td class="py-4 px-6 text-center">8 / 20</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-fixed text-primary-container">
+                                            Ouverte
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2"><button class="p-2 text-on-surface-variant hover:text-primary-container hover:bg-surface-container-low rounded-full transition-colors" title="Voir les détails"><span class="material-symbols-outlined text-[20px]">visibility</span></button><button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-full transition-colors" title="Modifier"><span class="material-symbols-outlined text-[20px]">edit</span></button><button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-full transition-colors" title="Voir les candidatures"><span class="material-symbols-outlined text-[20px]">person_search</span></button><button class="p-2 text-on-surface-variant hover:text-error hover:bg-surface-container-low rounded-full transition-colors" title="Archiver"><span class="material-symbols-outlined text-[20px]">archive</span></button></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-surface-container-highest flex items-center justify-between text-sm text-on-surface-variant bg-surface-bright">
+<div class="">Affichage 1 à 4 sur 12 formations</div>
+<div class="flex items-center gap-2">
+<button class="p-1 rounded hover:bg-surface-container-low transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<span class="font-label-md px-2">Page 1 sur 3</span>
+<button class="p-1 rounded hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+
+
+
+</body></html>

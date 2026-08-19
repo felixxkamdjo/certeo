@@ -1,0 +1,373 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Détails de la formation - CERTEO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#303031",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#584235",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-variant": "#e4e2e2",
+                        "surface-container-highest": "#e4e2e2",
+                        "secondary": "#5e5e5e",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-secondary-container": "#646464",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#e2e2e2",
+                        "outline": "#8c7263",
+                        "secondary-fixed": "#e2e2e2",
+                        "surface-bright": "#fbf9f8",
+                        "on-primary-fixed": "#321200",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "primary-container": "#ff7900",
+                        "background": "#fbf9f8",
+                        "on-primary-fixed-variant": "#753400",
+                        "on-primary-container": "#5c2700",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-tint": "#9a4600",
+                        "surface-dim": "#dbdad9",
+                        "on-background": "#1b1c1c",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#474747",
+                        "on-error": "#ffffff",
+                        "tertiary": "#5d5f5f",
+                        "outline-variant": "#e0c0af",
+                        "on-surface": "#1b1c1c",
+                        "inverse-on-surface": "#f2f0f0",
+                        "surface-container-high": "#e9e8e7",
+                        "primary-fixed-dim": "#ffb68c",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f5f3f3",
+                        "surface": "#fbf9f8",
+                        "surface-container": "#efeded",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#ffdbc9",
+                        "tertiary-container": "#9fa0a0",
+                        "primary": "#9a4600",
+                        "inverse-primary": "#ffb68c",
+                        "on-tertiary-container": "#353737"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "base": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+        .soft-shadow { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex">
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col fixed inset-y-0 left-0 z-[60] bg-surface dark:bg-surface-dim h-full w-[280px] rounded-r-xl bg-surface-container-low dark:bg-surface-container-highest shadow-lg py-gutter">
+<div class="px-6 mb-8 left_align">
+<h1 class="text-headline-lg font-headline-lg text-primary">CERTEO</h1>
+</div>
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold overflow-hidden">
+<img alt="User Profile Avatar" class="object-cover w-full h-full" data-alt="A professional headshot of a corporate talent manager or administrator in a bright, modern office setting. The lighting is crisp and natural, highlighting a friendly yet authoritative expression. They are wearing professional business casual attire. The background is a slightly blurred, high-tech workspace with subtle orange accents, conveying a corporate, modern aesthetic consistent with the Orange Digital Center brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANs4k680m6LfHAwUoARG56jSdlsKiJRdYKtaCWNzYPIjpvURxhieH_9zO0I9X8rEofck5xBOQjN11e4OAsP_cf1dJHb7CWEYbfqctdZRma4nEH2LDmL8WTu1J7QPQuWFYp6gdzSFMzcSOJ4XWnDBrqgvj690CVSm4prMgdknbEWWL0rL7WBshCeeKKHR0HCI-dTQYu1NHy6DT8UjerTwphQrbgZfSkWHn_NZWn2eN-pgP7hBNEAqD8">
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Orange Talent Admin</p>
+<p class="text-xs text-on-surface-variant">admin@orange.com</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto px-2 space-y-1 font-label-md text-label-md text-primary dark:text-inverse-primary">
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 mx-2 hover:bg-secondary-container dark:hover:bg-secondary rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 mx-2 hover:bg-secondary-container dark:hover:bg-secondary rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">swap_horiz</span>
+                Entries/Exits
+            </a>
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 mx-2 hover:bg-secondary-container dark:hover:bg-secondary rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">group</span>
+                Users
+            </a>
+<a class="flex items-center gap-base bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-3 mx-2 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined fill">school</span>
+                Trainings
+            </a>
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 mx-2 hover:bg-secondary-container dark:hover:bg-secondary rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">assignment</span>
+                Applications
+            </a>
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 mx-2 hover:bg-secondary-container dark:hover:bg-secondary rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">person_add</span>
+                Participants
+            </a>
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 mx-2 hover:bg-secondary-container dark:hover:bg-secondary rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">quiz</span>
+                Quizzes
+            </a>
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 mx-2 hover:bg-secondary-container dark:hover:bg-secondary rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">assessment</span>
+                Reporting
+            </a>
+<a class="flex items-center gap-base text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 mx-2 hover:bg-secondary-container dark:hover:bg-secondary rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 md:ml-[280px] flex flex-col min-h-screen">
+<!-- Header -->
+<header class="h-16 px-margin-mobile md:px-margin-desktop bg-surface flex items-center justify-between border-b border-outline-variant shadow-sm sticky top-0 z-40">
+<div class="flex items-center gap-4 flex-1">
+<button class="md:hidden text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors active:opacity-80">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden md:flex items-center bg-surface-container-low rounded-full px-4 py-2 flex-1 max-w-md border border-outline-variant focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md text-on-surface w-full p-0" placeholder="Rechercher..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant md:hidden">
+<img alt="User Profile" class="object-cover w-full h-full" data-alt="A small circular avatar portrait of a modern business professional. The background is a clean, bright white wall with soft, diffused lighting. The person has a confident smile. The image is high contrast and crisp, suitable for a tiny profile picture thumbnail in a sleek, orange-accented web application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYku6AAbNOi-lSzVLFr-XxKdSwbKscad9zG4ZNtoojJcoFiaM38vdmJqXVZaFmVqhixJPYo4J46CUpO8_tweP6eg5ia3RqSTAls1dbKVHOHwg5K-tTC9kR7tGkFOrPjoeo2lYNFcd9RSSy5knABjHL7mHtZM_yWA8c6SRFqJJN3Px4o3bjltWBoaImaQlPBy_kZZ66yJzgCGF9YnsuZDJr3ygU4ppdbyfRoEGtFSgibaXLJ75V_fwj">
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto w-full flex-1 space-y-8">
+<!-- Breadcrumb -->
+<nav class="flex items-center text-label-md font-label-md text-on-surface-variant space-x-2">
+<a class="hover:text-primary transition-colors" href="#">Formations</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Détails</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-surface">Développement Web Fullstack</span>
+</nav>
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-surface p-6 rounded-xl soft-shadow border-l-4 border-primary">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Développement Web Fullstack</h2>
+<span class="px-3 py-1 rounded-xl text-xs font-label-md bg-primary-container text-on-primary-container">Ouverte</span>
+<span class="text-label-md font-label-md text-on-surface-variant ml-2">Créé par Orange Talent Admin</span></div>
+<p class="text-body-md font-body-md text-on-surface-variant">Formation intensive de 6 mois pour maîtriser les technologies web modernes.</p>
+</div>
+<button class="border border-primary text-primary px-6 py-3 rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors min-h-[48px] flex items-center gap-2"><span class="material-symbols-outlined text-sm">group</span>Candidats</button><button class="bg-[#000000] text-white px-6 py-3 rounded-lg font-label-md text-label-md hover:bg-secondary transition-colors min-h-[48px] flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">edit</span>
+                    Modifier
+                </button>
+</div>
+<!-- Bento Grid Content -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Quick Stats -->
+<div class="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface p-6 rounded-xl soft-shadow flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">description</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Candidatures</p>
+<p class="text-headline-md font-headline-md text-on-surface">1,245</p>
+</div>
+</div>
+<div class="bg-surface p-6 rounded-xl soft-shadow flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">check_circle</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Participants Acceptés</p>
+<p class="text-headline-md font-headline-md text-on-surface">150</p>
+</div>
+</div>
+<div class="bg-surface p-6 rounded-xl soft-shadow flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">trending_up</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Taux de Complétion</p>
+<p class="text-headline-md font-headline-md text-on-surface">85%</p>
+</div>
+</div>
+</div>
+<!-- General Info -->
+<div class="bg-surface p-6 rounded-xl soft-shadow md:col-span-2 space-y-6">
+<h3 class="text-headline-md font-headline-md text-on-surface border-b border-outline-variant pb-2">Informations Générales</h3>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-1">Catégorie</p>
+<p class="text-body-md font-body-md text-on-surface bg-surface-container-low px-3 py-2 rounded border border-outline-variant inline-block">Développement Logiciel</p>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-1">Capacité</p>
+<p class="text-body-md font-body-md text-on-surface bg-surface-container-low px-3 py-2 rounded border border-outline-variant inline-block">150 places</p>
+</div>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-1">Description</p>
+<p class="text-body-md font-body-md text-on-surface leading-relaxed bg-surface-container-lowest p-4 rounded-lg border border-surface-container-high">
+                            Ce programme immersif couvre l'ensemble du cycle de développement d'applications web. Les participants apprendront à créer des interfaces utilisateurs dynamiques avec React, à développer des API robustes avec Node.js, et à gérer des bases de données relationnelles et NoSQL. Le cursus inclut également des modules sur le déploiement cloud et les bonnes pratiques DevOps.
+                        </p>
+</div>
+</div>
+<!-- Planning -->
+<div class="bg-surface p-6 rounded-xl soft-shadow flex flex-col space-y-6">
+<h3 class="text-headline-md font-headline-md text-on-surface border-b border-outline-variant pb-2">Planification</h3>
+<div class="space-y-4 flex-1">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Date de début</p>
+<p class="text-body-md font-body-md text-on-surface">15 Septembre 2024</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">event_available</span>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Date de fin</p>
+<p class="text-body-md font-body-md text-on-surface">15 Mars 2025</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant">Mode</p>
+<p class="text-body-md font-body-md text-on-surface">Hybride (Physique / En ligne)</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Communication & Share -->
+<div class="md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Communication -->
+<div class="bg-surface p-6 rounded-xl soft-shadow space-y-4">
+<h3 class="text-headline-md font-headline-md text-on-surface border-b border-outline-variant pb-2">Communication</h3>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-1">Public Cible</p>
+<p class="text-body-md font-body-md text-on-surface">Étudiants, jeunes diplômés, reconversion professionnelle.</p>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-1">Message Réseaux Sociaux</p>
+<div class="bg-surface-container-low p-3 rounded border border-outline-variant relative">
+<p class="text-body-md font-body-md text-on-surface italic">"🚀 Lancez votre carrière tech avec la formation Fullstack CERTEO ! 6 mois pour devenir un développeur complet. Postulez dès maintenant ! #DevWeb #Formation #OrangeDigitalCenter"</p>
+<button class="absolute top-2 right-2 text-primary hover:text-surface-tint p-1 rounded hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Share -->
+<div class="bg-surface p-6 rounded-xl soft-shadow space-y-6">
+<h3 class="text-headline-md font-headline-md text-on-surface border-b border-outline-variant pb-2">Partage</h3>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-2">Lien de candidature</p>
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 flex items-center justify-between">
+<span class="text-body-md font-body-md text-on-surface truncate">https://certeo.orange.com/apply/dev-fs-24</span>
+</div>
+<button class="bg-[#FF7900] text-white px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-tint transition-colors min-h-[48px] flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+                                    Copier
+                                </button>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 border border-primary text-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors min-h-[48px]">
+<span class="material-symbols-outlined">qr_code</span>
+                                Générer QR Code
+                            </button>
+</div>
+</div>
+</div>
+<!-- Participants Mini-Table -->
+<div class="md:col-span-3 bg-surface p-6 rounded-xl soft-shadow space-y-4">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2">
+<h3 class="text-headline-md font-headline-md text-on-surface">Derniers Inscrits</h3>
+<a class="text-primary font-label-md text-label-md hover:underline flex items-center" href="#">
+                            Voir tous
+                            <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+</a>
+</div>
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#F6F6F6] text-on-surface font-label-md text-xs uppercase tracking-wider">
+<th class="p-4 rounded-tl-lg">Nom</th>
+<th class="p-4">Email</th>
+<th class="p-4">Date d'inscription</th>
+<th class="p-4 rounded-tr-lg">Statut</th>
+</tr>
+</thead>
+<tbody class="text-body-md font-body-md text-on-surface">
+<tr class="border-b border-surface-container-high hover:bg-[#FAFAFA] transition-colors">
+<td class="p-4">Alice Dupont</td>
+<td class="p-4 text-on-surface-variant">alice.dupont@email.com</td>
+<td class="p-4 text-on-surface-variant">01 Sept 2024</td>
+<td class="p-4"><span class="bg-primary-container text-on-primary-container bg-opacity-20 px-2 py-1 rounded-xl text-xs font-label-md">Confirmé</span></td>
+</tr>
+<tr class="border-b border-surface-container-high hover:bg-[#FAFAFA] transition-colors">
+<td class="p-4">Marc Lemaire</td>
+<td class="p-4 text-on-surface-variant">m.lemaire@email.com</td>
+<td class="p-4 text-on-surface-variant">02 Sept 2024</td>
+<td class="p-4"><span class="bg-primary-container text-on-primary-container bg-opacity-20 px-2 py-1 rounded-xl text-xs font-label-md">Confirmé</span></td>
+</tr>
+<tr class="border-b border-surface-container-high hover:bg-[#FAFAFA] transition-colors">
+<td class="p-4">Sarah Connor</td>
+<td class="p-4 text-on-surface-variant">s.connor@email.com</td>
+<td class="p-4 text-on-surface-variant">03 Sept 2024</td>
+<td class="p-4"><span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded-xl text-xs font-label-md">En attente</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+
+</body></html>

@@ -1,0 +1,13 @@
+<header class="header">
+  <div class="header__left">
+    <!-- Page title will be dynamic per feature -->
+  </div>
+
+  <div class="header__right">
+    @if (currentUser(); as user) {
+      <div class="header__user">
+        <span class="header__greeting">Bonjour, {{ user.firstName }}</span>
+      </div>
+    }
+  </div>
+</header>

@@ -1,0 +1,8 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.training-detail {
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+}

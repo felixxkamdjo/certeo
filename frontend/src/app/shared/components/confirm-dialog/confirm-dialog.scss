@@ -1,0 +1,44 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  @include flex-center;
+  z-index: $z-modal;
+}
+
+.modal-card {
+  @include card;
+  max-width: 420px;
+  width: 90%;
+}
+
+.modal-message {
+  margin: $spacing-md 0 $spacing-lg;
+  color: $color-gray-700;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+}
+
+.btn {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-weight: 600;
+  cursor: pointer;
+
+  &-secondary {
+    background: $color-gray-200;
+    color: $color-gray-800;
+  }
+
+  &-danger {
+    background: $color-danger;
+    color: $color-white;
+  }
+}

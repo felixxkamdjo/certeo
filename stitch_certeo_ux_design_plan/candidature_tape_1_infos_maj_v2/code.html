@@ -1,0 +1,240 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Candidature - Informations Personnelles</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-error": "#ffffff",
+                "inverse-on-surface": "#f2f0f0",
+                "on-secondary": "#ffffff",
+                "surface-dim": "#dbdad9",
+                "surface-bright": "#fbf9f8",
+                "surface-container-lowest": "#ffffff",
+                "primary-fixed-dim": "#ffb68c",
+                "tertiary-container": "#9fa0a0",
+                "on-tertiary-fixed-variant": "#454747",
+                "secondary-container": "#e2e2e2",
+                "tertiary": "#5d5f5f",
+                "on-error-container": "#93000a",
+                "on-primary": "#ffffff",
+                "on-tertiary-fixed": "#1a1c1c",
+                "on-tertiary-container": "#353737",
+                "surface-container": "#efeded",
+                "error": "#ba1a1a",
+                "surface-container-low": "#f5f3f3",
+                "on-tertiary": "#ffffff",
+                "secondary-fixed-dim": "#c6c6c6",
+                "surface-variant": "#e4e2e2",
+                "surface-container-high": "#e9e8e7",
+                "primary": "#9a4600",
+                "secondary": "#5e5e5e",
+                "outline": "#8c7263",
+                "on-background": "#1b1c1c",
+                "inverse-surface": "#303031",
+                "outline-variant": "#e0c0af",
+                "surface-tint": "#9a4600",
+                "primary-fixed": "#ffdbc9",
+                "primary-container": "#ff7900",
+                "on-surface": "#1b1c1c",
+                "error-container": "#ffdad6",
+                "on-secondary-container": "#646464",
+                "background": "#fbf9f8",
+                "surface-container-highest": "#e4e2e2",
+                "on-surface-variant": "#584235",
+                "surface": "#fbf9f8",
+                "tertiary-fixed-dim": "#c6c6c7",
+                "on-secondary-fixed-variant": "#474747",
+                "on-primary-fixed-variant": "#753400",
+                "secondary-fixed": "#e2e2e2",
+                "tertiary-fixed": "#e2e2e2",
+                "inverse-primary": "#ffb68c",
+                "on-primary-container": "#5c2700",
+                "on-secondary-fixed": "#1b1b1b",
+                "on-primary-fixed": "#321200"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin-desktop": "40px",
+                "base": "8px",
+                "margin-mobile": "16px",
+                "gutter": "24px",
+                "container-max": "1280px"
+        },
+        "fontFamily": {
+                "headline-md": [
+                        "Hanken Grotesk"
+                ],
+                "body-md": [
+                        "Hanken Grotesk"
+                ],
+                "body-lg": [
+                        "Hanken Grotesk"
+                ],
+                "headline-lg": [
+                        "Hanken Grotesk"
+                ],
+                "headline-lg-mobile": [
+                        "Hanken Grotesk"
+                ],
+                "label-md": [
+                        "Hanken Grotesk"
+                ],
+                "headline-xl": [
+                        "Hanken Grotesk"
+                ]
+        },
+        "fontSize": {
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "28px",
+                        {
+                                "lineHeight": "36px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .soft-tech-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center justify-start md:justify-center p-4">
+<!-- Mobile Container (Max width for mobile simulation on desktop) -->
+<div class="w-full max-w-[400px] flex flex-col bg-surface-container-lowest rounded-xl soft-tech-shadow overflow-hidden relative">
+<!-- Header (TopAppBar equivalent for transactional flow) -->
+<header class="flex justify-center items-center px-4 h-16 bg-surface border-b border-outline-variant/30">
+<img alt="CERTEO" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFyOaQ8OjaSNka_Dn-CVTu47lI6MiabEBwvOnmXo8J28eyh-QSjcYVxY76sZ05rg5D0nHZEwGTXtneLHqGk6nnwbGrfBGxT6ZbmOrIYd_UNi7KDC_A57z8xxHuh_XlBQMrrfhHIk_bsG-cY7_k51MkAk6nP8maFJAE2b-OFtxm3dXB5zzrIgjLq55YTtRGxYenvoWaCqP4CMjSqDarIF43TnDgj9ZJOjlv37DXoo3lRpat8Ej1LisP_vhGCNRAQTl0Ew">
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-margin-mobile flex flex-col gap-6 pb-24">
+<!-- Stepper -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end gap-4">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary break-words">Informations Personnelles</h2>
+<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap mb-1">1 / 4</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full flex gap-2">
+<div class="h-2 flex-1 bg-primary-container rounded-full"></div>
+<div class="h-2 flex-1 bg-surface-variant rounded-full"></div>
+<div class="h-2 flex-1 bg-surface-variant rounded-full"></div>
+<div class="h-2 flex-1 bg-surface-variant rounded-full"></div>
+</div>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-4">
+<!-- Input: Nom complet -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface" for="fullName">Nom complet</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">person</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50" id="fullName" placeholder="Jean Dupont" type="text">
+</div>
+</div>
+<!-- Input: Email -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">mail</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50" id="email" placeholder="jean.dupont@exemple.com" type="email">
+</div>
+</div>
+<!-- Input: Numéro de téléphone -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface" for="phone">Numéro de téléphone</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">call</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50" id="phone" placeholder="+33 6 12 34 56 78" type="tel">
+</div>
+</div>
+<!-- Input: Ville de résidence -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface" for="city">Ville de résidence</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">location_on</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50" id="city" placeholder="Paris, France" type="text">
+</div>
+</div>
+</form>
+</main>
+<!-- Fixed Bottom Action Area -->
+<div class="absolute bottom-0 left-0 w-full p-4 bg-surface-container-lowest border-t border-outline-variant/30 flex justify-between gap-4">
+<button class="bg-surface border border-primary-container text-primary-container hover:bg-primary-fixed hover:text-on-primary-container font-label-md text-label-md py-3 px-6 rounded-lg min-h-[48px] flex items-center justify-center gap-2 transition-colors w-full sm:w-1/2">
+                Précédent
+</button>
+<button class="bg-primary-container hover:opacity-90 text-[#ffffff] font-label-md text-label-md py-3 px-6 rounded-lg min-h-[48px] flex items-center justify-center gap-2 transition-opacity w-full sm:w-1/2">
+                Suivant
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+</div>
+</div>
+</body></html>

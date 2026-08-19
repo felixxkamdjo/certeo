@@ -1,0 +1,17 @@
+<div class="application-form">
+  <div class="application-form__header">
+    <h2 class="heading-4 text-center">Postuler à la formation</h2>
+    <p class="text-muted text-center">Complétez les 4 étapes pour soumettre votre dossier.</p>
+  </div>
+
+  <app-stepper [steps]="steps" [currentStep]="currentStep" (stepChange)="currentStep = $event"></app-stepper>
+
+  <div class="form-content">
+    @switch (currentStep) {
+      @case (1) { <div>Étape 1 : Informations Personnelles</div> }
+      @case (2) { <div>Étape 2 : Parcours Académique</div> }
+      @case (3) { <div>Étape 3 : Expériences Professionnelles</div> }
+      @case (4) { <div>Étape 4 : Motivation & Disponibilités</div> }
+    }
+  </div>
+</div>

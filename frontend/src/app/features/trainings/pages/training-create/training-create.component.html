@@ -1,0 +1,17 @@
+<div class="training-create">
+  <div class="training-create__header">
+    <h1 class="heading-3">Créer une formation</h1>
+    <p class="text-muted">Processus de création en 4 étapes harmonisées.</p>
+  </div>
+
+  <app-stepper [steps]="steps" [currentStep]="currentStep" (stepChange)="currentStep = $event"></app-stepper>
+
+  <div class="step-content">
+    @switch (currentStep) {
+      @case (1) { <div>Étape 1 : Informations Générales</div> }
+      @case (2) { <div>Étape 2 : Planification & Lieu</div> }
+      @case (3) { <div>Étape 3 : Communication & Audience</div> }
+      @case (4) { <div>Étape 4 : Configurateur de formulaire</div> }
+    }
+  </div>
+</div>
