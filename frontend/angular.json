@@ -24,13 +24,28 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "optimization": {
+              "scripts": true,
+              "styles": {
+                "minify": true,
+                "inlineCritical": false
+              },
+              "fonts": {
+                "inline": false
+              }
+            },
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
             },
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/assets"
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
@@ -51,6 +66,14 @@
                   "maximumError": "16kB"
                 }
               ],
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": false
+              },
               "outputHashing": "all"
             },
             "development": {
