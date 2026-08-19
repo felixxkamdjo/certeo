@@ -1,0 +1,19 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+appsettings.Development.json
+
+# Node / Angular
+node_modules/
+stitch_certeo_ux_design_plan/
+.angular/
+dist/
+*.log
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store

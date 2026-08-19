@@ -1,0 +1,52 @@
+// ============================================
+// CERTEO — Global Stylesheet Entry Point
+// ============================================
+
+// Design System
+@use 'styles/variables' as *;
+@use 'styles/reset';
+@use 'styles/typography';
+@use 'styles/animations';
+
+// ============================================
+// Global Base Styles
+// ============================================
+
+html,
+body {
+  height: 100%;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  color: $color-gray-900;
+  background-color: $color-gray-50;
+}
+
+// ============================================
+// Global Utility Classes
+// ============================================
+
+// --- Text ---
+.text-primary { color: $color-primary; }
+.text-success { color: $color-success; }
+.text-warning { color: $color-warning; }
+.text-danger  { color: $color-danger; }
+.text-info    { color: $color-info; }
+.text-muted   { color: $color-gray-500; }
+
+// --- Backgrounds ---
+.bg-primary { background-color: $color-primary; }
+.bg-white   { background-color: $color-white; }
+.bg-gray    { background-color: $color-gray-100; }
+
+// --- Visibility ---
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
