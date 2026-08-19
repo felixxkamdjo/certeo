@@ -1,51 +1,18 @@
-# .NET / C#
-**/bin/
-**/obj/
-[Bb]in/
-[Oo]bj/
-
-# test results
-[Tt]est[Rr]esults/
-**/publish/
-
-# user -specific files
+# .NET
+bin/
+obj/
 *.user
-*.userosscache
-*.sln.docstates
 *.suo
 .vs/
-
-# local appsettings files
 appsettings.Development.json
-appsettings.Local.json
-*.env
-.env.*
 
-# local database files
-*.db
-*.db-shm
-*.db-wal
-*.sqlite
-*.mdf
-*.ldf
-
-# Node / Angular / Package Managers
+# Node / Angular
 node_modules/
 .angular/
 dist/
-coverage/
-
-# Logs de package managers (npm, yarn, pnpm)
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
 
-# IDEs & OS (Linux, macOS, Windows)
+# IDE & OS
 .vscode/
 .idea/
-*.swp
-*~
 .DS_Store
-Thumbs.db
