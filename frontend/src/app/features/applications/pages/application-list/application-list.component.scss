@@ -369,3 +369,44 @@
     font-size: $font-size-base;
   }
 }
+
+// --- Dialog Custom Content ---
+.dialog-status-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-top: $spacing-xs;
+}
+
+.dialog-candidat-info {
+  margin: 0;
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+  background: $color-gray-50;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  border: 1px solid $color-gray-200;
+
+  strong {
+    color: $color-gray-900;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.form-label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: $color-gray-700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.select-field--full {
+  width: 100%;
+}
+

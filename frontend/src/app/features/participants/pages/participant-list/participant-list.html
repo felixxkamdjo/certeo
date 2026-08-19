@@ -47,11 +47,11 @@
       </div>
 
       <div class="action-bar__buttons">
-        <button class="btn btn--outline">
+        <button class="btn btn--outline" (click)="onEvaluate()">
           <span class="material-symbols-outlined">assignment</span>
-          Évaluer
+          Evaluer
         </button>
-        <button class="btn btn--dark">
+        <button class="btn btn--dark" (click)="onExportCsv()">
           <span class="material-symbols-outlined">download</span>
           Exporter CSV
         </button>
@@ -100,7 +100,14 @@
                 </span>
               </td>
               <td class="text-right" (click)="$event.stopPropagation()">
-                <button class="btn-link" (click)="navigateToDetail(p.id)">Détails</button>
+                <div class="actions">
+                  <button class="icon-btn icon-btn--view" title="Voir le profil" (click)="navigateToDetail(p.id)">
+                    <span class="material-symbols-outlined">visibility</span>
+                  </button>
+                  <button class="icon-btn icon-btn--delete" title="Retirer le participant" (click)="openDeleteModal(p)">
+                    <span class="material-symbols-outlined">person_remove</span>
+                  </button>
+                </div>
               </td>
             </tr>
           } @empty {
@@ -123,5 +130,18 @@
       (pageChange)="onPageChange($event)"
     ></app-pagination>
   </div>
+
+  <!-- Modale de confirmation de suppression -->
+  <app-confirm-dialog
+    [isOpen]="isDeleteModalOpen()"
+    title="Retirer le participant"
+    [message]="selectedForDelete() ? 'Voulez-vous retirer ' + selectedForDelete()?.firstName + ' ' + selectedForDelete()?.lastName + ' de la liste des participants ?' : ''"
+    confirmText="Retirer"
+    variant="danger"
+    icon="person_remove"
+    [isLoading]="isDeleting()"
+    (confirm)="onDeleteConfirm()"
+    (cancel)="onDeleteCancel()"
+  ></app-confirm-dialog>
 
 </div>

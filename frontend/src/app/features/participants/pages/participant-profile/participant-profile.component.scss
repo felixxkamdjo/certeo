@@ -23,7 +23,7 @@
   &__left {
     display: flex;
     align-items: center;
-    gap: $spacing-lg;
+    gap: $spacing-md;
   }
 
   &__user {
@@ -40,19 +40,21 @@
 }
 
 .back-btn {
-  @include flex-center;
-  width: 40px;
-  height: 40px;
-  border-radius: $radius-full;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
   background: transparent;
   border: none;
-  color: $color-gray-900;
+  color: $color-gray-600;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
   cursor: pointer;
-  transition: background-color $transition-fast;
+  transition: color $transition-fast;
+  padding: $spacing-xs 0;
 
-  &:hover {
-    background-color: $color-gray-100;
-  }
+  .material-symbols-outlined { font-size: 20px; }
+
+  &:hover { color: $color-primary; }
 }
 
 .profile-avatar {
@@ -95,6 +97,13 @@
   height: 48px;
 
   .material-symbols-outlined { font-size: 20px; }
+
+  &--ghost {
+    background: transparent;
+    border: 1px solid $color-gray-300;
+    color: $color-gray-600;
+    &:hover { background: $color-danger-light; border-color: $color-danger; color: $color-danger; }
+  }
 
   &--outline {
     background: transparent;
@@ -250,14 +259,15 @@
 
 .progress-circle {
   @include flex-center;
+  flex-direction: column;
   width: 96px;
   height: 96px;
   border-radius: $radius-full;
   border: 8px solid $color-gray-200;
   position: relative;
   flex-shrink: 0;
-  
-  // Fake progress ring using border hack
+  gap: 2px;
+
   &::before {
     content: '';
     position: absolute;
@@ -268,11 +278,24 @@
     transform: rotate(45deg);
   }
 
+  &--high::before { border-color: $color-success; }
+  &--low::before { border-color: $color-danger; }
+
   &__value {
     font-size: $font-size-xl;
     font-weight: $font-weight-bold;
     color: $color-gray-900;
     z-index: 2;
+    line-height: 1;
+  }
+
+  &__label {
+    font-size: 9px;
+    color: $color-gray-500;
+    z-index: 2;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 }
 
@@ -305,9 +328,8 @@
     font-weight: $font-weight-semibold;
     color: $color-gray-900;
 
-    &--error {
-      color: $color-danger;
-    }
+    &--success { color: $color-success; }
+    &--error { color: $color-danger; }
   }
 }
 
