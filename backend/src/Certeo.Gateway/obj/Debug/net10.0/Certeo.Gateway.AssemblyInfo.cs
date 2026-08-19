@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Certeo.Gateway")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a0c690e5121f691f959ac9beb5f1da68711da45f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Certeo.Gateway")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Certeo.Gateway")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

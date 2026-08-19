@@ -10,7 +10,7 @@ The project is structured as a **Monorepo** combining a **Modular Monolith** on 
 
 ```text
 certeo/
-├── backend/                  - Backend Application (.NET 8)
+├── backend/                  - Backend Application (.NET 10)
 │   ├── src/
 │   │   ├── Certeo.Gateway/   - Reverse Proxy & Entry Point (Port 5000)
 │   │   └── Certeo.Api/       - Modular Monolith (Port 5001)
