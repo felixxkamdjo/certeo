@@ -1,6 +1,206 @@
-<div class="trainings">
-  <div class="trainings__header">
-    <h1 class="heading-3">Formations</h1>
-    <p class="text-muted">Gestion du catalogue de formations et sessions ODC.</p>
+<div class="trainings-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__title-group">
+      <h1 class="page-header__title">Gestion des Formations</h1>
+      <p class="page-header__subtitle">Gérez le catalogue des formations et le suivi des cohortes.</p>
+    </div>
+    <div class="page-header__actions">
+      <a routerLink="/admin/trainings/new" class="btn btn-primary">
+        <span class="material-symbols-outlined">add</span>
+        <span>Créer une formation</span>
+      </a>
+    </div>
   </div>
+
+  <!-- KPI Cards Row -->
+  <div class="kpi-grid">
+    <!-- Active Trainings -->
+    <div class="kpi-card">
+      <div class="kpi-card__icon kpi-card__icon--orange">
+        <span class="material-symbols-outlined">menu_book</span>
+      </div>
+      <div class="kpi-card__content">
+        <span class="kpi-card__label">Formations Actives</span>
+        <span class="kpi-card__value">{{ activeTrainingsCount() }}</span>
+      </div>
+    </div>
+
+    <!-- Total Participants -->
+    <div class="kpi-card">
+      <div class="kpi-card__icon kpi-card__icon--gray">
+        <span class="material-symbols-outlined">group</span>
+      </div>
+      <div class="kpi-card__content">
+        <span class="kpi-card__label">Total Participants</span>
+        <span class="kpi-card__value">{{ totalParticipantsCount() }}</span>
+      </div>
+    </div>
+
+    <!-- Closed Trainings -->
+    <div class="kpi-card">
+      <div class="kpi-card__icon kpi-card__icon--light">
+        <span class="material-symbols-outlined">event_available</span>
+      </div>
+      <div class="kpi-card__content">
+        <span class="kpi-card__label">Formations Clôturées</span>
+        <span class="kpi-card__value">{{ closedTrainingsCount() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Table Card Container -->
+  <div class="table-card">
+    <!-- Filter Tabs Header -->
+    <div class="table-card__toolbar">
+      <div class="tab-pills">
+        <button
+          type="button"
+          class="tab-pill"
+          [class.tab-pill--active]="activeTab() === 'all'"
+          (click)="setTab('all')"
+        >
+          Toutes
+        </button>
+        <button
+          type="button"
+          class="tab-pill"
+          [class.tab-pill--active]="activeTab() === 'open'"
+          (click)="setTab('open')"
+        >
+          Ouvertes
+        </button>
+        <button
+          type="button"
+          class="tab-pill"
+          [class.tab-pill--active]="activeTab() === 'closed'"
+          (click)="setTab('closed')"
+        >
+          Fermées
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>TITRE DE LA FORMATION</th>
+            <th>DATE DE DÉBUT</th>
+            <th>DATE DE FIN</th>
+            <th>PARTICIPANTS</th>
+            <th>STATUT</th>
+            <th class="th-actions">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of filteredTrainings(); track item.id) {
+            <tr>
+              <td>
+                <div class="training-cell">
+                  <a [routerLink]="['/admin/trainings', item.id]" class="training-cell__title">
+                    {{ item.title }}
+                  </a>
+                  <span class="training-cell__sub">{{ item.cohort || item.category }}</span>
+                </div>
+              </td>
+              <td>{{ item.startDate }}</td>
+              <td>{{ item.endDate }}</td>
+              <td>
+                <span class="participants-badge">
+                  {{ item.participantsCount }} / {{ item.capacity }}
+                </span>
+              </td>
+              <td>
+                <span
+                  class="status-pill"
+                  [class.status-pill--open]="item.status === 'Ouverte'"
+                  [class.status-pill--closed]="item.status === 'Fermée'"
+                  [class.status-pill--archived]="item.status === 'Archivée'"
+                  [class.status-pill--draft]="item.status === 'Brouillon'"
+                >
+                  {{ item.status }}
+                </span>
+              </td>
+              <td class="td-actions">
+                <div class="row-actions">
+                  <!-- 1. Detail -->
+                  <a
+                    [routerLink]="['/admin/trainings', item.id]"
+                    class="action-btn"
+                    title="Voir les détails"
+                  >
+                    <span class="material-symbols-outlined">visibility</span>
+                  </a>
+                  <!-- 2. Update (Pre-filled create form) -->
+                  <a
+                    [routerLink]="['/admin/trainings/new']"
+                    [queryParams]="{ editId: item.id }"
+                    class="action-btn"
+                    title="Modifier (Pré-remplir)"
+                  >
+                    <span class="material-symbols-outlined">edit</span>
+                  </a>
+                  <!-- 3. Candidats -->
+                  <a
+                    routerLink="/admin/applications"
+                    class="action-btn"
+                    title="Candidats"
+                  >
+                    <span class="material-symbols-outlined">group</span>
+                  </a>
+                  <!-- 4. Archiver / Supprimer (avec Modal de confirmation) -->
+                  <button
+                    type="button"
+                    class="action-btn action-btn--danger"
+                    title="Archiver la formation"
+                    (click)="promptArchive(item.id)"
+                  >
+                    <span class="material-symbols-outlined">archive</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-cell">
+                Aucune formation trouvée pour le filtre sélectionné.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table Footer / Pagination -->
+    <div class="table-card__footer">
+      <span class="footer-info">
+        Affichage 1 à {{ filteredTrainings().length }} sur {{ trainings().length }} formations
+      </span>
+
+      <div class="pagination">
+        <button type="button" class="pagination__btn" disabled>
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <span class="pagination__page">Page 1 sur 1</span>
+        <button type="button" class="pagination__btn" disabled>
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal for Archiving -->
+  <app-confirm-dialog
+    [isOpen]="showConfirmModal()"
+    title="Archiver la formation"
+    message="Êtes-vous sûr de vouloir archiver cette formation ? Elle sera masquée du catalogue."
+    confirmText="Archiver"
+    cancelText="Annuler"
+    (confirm)="onConfirmArchive()"
+    (cancel)="onCancelArchive()"
+  ></app-confirm-dialog>
 </div>
+
+

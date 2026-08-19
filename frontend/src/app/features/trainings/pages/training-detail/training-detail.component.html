@@ -1,6 +1,189 @@
-<div class="training-detail">
-  <div class="training-detail__header">
-    <h1 class="heading-3">Détails de la formation</h1>
-    <p class="text-muted">Fiche détaillée de la session de formation ODC.</p>
+@if (training(); as item) {
+  <div class="detail-page">
+    <!-- Breadcrumb Nav -->
+    <div class="breadcrumb">
+      <a routerLink="/admin/trainings" class="breadcrumb__link">Formations</a>
+      <span class="material-symbols-outlined breadcrumb__sep">chevron_right</span>
+      <span class="breadcrumb__link">Détails</span>
+      <span class="material-symbols-outlined breadcrumb__sep">chevron_right</span>
+      <span class="breadcrumb__active">{{ item.title }}</span>
+    </div>
+
+    <!-- Main Title Card -->
+    <div class="header-card">
+      <div class="header-card__content">
+        <div class="header-card__title-row">
+          <h1 class="header-card__title">{{ item.title }}</h1>
+          <span class="status-pill status-pill--open">{{ item.status }}</span>
+          <span class="header-card__author">Créé par {{ item.createdBy || 'Orange Talent Admin' }}</span>
+        </div>
+        <p class="header-card__desc">{{ item.description }}</p>
+      </div>
+
+      <div class="header-card__actions">
+        <a routerLink="/admin/applications" class="btn btn-outline">
+          <span class="material-symbols-outlined">group</span>
+          <span>Candidats</span>
+        </a>
+        <a routerLink="/admin/trainings/new" [queryParams]="{ editId: item.id }" class="btn btn-dark">
+          <span class="material-symbols-outlined">edit</span>
+          <span>Modifier</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-card__icon">
+          <span class="material-symbols-outlined">description</span>
+        </div>
+        <div class="kpi-card__info">
+          <span class="kpi-card__label">Candidatures</span>
+          <span class="kpi-card__val">1,245</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card__icon kpi-card__icon--success">
+          <span class="material-symbols-outlined">check_circle</span>
+        </div>
+        <div class="kpi-card__info">
+          <span class="kpi-card__label">Participants Acceptés</span>
+          <span class="kpi-card__val">{{ item.acceptedCount || 150 }}</span>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card__icon kpi-card__icon--chart">
+          <span class="material-symbols-outlined">trending_up</span>
+        </div>
+        <div class="kpi-card__info">
+          <span class="kpi-card__label">Taux de Complétion</span>
+          <span class="kpi-card__val">{{ item.completionRate || 85 }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two Columns Section -->
+    <div class="grid-2col">
+      <!-- Left: General Information -->
+      <div class="content-card">
+        <h3 class="content-card__title">Informations Générales</h3>
+        <div class="tags-row">
+          <div class="info-tag">
+            <span class="info-tag__label">Catégorie</span>
+            <span class="info-tag__box">{{ item.category }}</span>
+          </div>
+          <div class="info-tag">
+            <span class="info-tag__label">Capacité</span>
+            <span class="info-tag__box">{{ item.capacity }} places</span>
+          </div>
+        </div>
+
+        <div class="desc-box">
+          <span class="desc-box__label">Description</span>
+          <p class="desc-box__text">{{ item.description }}</p>
+        </div>
+      </div>
+
+      <!-- Right: Planning -->
+      <div class="content-card">
+        <h3 class="content-card__title">Planification</h3>
+        <div class="planning-list">
+          <div class="planning-item">
+            <span class="material-symbols-outlined planning-item__icon">calendar_today</span>
+            <div>
+              <span class="planning-item__label">Date de début</span>
+              <span class="planning-item__val">{{ item.startDate }}</span>
+            </div>
+          </div>
+
+          <div class="planning-item">
+            <span class="material-symbols-outlined planning-item__icon">event</span>
+            <div>
+              <span class="planning-item__label">Date de fin</span>
+              <span class="planning-item__val">{{ item.endDate }}</span>
+            </div>
+          </div>
+
+          <div class="planning-item">
+            <span class="material-symbols-outlined planning-item__icon">location_on</span>
+            <div>
+              <span class="planning-item__label">Mode</span>
+              <span class="planning-item__val">{{ item.mode }} ({{ item.location }})</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Communication & Share Link -->
+    <div class="grid-2col">
+      <!-- Left: Communication -->
+      <div class="content-card">
+        <h3 class="content-card__title">Communication</h3>
+        <div class="comm-block">
+          <span class="comm-block__label">Public Cible</span>
+          <p class="comm-block__val">{{ item.targetAudience || 'Étudiants, jeunes diplômés, reconversion professionnelle.' }}</p>
+        </div>
+
+        <div class="comm-block">
+          <span class="comm-block__label">Message Réseaux Sociaux</span>
+          <div class="social-quote">
+            <p>"{{ item.socialPostText || '🚀 Lancez votre carrière tech avec la formation Fullstack CERTEO !' }}"</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Share & QR Code -->
+      <div class="content-card">
+        <h3 class="content-card__title">Partage</h3>
+        <div class="share-block">
+          <span class="share-block__label">Lien de candidature</span>
+          <div class="input-copy-group">
+            <input type="text" readonly [value]="item.publicLink || 'https://certeo.orange.com/apply/dev-fs-24'" class="copy-input" />
+            <button type="button" class="btn btn-primary" (click)="copyLink()">
+              {{ copied() ? 'Copié !' : 'Copier' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Registered Applicants Table -->
+    <div class="table-card">
+      <div class="table-card__header">
+        <h3 class="table-card__title">Derniers Inscrits</h3>
+        <a routerLink="/admin/participants" class="link-more">
+          <span>Voir tous</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>NOM</th>
+            <th>EMAIL</th>
+            <th>DATE D'INSCRIPTION</th>
+            <th>STATUT</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (applicant of mockApplicants(); track applicant.email) {
+            <tr>
+              <td class="font-bold">{{ applicant.name }}</td>
+              <td>{{ applicant.email }}</td>
+              <td>{{ applicant.date }}</td>
+              <td>
+                <span class="status-pill status-pill--confirmed">{{ applicant.status }}</span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
+}
+
