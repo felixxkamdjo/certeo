@@ -1,6 +1,187 @@
 <div class="analytics-dashboard">
-  <div class="analytics-dashboard__header">
-    <h1 class="heading-3">Reporting Global & Analytics</h1>
-    <p class="text-muted">Indicateurs de performance et statistiques globales Orange Digital Center.</p>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Reporting Global</h1>
+      <p class="page-subtitle">Aperçu des performances de formation</p>
+    </div>
+    
+    <div class="page-header__actions">
+      <div class="select-wrap">
+        <select class="select-field" [value]="timeRange()" (change)="timeRange.set($any($event.target).value)">
+          <option>Derniers 30 jours</option>
+          <option>Ce trimestre</option>
+          <option>Cette année</option>
+        </select>
+        <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+      </div>
+      
+      <button class="btn btn--primary" (click)="exportReport()">
+        <span class="material-symbols-outlined">download</span> Exporter
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Cards Row -->
+  <div class="kpi-grid">
+    <app-kpi-card label="Taux de réussite moyen" value="82%" trend="+3.2%" trendDirection="up" icon="trending_up" colorTheme="primary"></app-kpi-card>
+    <app-kpi-card label="Certificats délivrés" value="1,240" trend="+12%" trendDirection="up" icon="verified" colorTheme="success"></app-kpi-card>
+    <app-kpi-card label="Formations actives" value="18" subtitle="En cours" icon="school" colorTheme="warning"></app-kpi-card>
+    <app-kpi-card label="Total Participants" value="4,500" trend="+8%" trendDirection="up" icon="groups" colorTheme="secondary"></app-kpi-card>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="charts-row">
+    <!-- Bar Chart Area (Custom HTML per mockup) -->
+    <div class="chart-card chart-card--span-2">
+      <h4 class="chart-card__title">Inscriptions par mois</h4>
+      
+      <div class="bar-chart">
+        <!-- Y-axis labels -->
+        <div class="bar-chart__y-axis">
+          <span>1000</span><span>750</span><span>500</span><span>250</span><span>0</span>
+        </div>
+        
+        <!-- Grid lines -->
+        <div class="bar-chart__grid">
+          <div class="grid-line"></div>
+          <div class="grid-line"></div>
+          <div class="grid-line"></div>
+          <div class="grid-line"></div>
+          <div class="grid-line"></div>
+        </div>
+        
+        <!-- Bars (Jan - Jun) -->
+        <div class="bar-chart__bars">
+          <div class="bar-group">
+            <div class="bar bar--dim" style="height: 40%">
+              <div class="bar-tooltip">400 inscrits</div>
+            </div>
+            <span class="bar-label">Jan</span>
+          </div>
+          <div class="bar-group">
+            <div class="bar bar--dim" style="height: 55%">
+              <div class="bar-tooltip">550 inscrits</div>
+            </div>
+            <span class="bar-label">Fév</span>
+          </div>
+          <div class="bar-group">
+            <div class="bar bar--dim" style="height: 75%">
+              <div class="bar-tooltip">750 inscrits</div>
+            </div>
+            <span class="bar-label">Mar</span>
+          </div>
+          <div class="bar-group">
+            <div class="bar bar--dim" style="height: 60%">
+              <div class="bar-tooltip">600 inscrits</div>
+            </div>
+            <span class="bar-label">Avr</span>
+          </div>
+          <div class="bar-group">
+            <div class="bar bar--active" style="height: 90%">
+              <div class="bar-tooltip">900 inscrits</div>
+            </div>
+            <span class="bar-label bar-label--active">Mai</span>
+          </div>
+          <div class="bar-group">
+            <div class="bar bar--dim" style="height: 85%">
+              <div class="bar-tooltip">850 inscrits</div>
+            </div>
+            <span class="bar-label">Juin</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donut Chart Area (Custom HTML per mockup) -->
+    <div class="chart-card">
+      <h4 class="chart-card__title">Statut des formations</h4>
+      
+      <div class="donut-chart-container">
+        <div class="donut-chart">
+          <div class="donut-chart__inner">
+            <span class="donut-chart__total-value">124</span>
+            <span class="donut-chart__total-label">Total</span>
+          </div>
+        </div>
+        
+        <div class="donut-legend">
+          <div class="legend-item">
+            <div class="legend-item__label">
+              <div class="legend-color legend-color--primary"></div>
+              <span>Terminée</span>
+            </div>
+            <span class="legend-item__value">55%</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-item__label">
+              <div class="legend-color legend-color--success"></div>
+              <span>En cours</span>
+            </div>
+            <span class="legend-item__value">30%</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-item__label">
+              <div class="legend-color legend-color--neutral"></div>
+              <span>Planifiée</span>
+            </div>
+            <span class="legend-item__value">15%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Table using raw table like other pages -->
+  <div class="table-card">
+    <div class="table-card__header">
+      <h4 class="table-card__title">Top Formations par Score</h4>
+      <button class="btn-link">
+        Voir tout <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </div>
+    
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nom de la formation</th>
+            <th>Participants</th>
+            <th>Score moyen</th>
+            <th>Taux de complétion</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (training of topTrainings(); track training.id) {
+            <tr class="data-table__row">
+              <td>
+                <div class="training-cell">
+                  <div class="training-icon" [ngClass]="training.iconClass">
+                    <span class="material-symbols-outlined">{{ training.icon }}</span>
+                  </div>
+                  <span class="font-bold">{{ training.title }}</span>
+                </div>
+              </td>
+              <td class="text-secondary">{{ training.participants }}</td>
+              <td>
+                <div class="score-cell">
+                  <span class="material-symbols-outlined star-icon">star</span>
+                  <span class="font-bold">{{ training.score }}</span>
+                  <span class="text-secondary text-sm">/5</span>
+                </div>
+              </td>
+              <td>
+                <div class="completion-cell">
+                  <div class="progress-bar">
+                    <div class="progress-bar__fill" [style.width.%]="training.completion" [style.backgroundColor]="training.completionColor"></div>
+                  </div>
+                  <span class="completion-value">{{ training.completion }}%</span>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
