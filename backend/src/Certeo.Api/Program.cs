@@ -1,4 +1,5 @@
 using Certeo.Api.Infrastructure;
+using Certeo.Api.Infrastructure.Seed;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,8 +54,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CERTEO API v1"));
 
+    // Migrate database
     scope.ServiceProvider.GetRequiredService<CerteoDbContext>().Database.Migrate();
+
+    // Seed reference data
+    var db = scope.ServiceProvider.GetRequiredService<CerteoDbContext>();
+    db.Database.Migrate();
+    await ReferenceDataSeeder.SeedAsync(db);
 }
+
 
 app.UseHttpsRedirection();
 
