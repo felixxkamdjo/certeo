@@ -3,6 +3,7 @@ using System;
 using Certeo.Api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Certeo.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(CerteoDbContext))]
-    partial class CerteoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260819153047_UpdateAuthModels")]
+    partial class UpdateAuthModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
