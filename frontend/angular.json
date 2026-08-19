@@ -30,7 +30,13 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/assets"
+                "input": "public",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [

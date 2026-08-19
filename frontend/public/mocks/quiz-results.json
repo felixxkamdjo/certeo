@@ -1,0 +1,36 @@
+{
+  "score": 85,
+  "moduleTitle": "Principes Avancés de la Cybersécurité",
+  "trainingLabel": "Formation Initiale",
+  "completionDate": "24 Oct 2023",
+  "elapsedTime": "42 min 15 sec",
+  "questionCount": 20,
+  "passingScore": 75,
+  "answers": [
+    {
+      "question": "Quelle est la principale fonction d'un pare-feu ?",
+      "response": "Filtrer le trafic réseau entrant et sortant selon des règles de sécurité.",
+      "correct": true,
+      "points": "+5 points"
+    },
+    {
+      "question": "Que signifie l'acronyme VPN ?",
+      "response": "Virtual Private Network.",
+      "correct": true,
+      "points": "+5 points"
+    },
+    {
+      "question": "Lequel de ces protocoles n'est pas chiffré par défaut ?",
+      "response": "HTTPS",
+      "correction": "HTTP",
+      "correct": false,
+      "points": "0 point"
+    },
+    {
+      "question": "Qu'est-ce que le phishing ?",
+      "response": "Une technique visant à tromper l'utilisateur pour obtenir des informations confidentielles.",
+      "correct": true,
+      "points": "+5 points"
+    }
+  ]
+}
