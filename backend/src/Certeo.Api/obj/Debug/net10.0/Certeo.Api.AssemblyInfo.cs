@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Certeo.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3f5a11ecede90a3f64b091df4ee450cf5ad7b53b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b4ea6fba5f3add2f85f48ea19de8bf6474b6840a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Certeo.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Certeo.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
