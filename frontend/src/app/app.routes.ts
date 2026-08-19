@@ -5,6 +5,7 @@ import { PublicLayoutComponent } from '@layouts/public-layout/public-layout';
 import { authGuard } from '@core/guards/auth.guard';
 
 export const routes: Routes = [
+  // --- Auth Layout (Connexion) ---
   {
     path: '',
     component: AuthLayoutComponent,
@@ -13,23 +14,38 @@ export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' }
     ]
   },
+
+  // --- Admin Layout (Back-office ODC) ---
   {
     path: 'admin',
     component: AdminLayoutComponent,
-    // canActivate: [authGuard], // Disabled for easier local dev until backend is ready
+    // canActivate: [authGuard], // Activable une fois l'auth connectée
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', loadChildren: () => import('@features/dashboard/dashboard.routes') },
-      { path: 'trainings', loadChildren: () => import('@features/trainings/trainings.routes') }
-      // Add other modules here as they are created
+      { path: 'trainings', loadChildren: () => import('@features/trainings/trainings.routes') },
+      { path: 'applications', loadChildren: () => import('@features/applications/applications.routes') },
+      { path: 'presence', loadChildren: () => import('@features/presence/presence.routes') },
+      { path: 'evaluations', loadChildren: () => import('@features/evaluations/evaluations.routes') },
+      { path: 'certificates', loadChildren: () => import('@features/certificates/certificates.routes') },
+      { path: 'participants', loadChildren: () => import('@features/participants/participants.routes') },
+      { path: 'reporting', loadChildren: () => import('@features/reporting/reporting.routes') },
+      { path: 'settings', loadChildren: () => import('@features/settings/settings.routes') },
     ]
   },
+
+  // --- Public Layout (Formulaires Visiteurs, Candidatures, Quiz, Certificats publics) ---
   {
     path: 'public',
     component: PublicLayoutComponent,
     children: [
-      // Add public routes here (presence, forms, quiz)
+      { path: 'presence', loadChildren: () => import('@features/presence/presence.routes') },
+      { path: 'apply', loadChildren: () => import('@features/applications/applications.routes') },
+      { path: 'quiz', loadChildren: () => import('@features/evaluations/evaluations.routes') },
+      { path: 'certificates', loadChildren: () => import('@features/certificates/certificates.routes') },
     ]
   },
+
+  // Fallback
   { path: '**', redirectTo: 'login' }
 ];

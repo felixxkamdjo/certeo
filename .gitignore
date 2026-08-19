@@ -8,12 +8,12 @@ appsettings.Development.json
 
 # Node / Angular
 node_modules/
-stitch_certeo_ux_design_plan/
 .angular/
 dist/
 *.log
 
 # IDE & OS
 .vscode/
+.kilo/
 .idea/
 .DS_Store

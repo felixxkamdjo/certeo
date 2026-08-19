@@ -1,0 +1,8 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.analytics-dashboard {
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+}

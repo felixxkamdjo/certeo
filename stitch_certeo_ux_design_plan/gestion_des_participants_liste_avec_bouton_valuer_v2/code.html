@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CERTEO - Gestion des Participants</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#e4e2e2",
+                      "surface-dim": "#dbdad9",
+                      "surface-container": "#efeded",
+                      "primary-fixed-dim": "#ffb68c",
+                      "outline-variant": "#e0c0af",
+                      "outline": "#8c7263",
+                      "on-tertiary": "#ffffff",
+                      "background": "#fbf9f8",
+                      "tertiary-fixed": "#e2e2e2",
+                      "primary-container": "#ff7900",
+                      "error": "#ba1a1a",
+                      "on-surface": "#1b1c1c",
+                      "on-secondary-container": "#646464",
+                      "surface-bright": "#fbf9f8",
+                      "on-primary-fixed": "#321200",
+                      "on-surface-variant": "#584235",
+                      "inverse-surface": "#303031",
+                      "primary": "#9a4600",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-background": "#1b1c1c",
+                      "tertiary": "#5d5f5f",
+                      "secondary-container": "#e2e2e2",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "tertiary-container": "#9fa0a0",
+                      "on-secondary": "#ffffff",
+                      "on-primary-container": "#5c2700",
+                      "surface": "#fbf9f8",
+                      "on-tertiary-container": "#353737",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f5f3f3",
+                      "on-primary-fixed-variant": "#753400",
+                      "error-container": "#ffdad6",
+                      "primary-fixed": "#ffdbc9",
+                      "on-secondary-fixed-variant": "#474747",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "surface-variant": "#e4e2e2",
+                      "inverse-primary": "#ffb68c",
+                      "on-error": "#ffffff",
+                      "surface-tint": "#9a4600",
+                      "secondary": "#5e5e5e",
+                      "surface-container-high": "#e9e8e7",
+                      "on-secondary-fixed": "#1b1b1b",
+                      "secondary-fixed": "#e2e2e2",
+                      "inverse-on-surface": "#f2f0f0",
+                      "secondary-fixed-dim": "#c6c6c6",
+                      "surface-container-lowest": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "base": "8px",
+                      "margin-desktop": "40px",
+                      "gutter": "24px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-xl": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg-mobile": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+          .soft-tech-shadow { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="w-72 h-screen fixed left-0 top-0 bg-surface-container-low dark:bg-surface-dim border-r border-outline-variant flex flex-col p-base gap-2 z-50">
+<div class="p-4 flex flex-col items-center justify-center mb-6 mt-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">CERTEO</h1>
+<p class="font-label-md text-label-md text-secondary">Orange Digital Center</p>
+</div>
+<div class="flex flex-col gap-1 overflow-y-auto w-full px-2">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Presence ODC</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="font-label-md text-label-md">Trainings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-label-md text-label-md">Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container dark:bg-on-primary-container text-on-primary-container dark:text-primary-fixed-dim font-bold rounded-lg transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">how_to_reg</span>
+<span class="font-label-md text-label-md">Participants</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-label-md text-label-md">Evaluation</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">verified</span>
+<span class="font-label-md text-label-md">Certificats</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Reporting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-high transition-colors duration-200 rounded-lg group mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-72 flex-1 flex flex-col min-h-screen relative overflow-hidden bg-background">
+<!-- TopNavBar -->
+<header class="h-16 fixed top-0 right-0 w-[calc(100%-18rem)] bg-surface dark:bg-background border-b border-outline-variant shadow-sm flex justify-between items-center px-gutter z-40">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant w-96 focus-within:border-primary-container transition-colors">
+<span class="material-symbols-outlined text-secondary mr-2">search</span>
+<input class="bg-transparent border-none outline-none w-full text-body-md font-body-md placeholder:text-secondary focus:ring-0 p-0" placeholder="Rechercher..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant cursor-pointer hover:border-primary transition-colors">
+<img alt="Admin Profile" class="w-full h-full object-cover" data-alt="Close up portrait of an administrator smiling gently, bright corporate lighting, modern clean tech style, white background with a subtle orange rim light, high resolution professional headshot." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlXLUBSAYuiD1xf-6LMxjHwyTWRp10dsSxfIMiFKkS9czBALtwM6z1zcgwWtL5RPc4QTEW5rbJSX9wjV48a4XJLyBXxu_YB1FCkfdwiOVyz3PVsPhiWz4nVCK_zP1AmKlbmuCBnWMbyuohXmrRU0vHMi0IY01pygbu_fIdhtUItv-cQc9KQkbgmEtZ1Wd8Yw9ybtwbEXnMUXZgbs_SzsgVj4qN1YKNrzyU-k8kFZTk8C6LBtBeK54D"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="pt-24 px-margin-desktop pb-margin-desktop overflow-y-auto flex-1">
+<div class="max-w-[1280px] mx-auto">
+<!-- Header -->
+<div class="mb-8">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Gestion des Participants</h2>
+<p class="text-secondary mt-1 font-body-md text-body-md">Consultez et gérez l'ensemble des participants aux formations.</p>
+</div>
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-surface rounded-xl p-6 soft-tech-shadow border-l-4 border-primary-container flex items-center justify-between">
+<div>
+<p class="text-secondary font-label-md text-label-md uppercase tracking-wider mb-1">Total Participants</p>
+<p class="font-headline-xl text-headline-xl text-on-surface">1,248</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-3xl">groups</span>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-6 soft-tech-shadow border border-outline-variant flex items-center justify-between">
+<div>
+<p class="text-secondary font-label-md text-label-md uppercase tracking-wider mb-1">Apprenants Actifs</p>
+<p class="font-headline-xl text-headline-xl text-on-surface">892</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl">trending_up</span>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-6 soft-tech-shadow border border-outline-variant flex items-center justify-between">
+<div>
+<p class="text-secondary font-label-md text-label-md uppercase tracking-wider mb-1">Formations Terminées</p>
+<p class="font-headline-xl text-headline-xl text-on-surface">356</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl">task_alt</span>
+</div>
+</div>
+</div>
+<!-- Main Card: Table & Filters -->
+<div class="bg-surface rounded-xl soft-tech-shadow overflow-hidden flex flex-col">
+<!-- Action Bar -->
+<div class="p-6 border-b border-outline-variant flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-bright">
+<div class="flex items-center gap-4 flex-1">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant w-full md:w-80 focus-within:border-primary-container transition-colors">
+<span class="material-symbols-outlined text-secondary mr-2">search</span>
+<input class="bg-transparent border-none outline-none w-full text-body-md font-body-md placeholder:text-secondary focus:ring-0 p-0" placeholder="Rechercher un participant..." type="text"/>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-low border border-outline-variant text-on-surface text-body-md font-body-md rounded-lg focus:border-primary-container focus:ring-0 px-4 py-2 pr-10 cursor-pointer">
+<option>Toutes les formations</option>
+<option>Dev Web Intensif</option>
+<option>Data Science</option>
+<option>UI/UX Design</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="border border-outline-variant text-on-surface font-label-md text-label-md px-6 py-3 rounded hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2 min-h-[48px]">
+<span class="material-symbols-outlined text-sm">assignment</span>
+                            Évaluer
+                        </button>
+<button class="bg-[#000000] text-on-primary font-label-md text-label-md px-6 py-3 rounded hover:bg-inverse-surface transition-colors flex items-center justify-center gap-2 min-h-[48px]">
+<span class="material-symbols-outlined text-sm">download</span>
+                            Exporter CSV
+                        </button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#F6F6F6] border-b border-outline-variant">
+<th class="p-4 font-label-md text-label-md text-on-surface uppercase tracking-wider">Participant</th>
+<th class="p-4 font-label-md text-label-md text-on-surface uppercase tracking-wider">Email</th>
+<th class="p-4 font-label-md text-label-md text-on-surface uppercase tracking-wider">Formation</th>
+<th class="p-4 font-label-md text-label-md text-on-surface uppercase tracking-wider">Présence</th>
+<th class="p-4 font-label-md text-label-md text-on-surface uppercase tracking-wider">Statut</th>
+<th class="p-4 font-label-md text-label-md text-on-surface uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-[#E0E0E0] hover:bg-[#FAFAFA] transition-colors group cursor-default">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img alt="User" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a young male professional, smart casual attire, neutral light background, modern tech company vibe, subtle warm lighting, shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSlJm-G948DitnJO8WYim5ahiIpHkBiGCqV5-ZIVu9N9u6gHSXTzogfV584pb8F1KcnoeN75CVqN5ShcPYABzDQfuCwjlkZKcJGXF_S42o2CIW5Krdtu4dgbTpUL-nap9tisP8szr5INL6F6GGlHzL-hAJSn0mbWLtLXy93FJOVVBHN_13j0yidhMxcYCAKgYElP-RFahnEpemTEmKHpPDIuXxuhata57Iji1Fz7PHlYFOQ6CP8SIp"/>
+<span class="font-bold">Aminata Diallo</span>
+</div>
+</td>
+<td class="p-4 text-secondary">a.diallo@example.com</td>
+<td class="p-4">Dev Web Intensif</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-primary-container h-2 rounded-full" style="width: 95%"></div>
+</div>
+<span class="text-sm font-bold">95%</span>
+</div>
+</td>
+<td class="p-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-bold uppercase tracking-wider">Actif</span>
+</td>
+<td class="p-4 text-right">
+<button class="text-primary-container font-label-md text-label-md hover:underline">Détails</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-[#E0E0E0] hover:bg-[#FAFAFA] transition-colors group cursor-default">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<img alt="User" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a young female tech student, confident expression, casual wear, soft studio lighting, tech campus aesthetic, crisp modern photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD152IWBqpqljleF0a_GNPMSorp71_aOPbTbXYBMBx_bv7406d791eI-bkrzGfd0sdgS6gpXSUeQgGDNChL7XmCDtoySDIJ6iru2wSjMKCTJzZgkLQEKp9g8HtUqu88fM5yQDfTObbjvYTnbR3g09sbO5Ixt1-Nhd-D4SbUrZQIp_0I5PR9QGDzmlvaYjeAmpA7pNKa9HiJTn6NOzAWbClts-NlMBKfGQf4odvG3CxoJ2PomQfUvyi"/>
+<span class="font-bold">Karim Ndiaye</span>
+</div>
+</td>
+<td class="p-4 text-secondary">k.ndiaye@example.com</td>
+<td class="p-4">Data Science</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-primary-container h-2 rounded-full" style="width: 82%"></div>
+</div>
+<span class="text-sm font-bold">82%</span>
+</div>
+</td>
+<td class="p-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-high text-secondary text-xs font-bold uppercase tracking-wider">En Pause</span>
+</td>
+<td class="p-4 text-right">
+<button class="text-primary-container font-label-md text-label-md hover:underline">Détails</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-[#E0E0E0] hover:bg-[#FAFAFA] transition-colors group cursor-default">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed font-bold">SM</div>
+<span class="font-bold">Sarah Mensah</span>
+</div>
+</td>
+<td class="p-4 text-secondary">s.mensah@example.com</td>
+<td class="p-4">UI/UX Design</td>
+<td class="p-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-surface-container rounded-full h-2">
+<div class="bg-[#000000] h-2 rounded-full" style="width: 100%"></div>
+</div>
+<span class="text-sm font-bold">100%</span>
+</div>
+</td>
+<td class="p-4">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-[#E0E0E0] text-[#000000] text-xs font-bold uppercase tracking-wider">Terminé</span>
+</td>
+<td class="p-4 text-right">
+<button class="text-primary-container font-label-md text-label-md hover:underline">Détails</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-outline-variant flex items-center justify-between bg-surface-bright">
+<span class="text-secondary font-body-md text-sm">Affichage 1 à 10 sur 1,248</span>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded border border-outline-variant flex items-center justify-center text-secondary hover:bg-surface-container transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded bg-primary-container text-on-primary font-bold flex items-center justify-center">1</button>
+<button class="w-10 h-10 rounded border border-outline-variant flex items-center justify-center text-secondary hover:bg-surface-container transition-colors">2</button>
+<button class="w-10 h-10 rounded border border-outline-variant flex items-center justify-center text-secondary hover:bg-surface-container transition-colors">3</button>
+<span class="w-10 h-10 flex items-center justify-center text-secondary">...</span>
+<button class="w-10 h-10 rounded border border-outline-variant flex items-center justify-center text-secondary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

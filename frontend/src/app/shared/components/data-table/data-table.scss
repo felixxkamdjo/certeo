@@ -1,0 +1,43 @@
+@use 'styles/variables' as *;
+
+.data-table-container {
+  overflow-x: auto;
+  background: $color-white;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: $spacing-md;
+    text-align: left;
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  th {
+    background-color: $color-gray-50;
+    color: $color-gray-700;
+    font-weight: 600;
+    font-size: $font-size-sm;
+    text-transform: uppercase;
+  }
+
+  &__row {
+    cursor: pointer;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $color-gray-50;
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-xl !important;
+    color: $color-gray-500;
+  }
+}

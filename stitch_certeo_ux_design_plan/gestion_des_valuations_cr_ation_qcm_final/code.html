@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CERTEO - Création d'Évaluation (QCM/Quiz)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error": "#ffffff",
+                      "background": "#fbf9f8",
+                      "tertiary-fixed": "#e2e2e2",
+                      "inverse-on-surface": "#f2f0f0",
+                      "on-background": "#1b1c1c",
+                      "surface-tint": "#9a4600",
+                      "inverse-surface": "#303031",
+                      "on-primary-fixed": "#321200",
+                      "tertiary": "#5d5f5f",
+                      "primary-container": "#ff7900",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "surface-variant": "#e4e2e2",
+                      "on-tertiary": "#ffffff",
+                      "outline": "#8c7263",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed-variant": "#474747",
+                      "surface-dim": "#dbdad9",
+                      "surface-bright": "#fbf9f8",
+                      "primary-fixed-dim": "#ffb68c",
+                      "on-surface": "#1b1c1c",
+                      "error-container": "#ffdad6",
+                      "on-primary-container": "#5c2700",
+                      "secondary-fixed-dim": "#c6c6c6",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#ffdbc9",
+                      "on-tertiary-container": "#353737",
+                      "surface-container-low": "#f5f3f3",
+                      "surface-container": "#efeded",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "inverse-primary": "#ffb68c",
+                      "surface": "#fbf9f8",
+                      "error": "#ba1a1a",
+                      "secondary-container": "#e2e2e2",
+                      "on-primary-fixed-variant": "#753400",
+                      "on-secondary": "#ffffff",
+                      "primary": "#9a4600",
+                      "surface-container-lowest": "#ffffff",
+                      "outline-variant": "#e0c0af",
+                      "surface-container-highest": "#e4e2e2",
+                      "on-secondary-container": "#646464",
+                      "secondary-fixed": "#e2e2e2",
+                      "secondary": "#5e5e5e",
+                      "tertiary-container": "#9fa0a0",
+                      "surface-container-high": "#e9e8e7",
+                      "on-secondary-fixed": "#1b1b1b",
+                      "on-surface-variant": "#584235",
+                      "tertiary-fixed-dim": "#c6c6c7"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-desktop": "40px",
+                      "margin-mobile": "16px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-xl": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg-mobile": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-base bg-surface-container-low dark:bg-inverse-surface fixed left-0 top-0 h-full w-[280px] shadow-sm z-20">
+<div class="px-gutter mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-bold text-xl">C</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-container">CERTEO</h1>
+<p class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant">Talent Ecosystem</p>
+</div>
+</div>
+<ul class="flex flex-col gap-1 px-4 flex-1 overflow-y-auto font-body-md text-body-md">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+                    Presence ODC
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">group</span>
+                    Users
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">school</span>
+                    Trainings
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">assignment</span>
+                    Applications
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">person_add</span>
+                    Participants
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-l-4 border-primary bg-primary-fixed/20 active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+                    Evaluation
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">verified</span>
+                    Certificats
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">assessment</span>
+                    Reporting
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors active:scale-[0.98] transition-transform mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Layout wrapper for TopAppBar and Content -->
+<div class="flex-1 flex flex-col md:ml-[280px]">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center h-16 px-gutter bg-surface border-b border-outline-variant z-10 sticky top-0 w-full">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-surface-variant rounded-full font-body-md text-body-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-full transition-all cursor-pointer">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container-low rounded-full transition-all cursor-pointer">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<button class="flex items-center gap-2 p-1 pl-2 pr-4 hover:bg-surface-container-low rounded-full transition-all cursor-pointer">
+<img alt="User avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small circular avatar image of a professional user in a light modern office setting, bright and clear photography, corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgoDEKVgteU16WluOrdMzuAW5NlsAvkJxy4AKEoNXXEvp7oL2X91x5UtvDSKOPFI8aAv1Cwj_tr94K2PxY39DkZZotF09lxiu0F9-A4R3yA10XXX3OI_rvtRKB-veDrOZxznftbA53XcSftwg6aCLLqCc7Im7qQLxAMsFPdR1sd_U9F3tybUIbA-TGJz4PvFzG2dWLFveovDBnrO7iUgr-0a_9qO6kgeE52-HM71KRwwNzOgQC93Sz"/>
+<span class="font-label-md text-label-md text-on-surface hidden sm:block">Profile Settings</span>
+<span class="material-symbols-outlined text-on-surface-variant hidden sm:block">arrow_drop_down</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop overflow-y-auto">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Nouvelle Évaluation QCM</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Créez un nouveau questionnaire à choix multiples</p>
+</div>
+<button class="bg-primary-container text-on-primary px-6 py-3 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors min-h-[48px] shadow-sm">
+<span class="material-symbols-outlined">save</span>
+                    Enregistrer l'évaluation
+                </button>
+</div>
+<!-- Content Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Form Column (Takes up 2/3 space on large screens) -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<!-- Informations Générales Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-l-4 border-primary">
+<h3 class="font-headline-md text-headline-md text-on-background mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">info</span>
+                            Informations Générales
+                        </h3>
+<div class="space-y-5">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="eval-title">Titre de l'évaluation</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-background focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="eval-title" type="text" value="QCM Final - Développement Web"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="eval-formation">Formation associée</label>
+<div class="relative">
+<select class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-background appearance-none focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="eval-formation">
+<option>Bootcamp Développement Web Fullstack</option>
+<option>Initiation Python</option>
+<option>Data Science Fundamentals</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="eval-desc">Description (optionnel)</label>
+<textarea class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-background focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all resize-none" id="eval-desc" placeholder="Instructions pour les participants..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- Questions Section -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-surface-variant">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-headline-md text-on-background flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">format_list_bulleted</span>
+                                Questions
+                            </h3>
+<span class="bg-primary-fixed/20 text-primary-container font-label-md text-label-md px-3 py-1 rounded-full">1 Question</span>
+</div>
+<!-- Question Item 1 -->
+<div class="border border-outline-variant rounded-lg p-5 mb-4 bg-surface-container-low/50 relative group">
+<div class="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1" title="Dupliquer">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1" title="Supprimer">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center font-label-md text-label-md text-on-surface-variant shrink-0 mt-1">1</div>
+<div class="flex-1 w-full">
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-lg text-body-lg text-on-background focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all mb-4" placeholder="Entrez votre question ici..." type="text" value="Quelle balise HTML est utilisée pour définir le titre principal d'une page ?"/>
+<div class="space-y-3">
+<!-- Option A -->
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 text-primary-container focus:ring-primary-container border-outline-variant" id="q1_a" name="q1_answer" type="radio"/>
+<div class="flex-1 flex items-center bg-surface border border-outline-variant rounded-lg px-3 py-2 focus-within:border-primary-container focus-within:ring-1 focus-within:ring-primary-container transition-all">
+<span class="font-label-md text-label-md text-on-surface-variant w-6">A.</span>
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-body-md text-body-md text-on-background" type="text" value="&lt;header&gt;"/>
+</div>
+</div>
+<!-- Option B -->
+<div class="flex items-center gap-3">
+<input checked="" class="w-5 h-5 text-primary-container focus:ring-primary-container border-outline-variant" id="q1_b" name="q1_answer" type="radio"/>
+<div class="flex-1 flex items-center bg-primary-fixed/10 border border-primary-container rounded-lg px-3 py-2 transition-all">
+<span class="font-label-md text-label-md text-primary w-6">B.</span>
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-body-md text-body-md text-on-background" type="text" value="&lt;h1&gt;"/>
+<span class="material-symbols-outlined text-primary-container ml-2">check_circle</span>
+</div>
+</div>
+<!-- Option C -->
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 text-primary-container focus:ring-primary-container border-outline-variant" id="q1_c" name="q1_answer" type="radio"/>
+<div class="flex-1 flex items-center bg-surface border border-outline-variant rounded-lg px-3 py-2 focus-within:border-primary-container focus-within:ring-1 focus-within:ring-primary-container transition-all">
+<span class="font-label-md text-label-md text-on-surface-variant w-6">C.</span>
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-body-md text-body-md text-on-background" type="text" value="&lt;title&gt;"/>
+</div>
+</div>
+<!-- Option D -->
+<div class="flex items-center gap-3">
+<input class="w-5 h-5 text-primary-container focus:ring-primary-container border-outline-variant" id="q1_d" name="q1_answer" type="radio"/>
+<div class="flex-1 flex items-center bg-surface border border-outline-variant rounded-lg px-3 py-2 focus-within:border-primary-container focus-within:ring-1 focus-within:ring-primary-container transition-all">
+<span class="font-label-md text-label-md text-on-surface-variant w-6">D.</span>
+<input class="w-full bg-transparent border-none focus:ring-0 p-0 font-body-md text-body-md text-on-background" type="text" value="&lt;head&gt;"/>
+</div>
+</div>
+</div>
+<div class="mt-4 flex justify-between items-center border-t border-outline-variant pt-3">
+<div class="flex items-center gap-4">
+<label class="flex items-center gap-2 cursor-pointer">
+<span class="font-label-md text-label-md text-on-surface-variant">Points:</span>
+<input class="w-16 bg-surface border border-outline-variant rounded py-1 px-2 font-body-md text-body-md text-center focus:border-primary-container focus:ring-1 focus:ring-primary-container" min="1" type="number" value="1"/>
+</label>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">add</span> Ajouter une option
+                                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Question Button -->
+<button class="w-full py-4 border-2 border-dashed border-outline-variant rounded-lg flex flex-col items-center justify-center gap-2 text-on-surface-variant hover:border-primary hover:text-primary hover:bg-primary-fixed/5 transition-all mt-6 group">
+<div class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-container flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined group-hover:text-on-primary">add</span>
+</div>
+<span class="font-label-md text-label-md">Ajouter une question</span>
+</button>
+</div>
+</div>
+<!-- Sidebar Widget Column (Takes up 1/3 space on large screens) -->
+<div class="lg:col-span-1">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-surface-variant sticky top-[88px]">
+<h3 class="font-headline-md text-headline-md text-on-background mb-6 flex items-center gap-2 border-b border-outline-variant pb-4">
+<span class="material-symbols-outlined text-secondary">settings</span>
+                            Paramètres de l'évaluation
+                        </h3>
+<div class="space-y-6">
+<!-- Duration -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2 flex items-center gap-2" for="eval-duration">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">timer</span>
+                                    Durée estimée (minutes)
+                                </label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-2 font-body-md text-body-md text-on-background focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="eval-duration" type="number" value="30"/>
+</div>
+<!-- Shuffle Toggle -->
+<div class="flex items-center justify-between bg-surface-container-low p-3 rounded-lg border border-outline-variant/50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">shuffle</span>
+<span class="font-label-md text-label-md text-on-surface">Mélanger les questions</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low p-3 rounded-lg border border-outline-variant/50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">shuffle</span>
+<span class="font-label-md text-label-md text-on-surface">Mélanger les options</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<!-- Points Display -->
+<div class="mt-8 pt-6 border-t border-outline-variant">
+<div class="bg-on-background text-background rounded-xl p-5 flex items-center justify-between shadow-sm">
+<div>
+<p class="font-label-md text-label-md text-surface-variant opacity-80">Total des points calculé</p>
+<p class="font-headline-xl text-headline-xl font-bold mt-1 text-primary-fixed">1</p>
+</div>
+<span class="material-symbols-outlined text-4xl text-primary-fixed opacity-50">military_tech</span>
+</div>
+</div>
+<div class="flex flex-col gap-3 pt-4">
+<button class="w-full bg-surface-container-highest text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-variant transition-colors min-h-[48px] border border-outline-variant">
+                                    Aperçu
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
