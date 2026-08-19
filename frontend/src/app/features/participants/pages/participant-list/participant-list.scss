@@ -1,7 +1,7 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as *;
 
-.application-list {
+.participant-list {
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
@@ -12,9 +12,7 @@
 
 // --- Page Header ---
 .page-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  margin-bottom: $spacing-sm;
 }
 
 .page-title {
@@ -33,19 +31,15 @@
 // --- KPI Grid ---
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: $spacing-md;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-lg;
 
   @include tablet {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @include mobile {
     grid-template-columns: 1fr;
   }
 }
 
-// --- Table Card ---
+// --- Table Card & Action Bar ---
 .table-card {
   background: $color-white;
   border: 1px solid $color-gray-200;
@@ -56,8 +50,7 @@
   flex-direction: column;
 }
 
-// --- Filters Bar ---
-.filters-bar {
+.action-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,7 +60,7 @@
   gap: $spacing-md;
   flex-wrap: wrap;
 
-  &__left {
+  &__filters {
     display: flex;
     align-items: center;
     gap: $spacing-md;
@@ -76,14 +69,14 @@
     flex-wrap: wrap;
   }
 
-  &__right {
+  &__buttons {
     display: flex;
     align-items: center;
     gap: $spacing-sm;
   }
 }
 
-// --- Search & Filters ---
+// --- Inputs & Selects ---
 .search-input {
   position: relative;
   width: 100%;
@@ -119,7 +112,6 @@
 
 .select-wrap {
   position: relative;
-  width: 200px;
 
   &__chevron {
     position: absolute;
@@ -134,7 +126,6 @@
 
 .select-field {
   appearance: none;
-  width: 100%;
   padding: 10px 40px 10px 16px;
   background: $color-gray-100;
   border: 1px solid $color-gray-200;
@@ -152,24 +143,6 @@
   }
 }
 
-.date-field {
-  padding: 10px 12px;
-  background: $color-gray-100;
-  border: 1px solid $color-gray-200;
-  border-radius: $radius-lg;
-  font-size: $font-size-base;
-  font-family: $font-family-base;
-  color: $color-gray-600;
-  cursor: pointer;
-  transition: border-color $transition-fast;
-
-  &:focus {
-    outline: none;
-    border-color: $color-primary;
-    background: $color-white;
-  }
-}
-
 // --- Buttons ---
 .btn {
   display: inline-flex;
@@ -177,7 +150,7 @@
   justify-content: center;
   gap: $spacing-xs;
   padding: 10px $spacing-lg;
-  border-radius: $radius-lg;
+  border-radius: $radius-md;
   font-size: $font-size-base;
   font-weight: $font-weight-semibold;
   font-family: $font-family-base;
@@ -198,9 +171,18 @@
       background: $color-gray-100;
     }
   }
+
+  &--dark {
+    background: $color-black;
+    color: $color-white;
+
+    &:hover {
+      background: $color-gray-900;
+    }
+  }
 }
 
-// --- Table Styles ---
+// --- Table ---
 .table-wrap {
   overflow-x: auto;
   width: 100%;
@@ -249,110 +231,104 @@
 }
 
 .text-right { text-align: right; }
-.text-muted { color: $color-gray-600; }
+.text-muted { color: $color-gray-500; }
 
-.candidate-cell {
+// --- Specific Cells ---
+.participant-cell {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
 
   &__name {
-    font-weight: $font-weight-semibold;
+    font-weight: $font-weight-bold;
   }
 }
 
 .avatar {
   @include flex-center;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: $radius-full;
   background: $color-primary-bg;
   color: $color-primary;
-  font-size: $font-size-xs;
+  font-size: $font-size-sm;
   font-weight: $font-weight-bold;
   flex-shrink: 0;
 }
 
-// --- Status Badges ---
+.presence-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  &__rate {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    min-width: 40px;
+  }
+}
+
+.progress-bar {
+  flex: 1;
+  max-width: 120px;
+  height: 8px;
+  background: $color-gray-200;
+  border-radius: $radius-full;
+  overflow: hidden;
+
+  &__fill {
+    height: 100%;
+    background: $color-primary;
+    border-radius: $radius-full;
+    transition: width $transition-slow;
+
+    &--dark {
+      background: $color-black;
+    }
+  }
+}
+
 .status-badge {
   display: inline-flex;
   align-items: center;
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: $radius-full;
-  font-size: 12px;
-  font-weight: $font-weight-semibold;
+  font-size: 10px;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 
-  &--pending {
-    background: $color-warning-light;
-    color: #b45309;
-    border: 1px solid #fde68a;
+  &--active {
+    background: $color-primary-bg;
+    color: $color-primary-dark;
   }
 
-  &--under_review {
-    background: $color-info-light;
-    color: #1d4ed8;
-    border: 1px solid #bfdbfe;
+  &--paused {
+    background: $color-gray-200;
+    color: $color-gray-600;
   }
 
-  &--interview {
-    background: #ede9fe;
-    color: #6d28d9;
-    border: 1px solid #ddd6fe;
-  }
-
-  &--accepted {
-    background: $color-success-light;
-    color: #166534;
-    border: 1px solid #bbf7d0;
-  }
-
-  &--rejected {
-    background: $color-danger-light;
-    color: #991b1b;
-    border: 1px solid #fecaca;
+  &--completed {
+    background: $color-gray-300;
+    color: $color-black;
   }
 }
 
-// --- Action Buttons ---
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: $spacing-xs;
-}
-
-.icon-btn {
-  @include flex-center;
-  width: 32px;
-  height: 32px;
-  border-radius: $radius-full;
+.btn-link {
   background: transparent;
   border: none;
-  transition: all $transition-fast;
-  color: $color-gray-500;
+  color: $color-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  font-family: $font-family-base;
   cursor: pointer;
-
-  .material-symbols-outlined {
-    font-size: 18px;
-  }
-
-  &--view:hover {
-    background: $color-primary-bg;
-    color: $color-primary;
-  }
-
-  &--edit:hover {
-    background: $color-info-light;
-    color: $color-info;
-  }
-
-  &--delete:hover {
-    background: $color-danger-light;
-    color: $color-danger;
+  padding: 0;
+  
+  &:hover {
+    text-decoration: underline;
   }
 }
 
-// --- Empty State ---
 .empty-row {
   text-align: center;
   padding: $spacing-3xl $spacing-md !important;

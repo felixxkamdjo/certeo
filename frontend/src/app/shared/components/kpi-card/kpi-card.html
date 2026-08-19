@@ -1,0 +1,9 @@
+<div class="kpi-card" [ngClass]="'kpi-card--' + colorTheme">
+  <div class="kpi-card__icon" [ngClass]="'kpi-card__icon--' + colorTheme">
+    <span class="material-symbols-outlined">{{ icon }}</span>
+  </div>
+  <div class="kpi-card__body">
+    <p class="kpi-card__label">{{ label }}</p>
+    <p class="kpi-card__value">{{ value }}</p>
+  </div>
+</div>
