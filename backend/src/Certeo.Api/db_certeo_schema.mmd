@@ -1,0 +1,330 @@
+---
+references:
+  - "File: /backend/src/Certeo.Api/Common/EntityBase.cs"
+  - "File: /backend/src/Certeo.Api/Common/Enums.cs"
+  - "File: /backend/src/Certeo.Api/Infrastructure/CerteoDbContext.cs"
+  - "File:
+    /backend/src/Certeo.Api/Infrastructure/Migrations/20260819035655_InitialCre\
+    ate.Designer.cs"
+  - "File:
+    /backend/src/Certeo.Api/Infrastructure/Migrations/20260819035655_InitialCre\
+    ate.cs"
+  - "File:
+    /backend/src/Certeo.Api/Infrastructure/Migrations/CerteoDbContextModelSnaps\
+    hot.cs"
+  - "File: /backend/src/Certeo.Api/Modules/Applications/ApplicationsEntities.cs"
+  - "File: /backend/src/Certeo.Api/Modules/Certificates/CertificatesEntities.cs"
+  - "File: /backend/src/Certeo.Api/Modules/Evaluations/EvaluationsEntities.cs"
+  - "File: /backend/src/Certeo.Api/Modules/Identity/IdentityEntities.cs"
+  - "File: /backend/src/Certeo.Api/Modules/MasterData/ReferentielEntities.cs"
+  - "File: /backend/src/Certeo.Api/Modules/Participants/ParticipantsEntities.cs"
+  - "File: /backend/src/Certeo.Api/Modules/Settings/SettingsEntities.cs"
+  - "File: /backend/src/Certeo.Api/Modules/Trainings/TrainingsEntities.cs"
+  - "File: /backend/src/Certeo.Api/Program.cs"
+  - "File: /backend/src/Certeo.Api/obj/Debug/net10.0/Certeo.Api.AssemblyInfo.cs"
+  - "File: /backend/src/Certeo.Api/schema_genere.sql"
+generationTime: 2026-08-19T04:17:53.180Z
+---
+classDiagram
+    direction LR
+
+    class EntityBase {
+        <<abstract>>
+        +Guid Id
+    }
+
+    class CerteoDbContext {
+        +DbSet~Role~ Roles
+        +DbSet~User~ Users
+        +DbSet~Training~ Trainings
+        +DbSet~Application~ Applications
+        +DbSet~Participant~ Participants
+        +DbSet~Evaluation~ Evaluations
+        +OnModelCreating(ModelBuilder modelBuilder) void
+    }
+
+    class InitialCreate {
+        +Up() void
+        +Down() void
+    }
+
+    class CerteoDbContextModelSnapshot {
+        +BuildModel(ModelBuilder modelBuilder) void
+    }
+
+    class Role {
+        +RoleName Name
+        +String Description
+        +ICollection~User~ Users
+    }
+
+    class User {
+        +String FirstName
+        +String LastName
+        +String Email
+        +Guid RoleId
+        +Role Role
+    }
+
+    class RefreshToken {
+        +String Token
+        +Guid UserId
+        +User User
+        +bool IsRevoked
+    }
+
+    class AuditLog {
+        +String Action
+        +Guid UserId
+        +User User
+    }
+
+    class ReferenceData {
+        +ReferenceType Type
+        +String Code
+        +String Label
+        +bool IsActive
+    }
+
+    class Training {
+        +String Title
+        +Guid CategoryId
+        +Guid CreatedById
+        +TrainingStatus Status
+        +ICollection~Application~ Applications
+        +Evaluation Evaluation
+    }
+
+    class TrainingApplicationField {
+        +Guid TrainingId
+        +StandardApplicationField Field
+        +bool IsRequired
+    }
+
+    class TrainingQuestion {
+        +Guid TrainingId
+        +TrainingQuestionType Type
+        +String Prompt
+        +bool IsRequired
+    }
+
+    class Application {
+        +Guid TrainingId
+        +ApplicationStatus Status
+        +String Email
+        +String FileNumber
+        +ICollection~ApplicationAnswer~ Answers
+        +Participant Participant
+    }
+
+    class ApplicationAnswer {
+        +Guid ApplicationId
+        +Guid TrainingQuestionId
+        +String Value
+    }
+
+    class Participant {
+        +Guid ApplicationId
+        +ParticipantStatus Status
+        +decimal AttendanceRate
+        +ICollection~Attendance~ Attendances
+    }
+
+    class Attendance {
+        +Guid ParticipantId
+        +Guid VisitReasonId
+        +Guid TrainingId
+        +bool IsValid
+        +ICollection~AttendanceProfile~ Profiles
+    }
+
+    class AttendanceProfile {
+        +Guid AttendanceId
+        +Guid ProfileId
+    }
+
+    class CenterQrCode {
+        +String Location
+        +String Token
+        +bool IsActive
+    }
+
+    class Evaluation {
+        +Guid TrainingId
+        +EvaluationType Type
+        +ICollection~EvaluationQuestion~ Questions
+        +ICollection~EvaluationAttempt~ Attempts
+    }
+
+    class EvaluationQuestion {
+        +Guid EvaluationId
+        +String Statement
+        +int Points
+        +ICollection~QuestionOption~ Options
+    }
+
+    class QuestionOption {
+        +Guid EvaluationQuestionId
+        +String Text
+        +bool IsCorrect
+    }
+
+    class EvaluationAttempt {
+        +Guid EvaluationId
+        +Guid ParticipantId
+        +bool HasPassed
+        +ICollection~AttemptAnswer~ Answers
+    }
+
+    class AttemptAnswer {
+        +Guid EvaluationAttemptId
+        +Guid EvaluationQuestionId
+        +Guid SelectedOptionId
+        +int EarnedPoints
+    }
+
+    class Certificate {
+        +Guid ParticipantId
+        +Guid TrainingId
+        +Guid EvaluationAttemptId
+        +String VerificationCode
+    }
+
+    class SystemSettings {
+        +String ApplicationName
+        +String TimeZone
+        +bool IsLinkedInSharingAllowed
+    }
+
+    class EmailTemplate {
+        +EmailTemplateType Type
+        +String Subject
+        +String Body
+    }
+
+    class Program {
+        +Main() void
+    }
+
+    class DbContext
+    class Migration
+    class ModelSnapshot
+
+    class RoleName {
+        <<enumeration>>
+        SUPER_ADMIN
+        ADMIN
+        TRAINER
+        RECEPTION
+    }
+
+    class ReferenceType {
+        <<enumeration>>
+        CATEGORY
+        GENDER
+        EDUCATION_LEVEL
+        ATTENDANCE_REASON
+        AGE_GROUP
+        VISITOR_PROFILE
+        ODC_DISCOVERY_SOURCE
+    }
+
+    class TrainingMode {
+        <<enumeration>>
+        IN_PERSON
+        ONLINE
+        HYBRID
+    }
+
+    class TrainingStatus {
+        <<enumeration>>
+        DRAFT
+        PUBLISHED
+        IN_PROGRESS
+        COMPLETED
+        ARCHIVED
+    }
+
+    class ApplicationStatus {
+        <<enumeration>>
+        PENDING
+        IN_INTERVIEW
+        EVALUATED
+        SELECTED
+        REJECTED
+    }
+
+    class ParticipantStatus {
+        <<enumeration>>
+        ACTIVE
+        ON_HOLD
+        COMPLETED
+    }
+
+    EntityBase <|-- Role
+    EntityBase <|-- User
+    EntityBase <|-- RefreshToken
+    EntityBase <|-- AuditLog
+    EntityBase <|-- ReferenceData
+    EntityBase <|-- Training
+    EntityBase <|-- TrainingApplicationField
+    EntityBase <|-- TrainingQuestion
+    EntityBase <|-- Application
+    EntityBase <|-- ApplicationAnswer
+    EntityBase <|-- Participant
+    EntityBase <|-- Attendance
+    EntityBase <|-- AttendanceProfile
+    EntityBase <|-- CenterQrCode
+    EntityBase <|-- Evaluation
+    EntityBase <|-- EvaluationQuestion
+    EntityBase <|-- QuestionOption
+    EntityBase <|-- EvaluationAttempt
+    EntityBase <|-- AttemptAnswer
+    EntityBase <|-- Certificate
+    EntityBase <|-- SystemSettings
+    EntityBase <|-- EmailTemplate
+
+    CerteoDbContext --|> DbContext
+    InitialCreate --|> Migration
+    CerteoDbContextModelSnapshot --|> ModelSnapshot
+    Program ..> CerteoDbContext
+
+    Role "1" --* "*" User
+    User "1" --* "*" RefreshToken
+    User "1" --o "*" AuditLog
+    User "1" --> "*" Training : creates
+
+    ReferenceData "1" --> "*" Training : category
+    Training "1" --* "*" TrainingApplicationField
+    Training "1" --* "*" TrainingQuestion
+    Training "1" --* "*" Application
+    Training "1" --o "0..1" Evaluation
+
+    Application "1" --* "*" ApplicationAnswer
+    TrainingQuestion "1" --> "*" ApplicationAnswer
+    Application "1" --o "0..1" Participant
+
+    Participant "1" --* "*" Attendance
+    Attendance "1" --* "*" AttendanceProfile
+    ReferenceData "1" --> "*" AttendanceProfile : profile
+    ReferenceData "1" --> "*" Attendance : visit reason
+    Training "1" --> "*" Attendance
+
+    Evaluation "1" --* "*" EvaluationQuestion
+    EvaluationQuestion "1" --* "*" QuestionOption
+    Evaluation "1" --* "*" EvaluationAttempt
+    Participant "1" --* "*" EvaluationAttempt
+    EvaluationAttempt "1" --* "*" AttemptAnswer
+    EvaluationQuestion "1" --> "*" AttemptAnswer
+    QuestionOption "1" --> "*" AttemptAnswer
+
+    Participant "1" --> "*" Certificate
+    Training "1" --> "*" Certificate
+    EvaluationAttempt "1" --> "*" Certificate
+
+    Role ..> RoleName
+    ReferenceData ..> ReferenceType
+    Training ..> TrainingMode
+    Training ..> TrainingStatus
+    Application ..> ApplicationStatus
+    Participant ..> ParticipantStatus
