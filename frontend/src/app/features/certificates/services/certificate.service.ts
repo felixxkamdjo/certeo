@@ -32,7 +32,7 @@ export class CertificateService {
       email: 'jean.dupont@example.com',
       trainingTitle: 'Développement Full-Stack Avancé',
       hasCertificate: true,
-      certificatePdfUrl: '/images/dummy.pdf',
+      certificatePdfUrl: '/assets/certificates/Jean Dupont ODC.pdf',
       certificateId: 'CRT-8492-FX'
     },
     {
@@ -42,7 +42,7 @@ export class CertificateService {
       email: 'amira.benali@example.com',
       trainingTitle: 'Développement Full-Stack Avancé',
       hasCertificate: true,
-      certificatePdfUrl: '/images/dummy.pdf',
+      certificatePdfUrl: '/assets/certificates/Jean Dupont ODC.pdf',
       certificateId: 'CRT-1234-AB'
     },
     {
@@ -138,7 +138,7 @@ export class CertificateService {
         email: 'jean.dupont@example.com',
         trainingTitle: 'Développement Full-Stack Avancé',
         hasCertificate: true,
-        certificatePdfUrl: '/images/dummy.pdf',
+        certificatePdfUrl: '/assets/certificates/Jean Dupont ODC.pdf',
         certificateId: certId
       };
     }

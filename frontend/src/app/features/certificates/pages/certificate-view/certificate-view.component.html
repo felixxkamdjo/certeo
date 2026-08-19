@@ -4,84 +4,79 @@
     <!-- Page Header & Actions -->
     <div class="view-header">
       <div class="view-header__text">
-        <h1 class="text-headline-lg">Attestation de Réussite</h1>
-        <p class="text-body-md text-secondary">Aperçu officiel du certificat généré par CERTEO.</p>
+        <h1 class="text-headline-lg">Attestation de Reussite</h1>
+        <p class="text-body-md text-secondary">Apercu officiel du certificat genere par CERTEO.</p>
       </div>
       <div class="view-header__actions">
-        <button class="btn-action btn-action--dark" (click)="downloadPdf()" [disabled]="!isPublicView()" [title]="!isPublicView() ? 'Action indisponible en prévisualisation admin' : ''">
+        <button class="btn-action btn-action--dark" (click)="downloadPdf()">
           <span class="material-symbols-outlined">download</span>
-          Télécharger en PDF
+          Telecharger en PDF
         </button>
-        <button class="btn-action btn-action--primary" (click)="shareLinkedIn()" [disabled]="!isPublicView()" [title]="!isPublicView() ? 'Action indisponible en prévisualisation admin' : ''">
+        <button class="btn-action btn-action--primary" (click)="shareLinkedIn()" [disabled]="!isPublicView()" [title]="!isPublicView() ? 'Action indisponible en previsualisation admin' : ''">
           <span class="material-symbols-outlined">share</span>
           Partager sur LinkedIn
         </button>
       </div>
     </div>
 
-    <!-- Certificate Canvas -->
-    <div class="certificate-canvas">
-      <!-- Decorative Elements -->
-      <div class="decor decor--top-left"></div>
-      <div class="decor decor--bottom-right"></div>
-      <div class="decor decor--gradient-bar"></div>
-      <div class="decor decor--border-outer"></div>
-      <div class="decor decor--border-inner"></div>
-
-      <!-- Certificate Content -->
-      <div class="certificate-content">
-        
-        <!-- Header / Logos -->
-        <div class="cert-header">
-          <div class="cert-logo">
-            <span class="cert-logo__certeo">CERTEO</span>
-            <span class="cert-logo__odc">Orange Digital Center</span>
-          </div>
-          <div class="cert-badge">
-            <span class="material-symbols-outlined">workspace_premium</span>
-          </div>
+    <!-- PDF Viewer -->
+    <div class="pdf-viewer">
+      <!-- Toolbar -->
+      <div class="pdf-viewer__toolbar">
+        <div class="toolbar__left">
+          <span class="material-symbols-outlined toolbar__icon">picture_as_pdf</span>
+          <span class="toolbar__title">Certificat {{ p.certificateId }}</span>
         </div>
 
-        <!-- Title -->
-        <h2 class="cert-title">Attestation de Réussite</h2>
-        <p class="cert-text">Nous certifions par la présente que</p>
+        <div class="toolbar__center">
+          <!-- Page Navigation -->
+          @if (totalPages() > 1) {
+            <button class="toolbar__btn" (click)="previousPage()" [disabled]="currentPage() <= 1">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <span class="toolbar__page-info">{{ currentPage() }} / {{ totalPages() }}</span>
+            <button class="toolbar__btn" (click)="nextPage()" [disabled]="currentPage() >= totalPages()">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+            <span class="toolbar__separator"></span>
+          }
 
-        <!-- Candidate Name -->
-        <h1 class="cert-candidate">{{ p.firstName }} {{ p.lastName }}</h1>
-        <p class="cert-text">a suivi avec succès et validé l'ensemble des modules de la formation</p>
-
-        <!-- Training Name -->
-        <h3 class="cert-training">{{ p.trainingTitle }}</h3>
-        <div class="cert-divider"></div>
-
-        <!-- Footer Details -->
-        <div class="cert-footer">
-          <!-- Date & Location -->
-          <div class="cert-footer__details">
-            <p>Fait à <strong>Paris</strong></p>
-            <p>Le <strong>24 Octobre 2026</strong></p>
-          </div>
-
-          <!-- QR Code -->
-          <div class="cert-footer__qr">
-            <div class="qr-box">
-              <div class="qr-pattern">
-                <span class="material-symbols-outlined">qr_code_2</span>
-              </div>
-            </div>
-            <span class="qr-id">ID: {{ p.certificateId }}</span>
-          </div>
-
-          <!-- Signature -->
-          <div class="cert-footer__signature">
-            <div class="signature-img">
-              <span>S. Martin</span>
-            </div>
-            <div class="signature-line"></div>
-            <p class="signature-name">Sophie Martin</p>
-            <p class="signature-role">Directrice des Formations ODC</p>
-          </div>
+          <!-- Zoom -->
+          <button class="toolbar__btn" (click)="zoomOut()" [disabled]="zoom() <= 0.5">
+            <span class="material-symbols-outlined">remove</span>
+          </button>
+          <span class="toolbar__zoom-info">{{ zoom() * 100 | number:'1.0-0' }}%</span>
+          <button class="toolbar__btn" (click)="zoomIn()" [disabled]="zoom() >= 3">
+            <span class="material-symbols-outlined">add</span>
+          </button>
         </div>
+
+        <div class="toolbar__right">
+          <button class="toolbar__btn" (click)="downloadPdf()" title="Telecharger">
+            <span class="material-symbols-outlined">download</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Canvas Area -->
+      <div class="pdf-viewer__canvas-area">
+        @if (isLoading()) {
+          <div class="pdf-viewer__loading">
+            <div class="spinner"></div>
+            <span>Chargement du certificat...</span>
+          </div>
+        }
+
+        @if (hasError()) {
+          <div class="pdf-viewer__error">
+            <span class="material-symbols-outlined">error_outline</span>
+            <p>Impossible de charger le PDF.</p>
+            <p class="text-sm">Apercu via le lecteur natif du navigateur :</p>
+            <iframe [src]="pdfUrl()" class="pdf-viewer__fallback-iframe"></iframe>
+          </div>
+        }
+
+        <div #pdfContainer class="pdf-viewer__canvas-wrapper" [class.hidden]="isLoading() || hasError()"></div>
       </div>
     </div>
   </div>
