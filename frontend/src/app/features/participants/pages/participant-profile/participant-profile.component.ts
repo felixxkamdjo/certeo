@@ -1,6 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmDialogComponent } from '@shared';
 
 interface TrainingHistory {
   name: string;
@@ -43,7 +44,7 @@ interface ParticipantProfile {
 @Component({
   selector: 'app-participant-profile',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ConfirmDialogComponent],
   templateUrl: './participant-profile.component.html',
   styleUrl: './participant-profile.component.scss'
 })
@@ -53,18 +54,21 @@ export class ParticipantProfileComponent implements OnInit {
 
   readonly profile = signal<ParticipantProfile | null>(null);
 
+  // Confirmation dialog for status reset / removal
+  readonly isConfirmOpen = signal(false);
+  readonly isConfirmLoading = signal(false);
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    // Mock data for development
     this.profile.set({
       id: id ?? '1',
       firstName: 'Amira',
       lastName: 'Benali',
-      cohort: 'Full-Stack Development Cohort 4',
+      cohort: 'Cohorte Développement Full-Stack n°4',
       email: 'amira.benali@example.com',
-      phone: '+216 55 123 456',
-      location: 'Tunis, Tunisia',
-      profession: 'Computer Science Student',
+      phone: '+221 77 123 45 67',
+      location: 'Dakar, Sénégal',
+      profession: 'Étudiante en Informatique',
       attendance: {
         percentage: 85,
         total: 42,
@@ -72,24 +76,55 @@ export class ParticipantProfileComponent implements OnInit {
         missed: 6
       },
       trainings: [
-        { name: 'Advanced React Patterns', dates: 'Oct 2023 - Dec 2023', status: 'COMPLETED', grade: '92/100' },
-        { name: 'UX UI Foundations', dates: 'Aug 2023 - Sep 2023', status: 'COMPLETED', grade: '88/100' },
-        { name: 'Cloud Architecture (AWS)', dates: 'Jan 2024 - Present', status: 'IN_PROGRESS', grade: '-' }
+        { name: 'Développement React Avancé', dates: 'Oct 2023 - Déc 2023', status: 'COMPLETED', grade: '92/100' },
+        { name: 'Fondamentaux UI/UX', dates: 'Août 2023 - Sep 2023', status: 'COMPLETED', grade: '88/100' },
+        { name: 'Architecture Cloud (AWS)', dates: 'Jan 2024 - En cours', status: 'IN_PROGRESS', grade: '-' }
       ],
       skills: [
-        { name: 'Frontend Development', level: 'Excellent', percentage: 90 },
-        { name: 'Backend Node.js', level: 'Good', percentage: 75 },
-        { name: 'Problem Solving', level: 'Very Good', percentage: 85 },
-        { name: 'Communication', level: 'Average', percentage: 60 }
+        { name: 'Développement Frontend', level: 'Excellent', percentage: 90 },
+        { name: 'Backend Node.js', level: 'Bien', percentage: 75 },
+        { name: 'Résolution de problèmes', level: 'Très bien', percentage: 85 },
+        { name: 'Communication', level: 'Moyen', percentage: 60 }
       ],
       certificates: [
-        { name: 'React Mastery 2023', date: 'Dec 15, 2023' },
-        { name: 'UX Design Basics', date: 'Sep 30, 2023' }
+        { name: 'Certification React 2023', date: '15 Déc 2023' },
+        { name: 'Bases du Design UX', date: '30 Sep 2023' }
       ]
     });
   }
 
   goBack(): void {
     this.router.navigate(['/admin/participants']);
+  }
+
+  onContact(): void {
+    const p = this.profile();
+    if (p) {
+      this.router.navigate(['/admin/applications/email'], {
+        queryParams: { candidateId: p.id }
+      });
+    }
+  }
+
+  onEvaluate(): void {
+    this.router.navigate(['/admin/evaluations']);
+  }
+
+  onRemoveConfirm(): void {
+    this.isConfirmLoading.set(true);
+    // Simulate deletion
+    setTimeout(() => {
+      this.isConfirmLoading.set(false);
+      this.isConfirmOpen.set(false);
+      this.router.navigate(['/admin/participants']);
+    }, 700);
+  }
+
+  onRemoveCancel(): void {
+    this.isConfirmOpen.set(false);
+  }
+
+  openRemoveDialog(): void {
+    this.isConfirmOpen.set(true);
   }
 }

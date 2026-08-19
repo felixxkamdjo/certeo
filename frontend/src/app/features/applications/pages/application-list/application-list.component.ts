@@ -1,10 +1,10 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApplicationService } from '../../services/application.service';
 import { CandidateApplication, ApplicationStatus } from '../../models/application.model';
-import { KpiCardComponent, PaginationComponent } from '@shared';
+import { ConfirmDialogComponent, KpiCardComponent, PaginationComponent } from '@shared';
 
 @Component({
   selector: 'app-application-list',
@@ -12,6 +12,8 @@ import { KpiCardComponent, PaginationComponent } from '@shared';
   imports: [
     CommonModule, 
     FormsModule, 
+    RouterModule,
+    ConfirmDialogComponent,
     KpiCardComponent, 
     PaginationComponent
   ],
@@ -24,6 +26,17 @@ export class ApplicationListComponent {
 
   readonly searchTerm = signal('');
   readonly statusFilter = signal<ApplicationStatus | ''>('');
+  
+  // Status Modal State
+  readonly isStatusModalOpen = signal(false);
+  readonly selectedAppForStatus = signal<CandidateApplication | null>(null);
+  readonly targetStatus = signal<ApplicationStatus>(ApplicationStatus.Pending);
+  readonly isStatusSaving = signal(false);
+
+  // Delete Modal State
+  readonly isDeleteModalOpen = signal(false);
+  readonly selectedAppForDelete = signal<CandidateApplication | null>(null);
+  readonly isDeleting = signal(false);
   
   // Pagination State
   readonly currentPage = signal(1);
@@ -160,4 +173,54 @@ export class ApplicationListComponent {
     const start = (this.currentPage() - 1) * this.itemsPerPage();
     return all.slice(start, start + this.itemsPerPage());
   });
+
+  openStatusModal(app: CandidateApplication): void {
+    this.selectedAppForStatus.set(app);
+    this.targetStatus.set(app.status);
+    this.isStatusModalOpen.set(true);
+  }
+
+  onStatusConfirm(): void {
+    const app = this.selectedAppForStatus();
+    const newStatus = this.targetStatus();
+    if (!app) return;
+
+    this.isStatusSaving.set(true);
+    setTimeout(() => {
+      this.applications.update(list =>
+        list.map(item => item.id === app.id ? { ...item, status: newStatus } : item)
+      );
+      this.isStatusSaving.set(false);
+      this.isStatusModalOpen.set(false);
+      this.selectedAppForStatus.set(null);
+    }, 500);
+  }
+
+  onStatusCancel(): void {
+    this.isStatusModalOpen.set(false);
+    this.selectedAppForStatus.set(null);
+  }
+
+  openDeleteModal(app: CandidateApplication): void {
+    this.selectedAppForDelete.set(app);
+    this.isDeleteModalOpen.set(true);
+  }
+
+  onDeleteConfirm(): void {
+    const app = this.selectedAppForDelete();
+    if (!app) return;
+
+    this.isDeleting.set(true);
+    setTimeout(() => {
+      this.applications.update(list => list.filter(item => item.id !== app.id));
+      this.isDeleting.set(false);
+      this.isDeleteModalOpen.set(false);
+      this.selectedAppForDelete.set(null);
+    }, 500);
+  }
+
+  onDeleteCancel(): void {
+    this.isDeleteModalOpen.set(false);
+    this.selectedAppForDelete.set(null);
+  }
 }

@@ -1,12 +1,53 @@
 @if (isOpen) {
   <div class="modal-backdrop" (click)="onCancel()">
-    <div class="modal-card" (click)="$event.stopPropagation()">
-      <h3 class="heading-4">{{ title }}</h3>
-      <p class="modal-message">{{ message }}</p>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" (click)="onCancel()">{{ cancelText }}</button>
-        <button class="btn btn-danger" (click)="onConfirm()">{{ confirmText }}</button>
+    <div class="modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" [attr.aria-labelledby]="title">
+      
+      <!-- Close button -->
+      <button class="modal-close" (click)="onCancel()" type="button" aria-label="Fermer">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+      <!-- Header with Icon -->
+      <div class="modal-header">
+        <div class="modal-icon-badge modal-icon-badge--{{ variant }}">
+          <span class="material-symbols-outlined">{{ effectiveIcon }}</span>
+        </div>
+        <div class="modal-header-text">
+          <h3 class="modal-title">{{ title }}</h3>
+        </div>
       </div>
+
+      <!-- Content -->
+      <div class="modal-body">
+        @if (message) {
+          <p class="modal-message">{{ message }}</p>
+        }
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-actions">
+        <button 
+          type="button" 
+          class="btn btn--outline" 
+          (click)="onCancel()" 
+          [disabled]="isLoading"
+        >
+          {{ cancelText }}
+        </button>
+        <button 
+          type="button" 
+          class="btn btn--{{ variant }}" 
+          (click)="onConfirm()" 
+          [disabled]="isLoading"
+        >
+          @if (isLoading) {
+            <span class="spinner"></span>
+          }
+          {{ confirmText }}
+        </button>
+      </div>
+
     </div>
   </div>
 }

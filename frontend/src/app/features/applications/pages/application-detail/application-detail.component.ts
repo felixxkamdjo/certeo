@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationService } from '../../services/application.service';
 import { CandidateApplication, ApplicationStatus } from '../../models/application.model';
+import { ConfirmDialogComponent, DialogVariant } from '@shared';
 
 interface TimelineEntry {
   title: string;
@@ -29,7 +30,7 @@ interface ApplicationDetail extends CandidateApplication {
 @Component({
   selector: 'app-application-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ConfirmDialogComponent],
   templateUrl: './application-detail.component.html',
   styleUrl: './application-detail.component.scss'
 })
@@ -40,6 +41,26 @@ export class ApplicationDetailComponent implements OnInit {
 
   readonly application = signal<ApplicationDetail | null>(null);
   readonly isLoading = signal(true);
+  readonly successMessage = signal<string | null>(null);
+
+  // Status Change Dialog State
+  readonly confirmDialog = signal<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    confirmText: string;
+    variant: DialogVariant;
+    targetStatus: ApplicationStatus | null;
+    isLoading: boolean;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    confirmText: 'Confirmer',
+    variant: 'primary',
+    targetStatus: null,
+    isLoading: false
+  });
 
   readonly ApplicationStatus = ApplicationStatus;
 
@@ -116,8 +137,90 @@ export class ApplicationDetailComponent implements OnInit {
     this.router.navigate(['/admin/applications']);
   }
 
-  onEvaluate(): void { /* will connect to API */ }
-  onInterview(): void { /* will connect to API */ }
-  onReject(): void { /* will connect to API */ }
-  onAccept(): void { /* will connect to API */ }
+  onSendEmail(candidateId: string): void {
+    this.router.navigate(['/admin/applications/email'], {
+      queryParams: { candidateId: candidateId }
+    });
+  }
+
+  onEvaluate(): void {
+    const app = this.application();
+    if (!app) return;
+    this.confirmDialog.set({
+      isOpen: true,
+      title: 'Passer en révision',
+      message: `Voulez-vous faire passer la candidature de ${app.firstName} ${app.lastName} au statut "En révision" pour évaluation ?`,
+      confirmText: 'Confirmer l\'évaluation',
+      variant: 'info',
+      targetStatus: ApplicationStatus.UnderReview,
+      isLoading: false
+    });
+  }
+
+  onInterview(): void {
+    const app = this.application();
+    if (!app) return;
+    this.confirmDialog.set({
+      isOpen: true,
+      title: 'Convoquer à un entretien',
+      message: `Voulez-vous faire passer la candidature de ${app.firstName} ${app.lastName} au statut "En entretien" ?`,
+      confirmText: 'Valider l\'entretien',
+      variant: 'primary',
+      targetStatus: ApplicationStatus.Interview,
+      isLoading: false
+    });
+  }
+
+  onReject(): void {
+    const app = this.application();
+    if (!app) return;
+    this.confirmDialog.set({
+      isOpen: true,
+      title: 'Refuser la candidature',
+      message: `Êtes-vous sûr de vouloir refuser la candidature de ${app.firstName} ${app.lastName} ? Cette action changera son statut en "Refusé".`,
+      confirmText: 'Refuser le candidat',
+      variant: 'danger',
+      targetStatus: ApplicationStatus.Rejected,
+      isLoading: false
+    });
+  }
+
+  onAccept(): void {
+    const app = this.application();
+    if (!app) return;
+    this.confirmDialog.set({
+      isOpen: true,
+      title: 'Sélectionner le candidat',
+      message: `Confirmez-vous l'admission de ${app.firstName} ${app.lastName} pour la formation ${app.trainingTitle} ?`,
+      confirmText: 'Confirmer la sélection',
+      variant: 'success',
+      targetStatus: ApplicationStatus.Accepted,
+      isLoading: false
+    });
+  }
+
+  handleDialogConfirm(): void {
+    const currentDialog = this.confirmDialog();
+    const newStatus = currentDialog.targetStatus;
+    if (!newStatus) return;
+
+    this.confirmDialog.update(d => ({ ...d, isLoading: true }));
+
+    // Simulate backend update
+    setTimeout(() => {
+      this.application.update(app => app ? { ...app, status: newStatus } : null);
+      this.confirmDialog.update(d => ({ ...d, isOpen: false, isLoading: false }));
+      
+      const label = this.getStatusLabel(newStatus);
+      this.successMessage.set(`Le statut de la candidature a été mis à jour avec succès : ${label}`);
+      
+      setTimeout(() => {
+        this.successMessage.set(null);
+      }, 4000);
+    }, 600);
+  }
+
+  handleDialogCancel(): void {
+    this.confirmDialog.update(d => ({ ...d, isOpen: false, isLoading: false }));
+  }
 }

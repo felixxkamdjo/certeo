@@ -24,6 +24,10 @@
         </div>
       </div>
       <div class="candidate-header__actions">
+        <button class="action-btn action-btn--outline" (click)="onSendEmail(app.id)">
+          <span class="material-symbols-outlined">mail</span>
+          E-mail
+        </button>
         <button class="action-btn action-btn--outline" (click)="onEvaluate()">
           <span class="material-symbols-outlined">edit_document</span>
           Evaluer
@@ -188,3 +192,24 @@
     <p>Chargement de la fiche candidat...</p>
   </div>
 }
+
+<!-- Toast Notification -->
+@if (successMessage()) {
+  <div class="toast-notification">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span>{{ successMessage() }}</span>
+  </div>
+}
+
+<!-- Confirm Status Change Dialog -->
+<app-confirm-dialog
+  [isOpen]="confirmDialog().isOpen"
+  [title]="confirmDialog().title"
+  [message]="confirmDialog().message"
+  [confirmText]="confirmDialog().confirmText"
+  [variant]="confirmDialog().variant"
+  [isLoading]="confirmDialog().isLoading"
+  (confirm)="handleDialogConfirm()"
+  (cancel)="handleDialogCancel()"
+></app-confirm-dialog>
+

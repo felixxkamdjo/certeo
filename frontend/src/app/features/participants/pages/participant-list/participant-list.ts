@@ -1,8 +1,8 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { KpiCardComponent, PaginationComponent } from '@shared';
+import { ConfirmDialogComponent, KpiCardComponent, PaginationComponent } from '@shared';
 
 export interface Participant {
   id: string;
@@ -20,6 +20,8 @@ export interface Participant {
   imports: [
     CommonModule, 
     FormsModule,
+    RouterModule,
+    ConfirmDialogComponent,
     KpiCardComponent,
     PaginationComponent
   ],
@@ -125,4 +127,51 @@ export class ParticipantListComponent {
     const start = (this.currentPage() - 1) * this.itemsPerPage();
     return all.slice(start, start + this.itemsPerPage());
   });
+
+  // Delete modal state
+  readonly isDeleteModalOpen = signal(false);
+  readonly selectedForDelete = signal<Participant | null>(null);
+  readonly isDeleting = signal(false);
+
+  onEvaluate(): void {
+    this.router.navigate(['/admin/evaluations']);
+  }
+
+  onExportCsv(): void {
+    const header = ['ID', 'Prénom', 'Nom', 'Email', 'Formation', 'Taux de présence', 'Statut'];
+    const rows = this.filteredParticipants().map(p => [
+      p.id, p.firstName, p.lastName, p.email,
+      p.trainingTitle, `${p.presenceRate}%`, this.getStatusLabel(p.status)
+    ]);
+    const csv = [header, ...rows].map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'participants_certeo.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  openDeleteModal(p: Participant): void {
+    this.selectedForDelete.set(p);
+    this.isDeleteModalOpen.set(true);
+  }
+
+  onDeleteConfirm(): void {
+    const p = this.selectedForDelete();
+    if (!p) return;
+    this.isDeleting.set(true);
+    setTimeout(() => {
+      this.participants.update(list => list.filter(item => item.id !== p.id));
+      this.isDeleting.set(false);
+      this.isDeleteModalOpen.set(false);
+      this.selectedForDelete.set(null);
+    }, 500);
+  }
+
+  onDeleteCancel(): void {
+    this.isDeleteModalOpen.set(false);
+    this.selectedForDelete.set(null);
+  }
 }

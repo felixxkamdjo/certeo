@@ -345,3 +345,36 @@
     font-size: $font-size-base;
   }
 }
+
+// --- Actions icons ---
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-xs;
+}
+
+.icon-btn {
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-full;
+  background: transparent;
+  border: none;
+  transition: all $transition-fast;
+  color: $color-gray-500;
+  cursor: pointer;
+
+  .material-symbols-outlined { font-size: 18px; }
+
+  &--view:hover {
+    background: $color-primary-bg;
+    color: $color-primary;
+  }
+
+  &--delete:hover {
+    background: $color-danger-light;
+    color: $color-danger;
+  }
+}
+
