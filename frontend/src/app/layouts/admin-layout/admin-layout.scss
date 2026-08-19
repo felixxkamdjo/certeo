@@ -27,7 +27,7 @@
   &__content {
     flex: 1;
     overflow-y: auto;
-    padding: $spacing-lg;
+    padding: $spacing-xl $spacing-2xl;
     background-color: $color-gray-50;
   }
 }

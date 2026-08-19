@@ -1,4 +1,113 @@
 @use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.login-container {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  background-color: $color-white;
+
+  // Left Column: Form
+  &__left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: $spacing-xl $spacing-lg;
+    background-color: $color-white;
+    z-index: 1;
+
+    @include tablet-up {
+      padding: $spacing-2xl $spacing-3xl;
+    }
+  }
+
+  // Right Column: Visual background + Glassmorphism card
+  &__right {
+    display: none;
+    flex: 1;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-2xl;
+    background: linear-gradient(135deg, #f5f3f2 0%, #e9e5e3 100%);
+    overflow: hidden;
+
+    @include tablet-up {
+      display: flex;
+    }
+
+    // Abstract geometric lines & light mesh overlay
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 80% 20%, rgba($color-primary, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(220, 200, 190, 0.4) 0%, transparent 50%),
+        linear-gradient(45deg, rgba(255, 255, 255, 0.6) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.6) 75%),
+        linear-gradient(45deg, rgba(255, 255, 255, 0.6) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.6) 75%);
+      background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
+      background-position: 0 0, 0 0, 0 0, 30px 30px;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+
+  &__brand {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $color-gray-900;
+    letter-spacing: -0.01em;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__subtitle {
+    font-size: $font-size-base;
+    color: $color-gray-600;
+    line-height: $line-height-base;
+  }
+
+  &__footer {
+    margin-top: $spacing-2xl;
+    text-align: center;
+    font-size: $font-size-base;
+    color: $color-gray-600;
+
+    .help-link {
+      color: $color-gray-900;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color $transition-fast;
+
+      &:hover {
+        color: $color-primary;
+        text-decoration: underline;
+      }
+    }
+  }
+}
 
 .login-form {
   display: flex;
@@ -13,31 +122,85 @@
 
   label {
     font-size: $font-size-sm;
-    font-weight: 500;
-    color: $color-gray-700;
+    font-weight: 600;
+    color: $color-gray-900;
   }
 }
 
-.form-control {
-  padding: $spacing-sm $spacing-md;
-  border: 1px solid $color-gray-300;
-  border-radius: $radius-md;
-  font-size: $font-size-base;
-  transition: border-color $transition-fast;
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
 
-  &:focus {
-    outline: none;
-    border-color: $color-primary;
+  .input-icon {
+    position: absolute;
+    left: 14px;
+    color: $color-gray-500;
+    font-size: 20px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .form-control {
+    width: 100%;
+    height: 48px;
+    padding: 12px 42px 12px 44px;
+    border: 1px solid $color-gray-300;
+    border-radius: $radius-md;
+    font-size: $font-size-base;
+    color: $color-gray-900;
+    background-color: $color-white;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &::placeholder {
+      color: $color-gray-400;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+    }
+  }
+
+  .password-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: $color-gray-500;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-sm;
+    z-index: 2;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-primary;
+    }
+
+    span {
+      font-size: 20px;
+    }
   }
 }
 
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
   padding: $spacing-sm $spacing-lg;
   border-radius: $radius-md;
   font-size: $font-size-base;
   font-weight: 600;
-  text-align: center;
-  transition: all $transition-fast;
+  cursor: pointer;
+  border: none;
+  transition: background-color $transition-fast, transform $transition-fast;
 
   &.w-100 {
     width: 100%;
@@ -52,8 +215,95 @@
     }
 
     &:disabled {
-      background-color: $color-gray-300;
+      background-color: rgba($color-primary, 0.4);
+      opacity: 0.6;
       cursor: not-allowed;
     }
   }
 }
+
+// Right Column Glassmorphism Feature Card
+.visual-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 480px;
+  background: rgba($color-white, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba($color-white, 0.9);
+  border-radius: $radius-xl;
+  padding: $spacing-xl;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__icon-badge {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    background-color: $color-primary;
+    border-radius: $radius-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-white;
+
+    span {
+      font-size: 24px;
+    }
+  }
+
+  &__title-group {
+    h3 {
+      font-size: $font-size-xl;
+      font-weight: 700;
+      color: $color-gray-900;
+      margin-bottom: $spacing-xs;
+    }
+
+    p {
+      font-size: $font-size-sm;
+      color: $color-gray-600;
+    }
+  }
+
+  &__features {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: 14px $spacing-md;
+  background-color: rgba($color-white, 0.9);
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-gray-200, 0.6);
+  transition: transform $transition-fast, background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-white;
+    transform: translateX(4px);
+  }
+
+  &__icon {
+    color: $color-primary;
+    font-size: 22px;
+  }
+
+  &__text {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-gray-900;
+  }
+}
+
