@@ -1,6 +1,192 @@
-<div class="participant-profile">
-  <div class="participant-profile__header">
-    <h1 class="heading-3">Profil Participant & Évaluations</h1>
-    <p class="text-muted">Fiche détaillée du parcours, présence et notes de l'apprenant ODC.</p>
+@if (profile(); as p) {
+  <div class="profile-layout">
+    
+    <!-- Page Header -->
+    <div class="profile-header">
+      <div class="profile-header__left">
+        <button class="back-btn" (click)="goBack()">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+        <div class="profile-header__user">
+          <div class="profile-avatar">
+            {{ p.firstName.charAt(0) }}{{ p.lastName.charAt(0) }}
+          </div>
+          <div>
+            <h2 class="profile-name">{{ p.firstName }} {{ p.lastName }}</h2>
+            <p class="profile-cohort">{{ p.cohort }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="profile-header__actions">
+        <button class="btn btn--outline">
+          <span class="material-symbols-outlined">edit</span> Edit Profile
+        </button>
+        <button class="btn btn--primary">
+          <span class="material-symbols-outlined">mail</span> Contact
+        </button>
+      </div>
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="bento-grid">
+      
+      <!-- Left Column -->
+      <div class="bento-col bento-col--left">
+        
+        <!-- Personal Info -->
+        <div class="bento-card bento-card--accent">
+          <h3 class="bento-card__title">Personal Info</h3>
+          <div class="info-list">
+            <div class="info-item">
+              <div class="info-item__icon"><span class="material-symbols-outlined">mail</span></div>
+              <div>
+                <p class="info-item__label">Email Address</p>
+                <p class="info-item__value">{{ p.email }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-item__icon"><span class="material-symbols-outlined">call</span></div>
+              <div>
+                <p class="info-item__label">Phone Number</p>
+                <p class="info-item__value">{{ p.phone }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-item__icon"><span class="material-symbols-outlined">location_on</span></div>
+              <div>
+                <p class="info-item__label">Location</p>
+                <p class="info-item__value">{{ p.location }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-item__icon"><span class="material-symbols-outlined">work</span></div>
+              <div>
+                <p class="info-item__label">Profession / Status</p>
+                <p class="info-item__value">{{ p.profession }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Attendance -->
+        <div class="bento-card">
+          <div class="bento-card__header">
+            <h3 class="bento-card__title">Attendance</h3>
+            <button class="icon-link"><span class="material-symbols-outlined">open_in_new</span></button>
+          </div>
+          <div class="attendance-widget">
+            <div class="progress-circle">
+              <span class="progress-circle__value">{{ p.attendance.percentage }}%</span>
+            </div>
+            <div class="attendance-stats">
+              <div class="attendance-stat">
+                <span class="attendance-stat__label">Total Sessions</span>
+                <span class="attendance-stat__value">{{ p.attendance.total }}</span>
+              </div>
+              <div class="attendance-stat">
+                <span class="attendance-stat__label">Attended</span>
+                <span class="attendance-stat__value">{{ p.attendance.attended }}</span>
+              </div>
+              <div class="attendance-stat">
+                <span class="attendance-stat__label">Missed</span>
+                <span class="attendance-stat__value attendance-stat__value--error">{{ p.attendance.missed }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column -->
+      <div class="bento-col bento-col--right">
+        
+        <!-- Training History -->
+        <div class="bento-card bento-card--no-pad">
+          <div class="bento-card__header-pad">
+            <h3 class="bento-card__title">Training History</h3>
+            <button class="btn-link">View All <span class="material-symbols-outlined">arrow_forward</span></button>
+          </div>
+          <div class="table-wrap">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Training Name</th>
+                  <th>Dates</th>
+                  <th>Status</th>
+                  <th class="text-right">Grade</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (t of p.trainings; track t.name) {
+                  <tr>
+                    <td>{{ t.name }}</td>
+                    <td class="text-muted">{{ t.dates }}</td>
+                    <td>
+                      @if (t.status === 'COMPLETED') {
+                        <span class="status-badge status-badge--completed">Completed</span>
+                      } @else {
+                        <span class="status-badge status-badge--progress">In Progress</span>
+                      }
+                    </td>
+                    <td class="text-right">{{ t.grade }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Two Columns Container -->
+        <div class="bento-subgrid">
+          
+          <!-- Skills -->
+          <div class="bento-card">
+            <h3 class="bento-card__title">Skills Evaluation</h3>
+            <div class="skills-list">
+              @for (s of p.skills; track s.name) {
+                <div class="skill-item">
+                  <div class="skill-item__header">
+                    <span class="skill-item__name">{{ s.name }}</span>
+                    <span class="skill-item__level" [class.skill-item__level--muted]="s.percentage < 70">{{ s.level }}</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar__fill" [style.width.%]="s.percentage" [class.skill-bar__fill--muted]="s.percentage < 70"></div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Certificats -->
+          <div class="bento-card">
+            <h3 class="bento-card__title">Certificats</h3>
+            <div class="cert-list">
+              @for (c of p.certificates; track c.name) {
+                <div class="cert-item">
+                  <div class="cert-item__left">
+                    <div class="cert-item__icon">
+                      <span class="material-symbols-outlined">workspace_premium</span>
+                    </div>
+                    <div>
+                      <p class="cert-item__name">{{ c.name }}</p>
+                      <p class="cert-item__date">Issued {{ c.date }}</p>
+                    </div>
+                  </div>
+                  <button class="cert-item__action">
+                    <span class="material-symbols-outlined">download</span>
+                  </button>
+                </div>
+              }
+              <div class="cert-upload">
+                <span class="material-symbols-outlined">add</span>
+                Upload Certificate
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
+}

@@ -1,29 +1,29 @@
 @use 'styles/variables' as *;
+@use 'styles/mixins' as *;
 
 .data-table-container {
   overflow-x: auto;
-  background: $color-white;
-  border-radius: $radius-md;
-  box-shadow: $shadow-sm;
+  width: 100%;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
+  text-align: left;
 
-  th,
-  td {
-    padding: $spacing-md;
-    text-align: left;
+  thead tr {
+    background: $color-gray-50;
     border-bottom: 1px solid $color-gray-200;
   }
 
   th {
-    background-color: $color-gray-50;
-    color: $color-gray-700;
-    font-weight: 600;
-    font-size: $font-size-sm;
+    padding: $spacing-md;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: $color-gray-900;
+    white-space: nowrap;
   }
 
   &__row {
