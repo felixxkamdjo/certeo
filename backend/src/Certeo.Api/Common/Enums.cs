@@ -6,7 +6,7 @@ public enum RoleName
     SUPER_ADMIN,
     ADMIN,
     TRAINER,
-    RECEPTION
+    RECEPTIONIST
 }
 
 // Master Data / References
