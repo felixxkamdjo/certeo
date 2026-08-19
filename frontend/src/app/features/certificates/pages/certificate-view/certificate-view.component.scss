@@ -20,7 +20,7 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
-  margin-bottom: $spacing-lg;
+  margin-bottom: $spacing-md;
 
   @include tablet-up {
     flex-direction: row;
@@ -73,284 +73,208 @@
   &--dark {
     background: #000000;
     color: $color-white;
-    &:hover { background: #333333; }
+    &:hover:not(:disabled) { background: #333333; }
   }
 
   &--primary {
     background: $color-primary;
     color: $color-white;
-    &:hover { background: $color-primary-dark; }
+    &:hover:not(:disabled) { background: $color-primary-dark; }
   }
 }
 
-// --- Certificate Canvas ---
-.certificate-canvas {
+// --- PDF Viewer ---
+.pdf-viewer {
   background: $color-white;
   border-radius: $radius-2xl;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
   border: 1px solid $color-gray-200;
-  padding: $spacing-3xl;
-  position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
 
-  @include tablet-up {
-    padding: 64px;
-  }
-}
-
-// Decorative Backgrounds
-.decor {
-  position: absolute;
-  pointer-events: none;
-
-  &--top-left {
-    top: 0;
-    left: 0;
-    width: 128px;
-    height: 128px;
-    background: rgba($color-primary, 0.1);
-    border-bottom-right-radius: 9999px;
-  }
-
-  &--bottom-right {
-    bottom: 0;
-    right: 0;
-    width: 192px;
-    height: 192px;
-    background: rgba($color-primary, 0.05);
-    border-top-left-radius: 9999px;
-  }
-
-  &--gradient-bar {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 8px;
-    background: linear-gradient(to right, $color-primary, $color-primary-dark);
-  }
-
-  &--border-outer {
-    inset: 0;
-    border: 12px solid $color-gray-50;
-    border-radius: $radius-2xl;
-    z-index: 0;
-  }
-
-  &--border-inner {
-    inset: 16px;
-    border: 1px solid rgba($color-gray-400, 0.3);
-    border-radius: $radius-xl;
-    z-index: 0;
-  }
-}
-
-// Certificate Inner Content
-.certificate-content {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.cert-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 48px;
-}
-
-.cert-logo {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-
-  &__certeo {
-    font-size: $font-size-2xl;
-    font-weight: 900;
-    color: $color-primary;
-    letter-spacing: -0.02em;
-  }
-
-  &__odc {
-    font-size: 10px;
-    font-weight: $font-weight-bold;
-    color: $color-gray-600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 4px;
-  }
-}
-
-.cert-badge {
-  width: 64px;
-  height: 64px;
-  background: $color-gray-100;
-  border-radius: $radius-full;
-  border: 1px solid $color-gray-200;
-  @include flex-center;
-
-  .material-symbols-outlined {
-    color: $color-primary;
-    font-size: 32px;
-  }
-}
-
-.cert-title {
-  font-size: $font-size-sm;
-  font-weight: $font-weight-semibold;
-  color: $color-gray-600;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  margin: 0 0 $spacing-md;
-}
-
-.cert-text {
-  font-size: $font-size-lg;
-  color: $color-gray-700;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.cert-candidate {
-  font-size: 48px;
-  font-weight: 800;
-  color: $color-gray-900;
-  margin: $spacing-2xl 0 $spacing-md;
-  letter-spacing: -0.02em;
-}
-
-.cert-training {
-  font-size: $font-size-3xl;
-  font-weight: $font-weight-bold;
-  color: $color-primary;
-  margin: 48px 0;
-}
-
-.cert-divider {
-  width: 64px;
-  height: 1px;
-  background: $color-gray-300;
-  margin-bottom: 48px;
-}
-
-.cert-footer {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: flex-end;
-  margin-top: $spacing-xl;
-
-  @include tablet-up {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  &__details {
-    text-align: left;
-    flex: 1;
-    margin-bottom: $spacing-xl;
-    
-    @include tablet-up { margin-bottom: 0; }
-
-    p {
-      font-size: $font-size-base;
-      color: $color-gray-600;
-      margin: 0 0 4px;
-      strong { color: $color-gray-900; }
-    }
-  }
-
-  &__qr {
+  // Toolbar
+  &__toolbar {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin: 0 $spacing-2xl $spacing-xl;
+    justify-content: space-between;
+    padding: $spacing-sm $spacing-lg;
+    background: $color-gray-900;
+    color: $color-white;
+    gap: $spacing-md;
+    min-height: 48px;
+    flex-shrink: 0;
+  }
 
-    @include tablet-up { margin-bottom: 0; }
+  // Canvas Area
+  &__canvas-area {
+    background: #525659;
+    min-height: 600px;
+    max-height: 80vh;
+    overflow: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: $spacing-xl;
+  }
 
-    .qr-box {
-      width: 96px;
-      height: 96px;
-      background: $color-white;
-      border: 2px solid $color-gray-200;
-      padding: $spacing-sm;
-      border-radius: $radius-lg;
-      box-shadow: $shadow-sm;
-      margin-bottom: $spacing-sm;
+  &__canvas-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 
-      .qr-pattern {
-        width: 100%;
-        height: 100%;
-        background: $color-gray-900;
-        border-radius: 4px;
-        @include flex-center;
-
-        .material-symbols-outlined {
-          color: $color-white;
-          font-size: 36px;
-        }
-      }
+    &.hidden {
+      display: none;
     }
 
-    .qr-id {
-      font-size: 10px;
-      color: $color-gray-600;
-      font-family: monospace;
-      letter-spacing: 0.05em;
+    canvas {
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
     }
   }
 
-  &__signature {
-    text-align: right;
-    flex: 1;
-    display: flex;
+  // Loading State
+  &__loading {
+    position: absolute;
+    inset: 0;
+    @include flex-center;
     flex-direction: column;
-    align-items: flex-end;
+    gap: $spacing-md;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
 
-    .signature-img {
-      height: 64px;
-      display: flex;
-      align-items: flex-end;
-      margin-bottom: $spacing-sm;
+  // Error State
+  &__error {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-sm;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    width: 100%;
 
-      span {
-        font-family: 'Brush Script MT', cursive;
-        font-size: 32px;
-        color: $color-gray-900;
-        opacity: 0.8;
-      }
+    .material-symbols-outlined {
+      font-size: 48px;
+      color: rgba(255, 255, 255, 0.4);
     }
 
-    .signature-line {
-      height: 1px;
-      width: 192px;
-      background: $color-gray-900;
-      margin-bottom: $spacing-sm;
-    }
+    p { margin: 0; }
 
-    .signature-name {
-      font-size: $font-size-base;
-      font-weight: $font-weight-bold;
-      color: $color-gray-900;
-      margin: 0;
+    .text-sm {
+      font-size: $font-size-xs;
+      margin-top: $spacing-md;
     }
+  }
 
-    .signature-role {
-      font-size: 12px;
-      color: $color-gray-600;
-      margin: 0;
-    }
+  // Fallback iframe
+  &__fallback-iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: $radius-lg;
+    margin-top: $spacing-md;
+    background: $color-white;
   }
 }
 
-// Error state
+// --- Toolbar Elements ---
+.toolbar {
+  &__left,
+  &__center,
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__left {
+    flex-shrink: 0;
+  }
+
+  &__center {
+    flex: 1;
+    justify-content: center;
+  }
+
+  &__right {
+    flex-shrink: 0;
+  }
+
+  &__icon {
+    font-size: 20px;
+    color: $color-primary;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+
+    @include tablet-up {
+      max-width: none;
+    }
+  }
+
+  &__btn {
+    @include flex-center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: $radius-md;
+    background: rgba(255, 255, 255, 0.1);
+    color: $color-white;
+    cursor: pointer;
+    transition: background $transition-fast;
+
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .material-symbols-outlined {
+      font-size: 18px;
+    }
+  }
+
+  &__page-info,
+  &__zoom-info {
+    font-size: 12px;
+    font-weight: $font-weight-medium;
+    min-width: 48px;
+    text-align: center;
+    user-select: none;
+  }
+
+  &__separator {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 $spacing-xs;
+  }
+}
+
+// --- Spinner ---
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: $color-primary;
+  border-radius: $radius-full;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// --- Error State (not found) ---
 .certificate-not-found {
   @include flex-center;
   flex-direction: column;
