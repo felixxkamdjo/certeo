@@ -1,9 +1,25 @@
 <div class="kpi-card" [ngClass]="'kpi-card--' + colorTheme">
-  <div class="kpi-card__icon" [ngClass]="'kpi-card__icon--' + colorTheme">
-    <span class="material-symbols-outlined">{{ icon }}</span>
-  </div>
+  @if (icon) {
+    <div class="kpi-card__icon" [ngClass]="'kpi-card__icon--' + colorTheme">
+      <span class="material-symbols-outlined">{{ icon }}</span>
+    </div>
+  }
   <div class="kpi-card__body">
     <p class="kpi-card__label">{{ label }}</p>
-    <p class="kpi-card__value">{{ value }}</p>
+    <div class="kpi-card__value-row">
+      <p class="kpi-card__value">{{ value }}</p>
+      
+      @if (trend) {
+        <span class="kpi-card__trend" [ngClass]="'kpi-card__trend--' + trendDirection">
+          <span class="material-symbols-outlined">
+            {{ trendDirection === 'up' ? 'trending_up' : (trendDirection === 'down' ? 'trending_down' : 'trending_flat') }}
+          </span>
+          {{ trend }}
+        </span>
+      }
+      @if (subtitle) {
+        <span class="kpi-card__subtitle">{{ subtitle }}</span>
+      }
+    </div>
   </div>
 </div>

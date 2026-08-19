@@ -13,6 +13,11 @@ export type KpiColorTheme = 'primary' | 'secondary' | 'success' | 'warning' | 'd
 export class KpiCardComponent {
   @Input({ required: true }) label: string = '';
   @Input({ required: true }) value: string | number = '';
-  @Input({ required: true }) icon: string = '';
+  @Input() icon?: string;
   @Input() colorTheme: KpiColorTheme = 'primary';
+  
+  // New inputs for reporting dashboard
+  @Input() trend?: string; // e.g. "+3.2%" or "-1.5%"
+  @Input() trendDirection?: 'up' | 'down' | 'neutral' = 'up';
+  @Input() subtitle?: string; // e.g. "En cours"
 }
