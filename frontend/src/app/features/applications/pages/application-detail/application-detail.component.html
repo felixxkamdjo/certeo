@@ -1,6 +1,215 @@
-<div class="application-detail">
-  <div class="application-detail__header">
-    <h1 class="heading-3">Détails du candidat</h1>
-    <p class="text-muted">Fiche détaillée du profil candidat et historique de sélection.</p>
+@if (application(); as app) {
+  <div class="application-detail">
+
+    <!-- Back Button -->
+    <button class="back-btn" (click)="goBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Retour aux candidatures
+    </button>
+
+    <!-- Candidate Header Card -->
+    <div class="candidate-header">
+      <div class="candidate-header__left">
+        <div class="candidate-avatar">{{ getInitials() }}</div>
+        <div class="candidate-header__info">
+          <h1 class="candidate-name">{{ app.firstName }} {{ app.lastName }}</h1>
+          <p class="candidate-training">{{ app.trainingTitle }}</p>
+          <div class="candidate-header__meta">
+            <span class="status-badge status-badge--{{ getStatusType(app.status) }}">
+              <span class="material-symbols-outlined">schedule</span>
+              {{ getStatusLabel(app.status) }}
+            </span>
+            <span class="candidate-id">Candidature #APP-{{ app.id }}-2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="candidate-header__actions">
+        <button class="action-btn action-btn--outline" (click)="onSendEmail(app.id)">
+          <span class="material-symbols-outlined">mail</span>
+          E-mail
+        </button>
+        <button class="action-btn action-btn--outline" (click)="onEvaluate()">
+          <span class="material-symbols-outlined">edit_document</span>
+          Evaluer
+        </button>
+        <button class="action-btn action-btn--outline" (click)="onInterview()">
+          <span class="material-symbols-outlined">forum</span>
+          Entretien
+        </button>
+        <button class="action-btn action-btn--danger" (click)="onReject()">
+          <span class="material-symbols-outlined">cancel</span>
+          Refuser
+        </button>
+        <button class="action-btn action-btn--primary" (click)="onAccept()">
+          <span class="material-symbols-outlined">check_circle</span>
+          Selectionner
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="detail-grid">
+
+      <!-- Left Column -->
+      <div class="detail-col detail-col--left">
+
+        <!-- Contact Info -->
+        <div class="detail-card">
+          <h2 class="detail-card__title">Coordonnees</h2>
+          <ul class="info-list">
+            <li class="info-list__item">
+              <span class="material-symbols-outlined info-list__icon">mail</span>
+              <div>
+                <p class="info-list__label">Email</p>
+                <p class="info-list__value">{{ app.email }}</p>
+              </div>
+            </li>
+            <li class="info-list__item">
+              <span class="material-symbols-outlined info-list__icon">call</span>
+              <div>
+                <p class="info-list__label">Telephone</p>
+                <p class="info-list__value">{{ app.phone }}</p>
+              </div>
+            </li>
+            <li class="info-list__item">
+              <span class="material-symbols-outlined info-list__icon">location_on</span>
+              <div>
+                <p class="info-list__label">Residence</p>
+                <p class="info-list__value">{{ app.location }}</p>
+              </div>
+            </li>
+            <li class="info-list__item">
+              <span class="material-symbols-outlined info-list__icon">link</span>
+              <div>
+                <p class="info-list__label">Liens</p>
+                <div class="info-list__links">
+                  @if (app.linkedinUrl) {
+                    <a [href]="app.linkedinUrl" target="_blank" class="info-link">LinkedIn</a>
+                  }
+                  @if (app.githubUrl) {
+                    <span class="info-link-separator">•</span>
+                    <a [href]="app.githubUrl" target="_blank" class="info-link">GitHub</a>
+                  }
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Documents -->
+        <div class="detail-card">
+          <h2 class="detail-card__title">Documents</h2>
+          @if (app.cvFileName) {
+            <a class="document-item" href="#" target="_blank">
+              <span class="material-symbols-outlined document-item__icon">picture_as_pdf</span>
+              <div class="document-item__info">
+                <p class="document-item__name">{{ app.cvFileName }}</p>
+                <p class="document-item__date">Mis a jour le {{ app.cvDate | date: 'dd MMM yyyy' }}</p>
+              </div>
+              <span class="material-symbols-outlined document-item__action">download</span>
+            </a>
+          }
+        </div>
+
+        <!-- Additional Info -->
+        <div class="detail-card">
+          <h2 class="detail-card__title">Informations Complementaires</h2>
+          <ul class="info-list">
+            <li class="info-list__item">
+              <span class="material-symbols-outlined info-list__icon">work</span>
+              <div>
+                <p class="info-list__label">Profession actuelle</p>
+                <p class="info-list__value">{{ app.currentJob }}</p>
+              </div>
+            </li>
+            <li class="info-list__item">
+              <span class="material-symbols-outlined info-list__icon">laptop_mac</span>
+              <div>
+                <p class="info-list__label">Ordinateur personnel</p>
+                <p class="info-list__value">{{ app.hasLaptop ? 'Oui' : 'Non' }}</p>
+              </div>
+            </li>
+            <li class="info-list__item">
+              <span class="material-symbols-outlined info-list__icon">campaign</span>
+              <div>
+                <p class="info-list__label">Source de decouverte</p>
+                <p class="info-list__value">{{ app.discoverySource }}</p>
+              </div>
+            </li>
+            <li class="info-list__item">
+              <span class="material-symbols-outlined info-list__icon">event_available</span>
+              <div>
+                <p class="info-list__label">Disponibilite</p>
+                <p class="info-list__value">{{ app.availability }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Right Column -->
+      <div class="detail-col detail-col--right">
+
+        <!-- Motivation -->
+        <div class="detail-card">
+          <h2 class="detail-card__title">Lettre de Motivation</h2>
+          <div class="motivation-text">{{ app.motivation }}</div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="detail-card">
+          <h2 class="detail-card__title">Parcours</h2>
+          <div class="timeline">
+            @for (entry of app.timeline; track entry.title; let last = $last) {
+              <div class="timeline__item" [class.timeline__item--current]="entry.isCurrent">
+                <div class="timeline__dot"></div>
+                @if (!last) {
+                  <div class="timeline__line"></div>
+                }
+                <div class="timeline__content">
+                  <div class="timeline__header">
+                    <h3 class="timeline__title">{{ entry.title }}</h3>
+                    <span class="timeline__period">{{ entry.period }}</span>
+                  </div>
+                  <p class="timeline__org">{{ entry.organization }}</p>
+                  @if (entry.description) {
+                    <p class="timeline__desc">{{ entry.description }}</p>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
-</div>
+} @else if (isLoading()) {
+  <div class="loading-state">
+    <span class="material-symbols-outlined loading-spinner">progress_activity</span>
+    <p>Chargement de la fiche candidat...</p>
+  </div>
+}
+
+<!-- Toast Notification -->
+@if (successMessage()) {
+  <div class="toast-notification">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span>{{ successMessage() }}</span>
+  </div>
+}
+
+<!-- Confirm Status Change Dialog -->
+<app-confirm-dialog
+  [isOpen]="confirmDialog().isOpen"
+  [title]="confirmDialog().title"
+  [message]="confirmDialog().message"
+  [confirmText]="confirmDialog().confirmText"
+  [variant]="confirmDialog().variant"
+  [isLoading]="confirmDialog().isLoading"
+  (confirm)="handleDialogConfirm()"
+  (cancel)="handleDialogCancel()"
+></app-confirm-dialog>
+

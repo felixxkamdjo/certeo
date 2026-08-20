@@ -1,8 +1,522 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as *;
 
-.participant-profile {
+.profile-layout {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// --- Header ---
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-lg;
+  padding-bottom: $spacing-lg;
+  border-bottom: 1px solid $color-gray-200;
+  flex-wrap: wrap;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: transparent;
+  border: none;
+  color: $color-gray-600;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: color $transition-fast;
+  padding: $spacing-xs 0;
+
+  .material-symbols-outlined { font-size: 20px; }
+
+  &:hover { color: $color-primary; }
+}
+
+.profile-avatar {
+  @include flex-center;
+  width: 64px;
+  height: 64px;
+  border-radius: $radius-full;
+  border: 2px solid $color-primary;
+  background: $color-primary-bg;
+  color: $color-primary;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+}
+
+.profile-name {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-900;
+  margin: 0;
+}
+
+.profile-cohort {
+  font-size: $font-size-base;
+  color: $color-gray-600;
+  margin: 4px 0 0;
+}
+
+// --- Buttons ---
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 10px $spacing-lg;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  font-family: $font-family-base;
+  cursor: pointer;
+  transition: all $transition-fast;
+  height: 48px;
+
+  .material-symbols-outlined { font-size: 20px; }
+
+  &--ghost {
+    background: transparent;
+    border: 1px solid $color-gray-300;
+    color: $color-gray-600;
+    &:hover { background: $color-danger-light; border-color: $color-danger; color: $color-danger; }
+  }
+
+  &--outline {
+    background: transparent;
+    border: 1px solid $color-primary;
+    color: $color-primary;
+    &:hover { background: $color-primary-bg; }
+  }
+
+  &--primary {
+    background: $color-primary;
+    border: 1px solid $color-primary;
+    color: $color-white;
+    &:hover { background: $color-primary-dark; border-color: $color-primary-dark; }
+  }
+}
+
+// --- Bento Grid ---
+.bento-grid {
+  display: grid;
+  grid-template-columns: 4fr 8fr;
+  gap: $spacing-xl;
+
+  @include desktop {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bento-col {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.bento-subgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-xl;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bento-card {
+  background: $color-white;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+  padding: $spacing-lg;
+  position: relative;
+  overflow: hidden;
+
+  &--no-pad { padding: 0; }
+  &__header-pad {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-lg;
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  &--accent {
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: $color-primary;
+    }
+  }
+
   &__header {
-    margin-bottom: $spacing-xl;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+}
+
+.icon-link {
+  background: transparent;
+  border: none;
+  color: $color-primary;
+  cursor: pointer;
+  padding: 0;
+  &:hover { color: $color-primary-dark; }
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: $color-gray-600;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  padding: 0;
+  &:hover { color: $color-primary; }
+  .material-symbols-outlined { font-size: 18px; }
+}
+
+// --- Info List ---
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  margin-top: $spacing-lg;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+
+  &__icon {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-md;
+    background: $color-gray-100;
+    color: $color-primary;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin: 0 0 4px;
+  }
+
+  &__value {
+    font-size: $font-size-base;
+    color: $color-gray-900;
+    margin: 0;
+  }
+}
+
+// --- Attendance ---
+.attendance-widget {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+}
+
+.progress-circle {
+  @include flex-center;
+  flex-direction: column;
+  width: 96px;
+  height: 96px;
+  border-radius: $radius-full;
+  border: 8px solid $color-gray-200;
+  position: relative;
+  flex-shrink: 0;
+  gap: 2px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: $radius-full;
+    border: 8px solid $color-primary;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 50%, 50% 50%, 0 50%);
+    transform: rotate(45deg);
+  }
+
+  &--high::before { border-color: $color-success; }
+  &--low::before { border-color: $color-danger; }
+
+  &__value {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    z-index: 2;
+    line-height: 1;
+  }
+
+  &__label {
+    font-size: 9px;
+    color: $color-gray-500;
+    z-index: 2;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+}
+
+.attendance-stats {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  flex: 1;
+}
+
+.attendance-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: $spacing-xs;
+  border-bottom: 1px solid $color-gray-200;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &__label {
+    font-size: $font-size-base;
+    color: $color-gray-600;
+  }
+
+  &__value {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+
+    &--success { color: $color-success; }
+    &--error { color: $color-danger; }
+  }
+}
+
+// --- Training History ---
+.table-wrap {
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  thead tr {
+    background: $color-gray-50;
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  th {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    color: $color-gray-900;
+  }
+
+  td {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-base;
+    color: $color-gray-900;
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  tbody tr {
+    transition: background-color $transition-fast;
+    &:hover { background: $color-gray-50; }
+    &:last-child td { border-bottom: none; }
+  }
+}
+
+.text-muted { color: $color-gray-600; }
+.text-right { text-align: right; }
+
+.status-badge {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: $radius-full;
+  font-size: 12px;
+  font-weight: $font-weight-semibold;
+
+  &--completed {
+    background: $color-primary-bg;
+    color: $color-primary-dark;
+  }
+
+  &--progress {
+    background: $color-gray-200;
+    color: $color-gray-900;
+  }
+}
+
+// --- Skills ---
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  margin-top: $spacing-lg;
+}
+
+.skill-item {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__name {
+    font-size: $font-size-base;
+    color: $color-gray-900;
+  }
+
+  &__level {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+
+    &--muted {
+      color: $color-gray-600;
+    }
+  }
+}
+
+.skill-bar {
+  width: 100%;
+  height: 8px;
+  background: $color-gray-200;
+  border-radius: $radius-full;
+  overflow: hidden;
+
+  &__fill {
+    height: 100%;
+    background: $color-primary;
+    border-radius: $radius-full;
+
+    &--muted {
+      background: $color-gray-400;
+    }
+  }
+}
+
+// --- Certificates ---
+.cert-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-top: $spacing-lg;
+}
+
+.cert-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+  background: $color-white;
+  transition: border-color $transition-fast;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $color-primary;
+    .cert-item__action { color: $color-primary; }
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__icon {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-full;
+    background: $color-primary-bg;
+    color: $color-primary;
+  }
+
+  &__name {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  &__date {
+    font-size: $font-size-xs;
+    color: $color-gray-600;
+    margin: 2px 0 0;
+  }
+
+  &__action {
+    background: transparent;
+    border: none;
+    color: $color-gray-400;
+    cursor: pointer;
+    transition: color $transition-fast;
+    padding: 0;
+  }
+}
+
+.cert-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  border: 1px dashed $color-gray-300;
+  border-radius: $radius-lg;
+  color: $color-gray-600;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: $color-gray-50;
+    color: $color-primary;
+    border-color: $color-primary;
   }
 }

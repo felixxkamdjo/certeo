@@ -15,12 +15,13 @@
     cursor: pointer;
 
     &--active .stepper__circle {
-      background-color: $color-primary;
-      color: $color-white;
+      background-color: #ffefe5;
+      color: $color-primary;
+      border: 2px solid $color-primary;
     }
 
     &--completed .stepper__circle {
-      background-color: $color-success;
+      background-color: $color-primary;
       color: $color-white;
     }
   }
@@ -46,11 +47,6 @@
     color: $color-gray-900;
   }
 
-  &__desc {
-    font-size: $font-size-xs;
-    color: $color-gray-500;
-  }
-
   &__line {
     flex: 1;
     height: 2px;
@@ -58,7 +54,7 @@
     margin: 0 $spacing-md;
 
     &--completed {
-      background-color: $color-success;
+      background-color: $color-primary;
     }
   }
 }

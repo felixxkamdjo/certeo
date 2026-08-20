@@ -1,6 +1,217 @@
-<div class="participant-profile">
-  <div class="participant-profile__header">
-    <h1 class="heading-3">Profil Participant & Évaluations</h1>
-    <p class="text-muted">Fiche détaillée du parcours, présence et notes de l'apprenant ODC.</p>
+@if (profile(); as p) {
+  <div class="profile-layout">
+    
+    <!-- Bouton retour (ligne séparée) -->
+    <button class="back-btn" (click)="goBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Retour aux participants
+    </button>
+
+    <!-- Page Header -->
+    <div class="profile-header">
+      <div class="profile-header__left">
+        <div class="profile-header__user">
+          <div class="profile-avatar">
+            {{ p.firstName.charAt(0) }}{{ p.lastName.charAt(0) }}
+          </div>
+          <div>
+            <h1 class="profile-name">{{ p.firstName }} {{ p.lastName }}</h1>
+            <p class="profile-cohort">{{ p.cohort }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="profile-header__actions">
+        <button class="btn btn--ghost" (click)="openRemoveDialog()">
+          <span class="material-symbols-outlined">person_remove</span>
+          Retirer
+        </button>
+        <button class="btn btn--outline" (click)="onEvaluate()">
+          <span class="material-symbols-outlined">assignment</span>
+          Evaluer
+        </button>
+        <button class="btn btn--primary" (click)="onContact()">
+          <span class="material-symbols-outlined">mail</span>
+          Contacter
+        </button>
+      </div>
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="bento-grid">
+      
+      <!-- Left Column -->
+      <div class="bento-col bento-col--left">
+        
+        <!-- Informations Personnelles -->
+        <div class="bento-card bento-card--accent">
+          <h3 class="bento-card__title">Informations personnelles</h3>
+          <div class="info-list">
+            <div class="info-item">
+              <div class="info-item__icon"><span class="material-symbols-outlined">mail</span></div>
+              <div>
+                <p class="info-item__label">Adresse e-mail</p>
+                <p class="info-item__value">{{ p.email }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-item__icon"><span class="material-symbols-outlined">call</span></div>
+              <div>
+                <p class="info-item__label">Téléphone</p>
+                <p class="info-item__value">{{ p.phone }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-item__icon"><span class="material-symbols-outlined">location_on</span></div>
+              <div>
+                <p class="info-item__label">Localisation</p>
+                <p class="info-item__value">{{ p.location }}</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-item__icon"><span class="material-symbols-outlined">work</span></div>
+              <div>
+                <p class="info-item__label">Profession / Statut</p>
+                <p class="info-item__value">{{ p.profession }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assiduité & Présences -->
+        <div class="bento-card">
+          <div class="bento-card__header">
+            <h3 class="bento-card__title">Assiduité & Présences</h3>
+            <button class="icon-link" title="Voir le détail">
+              <span class="material-symbols-outlined">open_in_new</span>
+            </button>
+          </div>
+          <div class="attendance-widget">
+            <div class="progress-circle" [class.progress-circle--high]="p.attendance.percentage >= 80" [class.progress-circle--low]="p.attendance.percentage < 60">
+              <span class="progress-circle__value">{{ p.attendance.percentage }}%</span>
+              <span class="progress-circle__label">Taux de présence</span>
+            </div>
+            <div class="attendance-stats">
+              <div class="attendance-stat">
+                <span class="attendance-stat__label">Séances totales</span>
+                <span class="attendance-stat__value">{{ p.attendance.total }}</span>
+              </div>
+              <div class="attendance-stat">
+                <span class="attendance-stat__label">Présences</span>
+                <span class="attendance-stat__value attendance-stat__value--success">{{ p.attendance.attended }}</span>
+              </div>
+              <div class="attendance-stat">
+                <span class="attendance-stat__label">Absences</span>
+                <span class="attendance-stat__value attendance-stat__value--error">{{ p.attendance.missed }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column -->
+      <div class="bento-col bento-col--right">
+        
+        <!-- Historique des formations -->
+        <div class="bento-card bento-card--no-pad">
+          <div class="bento-card__header-pad">
+            <h3 class="bento-card__title">Historique des formations</h3>
+            <button class="btn-link">Tout voir <span class="material-symbols-outlined">arrow_forward</span></button>
+          </div>
+          <div class="table-wrap">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Formation</th>
+                  <th>Période</th>
+                  <th>Statut</th>
+                  <th class="text-right">Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (t of p.trainings; track t.name) {
+                  <tr>
+                    <td>{{ t.name }}</td>
+                    <td class="text-muted">{{ t.dates }}</td>
+                    <td>
+                      @if (t.status === 'COMPLETED') {
+                        <span class="status-badge status-badge--completed">Terminée</span>
+                      } @else {
+                        <span class="status-badge status-badge--progress">En cours</span>
+                      }
+                    </td>
+                    <td class="text-right">{{ t.grade }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Two Columns Container -->
+        <div class="bento-subgrid">
+          
+          <!-- Evaluation des compétences -->
+          <div class="bento-card">
+            <h3 class="bento-card__title">Evaluation des compétences</h3>
+            <div class="skills-list">
+              @for (s of p.skills; track s.name) {
+                <div class="skill-item">
+                  <div class="skill-item__header">
+                    <span class="skill-item__name">{{ s.name }}</span>
+                    <span class="skill-item__level" [class.skill-item__level--muted]="s.percentage < 70">{{ s.level }}</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar__fill" [style.width.%]="s.percentage" [class.skill-bar__fill--muted]="s.percentage < 70"></div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Certificats -->
+          <div class="bento-card">
+            <h3 class="bento-card__title">Certificats obtenus</h3>
+            <div class="cert-list">
+              @for (c of p.certificates; track c.name) {
+                <div class="cert-item">
+                  <div class="cert-item__left">
+                    <div class="cert-item__icon">
+                      <span class="material-symbols-outlined">workspace_premium</span>
+                    </div>
+                    <div>
+                      <p class="cert-item__name">{{ c.name }}</p>
+                      <p class="cert-item__date">Délivré le {{ c.date }}</p>
+                    </div>
+                  </div>
+                  <button class="cert-item__action" title="Télécharger">
+                    <span class="material-symbols-outlined">download</span>
+                  </button>
+                </div>
+              }
+              <div class="cert-upload">
+                <span class="material-symbols-outlined">add</span>
+                Ajouter un certificat
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
+}
+
+<!-- Modale de confirmation de retrait -->
+<app-confirm-dialog
+  [isOpen]="isConfirmOpen()"
+  title="Retirer le participant"
+  [message]="profile() ? 'Voulez-vous retirer ' + profile()?.firstName + ' ' + profile()?.lastName + ' de la liste des participants ? Cette action peut être annulée depuis le module Candidatures.' : ''"
+  confirmText="Confirmer le retrait"
+  variant="danger"
+  icon="person_remove"
+  [isLoading]="isConfirmLoading()"
+  (confirm)="onRemoveConfirm()"
+  (cancel)="onRemoveCancel()"
+></app-confirm-dialog>

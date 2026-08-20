@@ -6,6 +6,9 @@ export * from './components/status-badge/status-badge';
 export * from './components/confirm-dialog/confirm-dialog';
 export * from './components/stepper/stepper';
 export * from './components/empty-state/empty-state';
+export * from './components/pagination/pagination';
+export * from './components/kpi-card/kpi-card';
+export * from './components/action-bar/action-bar';
 
 // Pipes
 export * from './pipes/date-fr.pipe';

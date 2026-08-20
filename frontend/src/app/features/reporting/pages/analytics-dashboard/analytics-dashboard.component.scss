@@ -2,7 +2,500 @@
 @use 'styles/mixins' as *;
 
 .analytics-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  /* Making it full width across admin area per previous requests */
+}
+
+// --- Page Header ---
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+}
+
+.page-title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-900;
+  margin: 0;
+}
+
+.page-subtitle {
+  font-size: $font-size-base;
+  color: $color-gray-600;
+  margin: $spacing-xs 0 0;
+}
+
+// --- Forms & Buttons (Copied from other lists) ---
+.select-wrap {
+  position: relative;
+  width: 200px;
+
+  &__chevron {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-gray-500;
+    pointer-events: none;
+    font-size: 20px;
+  }
+}
+
+.select-field {
+  appearance: none;
+  width: 100%;
+  padding: 10px 40px 10px 16px;
+  background: $color-gray-100;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-family: $font-family-base;
+  color: $color-gray-900;
+  cursor: pointer;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    background: $color-white;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: 10px $spacing-lg;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  font-family: $font-family-base;
+  cursor: pointer;
+  transition: all $transition-fast;
+  border: none;
+
+  .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  &--primary {
+    background: $color-primary;
+    color: $color-white;
+
+    &:hover {
+      background: $color-primary-dark;
+      box-shadow: 0 4px 12px rgba($color-primary, 0.2);
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    border: 1px solid $color-gray-300;
+    color: $color-gray-900;
+
+    &:hover {
+      background: $color-gray-100;
+    }
+  }
+}
+
+// --- KPI Grid ---
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include tablet-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include desktop {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// --- Charts Row ---
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include desktop {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.chart-card {
+  background: $color-white;
+  border-radius: $radius-xl;
+  padding: $spacing-xl;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0 0 $spacing-xl;
+  }
+}
+
+// --- Bar Chart CSS Implementation ---
+.bar-chart {
+  height: 256px;
+  position: relative;
+  width: 100%;
+  display: block; // Changed from flex
+
+  &__y-axis {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 12px;
+    color: $color-gray-600;
+    font-weight: $font-weight-medium;
+  }
+
+  &__grid {
+    position: absolute;
+    left: 40px;
+    right: 0;
+    top: 0;
+    bottom: 32px;
+    border-left: 1px solid $color-gray-300;
+    border-bottom: 1px solid $color-gray-300;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .grid-line {
+      width: 100%;
+      height: 0;
+      border-top: 1px solid rgba($color-gray-400, 0.3);
+    }
+  }
+
+  &__bars {
+    position: absolute;
+    left: 40px;
+    right: 0;
+    top: 0;
+    bottom: 32px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+  }
+}
+
+.bar-group {
+  width: 16.66%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+
+  &:hover .bar-tooltip {
+    opacity: 1;
+  }
+
+  &:hover .bar--dim {
+    background: $color-primary;
+  }
+  
+  &:hover .bar--active {
+    background: $color-primary;
+  }
+}
+
+.bar {
+  width: 48px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  position: relative;
+  transition: background $transition-fast;
+
+  &--dim {
+    background: #ffb68c; // primary-fixed-dim
+  }
+
+  &--active {
+    background: $color-primary;
+  }
+}
+
+.bar-label {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: $font-weight-medium;
+  color: $color-gray-600;
+  white-space: nowrap;
+
+  &--active {
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+  }
+}
+
+.bar-tooltip {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #303031;
+  color: $color-white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity $transition-fast;
+  pointer-events: none;
+}
+
+// --- Donut Chart CSS Implementation ---
+.donut-chart-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-chart {
+  position: relative;
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+  border: 16px solid #f5f3f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Conic gradient mimicking the mockup data
+  background: conic-gradient(#ff7900 0% 55%, #147a50 55% 85%, #c6c6c6 85% 100%);
+
+  &__inner {
+    position: absolute;
+    inset: 12px;
+    background: $color-white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__total-value {
+    font-size: 32px;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    line-height: 1;
+  }
+
+  &__total-label {
+    font-size: 14px;
+    color: $color-gray-600;
+  }
+}
+
+.donut-legend {
+  width: 100%;
+  margin-top: $spacing-2xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: 16px;
+    color: $color-gray-900;
+  }
+
+  &__value {
+    font-size: 14px;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+
+  &--primary { background: $color-primary; }
+  &--success { background: #147a50; }
+  &--neutral { background: #c6c6c6; }
+}
+
+// --- Data Table Custom Cells ---
+.table-card {
+  background: $color-white;
+  border-radius: $radius-xl;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+
   &__header {
-    margin-bottom: $spacing-xl;
+    padding: $spacing-xl;
+    border-bottom: 1px solid $color-gray-200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    margin: 0;
+  }
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: $color-primary;
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-primary;
+  }
+
+  .material-symbols-outlined {
+    font-size: 18px;
+  }
+}
+
+.training-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  .training-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-md;
+    @include flex-center;
+    
+    .material-symbols-outlined {
+      font-size: 18px;
+    }
+  }
+}
+
+.score-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  .star-icon {
+    font-size: 18px;
+    color: $color-primary;
+    font-variation-settings: 'FILL' 1;
+  }
+}
+
+.completion-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  .progress-bar {
+    flex: 1;
+    height: 8px;
+    background: $color-gray-200;
+    border-radius: $radius-full;
+    overflow: hidden;
+
+    &__fill {
+      height: 100%;
+      border-radius: $radius-full;
+    }
+  }
+
+  .completion-value {
+    font-size: 14px;
+    font-weight: $font-weight-bold;
+    min-width: 32px;
+  }
+}
+
+// --- Table Styles ---
+.table-wrap {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  thead tr {
+    background: $color-gray-50;
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  th {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: $color-primary;
+    white-space: nowrap;
+  }
+
+  &__row {
+    border-bottom: 1px solid $color-gray-100;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $color-gray-50;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    td {
+      padding: $spacing-md $spacing-lg;
+      font-size: $font-size-base;
+      color: $color-gray-900;
+      vertical-align: middle;
+    }
   }
 }

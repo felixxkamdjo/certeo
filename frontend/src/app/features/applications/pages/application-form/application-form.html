@@ -1,0 +1,616 @@
+<div class="application-wizard">
+
+  @if (!isSubmitted()) {
+    <!-- Wizard Card -->
+    <div class="wizard-card">
+      
+      <!-- Wizard Header -->
+      <header class="wizard-header">
+        <div class="wizard-header__info">
+          <span class="wizard-header__tag">Candidature à la formation</span>
+          <h1 class="wizard-header__title">{{ selectedTrainingTitle() }}</h1>
+          <p class="wizard-header__subtitle">Remplissez attentivement les 4 étapes pour soumettre votre dossier.</p>
+        </div>
+
+        <!-- Stepper Progress -->
+        <div class="stepper-wrap">
+          <div class="stepper-nav">
+            @for (step of steps; track step.number) {
+              <button 
+                type="button"
+                class="stepper-nav__item"
+                [class.stepper-nav__item--active]="currentStep() === step.number"
+                [class.stepper-nav__item--completed]="currentStep() > step.number"
+                (click)="goToStep(step.number)"
+              >
+                <div class="stepper-nav__circle">
+                  @if (currentStep() > step.number) {
+                    <span class="material-symbols-outlined check-icon">check</span>
+                  } @else {
+                    <span>{{ step.number }}</span>
+                  }
+                </div>
+                <div class="stepper-nav__text">
+                  <span class="stepper-nav__step-num">Étape {{ step.number }}</span>
+                  <span class="stepper-nav__step-title">{{ step.title }}</span>
+                </div>
+              </button>
+            }
+          </div>
+
+          <!-- Progress Bar Mobile / Tablet -->
+          <div class="progress-bar-wrap">
+            <div class="progress-bar">
+              <div class="progress-bar__fill" [style.width.%]="progressPercentage()"></div>
+            </div>
+            <span class="progress-bar__label">Étape {{ currentStep() }} sur {{ steps.length }} ({{ progressPercentage() | number:'1.0-0' }}%)</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Step Content Area -->
+      <div class="wizard-body">
+
+        <!-- ================= ÉTAPE 1 : INFORMATIONS PERSONNELLES ================= -->
+        @if (currentStep() === 1) {
+          <form [formGroup]="step1Form" class="step-form">
+            <div class="step-form__header">
+              <div class="step-form__icon">
+                <span class="material-symbols-outlined">person</span>
+              </div>
+              <div>
+                <h2 class="step-form__title">Informations Personnelles</h2>
+                <p class="step-form__subtitle">Renseignez vos coordonnées de contact pour qu'Orange Digital Center puisse vous joindre.</p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <!-- Prénom -->
+              <div class="form-group">
+                <label class="form-label" for="firstName">Prénom <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">badge</span>
+                  <input
+                    id="firstName"
+                    type="text"
+                    class="form-control"
+                    formControlName="firstName"
+                    placeholder="Ex: Amira"
+                    [class.form-control--error]="hasError(step1Form, 'firstName', 'required') || hasError(step1Form, 'firstName', 'minlength')"
+                  />
+                </div>
+                @if (hasError(step1Form, 'firstName', 'required')) {
+                  <span class="error-msg">Le prénom est requis.</span>
+                }
+              </div>
+
+              <!-- Nom -->
+              <div class="form-group">
+                <label class="form-label" for="lastName">Nom de famille <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">person</span>
+                  <input
+                    id="lastName"
+                    type="text"
+                    class="form-control"
+                    formControlName="lastName"
+                    placeholder="Ex: Diallo"
+                    [class.form-control--error]="hasError(step1Form, 'lastName', 'required') || hasError(step1Form, 'lastName', 'minlength')"
+                  />
+                </div>
+                @if (hasError(step1Form, 'lastName', 'required')) {
+                  <span class="error-msg">Le nom de famille est requis.</span>
+                }
+              </div>
+
+              <!-- Email -->
+              <div class="form-group">
+                <label class="form-label" for="email">Adresse Email <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">mail</span>
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-control"
+                    formControlName="email"
+                    placeholder="amira.diallo@example.com"
+                    [class.form-control--error]="hasError(step1Form, 'email', 'required') || hasError(step1Form, 'email', 'email')"
+                  />
+                </div>
+                @if (hasError(step1Form, 'email', 'required')) {
+                  <span class="error-msg">L'adresse email est requise.</span>
+                } @else if (hasError(step1Form, 'email', 'email')) {
+                  <span class="error-msg">Format d'email invalide.</span>
+                }
+              </div>
+
+              <!-- Téléphone -->
+              <div class="form-group">
+                <label class="form-label" for="phone">Numéro de Téléphone (WhatsApp) <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">call</span>
+                  <input
+                    id="phone"
+                    type="tel"
+                    class="form-control"
+                    formControlName="phone"
+                    placeholder="+221 77 123 45 67"
+                    [class.form-control--error]="hasError(step1Form, 'phone', 'required') || hasError(step1Form, 'phone', 'pattern')"
+                  />
+                </div>
+                @if (hasError(step1Form, 'phone', 'required')) {
+                  <span class="error-msg">Le téléphone est requis.</span>
+                }
+              </div>
+
+              <!-- Ville -->
+              <div class="form-group">
+                <label class="form-label" for="city">Ville de résidence <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">location_on</span>
+                  <input
+                    id="city"
+                    type="text"
+                    class="form-control"
+                    formControlName="city"
+                    placeholder="Ex: Dakar, Abidjan, Douala, Tunis..."
+                    [class.form-control--error]="hasError(step1Form, 'city', 'required')"
+                  />
+                </div>
+                @if (hasError(step1Form, 'city', 'required')) {
+                  <span class="error-msg">La ville est requise.</span>
+                }
+              </div>
+
+              <!-- Genre -->
+              <div class="form-group">
+                <label class="form-label" for="gender">Genre <span class="required">*</span></label>
+                <div class="select-wrap">
+                  <select
+                    id="gender"
+                    class="form-control form-control--select"
+                    formControlName="gender"
+                    [class.form-control--error]="hasError(step1Form, 'gender', 'required')"
+                  >
+                    <option value="" disabled selected>Sélectionner votre genre</option>
+                    <option value="FEMME">Femme</option>
+                    <option value="HOMME">Homme</option>
+                    <option value="AUTRE">Autre / Ne souhaite pas préciser</option>
+                  </select>
+                  <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+                </div>
+                @if (hasError(step1Form, 'gender', 'required')) {
+                  <span class="error-msg">Veuillez sélectionner un genre.</span>
+                }
+              </div>
+
+              <!-- Tranche d'âge -->
+              <div class="form-group form-group--full">
+                <label class="form-label" for="ageGroup">Tranche d'âge <span class="required">*</span></label>
+                <div class="select-wrap">
+                  <select
+                    id="ageGroup"
+                    class="form-control form-control--select"
+                    formControlName="ageGroup"
+                    [class.form-control--error]="hasError(step1Form, 'ageGroup', 'required')"
+                  >
+                    <option value="" disabled selected>Sélectionner votre tranche d'âge</option>
+                    <option value="18-24">18 - 24 ans</option>
+                    <option value="25-29">25 - 29 ans</option>
+                    <option value="30-35">30 - 35 ans</option>
+                    <option value="35+">35 ans et plus</option>
+                  </select>
+                  <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+                </div>
+                @if (hasError(step1Form, 'ageGroup', 'required')) {
+                  <span class="error-msg">Veuillez préciser votre tranche d'âge.</span>
+                }
+              </div>
+            </div>
+          </form>
+        }
+
+        <!-- ================= ÉTAPE 2 : PARCOURS ACADÉMIQUE ================= -->
+        @if (currentStep() === 2) {
+          <form [formGroup]="step2Form" class="step-form">
+            <div class="step-form__header">
+              <div class="step-form__icon">
+                <span class="material-symbols-outlined">school</span>
+              </div>
+              <div>
+                <h2 class="step-form__title">Parcours Académique</h2>
+                <p class="step-form__subtitle">Précisez votre plus haut niveau d'études ou diplôme obtenu.</p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <!-- Niveau d'études -->
+              <div class="form-group">
+                <label class="form-label" for="educationLevel">Niveau d'études le plus élevé <span class="required">*</span></label>
+                <div class="select-wrap">
+                  <select
+                    id="educationLevel"
+                    class="form-control form-control--select"
+                    formControlName="educationLevel"
+                    [class.form-control--error]="hasError(step2Form, 'educationLevel', 'required')"
+                  >
+                    <option value="" disabled selected>Sélectionner le niveau</option>
+                    <option value="Baccalauréat">Baccalauréat</option>
+                    <option value="Bac+2 (BTS, DUT, DEUG)">Bac+2 (BTS, DUT, DEUG)</option>
+                    <option value="Bac+3 (Licence, Bachelor)">Bac+3 (Licence, Bachelor)</option>
+                    <option value="Bac+5 (Master, Ingénieur)">Bac+5 (Master, Ingénieur)</option>
+                    <option value="Doctorat">Doctorat</option>
+                    <option value="Autodidacte / Autre">Autodidacte / Autre</option>
+                  </select>
+                  <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+                </div>
+                @if (hasError(step2Form, 'educationLevel', 'required')) {
+                  <span class="error-msg">Le niveau d'études est requis.</span>
+                }
+              </div>
+
+              <!-- Spécialité / Filière -->
+              <div class="form-group">
+                <label class="form-label" for="fieldOfStudy">Filière / Spécialité <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">menu_book</span>
+                  <input
+                    id="fieldOfStudy"
+                    type="text"
+                    class="form-control"
+                    formControlName="fieldOfStudy"
+                    placeholder="Ex: Informatique, Gestion, Design, Mathématiques..."
+                    [class.form-control--error]="hasError(step2Form, 'fieldOfStudy', 'required')"
+                  />
+                </div>
+                @if (hasError(step2Form, 'fieldOfStudy', 'required')) {
+                  <span class="error-msg">La filière d'études est requise.</span>
+                }
+              </div>
+
+              <!-- Établissement -->
+              <div class="form-group">
+                <label class="form-label" for="institution">Établissement / Université <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">apartment</span>
+                  <input
+                    id="institution"
+                    type="text"
+                    class="form-control"
+                    formControlName="institution"
+                    placeholder="Ex: Université Cheikh Anta Diop, ESP, ESGIS..."
+                    [class.form-control--error]="hasError(step2Form, 'institution', 'required')"
+                  />
+                </div>
+                @if (hasError(step2Form, 'institution', 'required')) {
+                  <span class="error-msg">L'établissement est requis.</span>
+                }
+              </div>
+
+              <!-- Année d'obtention -->
+              <div class="form-group">
+                <label class="form-label" for="graduationYear">Année d'obtention (ou en cours) <span class="required">*</span></label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">calendar_today</span>
+                  <input
+                    id="graduationYear"
+                    type="number"
+                    class="form-control"
+                    formControlName="graduationYear"
+                    placeholder="Ex: 2023"
+                    min="1990"
+                    max="2030"
+                    [class.form-control--error]="hasError(step2Form, 'graduationYear', 'required')"
+                  />
+                </div>
+                @if (hasError(step2Form, 'graduationYear', 'required')) {
+                  <span class="error-msg">L'année d'obtention est requise.</span>
+                }
+              </div>
+            </div>
+          </form>
+        }
+
+        <!-- ================= ÉTAPE 3 : EXPÉRIENCE & COMPÉTENCES ================= -->
+        @if (currentStep() === 3) {
+          <form [formGroup]="step3Form" class="step-form">
+            <div class="step-form__header">
+              <div class="step-form__icon">
+                <span class="material-symbols-outlined">work</span>
+              </div>
+              <div>
+                <h2 class="step-form__title">Expérience & Compétences</h2>
+                <p class="step-form__subtitle">Aidez-nous à mieux comprendre votre profil technique et vos réalisations.</p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <!-- Situation actuelle -->
+              <div class="form-group">
+                <label class="form-label" for="currentStatus">Situation actuelle <span class="required">*</span></label>
+                <div class="select-wrap">
+                  <select
+                    id="currentStatus"
+                    class="form-control form-control--select"
+                    formControlName="currentStatus"
+                    [class.form-control--error]="hasError(step3Form, 'currentStatus', 'required')"
+                  >
+                    <option value="" disabled selected>Sélectionner votre situation</option>
+                    <option value="Étudiant(e)">Étudiant(e)</option>
+                    <option value="En recherche d'emploi">En recherche d'emploi</option>
+                    <option value="En poste / Freelance">En poste / Freelance</option>
+                    <option value="En reconversion professionnelle">En reconversion professionnelle</option>
+                    <option value="Porteur de projet / Entrepreneur">Porteur de projet / Entrepreneur</option>
+                  </select>
+                  <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+                </div>
+                @if (hasError(step3Form, 'currentStatus', 'required')) {
+                  <span class="error-msg">Veuillez sélectionner votre situation.</span>
+                }
+              </div>
+
+              <!-- Niveau technique dans le domaine -->
+              <div class="form-group">
+                <label class="form-label" for="techLevel">Niveau de familiarité avec le domaine <span class="required">*</span></label>
+                <div class="select-wrap">
+                  <select
+                    id="techLevel"
+                    class="form-control form-control--select"
+                    formControlName="techLevel"
+                    [class.form-control--error]="hasError(step3Form, 'techLevel', 'required')"
+                  >
+                    <option value="" disabled selected>Évaluez votre niveau</option>
+                    <option value="Débutant (Curieux sans pratique approfondie)">Débutant (Curieux sans pratique approfondie)</option>
+                    <option value="Intermédiaire (Quelques projets personnels ou académiques)">Intermédiaire (Quelques projets personnels ou académiques)</option>
+                    <option value="Avancé (Pratique régulière, stages ou expériences)">Avancé (Pratique régulière, stages ou expériences)</option>
+                  </select>
+                  <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+                </div>
+                @if (hasError(step3Form, 'techLevel', 'required')) {
+                  <span class="error-msg">Veuillez évaluer votre niveau.</span>
+                }
+              </div>
+
+              <!-- GitHub / GitLab -->
+              <div class="form-group">
+                <label class="form-label" for="githubUrl">Lien GitHub / GitLab (Optionnel)</label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">code</span>
+                  <input
+                    id="githubUrl"
+                    type="url"
+                    class="form-control"
+                    formControlName="githubUrl"
+                    placeholder="https://github.com/monprofil"
+                  />
+                </div>
+              </div>
+
+              <!-- Portfolio / LinkedIn -->
+              <div class="form-group">
+                <label class="form-label" for="portfolioUrl">Lien Portfolio / LinkedIn (Optionnel)</label>
+                <div class="input-wrap">
+                  <span class="material-symbols-outlined input-wrap__icon">link</span>
+                  <input
+                    id="portfolioUrl"
+                    type="url"
+                    class="form-control"
+                    formControlName="portfolioUrl"
+                    placeholder="https://linkedin.com/in/monprofil"
+                  />
+                </div>
+              </div>
+
+              <!-- Dépôt de CV -->
+              <div class="form-group form-group--full">
+                <label class="form-label">Curriculum Vitae (CV)</label>
+                
+                @if (!selectedFileName()) {
+                  <label class="file-dropzone" for="cvUpload">
+                    <span class="material-symbols-outlined file-dropzone__icon">cloud_upload</span>
+                    <span class="file-dropzone__title">Cliquez pour importer votre CV ou glissez-déposez</span>
+                    <span class="file-dropzone__desc">Formats acceptés : PDF, DOCX (Max: 5 Mo)</span>
+                    <input id="cvUpload" type="file" class="file-dropzone__input" accept=".pdf,.doc,.docx" (change)="onFileSelected($event)" />
+                  </label>
+                } @else {
+                  <div class="file-preview">
+                    <div class="file-preview__info">
+                      <span class="material-symbols-outlined file-preview__icon">description</span>
+                      <span class="file-preview__name">{{ selectedFileName() }}</span>
+                    </div>
+                    <button type="button" class="file-preview__remove" (click)="removeFile()" title="Supprimer le fichier">
+                      <span class="material-symbols-outlined">close</span>
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          </form>
+        }
+
+        <!-- ================= ÉTAPE 4 : MOTIVATION & DISPONIBILITÉ ================= -->
+        @if (currentStep() === 4) {
+          <form [formGroup]="step4Form" class="step-form">
+            <div class="step-form__header">
+              <div class="step-form__icon">
+                <span class="material-symbols-outlined">favorite</span>
+              </div>
+              <div>
+                <h2 class="step-form__title">Motivation & Disponibilité</h2>
+                <p class="step-form__subtitle">Expliquez-nous vos objectifs et votre engagement pour cette formation.</p>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <!-- Lettre de motivation / texte -->
+              <div class="form-group form-group--full">
+                <label class="form-label" for="motivation">
+                  Pourquoi souhaitez-vous intégrer cette formation ? <span class="required">*</span>
+                </label>
+                <textarea
+                  id="motivation"
+                  rows="4"
+                  class="form-control form-control--textarea"
+                  formControlName="motivation"
+                  placeholder="Décrivez vos motivations, ce que vous attendez de la formation et vos projets futurs... (minimum 50 caractères)"
+                  [class.form-control--error]="hasError(step4Form, 'motivation', 'required') || hasError(step4Form, 'motivation', 'minlength')"
+                ></textarea>
+                <div class="char-count">
+                  @if (hasError(step4Form, 'motivation', 'minlength')) {
+                    <span class="error-msg">Veuillez écrire au moins 50 caractères.</span>
+                  }
+                  <span class="char-count__value">{{ step4Form.get('motivation')?.value?.length || 0 }} caractères</span>
+                </div>
+              </div>
+
+              <!-- Disponibilité -->
+              <div class="form-group">
+                <label class="form-label" for="availability">Vos disponibilités <span class="required">*</span></label>
+                <div class="select-wrap">
+                  <select
+                    id="availability"
+                    class="form-control form-control--select"
+                    formControlName="availability"
+                    [class.form-control--error]="hasError(step4Form, 'availability', 'required')"
+                  >
+                    <option value="" disabled selected>Sélectionner votre disponibilité</option>
+                    <option value="Plein temps (Présentiel à 100%)">Plein temps (Présentiel à 100%)</option>
+                    <option value="Temps partiel / Hybride">Temps partiel / Hybride</option>
+                    <option value="Soir et week-end">Soir et week-end</option>
+                  </select>
+                  <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+                </div>
+                @if (hasError(step4Form, 'availability', 'required')) {
+                  <span class="error-msg">La disponibilité est requise.</span>
+                }
+              </div>
+
+              <!-- Comment avez-vous connu ODC ? -->
+              <div class="form-group">
+                <label class="form-label" for="referralSource">Comment avez-vous connu Orange Digital Center ? <span class="required">*</span></label>
+                <div class="select-wrap">
+                  <select
+                    id="referralSource"
+                    class="form-control form-control--select"
+                    formControlName="referralSource"
+                    [class.form-control--error]="hasError(step4Form, 'referralSource', 'required')"
+                  >
+                    <option value="" disabled selected>Sélectionner une source</option>
+                    <option value="Réseaux sociaux (LinkedIn, Facebook, Instagram)">Réseaux sociaux (LinkedIn, Facebook, Instagram)</option>
+                    <option value="Bouche à oreille / Amis / Collègues">Bouche à oreille / Amis / Collègues</option>
+                    <option value="Événement / Hackathon / Salon">Événement / Hackathon / Salon</option>
+                    <option value="Site Web Orange / ODC">Site Web Orange / ODC</option>
+                    <option value="Autre">Autre</option>
+                  </select>
+                  <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+                </div>
+                @if (hasError(step4Form, 'referralSource', 'required')) {
+                  <span class="error-msg">Ce champ est requis.</span>
+                }
+              </div>
+
+              <!-- Consentement & Engagement -->
+              <div class="form-group form-group--full">
+                <label class="checkbox-label" for="termsAccepted">
+                  <input
+                    id="termsAccepted"
+                    type="checkbox"
+                    class="checkbox-input"
+                    formControlName="termsAccepted"
+                  />
+                  <span class="checkbox-text">
+                    Je certifie sur l'honneur l'exactitude des renseignements fournis et j'accepte d'être contacté(e) par les équipes d'Orange Digital Center dans le cadre de ce processus de sélection.
+                  </span>
+                </label>
+                @if (hasError(step4Form, 'termsAccepted', 'required')) {
+                  <span class="error-msg">Vous devez accepter la déclaration pour postuler.</span>
+                }
+              </div>
+            </div>
+          </form>
+        }
+
+      </div>
+
+      <!-- Wizard Actions Footer -->
+      <footer class="wizard-footer">
+        <div>
+          @if (currentStep() > 1) {
+            <button type="button" class="btn btn--outline" (click)="prevStep()">
+              <span class="material-symbols-outlined">arrow_back</span>
+              Précédent
+            </button>
+          }
+        </div>
+
+        <div class="wizard-footer__right">
+          @if (currentStep() < steps.length) {
+            <button type="button" class="btn btn--primary" (click)="nextStep()">
+              Continuer
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          } @else {
+            <button 
+              type="button" 
+              class="btn btn--primary btn--submit" 
+              [disabled]="isSubmitting() || step4Form.invalid"
+              (click)="onSubmit()"
+            >
+              @if (isSubmitting()) {
+                <span class="spinner"></span>
+                Envoi en cours...
+              } @else {
+                <span class="material-symbols-outlined">send</span>
+                Soumettre ma candidature
+              }
+            </button>
+          }
+        </div>
+      </footer>
+
+    </div>
+  } @else {
+    <!-- ================= ÉCRAN DE SUCCÈS ================= -->
+    <div class="success-card">
+      <div class="success-card__icon-wrap">
+        <span class="material-symbols-outlined success-card__icon">task_alt</span>
+      </div>
+
+      <h1 class="success-card__title">Candidature envoyée avec succès !</h1>
+      <p class="success-card__desc">
+        Votre dossier pour la formation <strong>{{ selectedTrainingTitle() }}</strong> a bien été enregistré par l'équipe d'Orange Digital Center.
+      </p>
+
+      <div class="application-badge">
+        <span class="application-badge__label">Numéro de dossier</span>
+        <strong class="application-badge__code">{{ applicationId() }}</strong>
+      </div>
+
+      <div class="next-steps-box">
+        <h2 class="next-steps-box__title">Prochaines étapes :</h2>
+        <ul class="next-steps-box__list">
+          <li>
+            <span class="material-symbols-outlined">mark_email_read</span>
+            <span>Un e-mail de confirmation vient de vous être envoyé.</span>
+          </li>
+          <li>
+            <span class="material-symbols-outlined">visibility</span>
+            <span>Notre comité pédagogique examinera votre dossier sous 5 à 7 jours ouvrés.</span>
+          </li>
+          <li>
+            <span class="material-symbols-outlined">contact_phone</span>
+            <span>Si votre profil est pré-sélectionné, vous serez convié(e) à un entretien ou test technique.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="success-card__actions">
+        <button type="button" class="btn btn--primary" (click)="restartApplication()">
+          <span class="material-symbols-outlined">add_circle</span>
+          Déposer une autre candidature
+        </button>
+      </div>
+    </div>
+  }
+
+</div>

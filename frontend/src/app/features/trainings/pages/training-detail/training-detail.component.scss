@@ -1,8 +1,442 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as *;
 
-.training-detail {
-  &__header {
-    margin-bottom: $spacing-xl;
+.detail-page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// Breadcrumb
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+
+  &__link {
+    color: $color-gray-600;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  &__sep {
+    font-size: 16px;
+    color: $color-gray-400;
+  }
+
+  &__active {
+    font-weight: 600;
+    color: $color-gray-900;
   }
 }
+
+// Header Title Card
+.header-card {
+  @include flex-between;
+  padding: $spacing-xl;
+  background-color: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: $color-gray-900;
+    letter-spacing: -0.01em;
+  }
+
+  &__author {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    max-width: 720px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 10px $spacing-lg;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: all $transition-fast;
+
+  &-primary {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &:hover {
+      background-color: $color-primary-dark;
+    }
+  }
+
+  &-outline {
+    background-color: $color-white;
+    border: 1px solid $color-gray-300;
+    color: $color-gray-800;
+
+    &:hover {
+      background-color: $color-gray-100;
+    }
+  }
+
+  &-dark {
+    background-color: $color-gray-900;
+    color: $color-white;
+
+    &:hover {
+      background-color: $color-black;
+    }
+  }
+
+  &.w-100 {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: $radius-full;
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  &--open {
+    background-color: #ffefe5;
+    color: $color-primary;
+  }
+
+  &--confirmed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+}
+
+// KPI Grid Row
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-lg;
+
+  @include tablet-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg $spacing-xl;
+  background-color: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+
+  &__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: $radius-full;
+    background-color: #fffefe;
+    border: 1px solid $color-gray-200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-gray-700;
+    flex-shrink: 0;
+
+    span {
+      font-size: 20px;
+    }
+
+    &--success {
+      color: #4caf50;
+      background-color: #f1f8e9;
+      border: none;
+    }
+
+    &--chart {
+      color: $color-primary;
+      background-color: #ffefe5;
+      border: none;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: 600;
+    color: $color-gray-500;
+  }
+
+  &__val {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: $color-gray-900;
+  }
+}
+
+// 2 Columns Grid
+.grid-2col {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-lg;
+
+  @include tablet-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.content-card {
+  padding: $spacing-xl;
+  background-color: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $color-gray-900;
+    border-bottom: 1px solid $color-gray-100;
+    padding-bottom: $spacing-xs;
+  }
+}
+
+.tags-row {
+  display: flex;
+  gap: $spacing-lg;
+}
+
+.info-tag {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: 600;
+    color: $color-gray-500;
+  }
+
+  &__box {
+    padding: 6px 14px;
+    background-color: $color-gray-50;
+    border: 1px solid $color-gray-200;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-gray-800;
+  }
+}
+
+.desc-box {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: 600;
+    color: $color-gray-500;
+  }
+
+  &__text {
+    padding: $spacing-md;
+    background-color: $color-gray-50;
+    border: 1px solid $color-gray-200;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    color: $color-gray-800;
+    line-height: $line-height-relaxed;
+  }
+}
+
+// Planning Items
+.planning-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.planning-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  &__icon {
+    color: $color-primary;
+    font-size: 22px;
+  }
+
+  &__label {
+    display: block;
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+  }
+
+  &__val {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-gray-900;
+  }
+}
+
+// Communication & Social Quote
+.comm-block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: 600;
+    color: $color-gray-500;
+  }
+
+  &__val {
+    font-size: $font-size-sm;
+    color: $color-gray-800;
+  }
+}
+
+.social-quote {
+  padding: $spacing-md;
+  background-color: #fdf7f3;
+  border-left: 3px solid $color-primary;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-style: italic;
+  color: $color-gray-800;
+}
+
+// Share Link Section
+.share-block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: 600;
+    color: $color-gray-500;
+  }
+}
+
+.input-copy-group {
+  display: flex;
+  gap: $spacing-sm;
+
+  .copy-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid $color-gray-300;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    background-color: $color-gray-50;
+    color: $color-gray-800;
+  }
+}
+
+// Recent Applicants Table Card
+.table-card {
+  padding: $spacing-xl;
+  background-color: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $color-gray-900;
+  }
+}
+
+.link-more {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  color: $color-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  span {
+    font-size: 16px;
+  }
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    padding: $spacing-sm $spacing-md;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: $color-gray-500;
+    text-align: left;
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  td {
+    padding: $spacing-md;
+    font-size: $font-size-sm;
+    color: $color-gray-800;
+    border-bottom: 1px solid $color-gray-100;
+
+    &.font-bold {
+      font-weight: 600;
+      color: $color-gray-900;
+    }
+  }
+}
+

@@ -5,93 +5,124 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: $color-gray-900;
-  color: $color-white;
+  background-color: #fafafa;
+  border-right: 1px solid $color-gray-200;
+  color: $color-gray-900;
   overflow-y: auto;
   @include scrollbar-thin;
 
+  // Brand Logo (aligned with link text)
   &__brand {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: $spacing-lg $spacing-md;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: $spacing-lg 20px $spacing-sm 54px;
   }
 
   &__logo {
-    height: 36px;
+    height: 28px;
     width: auto;
+    object-fit: contain;
   }
 
   &__nav {
     flex: 1;
-    padding: $spacing-sm 0;
+    padding: $spacing-md 0;
+    list-style: none;
+    margin: 0;
+
+    li {
+      margin-bottom: 4px;
+    }
   }
 
   &__link {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
-    padding: $spacing-sm $spacing-lg;
-    margin: $spacing-2xs $spacing-sm;
-    border-radius: $radius-md;
-    color: $color-gray-400;
+    gap: $spacing-md;
+    padding: 12px $spacing-lg;
+    color: $color-gray-700;
     font-size: $font-size-base;
     font-weight: 500;
+    text-decoration: none;
     transition: all $transition-fast;
     cursor: pointer;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.06);
-      color: $color-white;
+      background-color: rgba($color-primary, 0.06);
+      color: $color-primary;
+
+      .sidebar__icon {
+        color: $color-primary;
+      }
     }
 
+    // Active state with left orange bar matching user screenshot
     &--active {
-      background-color: $color-primary;
-      color: $color-white;
+      background-color: rgba($color-primary, 0.08);
+      color: $color-primary;
+      font-weight: 700;
 
-      .sidebar__icon-dot {
-        background-color: $color-white;
+      .sidebar__active-indicator {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background-color: $color-primary;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+
+      .sidebar__icon {
+        color: $color-white;
+        background-color: $color-primary;
+        padding: 4px;
+        border-radius: $radius-sm;
+        font-size: 18px;
       }
 
       &:hover {
-        background-color: $color-primary-dark;
+        background-color: rgba($color-primary, 0.12);
+        
+        .sidebar__icon {
+          color: $color-white;
+        }
       }
     }
   }
 
-  &__icon-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: $radius-full;
-    background-color: $color-gray-500;
-    flex-shrink: 0;
-    transition: background-color $transition-fast;
+  &__icon {
+    font-size: 22px;
+    color: $color-gray-500;
+    transition: color $transition-fast, background-color $transition-fast;
   }
 
   &__label {
     @include text-truncate;
   }
 
+  // Footer: user avatar and name instead of logout
   &__footer {
-    padding: $spacing-md;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: $spacing-md $spacing-lg;
+    border-top: 1px solid $color-gray-200;
+    background-color: $color-white;
   }
 
   &__user {
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
-    margin-bottom: $spacing-sm;
+    gap: $spacing-md;
   }
 
   &__avatar {
     @include flex-center;
-    @include size(36px);
+    @include size(40px);
     border-radius: $radius-full;
     background-color: $color-primary;
-    font-size: $font-size-sm;
-    font-weight: 600;
+    color: $color-white;
+    font-size: 0.8125rem;
+    font-weight: 700;
     flex-shrink: 0;
   }
 
@@ -104,6 +135,7 @@
   &__user-name {
     font-size: $font-size-sm;
     font-weight: 600;
+    color: $color-gray-900;
     @include text-truncate;
   }
 
@@ -111,26 +143,5 @@
     font-size: $font-size-xs;
     color: $color-gray-500;
   }
-
-  &__logout {
-    display: flex;
-    align-items: center;
-    gap: $spacing-sm;
-    width: 100%;
-    padding: $spacing-sm;
-    border-radius: $radius-md;
-    color: $color-gray-400;
-    font-size: $font-size-sm;
-    text-align: left;
-    transition: all $transition-fast;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.06);
-      color: $color-danger;
-    }
-  }
-
-  &__logout-icon {
-    flex-shrink: 0;
-  }
 }
+

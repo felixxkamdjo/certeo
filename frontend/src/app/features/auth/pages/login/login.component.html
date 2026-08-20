@@ -1,15 +1,106 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input id="email" type="email" formControlName="email" class="form-control" />
+<div class="login-container">
+  <!-- Left Side: Login Form -->
+  <div class="login-container__left">
+    <div class="login-box">
+      <!-- Logo -->
+      <!-- <div class="login-box__brand">
+        <img src="assets/images/logo_certeo.png" alt="CERTEO Logo" class="login-box__logo" />
+      </div> -->
+
+      <!-- Header -->
+      <div class="login-box__header">
+        <h1 class="login-box__title">Bienvenue</h1>
+        <p class="login-box__subtitle">Connectez-vous pour accéder à l'écosystème de gestion des talents.</p>
+      </div>
+
+      <!-- Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Adresse e-mail</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">mail</span>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="form-control"
+              placeholder="admin@orange.com"
+            />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon">lock</span>
+            <input
+              id="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              class="form-control"
+              placeholder="••••••••"
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()"
+              aria-label="Afficher/masquer le mot de passe"
+            >
+              <span class="material-symbols-outlined">
+                {{ showPassword() ? 'visibility_off' : 'visibility' }}
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary w-100">
+          Se connecter
+        </button>
+      </form>
+
+      <!-- Footer / Help link -->
+      <div class="login-box__footer">
+        <p>
+          Besoin d'aide ? <a href="#" class="help-link">Contacter l'administrateur</a>
+        </p>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="password">Mot de passe</label>
-    <input id="password" type="password" formControlName="password" class="form-control" />
-  </div>
+  <!-- Right Side: Feature Presentation Visual -->
+  <div class="login-container__right">
+    <div class="visual-card">
+      <div class="visual-card__header">
+        <div class="visual-card__icon-badge">
+          <span class="material-symbols-outlined">grid_view</span>
+        </div>
+        <div class="visual-card__title-group">
+          <h3>Gestion simplifiée</h3>
+          <p>Hub centralisé pour toutes les opérations de talents.</p>
+        </div>
+      </div>
 
-  <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary w-100">
-    Se connecter
-  </button>
-</form>
+      <div class="visual-card__features">
+        <div class="feature-item">
+          <span class="material-symbols-outlined feature-item__icon">group</span>
+          <span class="feature-item__text">Suivi des utilisateurs et participants</span>
+        </div>
+
+        <div class="feature-item">
+          <span class="material-symbols-outlined feature-item__icon">school</span>
+          <span class="feature-item__text">Contrôle du cycle de vie des formations</span>
+        </div>
+
+        <div class="feature-item">
+          <span class="material-symbols-outlined feature-item__icon">bar_chart</span>
+          <span class="feature-item__text">Rapports et analyses avancés</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

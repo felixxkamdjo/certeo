@@ -3,7 +3,9 @@
     <thead>
       <tr>
         @for (col of columns; track col.key) {
-          <th>{{ col.header }}</th>
+          <th [class.text-center]="col.align === 'center'" [class.text-right]="col.align === 'right'">
+            {{ col.header }}
+          </th>
         }
       </tr>
     </thead>
@@ -11,14 +13,21 @@
       @for (row of data; track row.id || $index) {
         <tr (click)="rowClick.emit(row)" class="data-table__row">
           @for (col of columns; track col.key) {
-            <td>{{ row[col.key] }}</td>
+            <td [class.text-center]="col.align === 'center'" [class.text-right]="col.align === 'right'">
+              @if (templateMap[col.key]) {
+                <ng-container *ngTemplateOutlet="templateMap[col.key]; context: { $implicit: row }"></ng-container>
+              } @else {
+                {{ row[col.key] }}
+              }
+            </td>
           }
         </tr>
       }
       @if (data.length === 0) {
         <tr>
           <td [attr.colspan]="columns.length" class="data-table__empty">
-            Aucune donnée à afficher.
+            <span class="material-symbols-outlined empty-icon">search_off</span>
+            <p>Aucune donnée à afficher.</p>
           </td>
         </tr>
       }

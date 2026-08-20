@@ -40,9 +40,19 @@ export const routes: Routes = [
     component: PublicLayoutComponent,
     children: [
       { path: 'presence', loadChildren: () => import('@features/presence/presence-public.routes') },
-      { path: 'apply', loadChildren: () => import('@features/applications/applications.routes') },
+      { 
+        path: 'apply', 
+        loadComponent: () => import('@features/applications/pages/application-form/application-form').then(m => m.ApplicationFormComponent)
+      },
+      { 
+        path: 'apply/:trainingId', 
+        loadComponent: () => import('@features/applications/pages/application-form/application-form').then(m => m.ApplicationFormComponent)
+      },
       { path: 'quiz', loadChildren: () => import('@features/evaluations/evaluations.routes') },
-      { path: 'certificates', loadChildren: () => import('@features/certificates/certificates.routes') },
+      { 
+        path: 'certificates/:id', 
+        loadComponent: () => import('@features/certificates/pages/certificate-view/certificate-view.component').then(m => m.CertificateViewComponent) 
+      },
     ]
   },
 
