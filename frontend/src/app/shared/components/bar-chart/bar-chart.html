@@ -1,0 +1,35 @@
+<div class="bar-chart-wrapper" [style.height]="height">
+  <!-- Y-axis labels -->
+  <div class="bar-chart__y-axis">
+    @for (label of yAxisLabels; track label) {
+      <span>{{ label }}</span>
+    }
+  </div>
+
+  <!-- Grid lines -->
+  <div class="bar-chart__grid">
+    @for (label of yAxisLabels; track label) {
+      <div class="grid-line"></div>
+    }
+  </div>
+
+  <!-- Bars -->
+  <div class="bar-chart__bars">
+    @for (item of data; track item.label) {
+      <div class="bar-group">
+        <div
+          class="bar"
+          [class.bar--dim]="!item.active"
+          [class.bar--active]="item.active"
+          [style.height]="getHeightPercentage(item.value) + '%'">
+          @if (item.tooltip) {
+            <div class="bar-tooltip">{{ item.tooltip }}</div>
+          }
+        </div>
+        <span class="bar-label" [class.bar-label--active]="item.active">
+          {{ item.label }}
+        </span>
+      </div>
+    }
+  </div>
+</div>
