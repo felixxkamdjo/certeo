@@ -1,6 +1,95 @@
-<div class="dashboard">
-  <div class="dashboard__header">
-    <h1 class="heading-3">Tableau de bord</h1>
-    <p class="text-muted">Bienvenue sur votre espace d'administration CERTEO.</p>
+<div class="dashboard-home">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h2 class="page-title">Bonjour Thomas,</h2>
+      <p class="page-subtitle">Voici ce qui se passe dans votre écosystème de talents aujourd'hui.</p>
+    </div>
+  </div>
+
+  <!-- KPI Grid -->
+  <div class="kpi-grid">
+    <app-kpi-card label="Formations" value="24" trend="+12% ce mois-ci" trendDirection="up" icon="school" colorTheme="primary"></app-kpi-card>
+    <app-kpi-card label="Candidats" value="1,432" trend="+5% cette semaine" trendDirection="up" icon="group_add" colorTheme="secondary"></app-kpi-card>
+    <app-kpi-card label="Participants" value="856" trend="Stable" trendDirection="neutral" icon="groups" colorTheme="secondary"></app-kpi-card>
+    <app-kpi-card label="Administrateurs" value="12" trend="Aucun changement" trendDirection="neutral" icon="admin_panel_settings" colorTheme="secondary"></app-kpi-card>
+  </div>
+
+  <!-- Charts & Actions Row -->
+  <div class="dashboard-row">
+    <!-- Chart Area -->
+    <div class="card card--span-2 chart-card">
+      <div class="card__header">
+        <h3 class="card__title">Évolution des participants</h3>
+        <div class="select-wrap">
+          <select class="select-field" [value]="timeRange()" (change)="timeRange.set($any($event.target).value)">
+            <option>6 derniers mois</option>
+            <option>Cette année</option>
+          </select>
+          <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+        </div>
+      </div>
+      
+      <div class="chart-container">
+        <app-bar-chart [data]="barChartData()" [maxValue]="1000" height="250px"></app-bar-chart>
+      </div>
+    </div>
+
+    <!-- Quick Actions Area -->
+    <div class="card quick-actions">
+      <h3 class="card__title mb-lg">Actions rapides</h3>
+      
+      <div class="quick-actions__list">
+        <button class="btn btn--primary action-btn" routerLink="/admin/trainings/new">
+          <span class="material-symbols-outlined">add</span>
+          Créer une formation
+        </button>
+        <button class="btn btn--outline action-btn" routerLink="/admin/applications">
+          <span class="material-symbols-outlined">visibility</span>
+          Voir les candidatures
+        </button>
+        <button class="btn btn--outline action-btn" routerLink="/admin/reporting">
+          <span class="material-symbols-outlined">file_download</span>
+          Exporter les rapports
+        </button>
+      </div>
+
+      <div class="info-alert">
+        <span class="material-symbols-outlined text-primary">info</span>
+        <p>Maintenance du système prévue dimanche à 2h du matin.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Applications Table -->
+  <div class="card">
+    <div class="card__header card__header--border">
+      <h3 class="card__title">Dernières candidatures</h3>
+      <button class="btn-link" routerLink="/admin/applications">Voir tout</button>
+    </div>
+    
+    <app-data-table 
+      [columns]="tableColumns" 
+      [data]="recentApplications()"
+    >
+      <ng-template appCellTemplate="candidate" let-row>
+        <div class="candidate-cell">
+          <div class="avatar" [ngClass]="'avatar--' + row.avatarColor">{{ row.initials }}</div>
+          <span class="candidate-cell__name">{{ row.name }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template appCellTemplate="status" let-row>
+        <span class="status-badge" [ngClass]="row.statusClass">{{ row.status }}</span>
+      </ng-template>
+
+      <ng-template appCellTemplate="action" let-row>
+        <div class="text-right">
+          <button class="icon-btn text-secondary" [routerLink]="['/admin/applications', row.id]">
+            <span class="material-symbols-outlined">more_vert</span>
+          </button>
+        </div>
+      </ng-template>
+    </app-data-table>
   </div>
 </div>

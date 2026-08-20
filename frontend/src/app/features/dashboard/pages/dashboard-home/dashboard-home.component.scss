@@ -1,8 +1,283 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as *;
 
-.dashboard {
+.dashboard-home {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// --- Page Header ---
+.page-header {
+  margin-bottom: $spacing-md;
+}
+
+.page-title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-gray-900;
+  margin: 0;
+}
+
+.page-subtitle {
+  font-size: $font-size-base;
+  color: $color-gray-600;
+  margin: $spacing-xs 0 0;
+}
+
+// --- KPI Grid ---
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include tablet-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include desktop {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// --- Forms & Inputs ---
+.select-wrap {
+  position: relative;
+  
+  &__chevron {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-gray-500;
+    pointer-events: none;
+    font-size: 20px;
+  }
+}
+
+.select-field {
+  appearance: none;
+  padding: 8px 36px 8px 12px;
+  background: $color-white;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-lg;
+  font-size: $font-size-sm;
+  font-family: $font-family-base;
+  color: $color-gray-900;
+  cursor: pointer;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: 12px $spacing-lg;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all $transition-fast;
+  border: none;
+
+  .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  &--primary {
+    background: $color-primary;
+    color: $color-white;
+
+    &:hover {
+      background: $color-primary-dark;
+    }
+  }
+
+  &--outline {
+    background: $color-white;
+    border: 1px solid $color-gray-300;
+    color: $color-gray-900;
+
+    &:hover {
+      background: $color-gray-100;
+    }
+  }
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: $radius-full;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: $color-gray-100;
+  }
+}
+
+.btn-link {
+  background: transparent;
+  border: none;
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// --- Cards & Layout ---
+.dashboard-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-xl;
+
+  @include desktop {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.card {
+  background: $color-white;
+  border-radius: $radius-xl;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
   &__header {
-    margin-bottom: $spacing-xl;
+    padding: $spacing-lg $spacing-xl;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &--border {
+      border-bottom: 1px solid $color-gray-200;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+}
+
+.mb-lg { margin-bottom: $spacing-lg; }
+
+// --- Quick Actions ---
+.quick-actions {
+  padding: $spacing-xl;
+  
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    flex: 1;
+  }
+
+  .action-btn {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 12px 16px;
+  }
+}
+
+.info-alert {
+  margin-top: auto;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $color-gray-200;
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+
+  p {
+    font-size: $font-size-xs;
+    color: $color-gray-600;
+    margin: 0;
+  }
+}
+
+// --- Bar Chart ---
+.chart-container {
+  flex: 1;
+  padding: 0 $spacing-xl $spacing-xl;
+  display: flex;
+  align-items: flex-end;
+}
+
+
+
+
+
+.candidate-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  &__name {
+    font-weight: $font-weight-medium;
+  }
+}
+.text-right { text-align: right; }
+.text-secondary { color: $color-gray-600; }
+.avatar {
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-full;
+  font-size: 12px;
+  font-weight: $font-weight-bold;
+
+  &--primary {
+    background: rgba($color-primary, 0.2);
+    color: $color-primary;
+  }
+
+  &--secondary {
+    background: rgba($color-gray-600, 0.2);
+    color: $color-gray-700;
+  }
+
+  &--tertiary {
+    background: rgba($color-danger, 0.2);
+    color: $color-danger;
+  }
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: $radius-full;
+  font-size: 12px;
+  font-weight: $font-weight-medium;
+
+  &--approved {
+    background: $color-success-light;
+    color: #2e7d32; // dark green
+  }
+
+  &--pending {
+    background: $color-warning-light;
+    color: #ef6c00; // dark orange
+  }
+
+  &--rejected {
+    background: $color-danger-light;
+    color: #c62828; // dark red
   }
 }
