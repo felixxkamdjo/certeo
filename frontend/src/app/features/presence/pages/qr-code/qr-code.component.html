@@ -1,6 +1,4 @@
 <div class="qr-code-view">
-  <div class="qr-code-view__header">
-    <h1 class="heading-3">Gestion du QR Code d'Entrée</h1>
-    <p class="text-muted">Affichez ou imprimez le QR Code pour le check-in des visiteurs ODC.</p>
-  </div>
+  <header class="qr-code-view__header"><div><p class="eyebrow">ODC Presence</p><h1>QR Code d'accueil</h1><p>Le QR code permet aux visiteurs d'ouvrir le formulaire de présence sur site.</p></div><button class="button button--secondary" type="button" (click)="regenerate()">↻ Régénérer</button></header>
+  <main class="qr-layout"><section class="qr-card"><div class="qr-frame"><div class="qr-pattern" aria-label="QR code de présence">@for (cell of qrCells; track cell) {<i [style.grid-area]="(cell / 13 | number:'1.0-0') + ' / ' + ((cell % 13) + 1)"></i>}</div></div><span class="status"><b></b> QR code actif</span><p class="qr-card__meta">Actualisé le {{ generatedAt() | date:'dd/MM/yyyy à HH:mm' }}</p></section><section class="details-card"><h2>Configuration du point d'accueil</h2><dl><div><dt>Identifiant du lieu</dt><dd>{{ siteId() }}</dd></div><div><dt>Validité</dt><dd>Jeton renouvelé automatiquement</dd></div><div><dt>Périmètre GPS</dt><dd>150 mètres autour de l'ODC</dd></div></dl><div class="qr-actions"><button class="button button--primary" type="button" (click)="downloadSvg()">↓ Télécharger SVG</button><button class="button button--secondary" type="button" (click)="print()">⊙ Imprimer</button></div></section></main>
 </div>

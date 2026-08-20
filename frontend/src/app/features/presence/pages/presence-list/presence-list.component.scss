@@ -2,7 +2,58 @@
 @use 'styles/mixins' as *;
 
 .presence-list {
+  max-width: 1280px;
+  margin: 0 auto;
+
   &__header {
+    @include flex-between;
+    align-items: flex-end;
+    gap: $spacing-lg;
     margin-bottom: $spacing-xl;
+
+    h1 { margin: 4px 0; color: $color-gray-900; font-size: $font-size-3xl; }
   }
+
+  &__actions { display: flex; gap: $spacing-sm; flex-wrap: wrap; }
 }
+
+.eyebrow { margin: 0; color: $color-primary-dark; font-size: $font-size-xs; font-weight: $font-weight-bold; letter-spacing: 0.12em; text-transform: uppercase; }
+.subtitle { margin: 0; color: $color-gray-600; }
+.button { border: 0; border-radius: $radius-md; cursor: pointer; display: inline-flex; align-items: center; gap: $spacing-sm; font-weight: $font-weight-semibold; padding: 11px 16px; text-decoration: none; }
+.button--primary { background: $color-primary; color: $color-white; }
+.button--secondary { background: $color-white; border: 1px solid $color-gray-300; color: $color-gray-900; }
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: $spacing-lg; margin-bottom: $spacing-xl; }
+.kpi-card { @include card($spacing-lg); border-left: 4px solid transparent; min-height: 126px; display: flex; flex-direction: column; gap: $spacing-xs; }
+.kpi-card--accent { border-left-color: $color-primary; }
+.kpi-card__label { color: $color-gray-600; font-size: $font-size-sm; font-weight: $font-weight-semibold; text-transform: uppercase; }
+.kpi-card strong { color: $color-gray-900; font-size: $font-size-3xl; }
+.kpi-card__reason { font-size: $font-size-xl !important; }
+.kpi-card__note { color: $color-gray-500; font-size: $font-size-sm; }
+.table-panel { @include card(0); overflow: hidden; }
+.table-panel__toolbar { display: flex; gap: $spacing-md; padding: $spacing-md; border-bottom: 1px solid $color-gray-200; }
+.search-field, .filter-field { display: flex; align-items: center; gap: $spacing-sm; color: $color-gray-600; }
+.search-field { flex: 1; border: 1px solid $color-gray-300; border-radius: $radius-md; padding: 0 $spacing-md; }
+.search-field input, .filter-field input, .filter-field select { border: 0; background: transparent; color: $color-gray-900; font: inherit; min-height: 42px; }
+.search-field input { flex: 1; outline: 0; }
+.filter-field { border: 1px solid $color-gray-300; border-radius: $radius-md; padding: 0 $spacing-sm; font-size: $font-size-sm; }
+.table-wrapper { overflow-x: auto; }
+table { border-collapse: collapse; min-width: 900px; width: 100%; }
+th, td { padding: $spacing-md; text-align: left; border-bottom: 1px solid $color-gray-100; white-space: nowrap; }
+th { color: $color-gray-600; font-size: $font-size-xs; text-transform: uppercase; }
+td { color: $color-gray-800; font-size: $font-size-sm; }
+td strong, td small { display: block; } td small { color: $color-gray-500; margin-top: 2px; }
+.profile-badge { background: $color-primary-bg; border-radius: $radius-full; color: $color-primary-dark; padding: 4px 8px; }
+.time { font-weight: $font-weight-bold; }
+.icon-button { background: transparent; border: 0; color: $color-primary-dark; cursor: pointer; font-size: $font-size-lg; }
+.table-message { padding: $spacing-2xl; color: $color-gray-600; text-align: center; }
+.table-panel__footer { @include flex-between; color: $color-gray-600; font-size: $font-size-sm; padding: $spacing-md; }
+.table-panel__footer a { color: $color-primary-dark; font-weight: $font-weight-semibold; text-decoration: none; }
+
+@include mobile {
+  .presence-list__header, .table-panel__toolbar { align-items: stretch; flex-direction: column; }
+  .presence-list__header h1 { font-size: $font-size-2xl; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .presence-list__actions .button { justify-content: center; flex: 1; }
+  .table-panel__footer { align-items: flex-start; flex-direction: column; gap: $spacing-sm; }
+  }
+

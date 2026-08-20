@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { ApiService } from '@core/services/api.service';
-import { PresenceEntry, PresenceStats } from '../models/presence.model';
+import { PresenceCheckInDto, PresenceEntry, PresenceStats } from '../models/presence.model';
 
 @Injectable({ providedIn: 'root' })
 export class PresenceService {
@@ -17,7 +17,7 @@ export class PresenceService {
     );
   }
 
-  registerPresence(data: Partial<PresenceEntry>): Observable<PresenceEntry> {
+  registerPresence(data: PresenceCheckInDto): Observable<PresenceEntry> {
     return this.api.post<PresenceEntry>('/presences/check-in', data);
   }
 

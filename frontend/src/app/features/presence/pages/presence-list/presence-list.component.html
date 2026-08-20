@@ -1,6 +1,112 @@
 <div class="presence-list">
-  <div class="presence-list__header">
-    <h1 class="heading-3">Gestion des Présences (ODC Presence)</h1>
-    <p class="text-muted">Suivi des entrées et visites quotidiennes à l'Orange Digital Center.</p>
-  </div>
+  <header class="presence-list__header">
+    <div>
+      <p class="eyebrow">ODC Presence</p>
+      <h1>Liste de présence</h1>
+      <p class="subtitle">Gérez et consultez les enregistrements de présence du jour.</p>
+    </div>
+    <div class="presence-list__actions">
+      <button class="button button--secondary" type="button" (click)="exportCsv()">
+        <span aria-hidden="true">↓</span> Exporter
+      </button>
+      <a class="button button--secondary" routerLink="configuration">
+        <span aria-hidden="true">⚙</span> Configurer le formulaire
+      </a>
+      <a class="button button--primary" routerLink="qr-code">
+        <span aria-hidden="true">⌁</span> QR Code accueil
+      </a>
+    </div>
+  </header>
+
+  <section class="kpi-grid" aria-label="Indicateurs de présence">
+    <article class="kpi-card kpi-card--accent">
+      <span class="kpi-card__label">Visiteurs aujourd'hui</span>
+      <strong>{{ stats().todayTotal }}</strong>
+      <span class="kpi-card__note">Entrées enregistrées</span>
+    </article>
+    <article class="kpi-card">
+      <span class="kpi-card__label">Moyenne hebdomadaire</span>
+      <strong>{{ stats().thisWeekTotal }}</strong>
+      <span class="kpi-card__note">Visiteurs par jour</span>
+    </article>
+    <article class="kpi-card">
+      <span class="kpi-card__label">Motif le plus fréquent</span>
+      <strong class="kpi-card__reason">{{ stats().topReason }}</strong>
+      <span class="kpi-card__note">Aujourd'hui</span>
+    </article>
+  </section>
+
+  <section class="table-panel">
+    <div class="table-panel__toolbar">
+      <label class="search-field">
+        <span aria-hidden="true">⌕</span>
+        <input [ngModel]="search()" (ngModelChange)="search.set($event)" placeholder="Rechercher un visiteur..." type="search" />
+      </label>
+      <label class="filter-field">
+        <span>Date</span>
+        <input [ngModel]="selectedDate()" (ngModelChange)="updateDate($event)" type="date" />
+      </label>
+      <label class="filter-field">
+        <span>Formation</span>
+        <select [ngModel]="selectedTraining()" (ngModelChange)="selectedTraining.set($event)">
+          <option value="all">Toutes les formations</option>
+          @for (training of trainingNames(); track training) {
+            <option [value]="training">{{ training }}</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    @if (loading()) {
+      <p class="table-message">Chargement des présences...</p>
+    }
+    @else if (!filteredEntries().length) {
+      <p class="table-message">Aucune présence ne correspond à vos critères.</p>
+    }
+    @else {
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Visiteur</th>
+              <th>Email</th>
+              <th>Profil</th>
+              <th>Motif</th>
+              <th>Formation</th>
+              <th>Heure</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (entry of filteredEntries(); track entry.id) {
+              <tr>
+                <td>
+                  <strong>{{ entry.visitorName }}</strong>
+                  <small>{{ entry.phone }}</small>
+                </td>
+                <td>{{ entry.email }}</td>
+                <td><span class="profile-badge">{{ entry.profile || 'Visiteur' }}</span></td>
+                <td>{{ entry.visitReason }}</td>
+                <td>{{ entry.trainingName || '—' }}</td>
+                <td class="time">{{ entry.checkInTime }}</td>
+                <td>
+                  <button class="icon-button" type="button" [attr.aria-label]="'Voir ' + entry.visitorName" title="Voir les détails">→</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <footer class="table-panel__footer">
+      <span>
+        {{ filteredEntries().length }} visiteur{{ filteredEntries().length > 1 ? 's' : '' }}
+        affiché{{ filteredEntries().length > 1 ? 's' : '' }}
+      </span>
+      <a routerLink="check-in">
+        Enregistrer une présence <span aria-hidden="true">→</span>
+      </a>
+    </footer>
+  </section>
 </div>

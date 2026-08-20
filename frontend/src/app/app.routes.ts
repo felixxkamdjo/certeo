@@ -39,7 +39,7 @@ export const routes: Routes = [
     path: 'public',
     component: PublicLayoutComponent,
     children: [
-      { path: 'presence', loadChildren: () => import('@features/presence/presence.routes') },
+      { path: 'presence', loadChildren: () => import('@features/presence/presence-public.routes') },
       { path: 'apply', loadChildren: () => import('@features/applications/applications.routes') },
       { path: 'quiz', loadChildren: () => import('@features/evaluations/evaluations.routes') },
       { path: 'certificates', loadChildren: () => import('@features/certificates/certificates.routes') },
