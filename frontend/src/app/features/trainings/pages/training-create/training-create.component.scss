@@ -1,13 +1,738 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as *;
 
-.training-create {
-  &__header {
-    margin-bottom: $spacing-xl;
+.wizard-page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  max-width: 920px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+// Breadcrumb Header with Annuler button
+.breadcrumb-header {
+  @include flex-between;
+  margin-bottom: -$spacing-md;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+
+  &__link {
+    color: $color-gray-600;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-primary;
+    }
   }
 
-  .step-content {
-    @include card;
-    margin-top: $spacing-lg;
+  &__sep {
+    font-size: 16px;
+    color: $color-gray-400;
+  }
+
+  &__active {
+    font-weight: 600;
+    color: $color-gray-900;
   }
 }
+
+.btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 6px 14px;
+  border-radius: $radius-md;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  color: $color-gray-600;
+  border: 1px solid $color-gray-300;
+  background-color: $color-white;
+  text-decoration: none;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: $color-gray-100;
+    color: $color-danger;
+    border-color: $color-danger;
+  }
+
+  span {
+    font-size: 16px;
+  }
+}
+
+.page-header {
+  text-align: center;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: $color-gray-900;
+    letter-spacing: -0.02em;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__subtitle {
+    font-size: $font-size-base;
+    color: $color-gray-600;
+  }
+}
+
+// Wizard Main Form Card Container (without left orange border)
+.wizard-card {
+  background-color: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+  padding: $spacing-2xl;
+  box-shadow: $shadow-sm;
+}
+
+.step-pane {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: $color-gray-900;
+    }
+  }
+
+  &__icon {
+    font-size: 24px;
+    color: $color-primary;
+  }
+
+  &__sub {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin-top: -$spacing-md;
+  }
+}
+
+// Form Grid & Inputs
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-lg;
+
+  @include tablet-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .col-span-full {
+    @include tablet-up {
+      grid-column: span 2;
+    }
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-gray-900;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
+  color: $color-gray-900;
+  background-color: $color-white;
+  transition: all $transition-fast;
+
+  &::placeholder {
+    color: $color-gray-400;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+  }
+}
+
+// Step 2 Mode Selector Cards
+.mode-cards {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-md;
+
+  @include tablet-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.mode-card {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+  background-color: $color-white;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &__icon {
+    font-size: 24px;
+    color: $color-gray-600;
+    margin-top: 2px;
+  }
+
+  &__text {
+    strong {
+      display: block;
+      font-size: $font-size-sm;
+      font-weight: 700;
+      color: $color-gray-900;
+      margin-bottom: 2px;
+    }
+
+    p {
+      font-size: $font-size-xs;
+      color: $color-gray-600;
+      line-height: 1.4;
+    }
+  }
+
+  &:hover {
+    border-color: $color-gray-400;
+    background-color: $color-gray-50;
+  }
+
+  &--selected {
+    border-color: $color-primary;
+    background-color: #ffefe5;
+
+    .mode-card__icon {
+      color: $color-primary;
+    }
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+// Step 3 Upload Dropzone
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl;
+  border: 2px dashed $color-gray-300;
+  border-radius: $radius-lg;
+  background-color: $color-gray-50;
+  text-align: center;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $color-primary;
+    background-color: #fdf7f3;
+  }
+
+  &__icon {
+    font-size: 40px;
+    color: $color-gray-500;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-gray-900;
+  }
+
+  &__sub {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+    margin-top: 4px;
+  }
+}
+
+// Step 4 Checkbox Cards
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.checkbox-card {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+  background-color: $color-gray-50;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-white;
+  }
+
+  input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    accent-color: $color-primary;
+    margin-top: 2px;
+  }
+
+  strong {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: 700;
+    color: $color-gray-900;
+  }
+
+  p {
+    font-size: $font-size-xs;
+    color: $color-gray-600;
+    margin-top: 2px;
+  }
+}
+
+// Step 4 2-Column Form Config Layout
+.form-config-layout {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-xl;
+
+  @include desktop {
+    grid-template-columns: 1fr 1.3fr;
+  }
+}
+
+.config-card {
+  padding: $spacing-xl;
+  background-color: #fafafa;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-xs;
+    border-bottom: 1px solid $color-gray-200;
+
+    h4 {
+      font-size: $font-size-base;
+      font-weight: 700;
+      color: $color-gray-900;
+    }
+  }
+
+  &__icon {
+    font-size: 22px;
+    color: $color-primary;
+    background-color: rgba($color-primary, 0.12);
+    padding: 6px;
+    border-radius: $radius-md;
+  }
+
+  &__subtext {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+  }
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+.flex-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.gap-2 {
+  gap: $spacing-sm;
+}
+
+// Switch Toggles (Champs Standards)
+.switch-field-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.switch-item {
+  @include flex-between;
+  padding: $spacing-md;
+  background-color: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+
+    strong {
+      font-size: $font-size-sm;
+      font-weight: 700;
+      color: $color-gray-900;
+    }
+
+    span {
+      font-size: $font-size-xs;
+      color: $color-gray-500;
+    }
+  }
+}
+
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .switch-slider {
+      background-color: $color-primary;
+    }
+
+    &:checked + .switch-slider:before {
+      transform: translateX(20px);
+    }
+  }
+
+  .switch-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: $color-gray-300;
+    transition: 0.3s;
+    border-radius: 24px;
+
+    &:before {
+      position: absolute;
+      content: '';
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+  }
+
+  &--disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+
+    .switch-slider {
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Custom Questions Cards
+.custom-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.question-card {
+  padding: $spacing-md $spacing-lg;
+  background-color: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    .drag-handle {
+      color: $color-gray-400;
+      cursor: grab;
+      font-size: 20px;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: 700;
+    color: $color-gray-900;
+    flex: 1;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding-left: 28px;
+  }
+}
+
+.badge-type {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $color-gray-600;
+  background-color: $color-gray-100;
+  padding: 2px 8px;
+  border-radius: $radius-sm;
+}
+
+// Step 3 Banner Preview Box
+.banner-preview-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background-color: $color-gray-50;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+
+  .banner-preview-img {
+    max-height: 220px;
+    width: auto;
+    object-fit: contain;
+    border-radius: $radius-md;
+  }
+}
+
+.badge-req-btn {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #d32f2f;
+  background-color: #ffebee;
+  padding: 4px 10px;
+  border-radius: $radius-full;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &--opt {
+    color: $color-gray-700;
+    background-color: $color-gray-200;
+  }
+}
+
+// Step 4 Inline Question Form Box
+.question-form-box {
+  padding: $spacing-lg;
+  background-color: $color-white;
+  border: 2px solid $color-primary;
+  border-radius: $radius-xl;
+  margin-bottom: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  &__title {
+    font-size: $font-size-sm;
+    font-weight: 700;
+    color: $color-primary;
+  }
+
+  .form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+
+  .question-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-sm;
+  }
+}
+
+.question-options {
+  font-size: $font-size-xs;
+  color: $color-gray-500;
+}
+
+.question-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.btn-icon-action {
+  border: none;
+  background: transparent;
+  color: $color-gray-500;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: $color-primary;
+    background-color: $color-gray-100;
+  }
+
+  span {
+    font-size: 18px;
+  }
+}
+
+.btn-icon-danger {
+  border: none;
+  background: transparent;
+  color: $color-gray-400;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: $color-danger;
+    background-color: #ffebee;
+  }
+
+  span {
+    font-size: 18px;
+  }
+}
+
+.add-question-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-xl;
+  border: 2px dashed $color-gray-300;
+  border-radius: $radius-lg;
+  color: $color-gray-600;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary;
+    background-color: rgba($color-primary, 0.05);
+  }
+
+  span {
+    font-size: 20px;
+  }
+}
+
+// Controls (Prev / Next Buttons)
+.wizard-controls {
+  @include flex-between;
+  margin-top: $spacing-2xl;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $color-gray-200;
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 10px $spacing-xl;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: all $transition-fast;
+
+  &-primary {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &:hover {
+      background-color: $color-primary-dark;
+    }
+  }
+
+  &-outline {
+    background-color: $color-white;
+    border: 1px solid $color-gray-300;
+    color: $color-gray-800;
+
+    &:hover {
+      background-color: $color-gray-100;
+    }
+  }
+
+  &-dark {
+    background-color: $color-gray-900;
+    color: $color-white;
+
+    &:hover {
+      background-color: $color-black;
+    }
+  }
+
+  &-sm {
+    padding: 6px 12px;
+    font-size: $font-size-xs;
+  }
+
+  &-text {
+    background: transparent;
+    color: $color-gray-700;
+    border: none;
+
+    &:hover {
+      color: $color-gray-900;
+      text-decoration: underline;
+    }
+  }
+}
+
+
