@@ -43,6 +43,7 @@ public sealed class RefreshToken : EntityBase
 
     public Guid UserId { get; set; }
     public User User { get; set; } = null!;
+    public DateTimeOffset DateExpiration { get; internal set; }
 }
 
 public sealed class AuditLog : EntityBase
