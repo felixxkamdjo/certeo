@@ -32,103 +32,21 @@
 
   <!-- Charts Row -->
   <div class="charts-row">
-    <!-- Bar Chart Area (Custom HTML per mockup) -->
+    <!-- Bar Chart Area -->
     <div class="chart-card chart-card--span-2">
       <h4 class="chart-card__title">Inscriptions par mois</h4>
-      
-      <div class="bar-chart">
-        <!-- Y-axis labels -->
-        <div class="bar-chart__y-axis">
-          <span>1000</span><span>750</span><span>500</span><span>250</span><span>0</span>
-        </div>
-        
-        <!-- Grid lines -->
-        <div class="bar-chart__grid">
-          <div class="grid-line"></div>
-          <div class="grid-line"></div>
-          <div class="grid-line"></div>
-          <div class="grid-line"></div>
-          <div class="grid-line"></div>
-        </div>
-        
-        <!-- Bars (Jan - Jun) -->
-        <div class="bar-chart__bars">
-          <div class="bar-group">
-            <div class="bar bar--dim" style="height: 40%">
-              <div class="bar-tooltip">400 inscrits</div>
-            </div>
-            <span class="bar-label">Jan</span>
-          </div>
-          <div class="bar-group">
-            <div class="bar bar--dim" style="height: 55%">
-              <div class="bar-tooltip">550 inscrits</div>
-            </div>
-            <span class="bar-label">Fév</span>
-          </div>
-          <div class="bar-group">
-            <div class="bar bar--dim" style="height: 75%">
-              <div class="bar-tooltip">750 inscrits</div>
-            </div>
-            <span class="bar-label">Mar</span>
-          </div>
-          <div class="bar-group">
-            <div class="bar bar--dim" style="height: 60%">
-              <div class="bar-tooltip">600 inscrits</div>
-            </div>
-            <span class="bar-label">Avr</span>
-          </div>
-          <div class="bar-group">
-            <div class="bar bar--active" style="height: 90%">
-              <div class="bar-tooltip">900 inscrits</div>
-            </div>
-            <span class="bar-label bar-label--active">Mai</span>
-          </div>
-          <div class="bar-group">
-            <div class="bar bar--dim" style="height: 85%">
-              <div class="bar-tooltip">850 inscrits</div>
-            </div>
-            <span class="bar-label">Juin</span>
-          </div>
-        </div>
-      </div>
+      <app-bar-chart [data]="barChartData()" [maxValue]="1000" height="256px"></app-bar-chart>
     </div>
 
-    <!-- Donut Chart Area (Custom HTML per mockup) -->
+    <!-- Donut Chart Area -->
     <div class="chart-card">
       <h4 class="chart-card__title">Statut des formations</h4>
-      
-      <div class="donut-chart-container">
-        <div class="donut-chart">
-          <div class="donut-chart__inner">
-            <span class="donut-chart__total-value">124</span>
-            <span class="donut-chart__total-label">Total</span>
-          </div>
-        </div>
-        
-        <div class="donut-legend">
-          <div class="legend-item">
-            <div class="legend-item__label">
-              <div class="legend-color legend-color--primary"></div>
-              <span>Terminée</span>
-            </div>
-            <span class="legend-item__value">55%</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-item__label">
-              <div class="legend-color legend-color--success"></div>
-              <span>En cours</span>
-            </div>
-            <span class="legend-item__value">30%</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-item__label">
-              <div class="legend-color legend-color--neutral"></div>
-              <span>Planifiée</span>
-            </div>
-            <span class="legend-item__value">15%</span>
-          </div>
-        </div>
-      </div>
+      <app-donut-chart 
+        totalValue="124" 
+        totalLabel="Total" 
+        gradient="conic-gradient(#ff7900 0% 55%, #147a50 55% 85%, #c6c6c6 85% 100%)"
+        [legendItems]="donutLegendItems()">
+      </app-donut-chart>
     </div>
   </div>
 
