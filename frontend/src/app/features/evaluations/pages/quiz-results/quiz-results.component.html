@@ -1,6 +1,23 @@
 <div class="quiz-results">
-  <div class="quiz-results__header">
-    <h1 class="heading-3">Résultats de l'évaluation</h1>
-    <p class="text-muted">Score obtenu et récapitulatif détaillé.</p>
+  <nav class="results-breadcrumb"><a routerLink="/public/quiz/take">Évaluations</a><span>›</span><strong>Résultat du module</strong></nav>
+  <section class="results-hero">
+    <div class="results-hero__copy">
+      <span class="formation-badge">◇ {{ result()?.trainingLabel ?? 'Formation Initiale' }}</span>
+      <h1>Félicitations pour votre parcours !</h1>
+      <p>Vous avez brillamment complété le module <strong>"{{ result()?.moduleTitle ?? 'Principes Avancés de la Cybersécurité' }}"</strong>. Votre score dépasse le seuil requis de {{ result()?.passingScore ?? 75 }}%.</p>
+      <div class="results-hero__actions"><button class="primary-button" type="button">♙ Télécharger mon attestation</button><button class="outline-button" type="button">▤ Revoir le cours</button></div>
+    </div>
+    <div class="score-circle" [style.--score]="score() + '%'">
+      <div><strong>{{ score() }}</strong><span>/ 100</span></div>
+      <b>Score Validé</b>
+    </div>
+  </section>
+
+  <div class="results-grid">
+    <aside class="results-sidebar">
+      <section class="results-panel session-panel"><h2>Détails de session</h2><ul><li><span>□ Date</span><strong>{{ result()?.completionDate ?? '24 Oct 2023' }}</strong></li><li><span>◷ Temps passé</span><strong>{{ result()?.elapsedTime ?? '42 min 15 sec' }}</strong></li><li><span>☷ Questions</span><strong>{{ result()?.questionCount ?? 20 }} Questions</strong></li><li><span>⚑ Seuil de réussite</span><strong>{{ result()?.passingScore ?? 75 }} / 100</strong></li></ul></section>
+      <section class="next-step"><h2>Prochaine étape</h2><p>Le module "Sécurité des Réseaux" est maintenant débloqué.</p><button type="button">Commencer →</button></section>
+    </aside>
+    <section class="results-panel recap-panel"><header><h2>Récapitulatif des réponses</h2><div><span class="correct-text">✓ {{ correctCount() }} Correctes</span><span class="incorrect-text">× {{ incorrectCount() }} Incorrectes</span></div></header><div class="answer-summary">@for (answer of answers(); track answer.question; let index = $index) {<article [class.answer-summary--incorrect]="!answer.correct"><span class="answer-status">{{ answer.correct ? '✓' : '×' }}</span><div><h3>{{ index + 1 }}. {{ answer.question }}</h3><p [class.struck]="!answer.correct">Votre réponse : {{ answer.response }}</p>@if (answer.correction) {<p class="correction">↳ Correction : {{ answer.correction }}</p>}<span class="points" [class.points--zero]="!answer.correct">{{ answer.points }}</span></div></article>}</div><footer>Voir toutes les questions</footer></section>
   </div>
 </div>

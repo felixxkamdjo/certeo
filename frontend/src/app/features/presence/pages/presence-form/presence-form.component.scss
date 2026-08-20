@@ -2,10 +2,24 @@
 @use 'styles/mixins' as *;
 
 .presence-form {
-  width: 100%;
+  margin: 0 auto;
+  max-width: 720px;
 
   &__header {
-    text-align: center;
     margin-bottom: $spacing-xl;
+    text-align: center;
+    h1 { color: $color-gray-900; font-size: $font-size-3xl; margin: 4px 0; }
+    p:last-child { color: $color-gray-600; margin: 0; }
   }
 }
+
+.eyebrow { color: $color-primary-dark; font-size: $font-size-xs; font-weight: $font-weight-bold; letter-spacing: .12em; text-transform: uppercase; }
+.location-panel, .form-card, .success-screen { @include card($spacing-xl); }
+.location-panel { align-items: center; display: flex; gap: $spacing-md; margin-bottom: $spacing-lg; }
+.location-panel__icon, .success-screen__mark { @include flex-center; background: $color-primary-bg; border-radius: $radius-full; color: $color-primary-dark; font-size: $font-size-2xl; height: 48px; min-width: 48px; }
+.location-panel h2 { font-size: $font-size-lg; margin: 0 0 4px; }
+.location-panel p { color: $color-gray-600; margin: 0; }
+.location-panel .button { margin-left: auto; }
+.progress { color: $color-gray-600; display: grid; grid-template-columns: 1fr auto; gap: $spacing-xs $spacing-md; margin-bottom: $spacing-md; font-size: $font-size-sm; }.progress strong { color: $color-primary-dark; }.progress > div { background: $color-gray-200; border-radius: $radius-full; grid-column: 1 / -1; height: 6px; overflow: hidden; }.progress i { background: $color-primary; display: block; height: 100%; width: 50%; }.progress__fill--complete { width: 100% !important; }
+.form-card h2 { margin: 0 0 4px; }.form-card__intro { color: $color-gray-600; margin: 0 0 $spacing-lg; }.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: $spacing-md; }.form-card label, fieldset { color: $color-gray-900; display: flex; flex-direction: column; font-size: $font-size-sm; font-weight: $font-weight-semibold; gap: $spacing-xs; margin-bottom: $spacing-md; }.form-card label span { color: $color-gray-500; font-weight: $font-weight-regular; }.form-card input, .form-card select { background: $color-white; border: 1px solid $color-gray-300; border-radius: $radius-md; box-sizing: border-box; font: inherit; min-height: 44px; padding: 0 $spacing-md; width: 100%; }.form-card input:focus, .form-card select:focus { @include focus-ring; }.form-card fieldset { border: 0; padding: 0; }.form-card legend { margin-bottom: $spacing-sm; }.choice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: $spacing-sm; }.choice-grid label { align-items: center; border: 1px solid $color-gray-300; border-radius: $radius-md; cursor: pointer; flex-direction: row; font-weight: $font-weight-regular; justify-content: center; margin: 0; padding: $spacing-sm; }.choice-grid input { min-height: auto; width: auto; }.button { border: 0; border-radius: $radius-md; cursor: pointer; display: inline-flex; gap: $spacing-sm; justify-content: center; padding: 12px 16px; font: inherit; font-weight: $font-weight-semibold; }.button--primary { background: $color-primary; color: $color-white; }.button--secondary { background: $color-white; border: 1px solid $color-gray-300; color: $color-gray-900; }.button--full { margin-top: $spacing-md; width: 100%; }.form-card__actions { display: flex; gap: $spacing-sm; justify-content: flex-end; margin-top: $spacing-xl; }.form-error { background: $color-danger-light; color: $color-danger; padding: $spacing-md; }.success-screen { align-items: center; display: flex; flex-direction: column; gap: $spacing-sm; margin-top: $spacing-2xl; text-align: center; }.success-screen h1 { margin: 0; }.success-screen p { color: $color-gray-600; }
+@include mobile { .location-panel { align-items: stretch; flex-direction: column; }.location-panel .button { margin-left: 0; }.form-grid { grid-template-columns: 1fr; }.choice-grid { grid-template-columns: 1fr 1fr; }.form-card__actions { flex-direction: column-reverse; }.form-card__actions .button { width: 100%; } }

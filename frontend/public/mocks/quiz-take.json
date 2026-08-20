@@ -1,0 +1,26 @@
+{
+  "questions": [
+    {
+      "title": "Dans une architecture microservices, quel pattern est le plus approprié pour gérer une transaction distribuée s’étendant sur plusieurs services indépendants ?",
+      "options": ["Two-Phase Commit (2PC)", "Le pattern Saga (Chorégraphie ou Orchestration)", "Event Sourcing centralisé", "API Gateway Aggregation"],
+      "answer": 1
+    },
+    {
+      "title": "Quelle pratique améliore le plus la résilience d’un service distribué ?",
+      "options": ["Un timeout partagé", "Des retries infinis", "Des timeouts et circuit breakers", "Une base de données unique"],
+      "answer": 2
+    },
+    {
+      "title": "Quel principe limite le couplage entre deux services ?",
+      "options": ["Partager leurs modèles internes", "Publier un contrat stable", "Utiliser le même déploiement", "Centraliser leur logique métier"],
+      "answer": 1
+    },
+    {
+      "title": "Quel mécanisme permet de rejouer les événements métier ?",
+      "options": ["Event sourcing", "Polling agressif", "Cache local", "Session HTTP"],
+      "answer": 0
+    }
+  ],
+  "initialQuestionIndex": 3,
+  "duration": "42:15"
+}

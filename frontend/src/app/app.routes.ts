@@ -39,7 +39,7 @@ export const routes: Routes = [
     path: 'public',
     component: PublicLayoutComponent,
     children: [
-      { path: 'presence', loadChildren: () => import('@features/presence/presence.routes') },
+      { path: 'presence', loadChildren: () => import('@features/presence/presence-public.routes') },
       { 
         path: 'apply', 
         loadComponent: () => import('@features/applications/pages/application-form/application-form').then(m => m.ApplicationFormComponent)

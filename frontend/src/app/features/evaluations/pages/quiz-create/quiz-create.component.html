@@ -1,6 +1,106 @@
-<div class="quiz-create">
-  <div class="quiz-create__header">
-    <h1 class="heading-3">Créateur de Questionnaire QCM</h1>
-    <p class="text-muted">Ajoutez des questions, options et barèmes pour vos évaluations.</p>
-  </div>
-</div>
+<section class="quiz-create">
+  <header class="quiz-create__header">
+    <div>
+      <h1>{{ isEditMode() ? 'Modifier l’évaluation' : 'Nouvelle Évaluation QCM' }}</h1>
+      <p class="quiz-create__description">{{ isEditMode() ? 'Mettez à jour les informations de votre questionnaire' : 'Créez un nouveau questionnaire à choix multiples' }}</p>
+    </div>
+    <button class="save-button" type="submit" form="quiz-form" (click)="save()">
+      <span aria-hidden="true">▣</span>
+      {{ isEditMode() ? 'Enregistrer les modifications' : "Enregistrer l'évaluation" }}
+    </button>
+  </header>
+
+  @if (saved()) {
+    <p class="form-message form-message--success" role="status">L'évaluation est prête à être enregistrée.</p>
+  }
+
+  <form class="quiz-form" id="quiz-form" [formGroup]="form" (ngSubmit)="save()">
+    <div class="quiz-form__main">
+      <section class="form-panel form-panel--accent">
+        <h2><span class="section-icon" aria-hidden="true">ⓘ</span>Informations Générales</h2>
+        <div class="form-grid">
+          <label class="form-field">
+            <span>Titre de l'évaluation</span>
+            <input formControlName="title" type="text" />
+          </label>
+          <label class="form-field">
+            <span>Formation associée</span>
+            <span class="select-field">
+              <select formControlName="trainingName">
+                <option>Bootcamp Développement Web Fullstack</option>
+                <option>Initiation Python</option>
+                <option>Data Science Fundamentals</option>
+              </select>
+              <span aria-hidden="true">⌄</span>
+            </span>
+          </label>
+          <label class="form-field">
+            <span>Description (optionnel)</span>
+            <textarea formControlName="description" placeholder="Instructions pour les participants..." rows="3"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <section class="form-panel" formArrayName="questions">
+        <div class="section-heading">
+          <h2><span class="section-icon" aria-hidden="true">☷</span>Questions</h2>
+          <span class="question-count">{{ questions.length }} Question{{ questions.length === 1 ? '' : 's' }}</span>
+        </div>
+
+        @for (question of questions.controls; track question; let questionIndex = $index) {
+          <article class="question-card" [formGroupName]="questionIndex">
+            <div class="question-card__actions">
+              <button class="icon-button" type="button" aria-label="Dupliquer la question" title="Dupliquer">⧉</button>
+              <button class="icon-button icon-button--danger" type="button" aria-label="Supprimer la question" title="Supprimer" (click)="removeQuestion(questionIndex)">×</button>
+            </div>
+            <div class="question-card__body">
+              <span class="question-number">{{ questionIndex + 1 }}</span>
+              <div class="question-card__content">
+                <input class="question-input" aria-label="Texte de la question" formControlName="question" placeholder="Entrez votre question ici..." type="text" />
+                <div class="options">
+                  @for (option of optionsFor(questionIndex).controls; track option; let optionIndex = $index) {
+                    <label class="option-row" [class.option-row--correct]="question.get('correctOption')?.value === optionIndex">
+                      <input [name]="'correct-' + questionIndex" formControlName="correctOption" type="radio" [value]="optionIndex" />
+                      <span class="option-input">
+                        <span class="option-letter">{{ ['A', 'B', 'C', 'D', 'E', 'F'][optionIndex] }}.</span>
+                        <input [formControl]="option" aria-label="Texte de la réponse" placeholder="Proposition de réponse" type="text" />
+                        @if (question.get('correctOption')?.value === optionIndex) {
+                          <span class="correct-mark" aria-label="Bonne réponse">✓</span>
+                        }
+                      </span>
+                    </label>
+                  }
+                </div>
+              </div>
+            </div>
+              <div class="question-card__footer">
+                <label class="points-field">Points: <input formControlName="points" min="1" type="number" /></label>
+                <button class="text-button" type="button" (click)="addOption(questionIndex)">+ Ajouter une option</button>
+              </div>
+          </article>
+        }
+
+        <button class="add-question" type="button" (click)="addQuestion()">
+          <span class="add-question__icon" aria-hidden="true">+</span>
+          <span>Ajouter une question</span>
+        </button>
+      </section>
+    </div>
+
+    <div class="settings-column">
+      <aside class="form-panel settings-panel">
+        <h2><span class="section-icon" aria-hidden="true">⚙</span>Paramètres de l'évaluation</h2>
+        <label class="form-field">
+          <span><span class="field-icon" aria-hidden="true">◷</span>Durée estimée (minutes)</span>
+          <input formControlName="duration" min="1" type="number" />
+        </label>
+        <label class="toggle-field"><span><span class="field-icon" aria-hidden="true">↗</span>Mélanger les questions</span><input formControlName="shuffleQuestions" type="checkbox" /></label>
+        <label class="toggle-field"><span><span class="field-icon" aria-hidden="true">↗</span>Mélanger les options</span><input formControlName="shuffleOptions" type="checkbox" /></label>
+        <div class="points-summary-wrap">
+          <div class="points-summary"><div><span>Total des points calculé</span><strong>{{ totalPoints() }}</strong></div><span class="points-summary__icon" aria-hidden="true">♜</span></div>
+        </div>
+        <button class="preview-button" type="button">Aperçu</button>
+      </aside>
+    </div>
+  </form>
+</section>

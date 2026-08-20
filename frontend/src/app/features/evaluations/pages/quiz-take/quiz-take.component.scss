@@ -2,10 +2,38 @@
 @use 'styles/mixins' as *;
 
 .quiz-take {
-  width: 100%;
-
-  &__header {
-    text-align: center;
-    margin-bottom: $spacing-xl;
-  }
+  min-height: 100dvh;
+  margin: -$spacing-xl -$spacing-md;
+  background: radial-gradient(circle at 8% 20%, #fff0e7, transparent 30%), $color-gray-50;
+  color: $color-gray-900;
+  font-family: $font-family-base;
+  &__topbar { display: flex; align-items: center; justify-content: space-between; min-height: 64px; padding: 0 $spacing-lg; border-bottom: 1px solid #e8bca4; background: $color-white; }
+  &__brand { display: flex; align-items: center; gap: $spacing-lg; text-transform: uppercase; letter-spacing: .08em; color: $color-gray-700; font-size: $font-size-sm; }
+  &__brand strong { padding-right: $spacing-lg; border-right: 1px solid #e8bca4; color: $color-primary-dark; font-size: $font-size-xl; letter-spacing: 0; }
+  &__timer { display: flex; align-items: center; gap: $spacing-sm; padding: $spacing-sm $spacing-md; border: 1px solid $color-gray-300; border-radius: $radius-full; background: $color-gray-100; font-size: $font-size-lg; }
+  &__canvas { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100dvh - 64px); padding: $spacing-lg; }
+  &__hint { max-width: 440px; margin: $spacing-lg 0 0; color: $color-gray-700; text-align: center; line-height: $line-height-base; }
 }
+
+.quiz-card { width: min(100%, 800px); overflow: hidden; border: 1px solid rgba(140, 114, 99, .2); border-radius: $radius-lg; background: $color-white; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
+.quiz-card__progress { padding: $spacing-xl $spacing-xl $spacing-md; border-bottom: 1px solid #eadbd3; }
+.quiz-card__progress > div:first-child { display: flex; justify-content: space-between; align-items: end; margin-bottom: $spacing-sm; color: $color-gray-700; text-transform: uppercase; letter-spacing: .12em; font-size: $font-size-sm; }
+.quiz-card__progress > div:first-child span { color: $color-primary; text-transform: none; letter-spacing: 0; }
+.progress-track { height: 8px; overflow: hidden; border-radius: $radius-full; background: $color-gray-200; }
+.progress-track div { height: 100%; border-radius: inherit; background: $color-primary; transition: width $transition-base; }
+.quiz-card__body { padding: $spacing-xl; }
+.quiz-card__body h1 { margin: 0 0 $spacing-xl; font-size: clamp(1.65rem, 3vw, 2.25rem); line-height: 1.35; }
+.answer-options { display: grid; gap: $spacing-md; }
+.answer-option { display: flex; align-items: center; gap: $spacing-md; padding: $spacing-lg; border: 1px solid #e8bca4; border-radius: $radius-md; background: $color-white; cursor: pointer; color: #4f3326; font-size: $font-size-lg; }
+.answer-option input { position: absolute; opacity: 0; }
+.answer-option__radio { display: grid; place-items: center; width: 24px; height: 24px; flex: 0 0 24px; border: 2px solid #8c7263; border-radius: 50%; }
+.answer-option--selected { border: 2px solid $color-primary; background: #fff5ef; color: $color-primary-dark; font-weight: $font-weight-bold; }
+.answer-option--selected .answer-option__radio { border-color: $color-primary; }
+.answer-option--selected .answer-option__radio span { width: 12px; height: 12px; border-radius: 50%; background: $color-primary; }
+.quiz-card__footer { display: flex; justify-content: space-between; padding: $spacing-lg $spacing-xl; border-top: 1px solid #eadbd3; }
+.outline-button, .primary-button { min-height: 48px; padding: 0 $spacing-lg; border-radius: $radius-md; cursor: pointer; font: inherit; font-weight: $font-weight-semibold; }
+.outline-button { border: 1px solid #8c7263; background: $color-white; color: $color-gray-700; }
+.outline-button:disabled { cursor: not-allowed; opacity: .45; }
+.primary-button { border: 0; background: $color-primary; color: $color-white; }
+
+@include mobile { .quiz-take { margin: -$spacing-xl -$spacing-md; } .quiz-take__brand span { display: none; } .quiz-take__brand strong { border: 0; padding: 0; } .quiz-take__canvas { padding: $spacing-md; } .quiz-card__progress, .quiz-card__body, .quiz-card__footer { padding: $spacing-md; } .quiz-card__footer { gap: $spacing-sm; } .answer-option { padding: $spacing-md; font-size: $font-size-base; } }

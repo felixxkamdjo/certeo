@@ -1,0 +1,90 @@
+<section class="quiz-detail">
+  @if (evaluation(); as currentEvaluation) {
+    <header class="quiz-detail__header">
+      <div>
+        <a class="back-link" routerLink="/admin/evaluations">← Retour aux évaluations</a>
+        <p class="quiz-detail__eyebrow">Détail de l'évaluation</p>
+        <h1>{{ currentEvaluation.title }}</h1>
+        <p class="quiz-detail__description">{{ currentEvaluation.trainingName }}</p>
+      </div>
+      <div class="quiz-detail__actions">
+        <button class="button button--outline" type="button">Modifier</button>
+        <button class="button button--primary" type="button">Envoyer l'évaluation</button>
+      </div>
+    </header>
+
+    <div class="detail-grid">
+      <main class="detail-main">
+        <section class="detail-card detail-card--accent" aria-labelledby="general-title">
+          <div class="card-heading">
+            <div>
+              <p class="card-kicker">Vue d'ensemble</p>
+              <h2 id="general-title">Informations générales</h2>
+            </div>
+            <span class="type-badge">{{ currentEvaluation.type }}</span>
+          </div>
+          <div class="metadata-grid">
+            <div><span>Formation associée</span><strong>{{ currentEvaluation.trainingName }}</strong></div>
+            <div><span>Date de création</span><strong>{{ formatDate(currentEvaluation.createdAt) }}</strong></div>
+            <div><span>Nombre de questions</span><strong>{{ currentEvaluation.questionCount }}</strong></div>
+            <div><span>Durée estimée</span><strong>30 minutes</strong></div>
+          </div>
+        </section>
+
+        <section class="detail-card" aria-labelledby="questions-title">
+          <div class="card-heading">
+            <div>
+              <p class="card-kicker">Contenu du questionnaire</p>
+              <h2 id="questions-title">Questions</h2>
+            </div>
+            <span class="question-count">{{ currentEvaluation.questionCount }} questions</span>
+          </div>
+
+          <div class="question-list">
+            @for (question of questions; track question.title; let questionIndex = $index) {
+              <article class="question-preview">
+                <div class="question-preview__number">{{ questionIndex + 1 }}</div>
+                <div class="question-preview__content">
+                  <h3>{{ question.title }}</h3>
+                  <ol class="answer-list" type="A">
+                    @for (option of question.options; track option; let optionIndex = $index) {
+                      <li [class.answer-list__correct]="optionIndex === question.answer">
+                        <span>{{ option }}</span>
+                        @if (optionIndex === question.answer) {
+                          <span class="correct-label">Bonne réponse</span>
+                        }
+                      </li>
+                    }
+                  </ol>
+                </div>
+              </article>
+            }
+          </div>
+          @if (completionLabel()) {
+            <p class="question-more">{{ completionLabel() }}</p>
+          }
+        </section>
+      </main>
+
+      <aside class="detail-sidebar">
+        <section class="detail-card status-card" aria-labelledby="status-title">
+          <h2 id="status-title">Statut</h2>
+          <div class="status-card__state"><span></span>Prête à être envoyée</div>
+          <button class="button button--primary button--full" type="button">Aperçu du quiz</button>
+        </section>
+        <section class="detail-card participation-card" aria-labelledby="participation-title">
+          <h2 id="participation-title">Participations</h2>
+          <strong>{{ currentEvaluation.questionCount > 0 ? '458' : '0' }}</strong>
+          <p>participations enregistrées</p>
+          <div class="score-line"><span>Score moyen</span><strong>78%</strong></div>
+        </section>
+      </aside>
+    </div>
+  } @else {
+    <section class="not-found">
+      <h1>Évaluation introuvable</h1>
+      <p>Cette évaluation n'existe pas ou n'est plus disponible.</p>
+      <a class="button button--primary" routerLink="/admin/evaluations">Retour aux évaluations</a>
+    </section>
+  }
+</section>

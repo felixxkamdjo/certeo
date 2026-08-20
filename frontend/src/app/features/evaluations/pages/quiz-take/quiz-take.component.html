@@ -1,6 +1,32 @@
 <div class="quiz-take">
-  <div class="quiz-take__header">
-    <h2 class="heading-4 text-center">Passage de l'évaluation</h2>
-    <p class="text-muted text-center">Interface candidat pour répondre aux questions.</p>
-  </div>
+  <header class="quiz-take__topbar">
+    <div class="quiz-take__brand"><strong>CERTEO</strong><span>Évaluation des compétences techniques</span></div>
+    <div class="quiz-take__timer"><span aria-hidden="true">◷</span>{{ duration() }}</div>
+  </header>
+
+  <main class="quiz-take__canvas">
+    <section class="quiz-card">
+      <div class="quiz-card__progress">
+        <div><strong>Question {{ currentIndex() + 1 }} sur 20</strong><span>{{ progress() }}% complété</span></div>
+        <div class="progress-track"><div [style.width.%]="progress()"></div></div>
+      </div>
+      <div class="quiz-card__body">
+        <h1>{{ currentQuestion().title }}</h1>
+        <div class="answer-options">
+          @for (option of currentQuestion().options; track option; let optionIndex = $index) {
+            <label class="answer-option" [class.answer-option--selected]="selectedAnswer() === optionIndex">
+              <input name="quiz-answer" type="radio" [checked]="selectedAnswer() === optionIndex" (change)="selectAnswer(optionIndex)" />
+              <span class="answer-option__radio"><span></span></span>
+              <span>{{ option }}</span>
+            </label>
+          }
+        </div>
+      </div>
+      <footer class="quiz-card__footer">
+        <button class="outline-button" type="button" [disabled]="currentIndex() === 0" (click)="previous()">← <span>Précédent</span></button>
+        <button class="primary-button" type="button" (click)="next()"><span>{{ currentIndex() === questions.length - 1 ? 'Terminer' : 'Suivant' }}</span> →</button>
+      </footer>
+    </section>
+    <p class="quiz-take__hint">Assurez-vous de sélectionner l’option la plus précise. Vous pourrez revenir sur cette question plus tard si le temps le permet.</p>
+  </main>
 </div>

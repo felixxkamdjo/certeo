@@ -111,13 +111,20 @@ export class CertificateService {
               ...updated[index],
               hasCertificate: true,
               certificatePdfUrl: '#', // In reality, we'd upload the file and get a URL
-              certificateId: `CRT-${Math.floor(1000 + Math.random() * 9000)}-${updated[index].lastName.substring(0, 2).toUpperCase()}`
+              certificateId: this.generateCertificateId(updated[index].lastName)
             };
           }
         }
       }
       return updated;
     });
+  }
+
+  private generateCertificateId(lastName: string): string {
+    const randomValue = new Uint32Array(1);
+    globalThis.crypto.getRandomValues(randomValue);
+    const randomDigits = 1000 + (randomValue[0] % 9000);
+    return `CRT-${randomDigits}-${lastName.substring(0, 2).toUpperCase()}`;
   }
 
   getParticipant(id: string): CertificateParticipant | undefined {

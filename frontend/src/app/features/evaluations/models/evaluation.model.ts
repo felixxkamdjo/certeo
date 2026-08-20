@@ -1,28 +1,19 @@
-export interface Quiz {
-  id: string;
-  trainingId: string;
-  title: string;
-  description: string;
-  durationMinutes: number;
-  passingScore: number;
-  questions: QuizQuestion[];
-  createdAt: string;
+export interface Evaluation {
+	id: string;
+	title: string;
+	trainingName: string;
+	type: string;
+	questionCount: number;
+	createdAt: string;
 }
 
-export interface QuizQuestion {
-  id: string;
-  prompt: string;
-  options: string[];
-  correctOptionIndex: number;
-  points: number;
+export interface EvaluationStatistics {
+	totalEvaluations: number;
+	totalParticipations: number;
+	averageScore: number;
 }
 
-export interface QuizResult {
-  id: string;
-  quizId: string;
-  candidateName: string;
-  score: number;
-  totalPoints: number;
-  passed: boolean;
-  completedAt: string;
+export interface EvaluationsData {
+	items: Evaluation[];
+	statistics: EvaluationStatistics;
 }
