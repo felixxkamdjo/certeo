@@ -6,6 +6,8 @@ using Certeo.Api.Modules.Identity.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Certeo.Api.Modules.Trainings;
+using Certeo.Api.Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +55,8 @@ builder.Services.AddAuthorization();
 // security and business services
 builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<SlugGenerator>();
+builder.Services.AddScoped<ITrainingService, TrainingService>();
 
 // ==========================================
 // API, SWAGGER & CORS
@@ -100,6 +104,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // authentification & autorisation
 app.UseAuthentication();
