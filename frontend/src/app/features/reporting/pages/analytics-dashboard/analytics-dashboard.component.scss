@@ -5,292 +5,40 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-xl;
-  /* Making it full width across admin area per previous requests */
 }
 
-// --- Page Header ---
-.page-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  &__actions {
-    display: flex;
-    align-items: center;
-    gap: $spacing-md;
-  }
-}
-
-.page-title {
-  font-size: $font-size-2xl;
-  font-weight: $font-weight-bold;
-  color: $color-gray-900;
-  margin: 0;
-}
-
-.page-subtitle {
-  font-size: $font-size-base;
-  color: $color-gray-600;
-  margin: $spacing-xs 0 0;
-}
-
-// --- Forms & Buttons (Copied from other lists) ---
-.select-wrap {
-  position: relative;
-  width: 200px;
-
-  &__chevron {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: $color-gray-500;
-    pointer-events: none;
-    font-size: 20px;
-  }
-}
-
-.select-field {
-  appearance: none;
-  width: 100%;
-  padding: 10px 40px 10px 16px;
-  background: $color-gray-100;
-  border: 1px solid $color-gray-200;
-  border-radius: $radius-lg;
-  font-size: $font-size-base;
-  font-family: $font-family-base;
-  color: $color-gray-900;
-  cursor: pointer;
-  transition: border-color $transition-fast;
-
-  &:focus {
-    outline: none;
-    border-color: $color-primary;
-    background: $color-white;
-  }
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: $spacing-xs;
-  padding: 10px $spacing-lg;
-  border-radius: $radius-lg;
-  font-size: $font-size-base;
-  font-weight: $font-weight-semibold;
-  font-family: $font-family-base;
-  cursor: pointer;
-  transition: all $transition-fast;
-  border: none;
-
-  .material-symbols-outlined {
-    font-size: 18px;
-  }
-
-  &--primary {
-    background: $color-primary;
-    color: $color-white;
-
-    &:hover {
-      background: $color-primary-dark;
-      box-shadow: 0 4px 12px rgba($color-primary, 0.2);
-    }
-  }
-
-  &--outline {
-    background: transparent;
-    border: 1px solid $color-gray-300;
-    color: $color-gray-900;
-
-    &:hover {
-      background: $color-gray-100;
-    }
-  }
-}
-
-// --- KPI Grid ---
-.kpi-grid {
+// Grille de graphiques 2 colonnes
+.charts-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: $spacing-lg;
 
-  @include tablet-up {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @include desktop {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-// --- Charts Row ---
-.charts-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: $spacing-lg;
-
-  @include desktop {
-    grid-template-columns: 2fr 1fr;
-  }
+  @include tablet { grid-template-columns: 1fr; }
 }
 
 .chart-card {
   background: $color-white;
+  border: 1px solid $color-gray-200;
   border-radius: $radius-xl;
   padding: $spacing-xl;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-
-  &__title {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-bold;
-    color: $color-gray-900;
-    margin: 0 0 $spacing-xl;
-  }
-}
-
-// --- Data Table Custom Cells ---
-.table-card {
-  background: $color-white;
-  border-radius: $radius-xl;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
+  box-shadow: $shadow-sm;
 
   &__header {
-    padding: $spacing-xl;
-    border-bottom: 1px solid $color-gray-200;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: $spacing-lg;
   }
 
   &__title {
-    font-size: $font-size-lg;
-    font-weight: $font-weight-bold;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
     margin: 0;
   }
-}
 
-.btn-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: $color-primary;
-  font-size: 14px;
-  font-weight: $font-weight-semibold;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color $transition-fast;
-
-  &:hover {
-    color: $color-primary;
-  }
-
-  .material-symbols-outlined {
-    font-size: 18px;
-  }
-}
-
-.training-cell {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
-
-  .training-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: $radius-md;
-    @include flex-center;
-    
-    .material-symbols-outlined {
-      font-size: 18px;
-    }
-  }
-}
-
-.score-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-
-  .star-icon {
-    font-size: 18px;
-    color: $color-primary;
-    font-variation-settings: 'FILL' 1;
-  }
-}
-
-.completion-cell {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-
-  .progress-bar {
-    flex: 1;
-    height: 8px;
-    background: $color-gray-200;
-    border-radius: $radius-full;
-    overflow: hidden;
-
-    &__fill {
-      height: 100%;
-      border-radius: $radius-full;
-    }
-  }
-
-  .completion-value {
-    font-size: 14px;
-    font-weight: $font-weight-bold;
-    min-width: 32px;
-  }
-}
-
-// --- Table Styles ---
-.table-wrap {
-  overflow-x: auto;
-  width: 100%;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-
-  thead tr {
-    background: $color-gray-50;
-    border-bottom: 1px solid $color-gray-200;
-  }
-
-  th {
-    padding: $spacing-md $spacing-lg;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-semibold;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: $color-primary;
-    white-space: nowrap;
-  }
-
-  &__row {
-    border-bottom: 1px solid $color-gray-100;
-    transition: background-color $transition-fast;
-
-    &:hover {
-      background-color: $color-gray-50;
-    }
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    td {
-      padding: $spacing-md $spacing-lg;
-      font-size: $font-size-base;
-      color: $color-gray-900;
-      vertical-align: middle;
-    }
+  &--span-2 {
+    grid-column: span 2;
+    @include tablet { grid-column: span 1; }
   }
 }
