@@ -1,32 +1,148 @@
 <div class="quiz-take">
-  <header class="quiz-take__topbar">
-    <div class="quiz-take__brand"><strong>CERTEO</strong><span>Évaluation des compétences techniques</span></div>
-    <div class="quiz-take__timer"><span aria-hidden="true">◷</span>{{ duration() }}</div>
-  </header>
 
-  <main class="quiz-take__canvas">
-    <section class="quiz-card">
-      <div class="quiz-card__progress">
-        <div><strong>Question {{ currentIndex() + 1 }} sur 20</strong><span>{{ progress() }}% complété</span></div>
-        <div class="progress-track"><div [style.width.%]="progress()"></div></div>
+  <!-- Topbar — visible dans tous les états sauf loading -->
+  @if (quizState() !== 'loading') {
+    <header class="quiz-take__topbar">
+      <div class="quiz-take__brand">
+        <strong>CERTEO</strong>
+        <span>{{ quizTitle() }}</span>
       </div>
-      <div class="quiz-card__body">
-        <h1>{{ currentQuestion().title }}</h1>
-        <div class="answer-options">
-          @for (option of currentQuestion().options; track option; let optionIndex = $index) {
-            <label class="answer-option" [class.answer-option--selected]="selectedAnswer() === optionIndex">
-              <input name="quiz-answer" type="radio" [checked]="selectedAnswer() === optionIndex" (change)="selectAnswer(optionIndex)" />
-              <span class="answer-option__radio"><span></span></span>
-              <span>{{ option }}</span>
-            </label>
-          }
+      @if (quizState() === 'started') {
+        <div class="quiz-take__timer" [class.quiz-take__timer--warning]="timerWarning()">
+          <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+          <span>{{ timerDisplay() }}</span>
         </div>
+      }
+    </header>
+  }
+
+  <!-- ETAT : LOADING -->
+  @if (quizState() === 'loading') {
+    <div class="quiz-take__loading">
+      <span class="material-symbols-outlined spin">progress_activity</span>
+      <p>Chargement de l'evaluation...</p>
+    </div>
+  }
+
+  <!-- ETAT : READY (écran de consignes) -->
+  @if (quizState() === 'ready') {
+    <main class="quiz-take__canvas">
+      <div class="quiz-intro-card">
+
+        <div class="quiz-intro-card__header">
+          <span class="quiz-intro-card__icon material-symbols-outlined">assignment</span>
+          <div>
+            <p class="quiz-intro-card__training">{{ trainingLabel() }}</p>
+            <h1 class="quiz-intro-card__title">{{ quizTitle() }}</h1>
+          </div>
+        </div>
+
+        <div class="quiz-intro-card__meta">
+          <div class="meta-item">
+            <span class="material-symbols-outlined">quiz</span>
+            <span>{{ questions().length }} questions</span>
+          </div>
+          <div class="meta-item">
+            <span class="material-symbols-outlined">schedule</span>
+            <span>{{ quizData()?.durationSeconds ? (quizData()!.durationSeconds / 60) + ' minutes' : '—' }}</span>
+          </div>
+        </div>
+
+        @if (instructions()) {
+          <div class="quiz-intro-card__instructions">
+            <h2>
+              <span class="material-symbols-outlined">info</span>
+              Consignes
+            </h2>
+            <p>{{ instructions() }}</p>
+          </div>
+        }
+
+        <div class="quiz-intro-card__rules">
+          <h2>Regles</h2>
+          <ul>
+            <li>
+              <span class="material-symbols-outlined">radio_button_checked</span>
+              Une seule reponse correcte par question
+            </li>
+            <li>
+              <span class="material-symbols-outlined">arrow_back</span>
+              Vous pouvez revenir sur les questions precedentes
+            </li>
+            <li>
+              <span class="material-symbols-outlined">timer</span>
+              Le temps est limite — le quiz se termine automatiquement a l'expiration
+            </li>
+          </ul>
+        </div>
+
+        <button class="quiz-intro-card__start" type="button" (click)="startQuiz()">
+          <span class="material-symbols-outlined">play_arrow</span>
+          Commencer l'evaluation
+        </button>
+
       </div>
-      <footer class="quiz-card__footer">
-        <button class="outline-button" type="button" [disabled]="currentIndex() === 0" (click)="previous()">← <span>Précédent</span></button>
-        <button class="primary-button" type="button" (click)="next()"><span>{{ currentIndex() === questions.length - 1 ? 'Terminer' : 'Suivant' }}</span> →</button>
-      </footer>
-    </section>
-    <p class="quiz-take__hint">Assurez-vous de sélectionner l’option la plus précise. Vous pourrez revenir sur cette question plus tard si le temps le permet.</p>
-  </main>
+    </main>
+  }
+
+  <!-- ETAT : STARTED (quiz en cours) -->
+  @if (quizState() === 'started') {
+    <main class="quiz-take__canvas">
+      <section class="quiz-card">
+
+        <div class="quiz-card__progress">
+          <div class="quiz-card__progress-row">
+            <strong>Question {{ currentIndex() + 1 }} sur {{ questions().length }}</strong>
+            <span>{{ progress() }}% complete</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-track__fill" [style.width.%]="progress()"></div>
+          </div>
+        </div>
+
+        <div class="quiz-card__body">
+          <h1>{{ currentQuestion().title }}</h1>
+          <div class="answer-options">
+            @for (option of currentQuestion().options; track option; let optionIndex = $index) {
+              <label
+                class="answer-option"
+                [class.answer-option--selected]="selectedAnswer() === optionIndex">
+                <input
+                  name="quiz-answer"
+                  type="radio"
+                  [checked]="selectedAnswer() === optionIndex"
+                  (change)="selectAnswer(optionIndex)" />
+                <span class="answer-option__radio">
+                  <span class="answer-option__radio-dot"></span>
+                </span>
+                <span class="answer-option__letter">{{ ['A', 'B', 'C', 'D', 'E'][optionIndex] }}</span>
+                <span class="answer-option__text">{{ option }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <footer class="quiz-card__footer">
+          <button
+            class="quiz-nav-btn quiz-nav-btn--outline"
+            type="button"
+            [disabled]="currentIndex() === 0"
+            (click)="previous()">
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+            <span>Precedent</span>
+          </button>
+          <button class="quiz-nav-btn quiz-nav-btn--primary" type="button" (click)="next()">
+            <span>{{ currentIndex() === questions().length - 1 ? 'Terminer' : 'Suivant' }}</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+          </button>
+        </footer>
+
+      </section>
+
+      <p class="quiz-take__hint">
+        Selectionnez l'option la plus precise. Vous pouvez revenir sur les questions precedentes.
+      </p>
+    </main>
+  }
+
 </div>

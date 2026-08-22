@@ -1,21 +1,20 @@
 import { Routes } from '@angular/router';
 
+// Note : les routes /public/quiz/take et /public/quiz/results sont déclarées
+// dans app.routes.ts sous le public-layout — elles ne font PAS partie du module admin.
+
 export default [
   {
     path: '',
     loadComponent: () => import('./pages/quiz-list/quiz-list.component').then(m => m.QuizListComponent),
   },
   {
+    path: 'send',
+    loadComponent: () => import('./pages/quiz-send/quiz-send.component').then(m => m.QuizSendComponent),
+  },
+  {
     path: 'create',
     loadComponent: () => import('./pages/quiz-create/quiz-create.component').then(m => m.QuizCreateComponent),
-  },
-  {
-    path: 'take',
-    loadComponent: () => import('./pages/quiz-take/quiz-take.component').then(m => m.QuizTakeComponent),
-  },
-  {
-    path: 'results',
-    loadComponent: () => import('./pages/quiz-results/quiz-results.component').then(m => m.QuizResultsComponent),
   },
   {
     path: ':id/edit',

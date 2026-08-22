@@ -1,52 +1,19 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as *;
 
-:host { display: block; }
+.quiz-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
 
-.quiz-page { max-width: 1280px; margin: 0 auto; color: $color-gray-900; }
-.quiz-page__intro { display: flex; justify-content: space-between; align-items: end; gap: $spacing-xl; margin-bottom: $spacing-xl; }
-.quiz-page__eyebrow { margin: 0 0 $spacing-xs; color: $color-primary-dark; font-size: $font-size-xs; font-weight: $font-weight-bold; letter-spacing: .12em; text-transform: uppercase; }
-h1, h2, p { margin-top: 0; }
-h1 { margin-bottom: $spacing-sm; font-size: clamp($font-size-2xl, 4vw, $font-size-4xl); line-height: $line-height-tight; }
-.quiz-page__description { max-width: 600px; margin-bottom: 0; color: $color-gray-600; font-size: $font-size-md; }
-.quiz-page__actions { display: flex; gap: $spacing-md; }
-.button { min-height: 48px; padding: 0 $spacing-lg; border: 0; border-radius: $radius-md; color: $color-white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: $spacing-sm; font: inherit; font-weight: $font-weight-bold; transition: transform $transition-fast, background $transition-fast; }
-.button:hover { transform: translateY(-2px); }
-.button--dark { background: $color-black; }
-.button--dark:hover { background: $color-gray-800; }
-.button--primary { background: $color-primary; }
-.button--primary:hover { background: $color-primary-dark; }
-.quiz-page__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: $spacing-lg; margin-bottom: $spacing-xl; }
-.stat-card { @include card($spacing-lg); display: flex; align-items: center; gap: $spacing-md; min-height: 112px; border-left: 4px solid transparent; }
-.stat-card--accent { border-left-color: $color-primary; }
-.stat-card__icon { @include flex-center; width: 52px; height: 52px; flex: 0 0 52px; border-radius: $radius-full; background: $color-gray-200; color: $color-gray-900; font-size: 25px; }
-.stat-card--accent .stat-card__icon { background: $color-primary-bg; color: $color-primary; }
-.stat-card p { margin-bottom: $spacing-xs; color: $color-gray-600; }
-.stat-card strong { font-size: $font-size-2xl; line-height: 1; }
-.evaluation-list { @include card(0); overflow: hidden; }
-.evaluation-list__header { display: flex; align-items: center; justify-content: space-between; gap: $spacing-md; padding: $spacing-xl; border-bottom: 1px solid $color-gray-200; }
-h2 { margin-bottom: 0; font-size: $font-size-2xl; }
-.search-field { display: flex; align-items: center; gap: $spacing-sm; min-width: 280px; padding: $spacing-sm $spacing-md; border: 1px solid $color-gray-300; border-radius: $radius-md; color: $color-gray-600; }
-.search-field:focus-within { border-color: $color-primary; box-shadow: 0 0 0 3px $color-primary-bg; }
-.search-field input { width: 100%; border: 0; outline: 0; background: transparent; color: inherit; font: inherit; }
-.evaluation-list__table-wrapper { overflow-x: auto; }
-table { width: 100%; min-width: 760px; border-collapse: collapse; text-align: left; }
-th, td { padding: $spacing-md $spacing-xl; border-bottom: 1px solid $color-gray-200; vertical-align: middle; }
-thead th { background: $color-gray-100; color: $color-gray-800; font-size: $font-size-xs; font-weight: $font-weight-bold; letter-spacing: .05em; text-transform: uppercase; }
-tbody th { max-width: 230px; font-weight: $font-weight-semibold; }
-tbody td { color: $color-gray-600; }
-.type-badge { display: inline-block; padding: $spacing-xs $spacing-sm; border-radius: $radius-full; background: #ffe0cf; color: $color-primary-dark; font-size: $font-size-xs; font-weight: $font-weight-bold; }
-.row-actions { white-space: nowrap; text-align: right; }
-.row-actions button, .evaluation-list__footer button { border: 0; background: transparent; color: $color-gray-600; cursor: pointer; font: inherit; }
-.row-actions button { margin-left: $spacing-sm; padding: $spacing-xs; font-size: $font-size-lg; }
-.row-actions button:hover, .evaluation-list__footer button:hover:not(:disabled) { color: $color-primary; }
-.empty-state { padding: $spacing-2xl; text-align: center; color: $color-gray-600; }
-.evaluation-list__footer { @include flex-between; gap: $spacing-md; padding: $spacing-md $spacing-xl; color: $color-gray-600; font-size: $font-size-sm; }
-.evaluation-list__footer nav { display: flex; align-items: center; gap: $spacing-xs; }
-.evaluation-list__footer button { @include flex-center; width: 32px; height: 32px; border-radius: $radius-md; }
-.evaluation-list__footer button.is-active { background: $color-primary; color: $color-white; }
-.evaluation-list__footer button:disabled { color: $color-gray-400; cursor: not-allowed; }
-.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.cell-title {
+  font-weight: $font-weight-semibold;
+  color: $color-gray-900;
+  text-decoration: none;
+  transition: color $transition-fast;
 
-@include tablet { .quiz-page__intro { align-items: start; flex-direction: column; } .quiz-page__actions { width: 100%; } .button { flex: 1; } }
-@include mobile { .quiz-page__stats { grid-template-columns: 1fr; } .quiz-page__actions, .evaluation-list__header, .evaluation-list__footer { align-items: stretch; flex-direction: column; } .button { width: 100%; } .search-field { min-width: 0; } .evaluation-list__footer nav { justify-content: center; } }
+  &:hover {
+    color: $color-primary;
+  }
+}

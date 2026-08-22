@@ -1,26 +1,231 @@
 <div class="presence-form">
+
+  <!-- État : soumis avec succès -->
   @if (submitted()) {
-    <section class="success-screen"><div class="success-screen__mark">✓</div><p class="eyebrow">Présence confirmée</p><h1>Merci, {{ form.controls.visitorName.value }}.</h1><p>Votre arrivée a bien été enregistrée auprès de l'Orange Digital Center.</p><button class="button button--primary" type="button" (click)="restart()">Enregistrer une autre présence</button></section>
+    <section class="success-screen">
+      <div class="success-screen__icon">
+        <span class="material-symbols-outlined">check_circle</span>
+      </div>
+      <p class="success-screen__eyebrow">Présence confirmée</p>
+      <h1>Merci, {{ form.controls.visitorName.value }}.</h1>
+      <p>Votre arrivée a bien été enregistrée auprès de l'Orange Digital Center.</p>
+      <button class="btn btn--primary" type="button" (click)="restart()">
+        <span class="material-symbols-outlined">add</span>
+        Enregistrer une autre présence
+      </button>
+    </section>
   } @else {
-    <header class="presence-form__header"><p class="eyebrow">ODC Presence</p><h1>Enregistrement visiteur</h1><p>Complétez ce formulaire en deux étapes pour enregistrer votre arrivée.</p></header>
+
+    <!-- Header public -->
+    <header class="presence-form__header">
+      <h1>Enregistrement visiteur</h1>
+      <p>Complétez ce formulaire en deux étapes pour enregistrer votre arrivée.</p>
+    </header>
+
+    <!-- Vérification géolocalisation -->
     @if (geolocation.isWithinPerimeter() !== true) {
-      <section class="location-panel"><div class="location-panel__icon">⌖</div><div><h2>Vérification de présence sur site</h2><p>{{ geolocation.errorMessage() || 'Autorisez la géolocalisation pour accéder au formulaire.' }}</p></div><button class="button button--primary" type="button" [disabled]="geolocation.isChecking()" (click)="begin()">{{ geolocation.isChecking() ? 'Localisation...' : 'Vérifier ma position' }}</button></section>
-    }
-    @if (geolocation.isWithinPerimeter() === true) {
-      <div class="progress"><span>Étape {{ step() }} sur 2</span><strong>{{ step() === 1 ? 'Informations personnelles' : 'Votre visite' }}</strong><div><i [class.progress__fill--complete]="step() === 2"></i></div></div>
-      <form class="form-card" [formGroup]="form" (ngSubmit)="step() === 1 ? next() : submit()">
-        @if (step() === 1) {
-          <h2>Bienvenue</h2><p class="form-card__intro">Veuillez remplir vos informations pour enregistrer votre présence.</p>
-          <div class="form-grid"><label>Nom complet<input formControlName="visitorName" placeholder="Votre nom et prénom" /></label><label>Adresse mail<input formControlName="email" placeholder="votre.email@exemple.com" type="email" /></label><label>Téléphone <span>(optionnel)</span><input formControlName="phone" placeholder="+237 6 00 00 00 00" type="tel" /></label><label>Genre <select formControlName="gender"><option value="">Non renseigné</option><option>Femme</option><option>Homme</option></select></label></div>
-          <fieldset><legend>Tranche d'âge</legend><div class="choice-grid">@for (age of ['-18 ans', '18-25', '26-35', '36-45', '45+']; track age) {<label><input formControlName="ageRange" [value]="age" type="radio" />{{ age }}</label>}</div></fieldset>
-          <label>Profil<select formControlName="profile"><option>Étudiant</option><option>Salarié</option><option>Entrepreneur</option><option>Chercheur d'emploi</option></select></label>
-          <label>Motif de présence<select formControlName="visitReason"><option>Renseignements</option><option>Parcours découverte</option><option>Développement d'un projet</option><option>Formation</option><option>Animations ou événements</option><option>Accès au coworking</option><option>Réunion</option></select></label>
-          <button class="button button--primary button--full" type="submit">Suivant <span aria-hidden="true">→</span></button>
-        } @else {
-          <h2>Précisez votre visite</h2><p class="form-card__intro">Sélectionnez la formation à laquelle vous participez, si nécessaire.</p><label>Formation<select formControlName="trainingId"><option value="">Aucune formation</option>@for (training of trainingService.trainings(); track training.id) {<option [value]="training.id">{{ training.title }}</option>}</select></label><div class="form-card__actions"><button class="button button--secondary" type="button" (click)="back()">← Retour</button><button class="button button--primary" type="submit">Confirmer ma présence <span aria-hidden="true">✓</span></button></div>
+      <section class="location-panel">
+
+        @if (isGeoTestMode) {
+          <div class="location-panel__test-badge">
+            <span class="material-symbols-outlined">science</span>
+            Mode test géolocalisation — ?geo=test actif
+          </div>
         }
+
+        <div class="location-panel__icon">
+          @if (geolocation.isChecking()) {
+            <span class="material-symbols-outlined spin">location_searching</span>
+          } @else if (geolocation.isWithinPerimeter() === false) {
+            <span class="material-symbols-outlined" style="color: var(--danger, #f44336)">location_off</span>
+          } @else {
+            <span class="material-symbols-outlined">location_searching</span>
+          }
+        </div>
+        <div class="location-panel__content">
+          <h2>
+            @if (geolocation.isChecking()) {
+              Vérification de votre position...
+            } @else {
+              Vérification de présence sur site
+            }
+          </h2>
+          <p>
+            @if (geolocation.isChecking()) {
+              Détection de votre position GPS en cours. Merci de patienter.
+            } @else {
+              {{ geolocation.errorMessage() || 'Autorisez la géolocalisation pour accéder au formulaire.' }}
+            }
+          </p>
+        </div>
+        @if (!geolocation.isChecking()) {
+          <button
+            class="btn btn--primary"
+            type="button"
+            (click)="begin()">
+            <span class="material-symbols-outlined">my_location</span>
+            Réessayer la vérification
+          </button>
+        }
+      </section>
+    }
+
+    <!-- Formulaire actif -->
+    @if (geolocation.isWithinPerimeter() === true) {
+
+      <!-- Barre de progression -->
+      <div class="progress-bar">
+        <div class="progress-bar__header">
+          <span>Étape {{ step() }} sur 2</span>
+          <strong>{{ step() === 1 ? 'Informations personnelles' : 'Votre visite' }}</strong>
+        </div>
+        <div class="progress-bar__track">
+          <div class="progress-bar__fill" [style.width]="step() === 1 ? '50%' : '100%'"></div>
+        </div>
+      </div>
+
+      <form class="form-card" [formGroup]="form" (ngSubmit)="step() === 1 ? next() : submit()">
+
+        <!-- Étape 1 : Informations personnelles -->
+        @if (step() === 1) {
+          <h2>Bienvenue</h2>
+          <p class="form-card__intro">Veuillez remplir vos informations pour enregistrer votre présence.</p>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="visitorName">Nom complet <span class="required">*</span></label>
+              <input id="visitorName" formControlName="visitorName" placeholder="Votre nom et prénom" />
+            </div>
+            <div class="form-field">
+              <label for="email">Adresse mail <span class="required">*</span></label>
+              <input id="email" formControlName="email" placeholder="votre.email@exemple.com" type="email" />
+            </div>
+            <div class="form-field">
+              <label for="phone">Téléphone <span class="optional">(optionnel)</span></label>
+              <input id="phone" formControlName="phone" placeholder="+237 6 00 00 00 00" type="tel" />
+            </div>
+            <div class="form-field">
+              <label>Sexe</label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input formControlName="gender" value="Femme" type="radio" />
+                  <span>Femme</span>
+                </label>
+                <label class="radio-option">
+                  <input formControlName="gender" value="Homme" type="radio" />
+                  <span>Homme</span>
+                </label>
+                <label class="radio-option">
+                  <input formControlName="gender" value="" type="radio" />
+                  <span>Non renseigné</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tranche d'âge -->
+          <fieldset class="form-fieldset">
+            <legend>Tranche d'âge</legend>
+            <div class="age-grid">
+              @for (age of ['-18 ans', '18-25', '26-35', '36-45', '45+']; track age) {
+                <label class="age-card" [class.age-card--selected]="form.controls.ageRange.value === age">
+                  <input formControlName="ageRange" [value]="age" type="radio" />
+                  <span>{{ age }}</span>
+                </label>
+              }
+            </div>
+          </fieldset>
+
+          <!-- Profil : checkboxes visuelles -->
+          <fieldset class="form-fieldset">
+            <legend>Profil</legend>
+            <div class="profile-grid">
+              @for (p of profileOptions; track p.value) {
+                <label class="profile-chip" [class.profile-chip--selected]="form.controls.profile.value === p.value">
+                  <input formControlName="profile" [value]="p.value" type="radio" />
+                  <span class="material-symbols-outlined">{{ p.icon }}</span>
+                  <span>{{ p.label }}</span>
+                </label>
+              }
+            </div>
+          </fieldset>
+
+          <!-- Motif de présence -->
+          <div class="form-field">
+            <label for="visitReason">Motif de présence <span class="required">*</span></label>
+            <div class="select-wrap">
+              <select id="visitReason" formControlName="visitReason">
+                <option value="Renseignements">Renseignements</option>
+                <option value="Parcours découverte">Parcours découverte</option>
+                <option value="Développement d'un projet">Développement d'un projet</option>
+                <option value="Formation">Formation</option>
+                <option value="Animations ou événements">Animations ou événements</option>
+                <option value="Accès au coworking">Accès au coworking</option>
+                <option value="Réunion">Réunion</option>
+              </select>
+              <span class="material-symbols-outlined">expand_more</span>
+            </div>
+          </div>
+
+          <button class="btn btn--primary btn--full" type="submit">
+            Suivant
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        }
+
+        <!-- Étape 2 : Votre visite -->
+        @if (step() === 2) {
+          <h2>Précisez votre visite</h2>
+          <p class="form-card__intro">Sélectionnez la formation à laquelle vous participez, si nécessaire.</p>
+
+          <!-- Radio-cards formations -->
+          <div class="training-list">
+            <label class="training-card" [class.training-card--selected]="form.controls.trainingId.value === ''">
+              <input formControlName="trainingId" value="" type="radio" />
+              <span class="training-card__icon">
+                <span class="material-symbols-outlined">event_available</span>
+              </span>
+              <div class="training-card__info">
+                <strong>Aucune formation</strong>
+                <span>Visite libre</span>
+              </div>
+            </label>
+            @for (training of trainingService.trainings(); track training.id) {
+              <label class="training-card" [class.training-card--selected]="form.controls.trainingId.value === training.id">
+                <input formControlName="trainingId" [value]="training.id" type="radio" />
+                <span class="training-card__icon">
+                  <span class="material-symbols-outlined">school</span>
+                </span>
+                <div class="training-card__info">
+                  <strong>{{ training.title }}</strong>
+                  @if (training.cohort) { <span>{{ training.cohort }}</span> }
+                </div>
+              </label>
+            }
+          </div>
+
+          <div class="form-card__actions">
+            <button class="btn btn--outline" type="button" (click)="back()">
+              <span class="material-symbols-outlined">arrow_back</span>
+              Retour
+            </button>
+            <button class="btn btn--primary" type="submit">
+              <span class="material-symbols-outlined">check_circle</span>
+              Confirmer ma présence
+            </button>
+          </div>
+        }
+
       </form>
     }
-    @if (error()) { <p class="form-error" role="alert">{{ error() }}</p> }
+
+    <!-- Message d'erreur -->
+    @if (error()) {
+      <p class="form-error" role="alert">
+        <span class="material-symbols-outlined">error</span>
+        {{ error() }}
+      </p>
+    }
   }
+
 </div>

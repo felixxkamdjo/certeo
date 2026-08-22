@@ -1,1 +1,183 @@
-<section class="presence-config"><header><div><p class="eyebrow">Paramètres Presence</p><h1>Configuration du formulaire visiteur</h1><p>Choisissez les informations demandées avant l'enregistrement d'une présence.</p></div><button class="button button--primary" type="button" (click)="save()">✓ Enregistrer</button></header>@if (saved()) { <p class="saved" role="status">Configuration enregistrée.</p> }<div class="config-layout"><section class="panel"><h2>Informations demandées</h2><p class="panel__intro">Les champs obligatoires sont toujours affichés.</p>@for (field of fields(); track field.label; let index = $index) {<div class="field-row"><div><strong>{{ field.label }}</strong><small>{{ field.required ? 'Obligatoire' : 'Optionnel' }}</small></div><button class="toggle" [class.toggle--on]="field.enabled" type="button" [attr.aria-label]="'Activer ' + field.label" (click)="toggleField(index)"><i></i></button></div>}</section><section class="panel"><h2>Motifs de visite</h2><p class="panel__intro">Ces choix seront proposés à l'étape 1 du formulaire.</p>@for (reason of reasons(); track $index) {<label class="reason-row"><input [value]="reason" type="text" /><button type="button" aria-label="Supprimer le motif">×</button></label>}<button class="text-button" type="button" (click)="addReason()">+ Ajouter un motif</button></section><aside class="preview"><p class="eyebrow">Aperçu</p><h2>Enregistrement visiteur</h2><div class="preview__line"></div><div class="preview__input">Nom complet</div><div class="preview__input">Adresse mail</div><div class="preview__input">Téléphone</div><button class="button button--primary" type="button">Suivant →</button></aside></div></section>
+<section class="presence-config">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-header">
+    <div class="breadcrumb">
+      <a routerLink="/admin/presence" class="breadcrumb__link">Présence</a>
+      <span class="material-symbols-outlined breadcrumb__sep">chevron_right</span>
+      <span class="breadcrumb__active">Configuration du formulaire</span>
+    </div>
+    <a routerLink="/admin/presence" class="btn btn-cancel">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span>Retour</span>
+    </a>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Configuration du formulaire visiteur</h1>
+      <p class="page-subtitle">Personnalisez les informations demandées aux visiteurs lors de leur enregistrement.</p>
+    </div>
+    <div class="page-header__actions">
+      <a class="btn btn--outline" routerLink="/admin/presence/qr-code">
+        <span class="material-symbols-outlined">qr_code_2</span>
+        Voir le QR Code
+      </a>
+      <a class="btn btn--dark" routerLink="/public/presence/check-in" target="_blank">
+        <span class="material-symbols-outlined">visibility</span>
+        Aperçu du formulaire
+      </a>
+      <button class="btn btn--primary" type="button" (click)="save()">
+        <span class="material-symbols-outlined">save</span>
+        Enregistrer les modifications
+      </button>
+    </div>
+  </div>
+
+  @if (saved()) {
+    <div class="saved-notice" role="status">
+      <span class="material-symbols-outlined">check_circle</span>
+      Configuration enregistrée avec succès.
+    </div>
+  }
+
+  <div class="config-layout">
+
+    <!-- Colonne principale -->
+    <div class="config-main">
+
+      <!-- Champs du formulaire -->
+      <section class="config-panel">
+        <div class="config-panel__header">
+          <div>
+            <h2 class="config-panel__title">
+              <span class="material-symbols-outlined">list_alt</span>
+              Informations demandées
+            </h2>
+            <p class="config-panel__intro">Les champs obligatoires sont toujours affichés et ne peuvent pas être désactivés.</p>
+          </div>
+        </div>
+
+        <div class="field-list">
+          @for (field of fields(); track field.label; let index = $index) {
+            <div class="field-row">
+              <span class="material-symbols-outlined field-row__drag">drag_indicator</span>
+              <div class="field-row__info">
+                <strong>{{ field.label }}</strong>
+                <small>{{ field.required ? 'Obligatoire' : 'Optionnel' }}</small>
+              </div>
+              <button
+                class="toggle"
+                [class.toggle--on]="field.enabled"
+                [disabled]="field.required"
+                type="button"
+                [attr.aria-label]="(field.enabled ? 'Désactiver ' : 'Activer ') + field.label"
+                (click)="toggleField(index)">
+                <i></i>
+              </button>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- Motifs de visite -->
+      <section class="config-panel">
+        <h2 class="config-panel__title">
+          <span class="material-symbols-outlined">category</span>
+          Motifs de visite
+        </h2>
+        <p class="config-panel__intro">Ces choix sont proposés aux visiteurs à l'étape 1 du formulaire.</p>
+
+        <div class="reason-list">
+          @for (reason of reasons(); track $index; let i = $index) {
+            <div class="reason-row">
+              <span class="material-symbols-outlined reason-row__drag">drag_indicator</span>
+              <input
+                class="input-field"
+                [value]="reason.label"
+                type="text"
+                placeholder="Libellé du motif"
+                (input)="updateReason(i, $any($event.target).value)" />
+              <button
+                class="icon-btn icon-btn--delete"
+                type="button"
+                aria-label="Supprimer ce motif"
+                (click)="removeReason(i)">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          }
+        </div>
+
+        <button class="btn btn--outline btn--sm" type="button" (click)="addReason()">
+          <span class="material-symbols-outlined">add</span>
+          Ajouter un motif
+        </button>
+      </section>
+
+    </div>
+
+    <!-- Colonne droite -->
+    <aside class="config-sidebar">
+
+      <!-- Tranches d'âge -->
+      <section class="config-panel">
+        <h2 class="config-panel__title">
+          <span class="material-symbols-outlined">people</span>
+          Tranches d'âge
+        </h2>
+        <div class="age-chips">
+          @for (age of ageRanges(); track $index; let i = $index) {
+            <div class="age-chip">
+              <input
+                class="age-chip__input"
+                [value]="age"
+                type="text"
+                placeholder="Ex : 18-25"
+                (input)="ageRanges.update(a => a.map((v, idx) => idx === i ? $any($event.target).value : v))" />
+              <button
+                class="age-chip__remove"
+                type="button"
+                aria-label="Supprimer cette tranche"
+                (click)="removeAgeRange(i)">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </div>
+          }
+        </div>
+        <button class="btn btn--outline btn--sm" type="button" (click)="addAgeRange()">
+          <span class="material-symbols-outlined">add</span>
+          Ajouter une tranche
+        </button>
+      </section>
+
+      <!-- Profils visiteurs -->
+      <section class="config-panel">
+        <h2 class="config-panel__title">
+          <span class="material-symbols-outlined">badge</span>
+          Profils visiteurs
+        </h2>
+        <p class="config-panel__intro">Activez les profils disponibles dans le formulaire.</p>
+
+        <div class="profile-list">
+          @for (profile of profiles(); track profile.label; let i = $index) {
+            <div class="profile-toggle-row">
+              <span class="profile-toggle-row__label">{{ profile.label }}</span>
+              <button
+                class="toggle"
+                [class.toggle--on]="profile.enabled"
+                type="button"
+                [attr.aria-label]="(profile.enabled ? 'Désactiver ' : 'Activer ') + profile.label"
+                (click)="toggleProfile(i)">
+                <i></i>
+              </button>
+            </div>
+          }
+        </div>
+      </section>
+
+    </aside>
+  </div>
+
+</section>
