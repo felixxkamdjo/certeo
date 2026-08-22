@@ -72,7 +72,7 @@
             <span class="material-symbols-outlined">error_outline</span>
             <p>Impossible de charger le PDF.</p>
             <p class="text-sm">Apercu via le lecteur natif du navigateur :</p>
-            <iframe [src]="pdfUrl()" class="pdf-viewer__fallback-iframe"></iframe>
+            <iframe [src]="pdfUrl()" class="pdf-viewer__fallback-iframe" draggable="false" title="pdf-viewer"></iframe>
           </div>
         }
 

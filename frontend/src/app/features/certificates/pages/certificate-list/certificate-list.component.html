@@ -35,29 +35,15 @@
     
     <!-- Action Bar / Filters -->
     <div class="action-bar">
-      <div class="action-bar__filters">
-        <div class="search-input">
-          <span class="material-symbols-outlined search-input__icon">search</span>
-          <input
-            class="search-input__field"
-            type="text"
-            placeholder="Rechercher un candidat..."
-            [value]="searchTerm()"
-            (input)="onSearchChange($any($event.target).value)"
-          />
-        </div>
-        <div class="select-wrap">
-          <select
-            class="select-field"
-            [value]="trainingFilter()"
-            (change)="onTrainingChange($any($event.target).value)"
-          >
-            <option value="">Toutes les formations</option>
-            <option value="Développement Full-Stack Avancé">Développement Full-Stack Avancé</option>
-          </select>
-          <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
-        </div>
-      </div>
+      <app-table-search
+        [placeholder]="'Rechercher un candidat...'"
+        [searchValue]="searchTerm()"
+        [filters]="[{ key: 'training', label: 'Toutes les formations', type: 'select', value: trainingFilter(), options: [
+          { value: 'Développement Full-Stack Avancé', label: 'Développement Full-Stack Avancé' }
+        ] }]"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
+        (reset)="resetFilters()" />
     </div>
 
     <!-- Table -->
@@ -85,9 +71,9 @@
               <td>{{ p.trainingTitle }}</td>
               <td>
                 @if (p.hasCertificate) {
-                  <span class="status-badge status-badge--success">Disponible</span>
+                  <app-status-badge status="success" label="Disponible"></app-status-badge>
                 } @else {
-                  <span class="status-badge status-badge--warning">En attente</span>
+                  <app-status-badge status="warning" label="En attente"></app-status-badge>
                 }
               </td>
               <td class="text-right">

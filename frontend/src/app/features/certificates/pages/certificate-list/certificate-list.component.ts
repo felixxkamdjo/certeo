@@ -1,14 +1,13 @@
 import { Component, inject, signal, computed, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CertificateService, MatchResult } from '../../services/certificate.service';
-import { KpiCardComponent, PaginationComponent } from '@shared';
+import { KpiCardComponent, PaginationComponent, TableSearchComponent, StatusBadgeComponent } from '@shared';
 
 @Component({
   selector: 'app-certificate-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, KpiCardComponent, PaginationComponent],
+  imports: [CommonModule, KpiCardComponent, PaginationComponent, TableSearchComponent, StatusBadgeComponent],
   templateUrl: './certificate-list.component.html',
   styleUrl: './certificate-list.component.scss'
 })
@@ -67,6 +66,16 @@ export class CertificateListComponent {
 
   onTrainingChange(value: string): void {
     this.trainingFilter.set(value);
+    this.currentPage.set(1);
+  }
+
+  onFilterChange(filter: { key: string; value: string }): void {
+    if (filter.key === 'training') this.onTrainingChange(filter.value);
+  }
+
+  resetFilters(): void {
+    this.searchTerm.set('');
+    this.trainingFilter.set('');
     this.currentPage.set(1);
   }
 
