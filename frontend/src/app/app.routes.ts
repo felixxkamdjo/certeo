@@ -48,7 +48,7 @@ export const routes: Routes = [
         path: 'apply/:trainingId', 
         loadComponent: () => import('@features/applications/pages/application-form/application-form').then(m => m.ApplicationFormComponent)
       },
-      { path: 'quiz', loadChildren: () => import('@features/evaluations/evaluations.routes') },
+      { path: 'quiz', loadChildren: () => import('@features/evaluations/evaluations-public.routes') },
       { 
         path: 'certificates/:id', 
         loadComponent: () => import('@features/certificates/pages/certificate-view/certificate-view.component').then(m => m.CertificateViewComponent) 

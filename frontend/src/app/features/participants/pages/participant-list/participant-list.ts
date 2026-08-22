@@ -1,8 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { ConfirmDialogComponent, KpiCardComponent, PaginationComponent } from '@shared';
+import { ConfirmDialogComponent, KpiCardComponent, PaginationComponent, TableSearchComponent, StatusBadgeComponent } from '@shared';
 
 export interface Participant {
   id: string;
@@ -19,11 +18,12 @@ export interface Participant {
   standalone: true,
   imports: [
     CommonModule, 
-    FormsModule,
     RouterModule,
     ConfirmDialogComponent,
     KpiCardComponent,
-    PaginationComponent
+    PaginationComponent,
+    TableSearchComponent,
+    StatusBadgeComponent
   ],
   templateUrl: './participant-list.html',
   styleUrl: './participant-list.scss'
@@ -116,6 +116,12 @@ export class ParticipantListComponent {
   onTrainingChange(value: string): void {
     this.trainingFilter.set(value);
     this.currentPage.set(1);
+  }
+
+  onFilterChange(filter: { key: string; value: string }): void {
+    if (filter.key === 'training') {
+      this.onTrainingChange(filter.value);
+    }
   }
 
   onPageChange(page: number): void {

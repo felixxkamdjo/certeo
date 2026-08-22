@@ -9,6 +9,7 @@ export * from './components/empty-state/empty-state';
 export * from './components/pagination/pagination';
 export * from './components/kpi-card/kpi-card';
 export * from './components/action-bar/action-bar';
+export * from './components/table-search/table-search';
 
 // Pipes
 export * from './pipes/date-fr.pipe';

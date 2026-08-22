@@ -9,6 +9,15 @@
   &__icon {
     font-size: 3rem;
     margin-bottom: $spacing-md;
+    color: $color-gray-400;
+
+    .material-symbols-outlined {
+      font-size: 48px;
+    }
+
+    svg {
+      color: $color-gray-400;
+    }
   }
 
   &__title {

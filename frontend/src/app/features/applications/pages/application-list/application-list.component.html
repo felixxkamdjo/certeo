@@ -21,40 +21,24 @@
     
     <!-- Filters / Action Bar -->
     <div class="filters-bar">
-      <div class="filters-bar__left">
-        <div class="search-input">
-          <span class="material-symbols-outlined search-input__icon">search</span>
-          <input
-            class="search-input__field"
-            type="text"
-            placeholder="Rechercher par nom, email, formation..."
-            [value]="searchTerm()"
-            (input)="onSearchChange($any($event.target).value)"
-          />
-        </div>
-        <div class="select-wrap">
-          <select
-            class="select-field"
-            [value]="statusFilter()"
-            (change)="onStatusChange($any($event.target).value)"
-          >
-            <option value="">Tous les statuts</option>
-            <option value="PENDING">En attente</option>
-            <option value="UNDER_REVIEW">En révision</option>
-            <option value="INTERVIEW">En entretien</option>
-            <option value="ACCEPTED">Retenu</option>
-            <option value="REJECTED">Refusé</option>
-          </select>
-          <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
-        </div>
-        <input class="date-field" type="date" />
-      </div>
+      <app-table-search
+        [placeholder]="'Rechercher par nom, email, formation...'"
+        [searchValue]="searchTerm()"
+        [filters]="[
+          { key: 'status', label: 'Tous les statuts', type: 'select', value: statusFilter(), options: [
+            { value: 'PENDING', label: 'En attente' },
+            { value: 'UNDER_REVIEW', label: 'En révision' },
+            { value: 'INTERVIEW', label: 'En entretien' },
+            { value: 'ACCEPTED', label: 'Retenu' },
+            { value: 'REJECTED', label: 'Refusé' }
+          ] },
+          { key: 'date', label: 'Date de candidature', type: 'date', value: dateFilter() }
+        ]"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
+        (reset)="resetFilters()" />
 
       <div class="filters-bar__right">
-        <button class="btn btn--outline" (click)="resetFilters()">
-          <span class="material-symbols-outlined">filter_list_off</span>
-          Réinitialiser
-        </button>
         <a class="btn btn--primary" routerLink="email">
           <span class="material-symbols-outlined">mail</span>
           Envoyer un e-mail
@@ -86,9 +70,10 @@
               <td>{{ app.trainingTitle }}</td>
               <td class="text-muted">{{ app.createdAt | date: 'dd MMM yyyy' }}</td>
               <td>
-                <span class="status-badge status-badge--{{ app.status | lowercase }}">
-                  {{ getStatusLabel(app.status) }}
-                </span>
+                <app-status-badge
+                  [variant]="app.status | lowercase"
+                  [label]="getStatusLabel(app.status)">
+                </app-status-badge>
               </td>
               <td class="text-right" (click)="$event.stopPropagation()">
                 <div class="actions">

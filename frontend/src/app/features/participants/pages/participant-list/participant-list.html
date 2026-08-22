@@ -20,31 +20,17 @@
     
     <!-- Action Bar / Filters -->
     <div class="action-bar">
-      <div class="action-bar__filters">
-        <div class="search-input">
-          <span class="material-symbols-outlined search-input__icon">search</span>
-          <input
-            class="search-input__field"
-            type="text"
-            placeholder="Rechercher un participant..."
-            [value]="searchTerm()"
-            (input)="onSearchChange($any($event.target).value)"
-          />
-        </div>
-        <div class="select-wrap">
-          <select
-            class="select-field"
-            [value]="trainingFilter()"
-            (change)="onTrainingChange($any($event.target).value)"
-          >
-            <option value="">Toutes les formations</option>
-            <option value="Dev Web Intensif">Dev Web Intensif</option>
-            <option value="Data Science">Data Science</option>
-            <option value="UI/UX Design">UI/UX Design</option>
-          </select>
-          <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
-        </div>
-      </div>
+      <app-table-search
+        [placeholder]="'Rechercher un participant...'"
+        [searchValue]="searchTerm()"
+        [filters]="[{ key: 'training', label: 'Toutes les formations', type: 'select', value: trainingFilter(), options: [
+          { value: 'Dev Web Intensif', label: 'Dev Web Intensif' },
+          { value: 'Data Science', label: 'Data Science' },
+          { value: 'UI/UX Design', label: 'UI/UX Design' }
+        ] }]"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
+        (reset)="onSearchChange(''); onTrainingChange('')" />
 
       <div class="action-bar__buttons">
         <button class="btn btn--outline" (click)="onEvaluate()">
@@ -95,9 +81,10 @@
                 </div>
               </td>
               <td>
-                <span class="status-badge status-badge--{{ p.status | lowercase }}">
-                  {{ getStatusLabel(p.status) }}
-                </span>
+                <app-status-badge
+                  [variant]="p.status | lowercase"
+                  [label]="getStatusLabel(p.status)">
+                </app-status-badge>
               </td>
               <td class="text-right" (click)="$event.stopPropagation()">
                 <div class="actions">

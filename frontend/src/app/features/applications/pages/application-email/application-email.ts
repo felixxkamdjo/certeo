@@ -1,5 +1,5 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
@@ -16,7 +16,7 @@ export interface EmailTemplate {
 @Component({
   selector: 'app-application-email',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './application-email.html',
   styleUrl: './application-email.scss'
 })

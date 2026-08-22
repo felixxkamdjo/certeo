@@ -4,18 +4,19 @@ import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApplicationService } from '../../services/application.service';
 import { CandidateApplication, ApplicationStatus } from '../../models/application.model';
-import { ConfirmDialogComponent, KpiCardComponent, PaginationComponent } from '@shared';
+import { ConfirmDialogComponent, KpiCardComponent, PaginationComponent, TableSearchComponent, StatusBadgeComponent } from '@shared';
 
 @Component({
   selector: 'app-application-list',
   standalone: true,
   imports: [
     CommonModule, 
-    FormsModule, 
     RouterModule,
     ConfirmDialogComponent,
     KpiCardComponent, 
-    PaginationComponent
+    PaginationComponent,
+    TableSearchComponent,
+    StatusBadgeComponent
   ],
   templateUrl: './application-list.component.html',
   styleUrl: './application-list.component.scss'
@@ -112,7 +113,9 @@ export class ApplicationListComponent {
         app.email.toLowerCase().includes(term) ||
         (app.trainingTitle?.toLowerCase().includes(term) ?? false);
       const matchesStatus = !status || app.status === status;
-      return matchesSearch && matchesStatus;
+      const selectedDate = this.dateFilter();
+      const matchesDate = !selectedDate || app.createdAt.startsWith(selectedDate);
+      return matchesSearch && matchesStatus && matchesDate;
     });
   });
 
@@ -155,6 +158,16 @@ export class ApplicationListComponent {
   onStatusChange(value: string): void {
     this.statusFilter.set(value as ApplicationStatus | '');
     this.currentPage.set(1);
+  }
+
+  onFilterChange(filter: { key: string; value: string }): void {
+    if (filter.key === 'status') {
+      this.onStatusChange(filter.value);
+    }
+    if (filter.key === 'date') {
+      this.dateFilter.set(filter.value);
+      this.currentPage.set(1);
+    }
   }
 
   onPageChange(page: number): void {
