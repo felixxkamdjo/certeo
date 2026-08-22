@@ -31,7 +31,7 @@
   </div>
 
   <!-- Charts Row -->
-  <div class="charts-row">
+  <div class="charts-grid">
     <!-- Bar Chart Area -->
     <div class="chart-card chart-card--span-2">
       <h4 class="chart-card__title">Inscriptions par mois</h4>
@@ -44,62 +44,9 @@
       <app-donut-chart 
         totalValue="124" 
         totalLabel="Total" 
-        gradient="conic-gradient(#ff7900 0% 55%, #147a50 55% 85%, #c6c6c6 85% 100%)"
+        gradient="conic-gradient(var(--color-primary, #ff7900) 0% 55%, #2e7d32 55% 85%, #9e9e9e 85% 100%)"
         [legendItems]="donutLegendItems()">
       </app-donut-chart>
-    </div>
-  </div>
-
-  <!-- Data Table using raw table like other pages -->
-  <div class="table-card">
-    <div class="table-card__header">
-      <h4 class="table-card__title">Top Formations par Score</h4>
-      <button class="btn-link">
-        Voir tout <span class="material-symbols-outlined">chevron_right</span>
-      </button>
-    </div>
-    
-    <div class="table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Nom de la formation</th>
-            <th>Participants</th>
-            <th>Score moyen</th>
-            <th>Taux de complétion</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (training of topTrainings(); track training.id) {
-            <tr class="data-table__row">
-              <td>
-                <div class="training-cell">
-                  <div class="training-icon" [ngClass]="training.iconClass">
-                    <span class="material-symbols-outlined">{{ training.icon }}</span>
-                  </div>
-                  <span class="font-bold">{{ training.title }}</span>
-                </div>
-              </td>
-              <td class="text-secondary">{{ training.participants }}</td>
-              <td>
-                <div class="score-cell">
-                  <span class="material-symbols-outlined star-icon">star</span>
-                  <span class="font-bold">{{ training.score }}</span>
-                  <span class="text-secondary text-sm">/5</span>
-                </div>
-              </td>
-              <td>
-                <div class="completion-cell">
-                  <div class="progress-bar">
-                    <div class="progress-bar__fill" [style.width.%]="training.completion" [style.backgroundColor]="training.completionColor"></div>
-                  </div>
-                  <span class="completion-value">{{ training.completion }}%</span>
-                </div>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
     </div>
   </div>
 </div>
