@@ -7,388 +7,46 @@
   gap: $spacing-xl;
 }
 
-// Page Header
-.page-header {
-  @include flex-between;
-
-  &__title {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: $color-gray-900;
-    letter-spacing: -0.01em;
-    margin-bottom: $spacing-2xs;
-  }
-
-  &__subtitle {
-    font-size: $font-size-base;
-    color: $color-gray-600;
-  }
-
-  &__actions {
-    display: flex;
-    align-items: center;
-    gap: $spacing-md;
-  }
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-xs;
-  padding: 10px $spacing-lg;
-  border-radius: $radius-md;
-  font-size: $font-size-sm;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-  transition: all $transition-fast;
-
-  &-primary {
-    background-color: $color-primary;
-    color: $color-white;
-
-    &:hover {
-      background-color: $color-primary-dark;
-    }
-  }
-}
-
-// KPI Grid Row
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: $spacing-lg;
-
-  @include tablet-up {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.kpi-card {
-  display: flex;
-  align-items: center;
-  gap: $spacing-lg;
-  padding: $spacing-xl;
-  background-color: $color-white;
-  border-radius: $radius-xl;
-  border: 1px solid $color-gray-200;
-
-  &__icon {
-    width: 48px;
-    height: 48px;
-    border-radius: $radius-full;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-
-    span {
-      font-size: 24px;
-    }
-
-    &--orange {
-      background-color: rgba($color-primary, 0.12);
-      color: $color-primary;
-    }
-
-    &--gray {
-      background-color: $color-gray-100;
-      color: $color-gray-700;
-    }
-
-    &--light {
-      background-color: #f3f3f3;
-      color: $color-gray-600;
-    }
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__label {
-    font-size: $font-size-xs;
-    font-weight: 600;
-    color: $color-gray-600;
-    margin-bottom: $spacing-2xs;
-  }
-
-  &__value {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: $color-gray-900;
-    line-height: 1;
-  }
-}
-
-// Table Card Container
-.table-card {
-  background-color: $color-white;
-  border-radius: $radius-xl;
-  border: 1px solid $color-gray-200;
-  overflow: hidden;
-
-  &__toolbar {
-    @include flex-between;
-    padding: $spacing-md $spacing-lg;
-    border-bottom: 1px solid $color-gray-200;
-    background-color: $color-white;
-  }
-}
-
-// Filter Tabs Pills
-.tab-pills {
-  display: flex;
-  align-items: center;
-  gap: $spacing-xs;
-
-  .tab-pill {
-    padding: 8px $spacing-lg;
-    border-radius: $radius-md;
-    border: none;
-    background: transparent;
-    font-size: $font-size-sm;
-    font-weight: 600;
-    color: $color-gray-600;
-    cursor: pointer;
-    transition: all $transition-fast;
-
-    &:hover {
-      background-color: $color-gray-100;
-      color: $color-gray-900;
-    }
-
-    &--active {
-      background-color: $color-gray-900;
-      color: $color-white;
-
-      &:hover {
-        background-color: $color-black;
-        color: $color-white;
-      }
-    }
-  }
-}
-
-.toolbar-actions {
-  display: flex;
-  align-items: center;
-  gap: $spacing-xs;
-
-  .btn-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: $radius-full;
-    border: 1px solid $color-gray-300;
-    background-color: $color-white;
-    color: $color-gray-700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all $transition-fast;
-
-    &:hover {
-      background-color: $color-gray-100;
-      color: $color-primary;
-    }
-
-    span {
-      font-size: 18px;
-    }
-  }
-}
-
-// Table Wrapper
-.table-wrapper {
-  overflow-x: auto;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-
-  th {
-    padding: $spacing-md $spacing-lg;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: $color-gray-600;
-    letter-spacing: 0.04em;
-    text-align: left;
-    background-color: #fafafa;
-    border-bottom: 1px solid $color-gray-200;
-  }
-
-  td {
-    padding: $spacing-md $spacing-lg;
-    font-size: $font-size-sm;
-    color: $color-gray-800;
-    border-bottom: 1px solid $color-gray-100;
-    vertical-align: middle;
-  }
-
-  tr:last-child td {
-    border-bottom: none;
-  }
-
-  tr:hover td {
-    background-color: rgba($color-primary, 0.02);
-  }
-}
-
+// Cellule formation
 .training-cell {
   display: flex;
   flex-direction: column;
 
   &__title {
-    font-weight: 700;
+    font-weight: $font-weight-semibold;
     color: $color-gray-900;
     text-decoration: none;
-    transition: color $transition-fast;
 
-    &:hover {
-      color: $color-primary;
-    }
+    &:hover { color: $color-primary; }
   }
 
   &__sub {
     font-size: $font-size-xs;
     color: $color-gray-500;
+    margin-top: 2px;
   }
 }
 
-.participants-badge {
-  font-weight: 600;
-  color: $color-gray-800;
-}
-
-// Status Pills
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 12px;
-  border-radius: $radius-full;
-  font-size: 0.75rem;
-  font-weight: 700;
-
-  &--open {
-    background-color: #ffefe5;
-    color: $color-primary;
-  }
-
-  &--closed {
-    background-color: $color-gray-200;
-    color: $color-gray-700;
-  }
-
-  &--archived {
-    background-color: #f0f0f0;
-    color: $color-gray-600;
-  }
-
-  &--draft {
-    background-color: #fff3e0;
-    color: #e65100;
-  }
-}
-
-.th-actions {
-  text-align: right;
-  padding-right: $spacing-xl !important;
-}
-
-.td-actions {
-  text-align: right;
-  padding-right: $spacing-lg !important;
-}
-
-.row-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-xs;
-
-  .action-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: $radius-md;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: $color-gray-600;
-    text-decoration: none;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: all $transition-fast;
-
-    &:hover {
-      background-color: rgba($color-primary, 0.1);
-      color: $color-primary;
-    }
-
-    &--danger:hover {
-      background-color: #ffebee;
-      color: $color-danger;
-    }
-
-    span {
-      font-size: 18px;
-    }
-  }
-}
-
-.empty-cell {
-  text-align: center;
-  padding: $spacing-2xl !important;
-  color: $color-gray-500;
-}
-
-// Table Footer & Pagination
-.table-card__footer {
-  @include flex-between;
-  padding: $spacing-md $spacing-lg;
-  background-color: #fafafa;
-  border-top: 1px solid $color-gray-200;
-}
-
-.footer-info {
-  font-size: $font-size-xs;
-  color: $color-gray-600;
-}
-
-.pagination {
+// Tab pills (filtre d'onglet)
+.tab-pills {
   display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-
-  &__page {
-    font-size: $font-size-xs;
-    font-weight: 600;
-    color: $color-gray-700;
-  }
-
-  &__btn {
-    width: 28px;
-    height: 28px;
-    border-radius: $radius-sm;
-    border: 1px solid $color-gray-300;
-    background-color: $color-white;
-    color: $color-gray-700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    span {
-      font-size: 18px;
-    }
-  }
+  gap: $spacing-xs;
 }
 
+.tab-pill {
+  padding: 6px $spacing-md;
+  border-radius: $radius-full;
+  border: 1px solid $color-gray-200;
+  background: transparent;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-gray-600;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &--active, &:hover {
+    background: $color-primary;
+    color: $color-white;
+    border-color: $color-primary;
+  }
+}

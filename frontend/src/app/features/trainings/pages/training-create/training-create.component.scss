@@ -50,21 +50,19 @@
   padding: 6px 14px;
   border-radius: $radius-md;
   font-size: $font-size-xs;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: $color-gray-600;
   border: 1px solid $color-gray-300;
-  background-color: $color-white;
+  background: $color-white;
   text-decoration: none;
   transition: all $transition-fast;
 
+  .material-symbols-outlined { font-size: 16px; }
+
   &:hover {
-    background-color: $color-gray-100;
+    background: $color-gray-100;
     color: $color-danger;
     border-color: $color-danger;
-  }
-
-  span {
-    font-size: 16px;
   }
 }
 

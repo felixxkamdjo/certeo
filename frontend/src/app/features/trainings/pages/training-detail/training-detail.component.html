@@ -21,11 +21,11 @@
       </div>
 
       <div class="header-card__actions">
-        <a routerLink="/admin/applications" class="btn btn-outline">
+        <a routerLink="/admin/applications" class="btn btn--outline">
           <span class="material-symbols-outlined">group</span>
           <span>Candidats</span>
         </a>
-        <a routerLink="/admin/trainings/new" [queryParams]="{ editId: item.id }" class="btn btn-dark">
+        <a routerLink="/admin/trainings/new" [queryParams]="{ editId: item.id }" class="btn btn--primary">
           <span class="material-symbols-outlined">edit</span>
           <span>Modifier</span>
         </a>
@@ -131,7 +131,7 @@
         <div class="comm-block">
           <span class="comm-block__label">Message Réseaux Sociaux</span>
           <div class="social-quote">
-            <p>"{{ item.socialPostText || '🚀 Lancez votre carrière tech avec la formation Fullstack CERTEO !' }}"</p>
+            <p>"{{ item.socialPostText || 'Lancez votre carriere tech avec la formation Fullstack CERTEO !' }}"</p>
           </div>
         </div>
       </div>
@@ -143,7 +143,7 @@
           <span class="share-block__label">Lien de candidature</span>
           <div class="input-copy-group">
             <input type="text" readonly [value]="item.publicLink || 'https://certeo.orange.com/apply/dev-fs-24'" class="copy-input" />
-            <button type="button" class="btn btn-primary" (click)="copyLink()">
+            <button type="button" class="btn btn--primary" (click)="copyLink()">
               {{ copied() ? 'Copié !' : 'Copier' }}
             </button>
           </div>
