@@ -249,6 +249,7 @@
     font-weight: $font-weight-medium;
     min-width: 48px;
     text-align: center;
+    -webkit-user-select: none;
     user-select: none;
   }
 
