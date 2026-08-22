@@ -1,5 +1,6 @@
 using System.Text;
 using Certeo.Api.Infrastructure;
+using Certeo.Api.Infrastructure.Storage;
 using Certeo.Api.Infrastructure.Seed;
 using Certeo.Api.Infrastructure.Auth;
 using Certeo.Api.Modules.Identity.Auth;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Certeo.Api.Modules.Trainings;
+using Certeo.Api.Modules.Applications;
 using Certeo.Api.Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,6 +59,8 @@ builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<SlugGenerator>();
 builder.Services.AddScoped<ITrainingService, TrainingService>();
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
 // ==========================================
 // API, SWAGGER & CORS
@@ -113,6 +117,15 @@ app.UseAuthorization();
 
 // router & endpoints
 app.MapControllers();
+
+var uploadsRootPath = Path.GetFullPath(builder.Configuration["Storage:RootPath"] ?? "/app/uploads");
+Directory.CreateDirectory(uploadsRootPath);
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(uploadsRootPath),
+    RequestPath = "/uploads"
+});
 
 // basic healthcheck
 app.MapGet("/health", () => Results.Ok(new { Status = "Healthy", Timestamp = DateTimeOffset.UtcNow }));
