@@ -38,7 +38,9 @@
                 <span class="mode-card__title">Mail personnel</span>
                 <span class="mode-card__desc">À un candidat spécifique</span>
               </div>
-              <span class="material-symbols-outlined mode-card__icon" *ngIf="emailType() === 'personnel'">check_circle</span>
+              @if (emailType() === 'personnel') {
+                <span class="material-symbols-outlined mode-card__icon">check_circle</span>
+              }
             </label>
             
             <label 
@@ -50,7 +52,9 @@
                 <span class="mode-card__title">Mail groupé</span>
                 <span class="mode-card__desc">Par statut de candidature</span>
               </div>
-              <span class="material-symbols-outlined mode-card__icon" *ngIf="emailType() === 'groupe'">check_circle</span>
+              @if (emailType() === 'groupe') {
+                <span class="material-symbols-outlined mode-card__icon">check_circle</span>
+              }
             </label>
           </div>
 
