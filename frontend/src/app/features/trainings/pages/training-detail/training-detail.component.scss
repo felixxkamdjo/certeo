@@ -7,7 +7,7 @@
   gap: $spacing-xl;
 }
 
-// Breadcrumb
+// --- Breadcrumb ---
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -19,9 +19,7 @@
     text-decoration: none;
     transition: color $transition-fast;
 
-    &:hover {
-      color: $color-primary;
-    }
+    &:hover { color: $color-primary; }
   }
 
   &__sep {
@@ -30,18 +28,21 @@
   }
 
   &__active {
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $color-gray-900;
   }
 }
 
-// Header Title Card
+// --- Header Card ---
 .header-card {
   @include flex-between;
   padding: $spacing-xl;
-  background-color: $color-white;
+  background: $color-white;
   border-radius: $radius-xl;
   border: 1px solid $color-gray-200;
+  box-shadow: $shadow-sm;
+  flex-wrap: wrap;
+  gap: $spacing-lg;
 
   &__content {
     display: flex;
@@ -53,13 +54,15 @@
     display: flex;
     align-items: center;
     gap: $spacing-md;
+    flex-wrap: wrap;
   }
 
   &__title {
     font-size: 1.75rem;
-    font-weight: 800;
+    font-weight: $font-weight-extrabold;
     color: $color-gray-900;
     letter-spacing: -0.01em;
+    margin: 0;
   }
 
   &__author {
@@ -71,6 +74,7 @@
     font-size: $font-size-sm;
     color: $color-gray-600;
     max-width: 720px;
+    margin: 0;
   }
 
   &__actions {
@@ -80,76 +84,30 @@
   }
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-xs;
-  padding: 10px $spacing-lg;
-  border-radius: $radius-md;
-  font-size: $font-size-sm;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-  transition: all $transition-fast;
-
-  &-primary {
-    background-color: $color-primary;
-    color: $color-white;
-
-    &:hover {
-      background-color: $color-primary-dark;
-    }
-  }
-
-  &-outline {
-    background-color: $color-white;
-    border: 1px solid $color-gray-300;
-    color: $color-gray-800;
-
-    &:hover {
-      background-color: $color-gray-100;
-    }
-  }
-
-  &-dark {
-    background-color: $color-gray-900;
-    color: $color-white;
-
-    &:hover {
-      background-color: $color-black;
-    }
-  }
-
-  &.w-100 {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
+// --- Status Pill (spécifique training) ---
 .status-pill {
   display: inline-flex;
   align-items: center;
   padding: 4px 12px;
   border-radius: $radius-full;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
 
   &--open {
-    background-color: #ffefe5;
+    background: $color-primary-bg;
     color: $color-primary;
   }
 
   &--confirmed {
-    background-color: #e8f5e9;
+    background: $color-success-light;
     color: #2e7d32;
   }
 }
 
-// KPI Grid Row
+// --- KPI Grid (3 colonnes local) ---
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: 1fr;
   gap: $spacing-lg;
 
   @include tablet-up {
@@ -157,41 +115,39 @@
   }
 }
 
+// --- KPI Card local (remplace le shared pour ce layout spécifique) ---
 .kpi-card {
   display: flex;
   align-items: center;
   gap: $spacing-md;
   padding: $spacing-lg $spacing-xl;
-  background-color: $color-white;
+  background: $color-white;
   border-radius: $radius-xl;
   border: 1px solid $color-gray-200;
+  box-shadow: $shadow-sm;
 
   &__icon {
     width: 44px;
     height: 44px;
     border-radius: $radius-full;
-    background-color: #fffefe;
+    background: $color-gray-100;
     border: 1px solid $color-gray-200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center;
     color: $color-gray-700;
     flex-shrink: 0;
 
-    span {
-      font-size: 20px;
-    }
+    span { font-size: 20px; }
 
     &--success {
-      color: #4caf50;
-      background-color: #f1f8e9;
-      border: none;
+      color: $color-success;
+      background: $color-success-light;
+      border-color: transparent;
     }
 
     &--chart {
       color: $color-primary;
-      background-color: #ffefe5;
-      border: none;
+      background: $color-primary-bg;
+      border-color: transparent;
     }
   }
 
@@ -202,21 +158,21 @@
 
   &__label {
     font-size: $font-size-xs;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $color-gray-500;
   }
 
   &__val {
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-extrabold;
     color: $color-gray-900;
   }
 }
 
-// 2 Columns Grid
+// --- 2-Column Grid ---
 .grid-2col {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: 1fr;
   gap: $spacing-lg;
 
   @include tablet-up {
@@ -224,27 +180,31 @@
   }
 }
 
+// --- Content Card ---
 .content-card {
   padding: $spacing-xl;
-  background-color: $color-white;
+  background: $color-white;
   border-radius: $radius-xl;
   border: 1px solid $color-gray-200;
+  box-shadow: $shadow-sm;
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
 
   &__title {
-    font-size: 1.125rem;
-    font-weight: 700;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
     color: $color-gray-900;
     border-bottom: 1px solid $color-gray-100;
     padding-bottom: $spacing-xs;
+    margin: 0;
   }
 }
 
 .tags-row {
   display: flex;
   gap: $spacing-lg;
+  flex-wrap: wrap;
 }
 
 .info-tag {
@@ -254,17 +214,17 @@
 
   &__label {
     font-size: $font-size-xs;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $color-gray-500;
   }
 
   &__box {
     padding: 6px 14px;
-    background-color: $color-gray-50;
+    background: $color-gray-50;
     border: 1px solid $color-gray-200;
     border-radius: $radius-md;
     font-size: $font-size-sm;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $color-gray-800;
   }
 }
@@ -276,22 +236,23 @@
 
   &__label {
     font-size: $font-size-xs;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $color-gray-500;
   }
 
   &__text {
     padding: $spacing-md;
-    background-color: $color-gray-50;
+    background: $color-gray-50;
     border: 1px solid $color-gray-200;
     border-radius: $radius-md;
     font-size: $font-size-sm;
     color: $color-gray-800;
     line-height: $line-height-relaxed;
+    margin: 0;
   }
 }
 
-// Planning Items
+// --- Planning ---
 .planning-list {
   display: flex;
   flex-direction: column;
@@ -316,12 +277,12 @@
 
   &__val {
     font-size: $font-size-sm;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $color-gray-900;
   }
 }
 
-// Communication & Social Quote
+// --- Communication ---
 .comm-block {
   display: flex;
   flex-direction: column;
@@ -329,27 +290,30 @@
 
   &__label {
     font-size: $font-size-xs;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $color-gray-500;
   }
 
   &__val {
     font-size: $font-size-sm;
     color: $color-gray-800;
+    margin: 0;
   }
 }
 
 .social-quote {
   padding: $spacing-md;
-  background-color: #fdf7f3;
+  background: $color-primary-bg;
   border-left: 3px solid $color-primary;
   border-radius: $radius-md;
   font-size: $font-size-sm;
   font-style: italic;
   color: $color-gray-800;
+
+  p { margin: 0; }
 }
 
-// Share Link Section
+// --- Share ---
 .share-block {
   display: flex;
   flex-direction: column;
@@ -357,7 +321,7 @@
 
   &__label {
     font-size: $font-size-xs;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     color: $color-gray-500;
   }
 }
@@ -372,17 +336,19 @@
     border: 1px solid $color-gray-300;
     border-radius: $radius-md;
     font-size: $font-size-sm;
-    background-color: $color-gray-50;
+    background: $color-gray-50;
     color: $color-gray-800;
+    font-family: $font-family-base;
   }
 }
 
-// Recent Applicants Table Card
+// --- Recent Table Card ---
 .table-card {
   padding: $spacing-xl;
-  background-color: $color-white;
+  background: $color-white;
   border-radius: $radius-xl;
   border: 1px solid $color-gray-200;
+  box-shadow: $shadow-sm;
 
   &__header {
     @include flex-between;
@@ -390,9 +356,10 @@
   }
 
   &__title {
-    font-size: 1.125rem;
-    font-weight: 700;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
     color: $color-gray-900;
+    margin: 0;
   }
 }
 
@@ -401,42 +368,11 @@
   align-items: center;
   gap: $spacing-xs;
   font-size: $font-size-xs;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   color: $color-primary;
   text-decoration: none;
 
-  &:hover {
-    text-decoration: underline;
-  }
+  &:hover { text-decoration: underline; }
 
-  span {
-    font-size: 16px;
-  }
+  span { font-size: 16px; }
 }
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-
-  th {
-    padding: $spacing-sm $spacing-md;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: $color-gray-500;
-    text-align: left;
-    border-bottom: 1px solid $color-gray-200;
-  }
-
-  td {
-    padding: $spacing-md;
-    font-size: $font-size-sm;
-    color: $color-gray-800;
-    border-bottom: 1px solid $color-gray-100;
-
-    &.font-bold {
-      font-weight: 600;
-      color: $color-gray-900;
-    }
-  }
-}
-

@@ -1,12 +1,12 @@
 <div class="trainings-page">
   <!-- Page Header -->
   <div class="page-header">
-    <div class="page-header__title-group">
-      <h1 class="page-header__title">Gestion des Formations</h1>
-      <p class="page-header__subtitle">Gérez le catalogue des formations et le suivi des cohortes.</p>
+    <div class="page-header__text">
+      <h1 class="page-title">Gestion des Formations</h1>
+      <p class="page-subtitle">Gérez le catalogue des formations et le suivi des cohortes.</p>
     </div>
     <div class="page-header__actions">
-      <a routerLink="/admin/trainings/new" class="btn btn-primary">
+      <a routerLink="/admin/trainings/new" class="btn btn--primary">
         <span class="material-symbols-outlined">add</span>
         <span>Créer une formation</span>
       </a>
@@ -15,44 +15,20 @@
 
   <!-- KPI Cards Row -->
   <div class="kpi-grid">
-    <!-- Active Trainings -->
-    <div class="kpi-card">
-      <div class="kpi-card__icon kpi-card__icon--orange">
-        <span class="material-symbols-outlined">menu_book</span>
-      </div>
-      <div class="kpi-card__content">
-        <span class="kpi-card__label">Formations Actives</span>
-        <span class="kpi-card__value">{{ activeTrainingsCount() }}</span>
-      </div>
-    </div>
-
-    <!-- Total Participants -->
-    <div class="kpi-card">
-      <div class="kpi-card__icon kpi-card__icon--gray">
-        <span class="material-symbols-outlined">group</span>
-      </div>
-      <div class="kpi-card__content">
-        <span class="kpi-card__label">Total Participants</span>
-        <span class="kpi-card__value">{{ totalParticipantsCount() }}</span>
-      </div>
-    </div>
-
-    <!-- Closed Trainings -->
-    <div class="kpi-card">
-      <div class="kpi-card__icon kpi-card__icon--light">
-        <span class="material-symbols-outlined">event_available</span>
-      </div>
-      <div class="kpi-card__content">
-        <span class="kpi-card__label">Formations Clôturées</span>
-        <span class="kpi-card__value">{{ closedTrainingsCount() }}</span>
-      </div>
-    </div>
+    <app-kpi-card label="Formations Actives" [value]="activeTrainingsCount()" icon="school" colorTheme="primary"></app-kpi-card>
+    <app-kpi-card label="Total Participants" [value]="totalParticipantsCount()" icon="group" colorTheme="secondary"></app-kpi-card>
+    <app-kpi-card label="Formations Clôturées" [value]="closedTrainingsCount()" icon="event_available" colorTheme="secondary"></app-kpi-card>
   </div>
 
   <!-- Data Table Card Container -->
   <div class="table-card">
     <!-- Filter Tabs Header -->
     <div class="table-card__toolbar">
+      <app-table-search
+        [placeholder]="'Rechercher une formation...'"
+        [searchValue]="searchTerm()"
+        (searchChange)="onSearchChange($event)"
+        (reset)="resetFilters()" />
       <div class="tab-pills">
         <button
           type="button"
@@ -82,7 +58,7 @@
     </div>
 
     <!-- Table -->
-    <div class="table-wrapper">
+    <div class="table-wrap">
       <table class="data-table">
         <thead>
           <tr>
@@ -91,12 +67,12 @@
             <th>DATE DE FIN</th>
             <th>PARTICIPANTS</th>
             <th>STATUT</th>
-            <th class="th-actions">ACTIONS</th>
+            <th class="text-right">ACTIONS</th>
           </tr>
         </thead>
         <tbody>
           @for (item of filteredTrainings(); track item.id) {
-            <tr>
+            <tr class="data-table__row">
               <td>
                 <div class="training-cell">
                   <a [routerLink]="['/admin/trainings', item.id]" class="training-cell__title">
@@ -105,58 +81,32 @@
                   <span class="training-cell__sub">{{ item.cohort || item.category }}</span>
                 </div>
               </td>
-              <td>{{ item.startDate }}</td>
-              <td>{{ item.endDate }}</td>
+              <td class="text-secondary">{{ item.startDate }}</td>
+              <td class="text-secondary">{{ item.endDate }}</td>
               <td>
-                <span class="participants-badge">
-                  {{ item.participantsCount }} / {{ item.capacity }}
-                </span>
+                <app-status-badge
+                  [variant]="'info'"
+                  [label]="item.participantsCount + ' / ' + item.capacity">
+                </app-status-badge>
               </td>
               <td>
-                <span
-                  class="status-pill"
-                  [class.status-pill--open]="item.status === 'Ouverte'"
-                  [class.status-pill--closed]="item.status === 'Fermée'"
-                  [class.status-pill--archived]="item.status === 'Archivée'"
-                  [class.status-pill--draft]="item.status === 'Brouillon'"
-                >
-                  {{ item.status }}
-                </span>
+                <app-status-badge
+                  [variant]="item.status === 'Ouverte' ? 'success' : item.status === 'Fermée' ? 'danger' : item.status === 'Archivée' ? 'neutral' : 'warning'"
+                  [label]="item.status">
+                </app-status-badge>
               </td>
-              <td class="td-actions">
+              <td class="text-right">
                 <div class="row-actions">
-                  <!-- 1. Detail -->
-                  <a
-                    [routerLink]="['/admin/trainings', item.id]"
-                    class="action-btn"
-                    title="Voir les détails"
-                  >
+                  <a [routerLink]="['/admin/trainings', item.id]" class="icon-btn icon-btn--view" title="Voir les détails">
                     <span class="material-symbols-outlined">visibility</span>
                   </a>
-                  <!-- 2. Update (Pre-filled create form) -->
-                  <a
-                    [routerLink]="['/admin/trainings/new']"
-                    [queryParams]="{ editId: item.id }"
-                    class="action-btn"
-                    title="Modifier (Pré-remplir)"
-                  >
+                  <a [routerLink]="['/admin/trainings/new']" [queryParams]="{ editId: item.id }" class="icon-btn icon-btn--edit" title="Modifier">
                     <span class="material-symbols-outlined">edit</span>
                   </a>
-                  <!-- 3. Candidats -->
-                  <a
-                    routerLink="/admin/applications"
-                    class="action-btn"
-                    title="Candidats"
-                  >
+                  <a routerLink="/admin/applications" class="icon-btn icon-btn--view" title="Candidats">
                     <span class="material-symbols-outlined">group</span>
                   </a>
-                  <!-- 4. Archiver / Supprimer (avec Modal de confirmation) -->
-                  <button
-                    type="button"
-                    class="action-btn action-btn--danger"
-                    title="Archiver la formation"
-                    (click)="promptArchive(item.id)"
-                  >
+                  <button type="button" class="icon-btn icon-btn--delete" title="Archiver la formation" (click)="promptArchive(item.id)">
                     <span class="material-symbols-outlined">archive</span>
                   </button>
                 </div>
@@ -164,8 +114,9 @@
             </tr>
           } @empty {
             <tr>
-              <td colspan="6" class="empty-cell">
-                Aucune formation trouvée pour le filtre sélectionné.
+              <td colspan="6" class="data-table__empty">
+                <span class="material-symbols-outlined empty-icon">search_off</span>
+                <p>Aucune formation trouvée pour le filtre sélectionné.</p>
               </td>
             </tr>
           }
@@ -173,22 +124,12 @@
       </table>
     </div>
 
-    <!-- Table Footer / Pagination -->
-    <div class="table-card__footer">
-      <span class="footer-info">
-        Affichage 1 à {{ filteredTrainings().length }} sur {{ trainings().length }} formations
-      </span>
-
-      <div class="pagination">
-        <button type="button" class="pagination__btn" disabled>
-          <span class="material-symbols-outlined">chevron_left</span>
-        </button>
-        <span class="pagination__page">Page 1 sur 1</span>
-        <button type="button" class="pagination__btn" disabled>
-          <span class="material-symbols-outlined">chevron_right</span>
-        </button>
-      </div>
-    </div>
+    <!-- Pagination -->
+    <app-pagination 
+      [totalItems]="trainings().length" 
+      [itemsPerPage]="10" 
+      [currentPage]="1"
+    ></app-pagination>
   </div>
 
   <!-- Confirmation Modal for Archiving -->
