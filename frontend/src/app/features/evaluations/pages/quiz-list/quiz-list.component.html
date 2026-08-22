@@ -1,101 +1,142 @@
-<section class="quiz-page">
-	<header class="quiz-page__intro">
-		<div>
-			<p class="quiz-page__eyebrow">Espace administration</p>
-			<h1>Gestion des évaluations</h1>
-			<p class="quiz-page__description">Consultez et gérez l'ensemble des questionnaires et quiz créés pour vos formations.</p>
-		</div>
-		<div class="quiz-page__actions">
-			<button class="button button--dark" type="button">
-				<span aria-hidden="true">➤</span>
-				Envoyer une évaluation
-			</button>
-			<button class="button button--primary" routerLink="create" type="button">
-				<span aria-hidden="true">+</span>
-				Créer une évaluation
-			</button>
-		</div>
-	</header>
+<div class="quiz-list">
 
-	<div class="quiz-page__stats" aria-label="Statistiques des évaluations">
-		<article class="stat-card stat-card--accent">
-			<span class="stat-card__icon" aria-hidden="true">▣</span>
-			<div><p>Total évaluations</p><strong>{{ statistics()?.totalEvaluations ?? 0 }}</strong></div>
-		</article>
-		<article class="stat-card">
-			<span class="stat-card__icon" aria-hidden="true">♟</span>
-			<div><p>Participations totales</p><strong>{{ statistics()?.totalParticipations ?? 0 }}</strong></div>
-		</article>
-		<article class="stat-card">
-			<span class="stat-card__icon" aria-hidden="true">★</span>
-			<div><p>Score moyen</p><strong>{{ statistics()?.averageScore ?? 0 }}%</strong></div>
-		</article>
-	</div>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Gestion des Évaluations</h1>
+      <p class="page-subtitle">Consultez et gérez l'ensemble des questionnaires créés pour vos formations.</p>
+    </div>
+    <div class="page-header__actions">
+      <button class="btn btn--dark" type="button" routerLink="send">
+        <span class="material-symbols-outlined">send</span>
+        Envoyer une évaluation
+      </button>
+      <button class="btn btn--primary" routerLink="create" type="button">
+        <span class="material-symbols-outlined">add</span>
+        Créer une évaluation
+      </button>
+    </div>
+  </div>
 
-	<section class="evaluation-list" aria-labelledby="evaluation-list-title">
-		<div class="evaluation-list__header">
-			<h2 id="evaluation-list-title">Liste des évaluations</h2>
-			<label class="search-field">
-				<span aria-hidden="true">⌕</span>
-				<span class="visually-hidden">Rechercher une évaluation</span>
-				<input
-					#searchInput
-					[ngModel]="searchTerm()"
-					(ngModelChange)="updateSearchTerm($event)"
-					placeholder="Rechercher une évaluation..."
-					type="search"
-				/>
-			</label>
-		</div>
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <app-kpi-card
+      label="Total évaluations"
+      [value]="statistics()?.totalEvaluations ?? 0"
+      icon="assignment"
+      colorTheme="primary">
+    </app-kpi-card>
+    <app-kpi-card
+      label="Participations totales"
+      [value]="statistics()?.totalParticipations ?? 0"
+      icon="groups"
+      colorTheme="secondary">
+    </app-kpi-card>
+    <app-kpi-card
+      label="Score moyen"
+      [value]="(statistics()?.averageScore ?? 0) + '%'"
+      icon="military_tech"
+      colorTheme="secondary">
+    </app-kpi-card>
+  </div>
 
-		<div class="evaluation-list__table-wrapper">
-			<table>
-				<thead><tr>
-					<th scope="col">Nom de l'évaluation</th>
-					<th scope="col">Formation associée</th>
-					<th scope="col">Type</th>
-					<th scope="col">Questions</th>
-					<th scope="col">Date de création</th>
-					<th scope="col"><span class="visually-hidden">Actions</span></th>
-				</tr></thead>
-				<tbody>
-					@for (evaluation of visibleEvaluations(); track evaluation.id) {
-						<tr>
-							<th scope="row">{{ evaluation.title }}</th>
-							<td>{{ evaluation.trainingName }}</td>
-							<td><span class="type-badge">{{ evaluation.type }}</span></td>
-							<td>{{ evaluation.questionCount }}</td>
-							<td>{{ formatDate(evaluation.createdAt) }}</td>
-							<td class="row-actions">
-								<button [routerLink]="[evaluation.id]" aria-label="Voir l'évaluation" title="Voir" type="button">◉</button>
-								<button [routerLink]="[evaluation.id, 'edit']" aria-label="Modifier l'évaluation" title="Modifier" type="button">✎</button>
-								<button (click)="requestArchive(evaluation.id)" aria-label="Archiver l'évaluation" title="Archiver" type="button">⇩</button>
-							</td>
-						</tr>
-					} @empty {
-						<tr><td class="empty-state" colspan="6">Aucune évaluation ne correspond à votre recherche.</td></tr>
-					}
-				</tbody>
-			</table>
-		</div>
+  <!-- Table Card -->
+  <div class="table-card">
 
-		<footer class="evaluation-list__footer">
-			<span>Affichage de {{ visibleEvaluations().length }} sur {{ filteredEvaluations().length }} évaluation(s)</span>
-			<nav aria-label="Pagination">
-				<button [disabled]="currentPage() === 1" aria-label="Page précédente" (click)="goToPage(currentPage() - 1)" type="button">‹</button>
-				@for (page of [1, 2, 3]; track page) {
-					<button [attr.aria-current]="currentPage() === page ? 'page' : null" [class.is-active]="currentPage() === page" [disabled]="page > pageCount()" (click)="goToPage(page)" type="button">{{ page }}</button>
-				}
-				<button [disabled]="currentPage() === pageCount()" aria-label="Page suivante" (click)="goToPage(currentPage() + 1)" type="button">›</button>
-			</nav>
-		</footer>
-	</section>
+    <!-- Toolbar avec filtres -->
+    <div class="table-card__toolbar">
+      <app-table-search
+        [placeholder]="'Rechercher une évaluation...'"
+        [searchValue]="searchTerm()"
+        [filters]="[
+          {
+            key: 'training',
+            label: 'Toutes les formations',
+            type: 'select',
+            value: trainingFilter(),
+            options: trainingOptions().map(t => ({ value: t.id, label: t.name }))
+          },
+          {
+            key: 'date',
+            label: 'Date de création',
+            type: 'date',
+            value: dateFilter()
+          }
+        ]"
+        (searchChange)="updateSearchTerm($event)"
+        (filterChange)="onFilterChange($event)"
+        (reset)="resetFilters()" />
+    </div>
 
-	<app-confirm-dialog
-		[isOpen]="evaluationToArchive() !== null"
-		[title]="'Archiver l’évaluation ?'"
-		[message]="'Voulez-vous vraiment archiver ' + evaluationToArchiveTitle + ' ? Elle ne sera plus visible dans la liste.'"
-		(confirm)="confirmArchive()"
-		(cancel)="closeArchiveDialog()"
-	></app-confirm-dialog>
-</section>
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nom de l'évaluation</th>
+            <th>Formation associée</th>
+            <th class="text-center">Questions</th>
+            <th>Date de création</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (evaluation of visibleEvaluations(); track evaluation.id) {
+            <tr class="data-table__row">
+              <td>
+                <a class="cell-title" [routerLink]="[evaluation.id]">{{ evaluation.title }}</a>
+              </td>
+              <td class="text-secondary">{{ evaluation.trainingName }}</td>
+              <td class="text-center text-secondary">{{ evaluation.questionCount }}</td>
+              <td class="text-secondary">{{ formatDate(evaluation.createdAt) }}</td>
+              <td class="text-right">
+                <div class="row-actions">
+                  <a class="icon-btn icon-btn--view" [routerLink]="[evaluation.id]" title="Voir l'évaluation">
+                    <span class="material-symbols-outlined">visibility</span>
+                  </a>
+                  <a class="icon-btn icon-btn--edit" [routerLink]="[evaluation.id, 'edit']" title="Modifier">
+                    <span class="material-symbols-outlined">edit</span>
+                  </a>
+                  <button class="icon-btn icon-btn--delete" type="button" (click)="requestArchive(evaluation.id)" title="Archiver">
+                    <span class="material-symbols-outlined">archive</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5">
+                <app-empty-state
+                  title="Aucune évaluation trouvée"
+                  description="Aucun questionnaire ne correspond à vos filtres. Modifiez votre recherche ou créez une nouvelle évaluation."
+                  icon="search_off">
+                </app-empty-state>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination
+      [totalItems]="filteredEvaluations().length"
+      [itemsPerPage]="pageSize"
+      [currentPage]="currentPage()"
+      (pageChange)="goToPage($event)">
+    </app-pagination>
+
+  </div>
+
+  <!-- Archive Confirm Dialog -->
+  <app-confirm-dialog
+    [isOpen]="evaluationToArchive() !== null"
+    [title]="'Archiver l\'évaluation ?'"
+    [message]="'Voulez-vous vraiment archiver ' + evaluationToArchiveTitle + ' ? Elle ne sera plus visible dans la liste.'"
+    confirmText="Archiver"
+    icon="archive"
+    (confirm)="confirmArchive()"
+    (cancel)="closeArchiveDialog()">
+  </app-confirm-dialog>
+
+</div>

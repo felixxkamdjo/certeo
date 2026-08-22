@@ -4,5 +4,5 @@ import { QuizResultsData } from '../models/quiz-results.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuizResultsService {
-  readonly data = httpResource<QuizResultsData>(() => '/mocks/quiz-results.json');
+  readonly data = httpResource<QuizResultsData>(() => '/assets/mocks/quiz-results.json');
 }

@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 
+// Routes d'administration de la présence.
+// Le formulaire visiteur (check-in) est EXCLUSIVEMENT sous /public/presence — voir presence-public.routes.ts
+
 export default [
   {
     path: '',
@@ -13,20 +16,4 @@ export default [
     path: 'configuration',
     loadComponent: () => import('./pages/presence-config/presence-config.component').then(m => m.PresenceConfigComponent),
   },
-  {
-    path: 'presence-config',
-    loadComponent: () => import('./pages/presence-config/presence-config.component').then(m => m.PresenceConfigComponent),
-  },
-  {
-    path: 'check-in',
-    loadComponent: () => import('./pages/presence-form/presence-form.component').then(m => m.PresenceFormComponent),
-  },
-  {
-    path: 'presence-form',
-    loadComponent: () => import('./pages/presence-form/presence-form.component').then(m => m.PresenceFormComponent),
-  },
-  {
-    path: 'visitor',
-    loadComponent: () => import('./pages/presence-form/presence-form.component').then(m => m.PresenceFormComponent),
-  }
 ] satisfies Routes;

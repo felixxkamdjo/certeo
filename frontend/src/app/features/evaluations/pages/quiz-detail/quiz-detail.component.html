@@ -1,90 +1,183 @@
-<section class="quiz-detail">
-  @if (evaluation(); as currentEvaluation) {
-    <header class="quiz-detail__header">
-      <div>
-        <a class="back-link" routerLink="/admin/evaluations">← Retour aux évaluations</a>
-        <p class="quiz-detail__eyebrow">Détail de l'évaluation</p>
-        <h1>{{ currentEvaluation.title }}</h1>
-        <p class="quiz-detail__description">{{ currentEvaluation.trainingName }}</p>
-      </div>
-      <div class="quiz-detail__actions">
-        <button class="button button--outline" type="button">Modifier</button>
-        <button class="button button--primary" type="button">Envoyer l'évaluation</button>
-      </div>
-    </header>
+<div class="quiz-detail">
+  @if (evaluation(); as ev) {
 
+    <!-- Breadcrumb / Back -->
+    <nav class="breadcrumb" aria-label="Navigation">
+      <a class="breadcrumb__link" routerLink="/admin/evaluations">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Evaluations
+      </a>
+      <span class="breadcrumb__sep material-symbols-outlined">chevron_right</span>
+      <span class="breadcrumb__active">{{ ev.title }}</span>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header__text">
+        <div class="quiz-detail__eyebrow">
+          <app-status-badge variant="info" [label]="ev.type"></app-status-badge>
+          <span class="text-muted">{{ ev.trainingName }}</span>
+        </div>
+        <h1 class="page-title">{{ ev.title }}</h1>
+        @if (ev.description) {
+          <p class="page-subtitle">{{ ev.description }}</p>
+        }
+      </div>
+      <div class="page-header__actions">
+        <a class="btn btn--outline" [routerLink]="['/admin/evaluations', ev.id, 'edit']">
+          <span class="material-symbols-outlined">edit</span>
+          Modifier
+        </a>
+        <a class="btn btn--dark" routerLink="/admin/evaluations/send">
+          <span class="material-symbols-outlined">send</span>
+          Envoyer
+        </a>
+      </div>
+    </div>
+
+    <!-- Bento Grid -->
     <div class="detail-grid">
+
+      <!-- Colonne principale -->
       <main class="detail-main">
-        <section class="detail-card detail-card--accent" aria-labelledby="general-title">
-          <div class="card-heading">
+
+        <!-- Informations generales -->
+        <div class="detail-card detail-card--accent">
+          <div class="detail-card__header">
             <div>
-              <p class="card-kicker">Vue d'ensemble</p>
-              <h2 id="general-title">Informations générales</h2>
+              <p class="detail-card__kicker">Vue d'ensemble</p>
+              <h2 class="detail-card__title">Informations generales</h2>
             </div>
-            <span class="type-badge">{{ currentEvaluation.type }}</span>
           </div>
           <div class="metadata-grid">
-            <div><span>Formation associée</span><strong>{{ currentEvaluation.trainingName }}</strong></div>
-            <div><span>Date de création</span><strong>{{ formatDate(currentEvaluation.createdAt) }}</strong></div>
-            <div><span>Nombre de questions</span><strong>{{ currentEvaluation.questionCount }}</strong></div>
-            <div><span>Durée estimée</span><strong>30 minutes</strong></div>
-          </div>
-        </section>
-
-        <section class="detail-card" aria-labelledby="questions-title">
-          <div class="card-heading">
-            <div>
-              <p class="card-kicker">Contenu du questionnaire</p>
-              <h2 id="questions-title">Questions</h2>
+            <div class="metadata-item">
+              <span class="metadata-item__label">Formation</span>
+              <strong class="metadata-item__val">{{ ev.trainingName }}</strong>
             </div>
-            <span class="question-count">{{ currentEvaluation.questionCount }} questions</span>
+            <div class="metadata-item">
+              <span class="metadata-item__label">Date de creation</span>
+              <strong class="metadata-item__val">{{ formatDate(ev.createdAt) }}</strong>
+            </div>
+            <div class="metadata-item">
+              <span class="metadata-item__label">Nombre de questions</span>
+              <strong class="metadata-item__val">{{ ev.questionCount }}</strong>
+            </div>
+            <div class="metadata-item">
+              <span class="metadata-item__label">Duree estimee</span>
+              <strong class="metadata-item__val">{{ ev.duration ?? '—' }} min</strong>
+            </div>
+            @if (ev.passingScore) {
+              <div class="metadata-item">
+                <span class="metadata-item__label">Seuil de reussite</span>
+                <strong class="metadata-item__val">{{ ev.passingScore }} %</strong>
+              </div>
+            }
+            <div class="metadata-item">
+              <span class="metadata-item__label">Melange questions</span>
+              <strong class="metadata-item__val">{{ ev.shuffleQuestions ? 'Oui' : 'Non' }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Apercu questions (placeholder — questions viennent de l'API) -->
+        <div class="detail-card">
+          <div class="detail-card__header">
+            <div>
+              <p class="detail-card__kicker">Contenu du questionnaire</p>
+              <h2 class="detail-card__title">Questions</h2>
+            </div>
+            <span class="question-count-badge">{{ ev.questionCount }} questions</span>
           </div>
 
-          <div class="question-list">
-            @for (question of questions; track question.title; let questionIndex = $index) {
-              <article class="question-preview">
-                <div class="question-preview__number">{{ questionIndex + 1 }}</div>
-                <div class="question-preview__content">
-                  <h3>{{ question.title }}</h3>
-                  <ol class="answer-list" type="A">
-                    @for (option of question.options; track option; let optionIndex = $index) {
-                      <li [class.answer-list__correct]="optionIndex === question.answer">
-                        <span>{{ option }}</span>
-                        @if (optionIndex === question.answer) {
-                          <span class="correct-label">Bonne réponse</span>
-                        }
-                      </li>
-                    }
-                  </ol>
-                </div>
-              </article>
+          <div class="questions-preview-info">
+            <span class="material-symbols-outlined">info</span>
+            <p>
+              L'apercu detaille des questions sera disponible une fois les evaluations connectees a l'API.
+              Ce questionnaire contient <strong>{{ ev.questionCount }} questions</strong>
+              @if (ev.duration) { pour une duree estimee de <strong>{{ ev.duration }} minutes</strong>. }
+            </p>
+          </div>
+
+          <div class="quiz-meta-pills">
+            @if (ev.shuffleQuestions) {
+              <span class="meta-pill">
+                <span class="material-symbols-outlined">shuffle</span>
+                Questions melangees
+              </span>
+            }
+            @if (ev.shuffleOptions) {
+              <span class="meta-pill">
+                <span class="material-symbols-outlined">shuffle</span>
+                Options melangees
+              </span>
+            }
+            @if (ev.passingScore) {
+              <span class="meta-pill meta-pill--success">
+                <span class="material-symbols-outlined">flag</span>
+                Seuil {{ ev.passingScore }}%
+              </span>
             }
           </div>
-          @if (completionLabel()) {
-            <p class="question-more">{{ completionLabel() }}</p>
-          }
-        </section>
+        </div>
+
       </main>
 
+      <!-- Sidebar -->
       <aside class="detail-sidebar">
-        <section class="detail-card status-card" aria-labelledby="status-title">
-          <h2 id="status-title">Statut</h2>
-          <div class="status-card__state"><span></span>Prête à être envoyée</div>
-          <button class="button button--primary button--full" type="button">Aperçu du quiz</button>
-        </section>
-        <section class="detail-card participation-card" aria-labelledby="participation-title">
-          <h2 id="participation-title">Participations</h2>
-          <strong>{{ currentEvaluation.questionCount > 0 ? '458' : '0' }}</strong>
-          <p>participations enregistrées</p>
-          <div class="score-line"><span>Score moyen</span><strong>78%</strong></div>
-        </section>
+
+        <!-- Statut -->
+        <div class="detail-card">
+          <h2 class="detail-card__title">Statut</h2>
+          <div class="status-row">
+            <span class="status-dot status-dot--active"></span>
+            <span>Prete a etre envoyee</span>
+          </div>
+          <a class="btn btn--primary btn--full" routerLink="/admin/evaluations/send">
+            <span class="material-symbols-outlined">send</span>
+            Envoyer cette evaluation
+          </a>
+        </div>
+
+        <!-- Statistiques de participation -->
+        <div class="detail-card stat-card">
+          <h2 class="detail-card__title">Participations</h2>
+          <div class="stat-card__big">{{ stats()?.totalParticipations ?? 0 }}</div>
+          <p class="stat-card__label">participations enregistrees</p>
+          <div class="stat-card__divider"></div>
+          <div class="stat-card__row">
+            <span>Score moyen global</span>
+            <strong>{{ stats()?.averageScore ?? 0 }}%</strong>
+          </div>
+        </div>
+
+        <!-- Actions rapides -->
+        <div class="detail-card">
+          <h2 class="detail-card__title">Actions</h2>
+          <div class="quick-actions">
+            <a class="quick-action" [routerLink]="['/admin/evaluations', ev.id, 'edit']">
+              <span class="material-symbols-outlined">edit</span>
+              <span>Modifier l'evaluation</span>
+            </a>
+            <a class="quick-action" routerLink="/admin/evaluations/send">
+              <span class="material-symbols-outlined">send</span>
+              <span>Envoyer aux candidats</span>
+            </a>
+            <button class="quick-action quick-action--danger" type="button">
+              <span class="material-symbols-outlined">archive</span>
+              <span>Archiver</span>
+            </button>
+          </div>
+        </div>
+
       </aside>
     </div>
+
   } @else {
-    <section class="not-found">
-      <h1>Évaluation introuvable</h1>
-      <p>Cette évaluation n'existe pas ou n'est plus disponible.</p>
-      <a class="button button--primary" routerLink="/admin/evaluations">Retour aux évaluations</a>
-    </section>
+    <div class="not-found-state">
+      <span class="material-symbols-outlined">search_off</span>
+      <h2>Evaluation introuvable</h2>
+      <p>Cette evaluation n'existe pas ou n'est plus disponible.</p>
+      <a class="btn btn--primary" routerLink="/admin/evaluations">Retour aux evaluations</a>
+    </div>
   }
-</section>
+</div>

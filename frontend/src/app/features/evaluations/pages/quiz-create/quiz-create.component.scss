@@ -1,91 +1,898 @@
 @use 'styles/variables' as *;
 @use 'styles/mixins' as *;
 
+$_border:       $color-gray-300;
+$_border-focus: $color-primary;
+$_surface:      $color-gray-50;
+
+// ============================================================
+// Wrapper
+// ============================================================
 .quiz-create {
   max-width: 1280px;
   margin: 0 auto;
-  color: $color-gray-900;
-
-  &__header { @include flex-between; align-items: center; gap: $spacing-xl; margin: 16px 0 40px; }
-  &__description { margin: $spacing-xs 0 0; color: #4f3326; font-size: $font-size-md; }
-  h1 { margin: 0; font-size: $font-size-4xl; line-height: 1.15; letter-spacing: 0; }
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
 }
 
-.quiz-form { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); gap: $spacing-lg; align-items: start; }
-.quiz-form__main { display: grid; gap: $spacing-lg; }
-.form-panel { @include card; padding: $spacing-xl; border: 1px solid #eadbd3; border-radius: $radius-lg; }
-.form-panel--accent { border-left: 4px solid $color-primary-dark; box-shadow: $shadow-md; }
-.form-panel h2 { display: flex; align-items: center; gap: $spacing-sm; margin: 0 0 $spacing-xl; font-size: $font-size-2xl; line-height: 1.2; }
-.section-icon { color: $color-primary-dark; font-size: 1.5rem; line-height: 1; }
-.form-grid { display: grid; gap: $spacing-md; }
-.form-field { display: grid; gap: $spacing-sm; color: $color-gray-900; font-size: $font-size-base; font-weight: $font-weight-semibold; }
-.form-field input, .form-field select, .form-field textarea, .question-card input { width: 100%; border: 1px solid #e8bca4; border-radius: $radius-md; padding: 14px 16px; background: #fdfbf9; color: $color-gray-900; font: inherit; }
-.form-field textarea { resize: vertical; min-height: 118px; }
-.select-field { position: relative; display: block; }
-.select-field select { appearance: none; padding-right: 44px; }
-.select-field > span { position: absolute; top: 50%; right: 16px; transform: translateY(-50%); color: $color-gray-700; pointer-events: none; font-size: $font-size-xl; }
-.form-field input:focus, .form-field select:focus, .form-field textarea:focus, .question-card input:focus { outline: 2px solid rgba($color-primary, .25); border-color: $color-primary; }
-.section-heading, .question-card__heading, .question-card__footer { @include flex-between; gap: $spacing-md; }
-.question-count { padding: 8px 16px; border-radius: $radius-full; background: #fff7f2; color: $color-primary; font-size: $font-size-sm; font-weight: $font-weight-semibold; }
-.question-card { position: relative; margin-top: $spacing-lg; border: 1px solid #e8bca4; border-radius: $radius-md; padding: $spacing-xl; background: #fdfbf9; }
-.question-number { @include flex-center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: $color-gray-200; font-weight: $font-weight-bold; }
-.question-card__actions { position: absolute; top: 12px; right: 12px; display: flex; gap: $spacing-xs; opacity: 0; transition: opacity $transition-fast; }
-.question-card:hover .question-card__actions, .question-card:focus-within .question-card__actions { opacity: 1; }
-.question-card__body { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: start; gap: $spacing-lg; }
-.question-card__content { min-width: 0; }
-.question-input { margin-bottom: $spacing-md; font-size: $font-size-lg !important; }
-.icon-button { border: 0; background: transparent; color: $color-gray-600; cursor: pointer; font-size: $font-size-xl; }
-.icon-button--danger:hover { color: $color-danger; }
-.options { display: grid; gap: $spacing-sm; }
-.option-row { display: grid; grid-template-columns: 24px minmax(0, 1fr); align-items: center; gap: $spacing-sm; color: $color-gray-700; }
-.option-row > input[type='radio'] { width: 20px; height: 20px; accent-color: $color-primary; }
-.option-input { display: flex; align-items: center; min-width: 0; gap: $spacing-sm; border: 1px solid #e8bca4; border-radius: $radius-md; padding: 8px 12px; background: #fdfbf9; }
-.option-letter { flex: 0 0 24px; color: $color-gray-700; }
-.option-input > input[type='text'] { min-width: 0; border: 0; padding: 0; background: transparent; }
-.option-input > input[type='text']:focus { outline: 0; }
-.option-row--correct input[type='text'] { border-color: $color-primary; background: #fff8f3; }
-.option-row--correct .option-input { border-color: $color-primary; background: #fff8f3; }
-.option-row--correct .option-letter { color: $color-primary-dark; font-weight: $font-weight-semibold; }
-.correct-mark { @include flex-center; width: 24px; height: 24px; border: 2px solid $color-primary; border-radius: 50%; color: $color-primary; font-weight: $font-weight-bold; }
-.question-card__footer { margin-left: 48px; border-top: 1px solid #e8bca4; padding-top: $spacing-md; }
-.points-field { display: flex; align-items: center; gap: $spacing-sm; color: $color-gray-700; font-size: $font-size-sm; }
-.points-field input { width: 72px; }
-.text-button { border: 0; background: transparent; color: $color-primary-dark; cursor: pointer; font: inherit; font-weight: $font-weight-semibold; }
-.add-question { display: flex; flex-direction: column; align-items: center; gap: $spacing-sm; width: 100%; margin-top: $spacing-lg; border: 2px dashed #e8bca4; border-radius: $radius-md; padding: $spacing-md; background: transparent; color: #4f3326; cursor: pointer; font: inherit; font-weight: $font-weight-semibold; }
-.add-question__icon { @include flex-center; width: 40px; height: 40px; border-radius: 50%; background: $color-gray-200; color: #4f3326; font-size: $font-size-2xl; font-weight: $font-weight-regular; }
-.settings-column { min-width: 0; }
-.settings-panel { display: grid; align-content: start; gap: $spacing-lg; position: sticky; top: $spacing-lg; }
-.settings-panel h2 { padding-bottom: $spacing-lg; border-bottom: 1px solid #e8bca4; }
-.field-icon { margin-right: $spacing-sm; color: #4f3326; }
-.toggle-field { display: flex; justify-content: space-between; align-items: center; gap: $spacing-md; padding: $spacing-md; border: 1px solid #eadbd3; border-radius: $radius-md; background: #f8f4f2; color: $color-gray-900; font-size: $font-size-base; }
-.toggle-field input { appearance: none; position: relative; width: 52px; height: 28px; flex: 0 0 52px; border-radius: $radius-full; background: $color-gray-300; cursor: pointer; }
-.toggle-field input::after { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: $color-white; content: ''; transition: transform $transition-fast; }
-.toggle-field input:checked { background: $color-primary; }
-.toggle-field input:checked::after { transform: translateX(24px); }
-.points-summary-wrap { margin-top: $spacing-md; border-top: 1px solid #e8bca4; padding-top: $spacing-lg; }
-.points-summary { display: flex; justify-content: space-between; align-items: center; padding: $spacing-lg; border-radius: $radius-lg; background: #1d1d1d; color: $color-white; }
-.points-summary span { color: #bdbdbd; font-size: $font-size-sm; font-weight: $font-weight-semibold; }
-.points-summary strong { display: block; margin-top: $spacing-xs; color: #ffb27a; font-size: $font-size-4xl; line-height: 1; }
-.points-summary__icon { color: #a99d96 !important; font-size: $font-size-2xl !important; }
-.preview-button, .save-button { min-height: 48px; border: 0; border-radius: $radius-md; cursor: pointer; font: inherit; font-weight: $font-weight-bold; }
-.preview-button { width: 100%; border: 1px solid #e8bca4; background: #e5e2e1; color: $color-gray-900; }
-.save-button { display: flex; align-items: center; gap: $spacing-sm; padding: 0 $spacing-lg; background: $color-primary; color: $color-white; }
-.form-message { margin-bottom: $spacing-lg; padding: $spacing-md; border-radius: $radius-md; }
-.form-message--success { background: $color-success-light; color: $color-success; }
+// ============================================================
+// Breadcrumb header
+// ============================================================
+.breadcrumb-header {
+  @include flex-between;
+}
 
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+
+  &__link {
+    color: $color-gray-600;
+    text-decoration: none;
+    transition: color $transition-fast;
+    &:hover { color: $color-primary; }
+  }
+
+  &__sep { font-size: 18px; color: $color-gray-400; }
+
+  &__active {
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+  }
+}
+
+.btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 6px 14px;
+  border-radius: $radius-md;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $color-gray-600;
+  border: 1px solid $color-gray-300;
+  background: $color-white;
+  text-decoration: none;
+  transition: all $transition-fast;
+
+  .material-symbols-outlined { font-size: 16px; }
+
+  &:hover {
+    background: $color-gray-100;
+    color: $color-danger;
+    border-color: $color-danger;
+  }
+}
+
+// ============================================================
+// Page header centré
+// ============================================================
+.page-header {
+  text-align: center;
+
+  &__title {
+    font-size: 2rem;
+    font-weight: $font-weight-extrabold;
+    color: $color-gray-900;
+    letter-spacing: -0.02em;
+    margin: 0 0 $spacing-xs;
+  }
+
+  &__subtitle {
+    font-size: $font-size-base;
+    color: $color-gray-600;
+    margin: 0;
+  }
+}
+
+// ============================================================
+// Feedback
+// ============================================================
+.form-message {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+
+  .material-symbols-outlined { font-size: 20px; }
+
+  &--success {
+    background: $color-success-light;
+    color: $color-success;
+    border: 1px solid $color-gray-300;
+  }
+}
+
+// ============================================================
+// Grille 2/3 + 1/3
+// ============================================================
+.quiz-form {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  gap: $spacing-lg;
+  align-items: start;
+}
+
+.quiz-form__main {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+// ============================================================
+// Panels / Cards
+// ============================================================
+.form-panel {
+  @include card($spacing-xl);
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+
+  // Titre standard dans les panels de la colonne principale
+  > h2 {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin: 0 0 $spacing-xl;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $color-gray-100;
+  }
+}
+
+.section-icon {
+  font-size: 20px !important;
+  color: $color-primary;
+}
+
+// ============================================================
+// Section heading (Questions + badge compteur)
+// ============================================================
+.section-heading {
+  @include flex-between;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+
+  h2 {
+    // Pas de border-bottom ici — le h2 est dans section-heading, pas direct enfant
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    font-size: $font-size-lg !important;
+  }
+}
+
+.question-count {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: $radius-full;
+  background: $color-primary-bg;
+  color: $color-primary;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  white-space: nowrap;
+}
+
+// ============================================================
+// Form fields
+// ============================================================
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: $color-gray-600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  input[type='text'],
+  input[type='number'],
+  select,
+  textarea {
+    width: 100%;
+    border: 1px solid $_border;
+    border-radius: $radius-md;
+    padding: 11px 14px;
+    background: $color-white;
+    color: $color-gray-900;
+    font: inherit;
+    font-size: $font-size-base;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $_border-focus;
+      box-shadow: 0 0 0 3px $color-primary-bg;
+    }
+  }
+
+  select { appearance: none; }
+
+  textarea {
+    resize: vertical;
+    min-height: 88px;
+  }
+}
+
+.select-field {
+  position: relative;
+
+  select { padding-right: 40px; }
+
+  > span.material-symbols-outlined {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-gray-500;
+    pointer-events: none;
+    font-size: 20px;
+  }
+}
+
+.field-icon {
+  font-size: 16px !important;
+  color: $color-gray-500;
+}
+
+// ============================================================
+// Question card
+// ============================================================
+.question-card {
+  position: relative;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  background: $_surface;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  &:focus-within {
+    border-color: $color-gray-300;
+    box-shadow: $shadow-sm;
+  }
+
+  // Inputs à l'intérieur de la card
+  input[type='text'],
+  input[type='number'] {
+    border: 1px solid $_border;
+    border-radius: $radius-md;
+    padding: 9px 12px;
+    background: $color-white;
+    color: $color-gray-900;
+    font: inherit;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $_border-focus;
+      box-shadow: 0 0 0 3px $color-primary-bg;
+    }
+  }
+
+  input[type='radio'] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid $color-gray-400 !important;
+    border-radius: 50%;
+    background: transparent;
+    accent-color: $color-primary;
+    cursor: pointer;
+    outline: none;
+    flex-shrink: 0;
+    appearance: auto;
+
+    &:checked {
+      border-color: $color-primary !important;
+      accent-color: $color-primary;
+    }
+
+    &:focus { outline: none; }
+    &:focus-visible { outline: 2px solid $color-primary; outline-offset: 2px; }
+  }
+}
+
+// Boutons action (copier / supprimer) — petits, toujours visibles
+.question-card__actions {
+  position: absolute;
+  top: $spacing-sm;
+  right: $spacing-sm;
+  display: flex;
+  gap: 4px;
+}
+
+.action-btn {
+  @include flex-center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-sm;
+  background: $color-white;
+  color: $color-gray-500;
+  cursor: pointer;
+  padding: 0;
+  transition: all $transition-fast;
+
+  .material-symbols-outlined { font-size: 14px; }
+
+  &:hover {
+    background: $color-gray-100;
+    color: $color-gray-800;
+    border-color: $color-gray-300;
+  }
+
+  &--danger:hover {
+    background: $color-danger-light;
+    color: $color-danger;
+    border-color: $color-danger;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// Corps de la question
+.question-card__body {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: $spacing-md;
+  align-items: start;
+  padding-right: 68px; // espace pour les boutons absolus
+  margin-top: 5px;
+}
+
+.question-number {
+  @include flex-center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: $color-gray-200;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: $color-gray-700;
+  flex-shrink: 0;
+  margin-top: 9px; // aligner avec le haut de l'input énoncé
+}
+
+.question-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  min-width: 0;
+}
+
+.question-input {
+  width: 100%;
+  font-size: $font-size-base !important;
+  font-weight: $font-weight-medium !important;
+
+  &::placeholder {
+    color: $color-gray-400;
+    font-weight: $font-weight-regular;
+  }
+}
+
+// ============================================================
+// Options
+// ============================================================
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  // Radio de sélection de la bonne réponse
+  > input[type='radio'] {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin: 0;
+    border: 1px solid $color-gray-400 !important;
+    border-radius: 50%;
+    accent-color: $color-primary;
+    cursor: pointer;
+    outline: none;
+    appearance: auto;
+
+    &:checked {
+      border-color: $color-primary !important;
+      accent-color: $color-primary;
+    }
+
+    &:focus { outline: none; }
+    &:focus-visible { outline: 2px solid $color-primary; outline-offset: 2px; }
+  }
+}
+
+.option-input {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: $spacing-xs;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-md;
+  padding: 7px 10px;
+  background: $color-white;
+  transition: border-color $transition-fast;
+
+  > input[type='text'] {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    padding: 0;
+    background: transparent;
+    font: inherit;
+    font-size: $font-size-sm;
+    color: $color-gray-900;
+
+    &:focus { outline: none; }
+    &::placeholder { color: $color-gray-400; }
+  }
+}
+
+.option-letter {
+  flex-shrink: 0;
+  width: 20px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: $color-gray-500;
+}
+
+.option-remove {
+  @include flex-center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: $color-gray-400;
+  cursor: pointer;
+  padding: 0;
+  transition: all $transition-fast;
+
+  .material-symbols-outlined { font-size: 14px; }
+
+  &:hover {
+    background: $color-danger-light;
+    color: $color-danger;
+  }
+}
+
+// Option correcte
+.option-row--correct {
+  .option-input {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+  }
+
+  .option-letter {
+    color: $color-primary;
+    font-weight: $font-weight-bold;
+  }
+}
+
+.correct-mark {
+  flex-shrink: 0;
+  font-size: 16px !important;
+  color: $color-primary;
+}
+
+// ============================================================
+// Footer de la question card
+// ============================================================
+.question-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  margin-top: $spacing-sm;
+  padding-top: $spacing-sm;
+  border-top: 1px solid $color-gray-200;
+  margin-left: calc(28px + #{$spacing-md}); // aligner avec question-card__content
+}
+
+.points-field {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+  font-weight: $font-weight-medium;
+
+  .material-symbols-outlined {
+    font-size: 16px;
+    color: $color-warning;
+  }
+
+  input[type='number'] {
+    width: 60px;
+    padding: 4px 8px !important;
+    text-align: center;
+    font-size: $font-size-sm !important;
+  }
+}
+
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  color: $color-primary;
+  cursor: pointer;
+  font: inherit;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  padding: 0;
+  line-height: 1;
+  transition: color $transition-fast;
+  text-decoration: none;
+
+  .material-symbols-outlined {
+    font-size: 16px;
+    line-height: 1;
+    vertical-align: middle;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+
+  &__label {
+    text-decoration: none;
+    transition: text-decoration $transition-fast;
+  }
+
+  &:hover {
+    color: $color-primary-dark;
+
+    .text-button__label {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ============================================================
+// Bouton "Ajouter une question"
+// ============================================================
+.add-question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  width: 100%;
+  margin-top: $spacing-lg;
+  border: 2px dashed $color-gray-300;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  background: transparent;
+  color: $color-gray-600;
+  cursor: pointer;
+  font: inherit;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary;
+    background: $color-primary-bg;
+
+    .add-question__icon {
+      background: $color-primary;
+      color: $color-white;
+    }
+  }
+}
+
+.add-question__icon {
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: $color-gray-200;
+  color: $color-gray-600;
+  transition: all $transition-fast;
+  flex-shrink: 0;
+
+  .material-symbols-outlined { font-size: 18px; }
+}
+
+// ============================================================
+// Colonne settings sticky
+// ============================================================
+.settings-column {
+  min-width: 0;
+}
+
+.settings-panel {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  position: sticky;
+  top: $spacing-lg;
+
+  // Le h2 dans la colonne settings est compact
+  > h2 {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0;
+    padding: $spacing-md 0;
+    border-top: 1px solid $color-gray-200;
+    border-bottom: none !important;
+  }
+}
+
+// ============================================================
+// Toggle switch custom
+// ============================================================
+.toggle-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-md;
+  background: $_surface;
+  cursor: pointer;
+
+  > span {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-sm;
+    color: $color-gray-800;
+    font-weight: $font-weight-medium;
+    user-select: none;
+  }
+
+  input[type='checkbox'] {
+    appearance: none;
+    position: relative;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: $radius-full;
+    background: $color-gray-300;
+    cursor: pointer;
+    transition: background $transition-fast;
+    border: none;
+    margin: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: $color-white;
+      box-shadow: $shadow-xs;
+      transition: transform $transition-fast;
+    }
+
+    &:checked {
+      background: $color-primary;
+      &::after { transform: translateX(20px); }
+    }
+  }
+}
+
+// ============================================================
+// Bloc total points — fond sombre (fidèle maquette)
+// ============================================================
+.points-summary-wrap {
+  border-top: 1px solid $color-gray-200;
+  padding-top: $spacing-md;
+}
+
+.points-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $radius-lg;
+  background: $color-gray-900;
+  color: $color-white;
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__value {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-extrabold;
+    color: $color-primary-light;
+    line-height: 1;
+  }
+
+  &__icon {
+    font-size: 2.2rem !important;
+    color: $color-gray-600 !important;
+    opacity: 0.5;
+  }
+}
+
+// ============================================================
+// Validation — erreurs visuelles
+// ============================================================
+.field-required {
+  color: $color-danger;
+  margin-left: 2px;
+}
+
+.field-error {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: $font-size-xs;
+  color: $color-danger;
+  margin-top: 2px;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: $color-danger;
+    flex-shrink: 0;
+  }
+}
+
+.input--error {
+  border-color: $color-danger !important;
+  background: $color-danger-light !important;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba($color-danger, 0.12) !important;
+  }
+}
+
+.select-field--error {
+  select {
+    border-color: $color-danger !important;
+    background: $color-danger-light !important;
+  }
+}
+
+// ============================================================
+// Boutons colonne settings
+// ============================================================
+.save-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  width: 100%;
+  min-height: 44px;
+  border: none;
+  border-radius: $radius-md;
+  background: $color-primary;
+  color: $color-white;
+  font: inherit;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  cursor: pointer;
+  transition: background $transition-fast;
+
+  .material-symbols-outlined { font-size: 18px; }
+
+  &:hover { background: $color-primary-dark; }
+}
+
+.preview-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-md;
+  background: $color-white;
+  color: $color-gray-700;
+  font: inherit;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  .material-symbols-outlined { font-size: 18px; }
+
+  &:hover {
+    background: $color-gray-100;
+    border-color: $color-gray-400;
+  }
+}
+
+// ============================================================
+// Responsive
+// ============================================================
 @include mobile {
-  .quiz-create__header { align-items: stretch; flex-direction: column; }
-  .quiz-form { grid-template-columns: 1fr; }
-  .settings-panel { position: static; }
-  .save-button { width: 100%; justify-content: center; }
-  .form-panel { padding: $spacing-md; }
-  .question-card__heading { align-items: start; }
-  .question-card__heading > input { min-width: 0; }
-  .question-card__body { grid-template-columns: 1fr; }
-  .question-card__footer { margin-left: 0; }
-  .question-card__actions { opacity: 1; }
-  .question-card__footer { align-items: start; flex-direction: column; }
-  .option-row { grid-template-columns: 24px 20px minmax(0, 1fr) 24px; gap: $spacing-xs; }
+  .quiz-form {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-column {
+    order: -1;
+  }
+
+  .settings-panel {
+    position: static;
+  }
+
+  .form-panel {
+    padding: $spacing-md;
+  }
+
+  .question-card__body {
+    grid-template-columns: 1fr;
+    padding-right: 0;
+  }
+
+  .question-number {
+    display: none;
+  }
+
+  .question-card__actions {
+    position: static;
+    justify-content: flex-end;
+    margin-bottom: $spacing-xs;
+  }
+
+  .question-card__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0;
+  }
 }
 
-.question-card input[type='radio'] { width: 20px; height: 20px; border: 0; padding: 0; background: transparent; }
+
+

@@ -1,0 +1,65 @@
+{
+  "statistics": {
+    "totalEvaluations": 12,
+    "totalParticipations": 458,
+    "averageScore": 78
+  },
+  "items": [
+    {
+      "id": "eval-1",
+      "title": "QCM Final - Developpement Web",
+      "trainingId": "tr-1",
+      "trainingName": "Bootcamp Fullstack",
+      "type": "QCM",
+      "questionCount": 25,
+      "duration": 30,
+      "description": "Evaluation finale du bootcamp couvrant HTML, CSS, JavaScript et les frameworks modernes.",
+      "passingScore": 75,
+      "shuffleQuestions": true,
+      "shuffleOptions": false,
+      "createdAt": "2023-10-12T10:00:00Z"
+    },
+    {
+      "id": "eval-2",
+      "title": "Quiz d'entree - Design UI",
+      "trainingId": "tr-2",
+      "trainingName": "UX Design Mastery",
+      "type": "QCM",
+      "questionCount": 10,
+      "duration": 15,
+      "description": "Quiz de positionnement pour evaluer les connaissances de base en design.",
+      "passingScore": 60,
+      "shuffleQuestions": false,
+      "shuffleOptions": true,
+      "createdAt": "2023-11-05T09:00:00Z"
+    },
+    {
+      "id": "eval-3",
+      "title": "Evaluation Mi-parcours Data",
+      "trainingId": "tr-3",
+      "trainingName": "Data Science Fundamentals",
+      "type": "QCM",
+      "questionCount": 40,
+      "duration": 60,
+      "description": "Evaluation intermediaire sur les fondamentaux de la data science et du machine learning.",
+      "passingScore": 70,
+      "shuffleQuestions": true,
+      "shuffleOptions": true,
+      "createdAt": "2023-11-20T08:00:00Z"
+    },
+    {
+      "id": "eval-4",
+      "title": "Test Technique Preliminaire",
+      "trainingId": "tr-1",
+      "trainingName": "Bootcamp Fullstack",
+      "type": "QCM",
+      "questionCount": 15,
+      "duration": 20,
+      "description": "Test de selection avant integration dans le bootcamp.",
+      "passingScore": 65,
+      "shuffleQuestions": false,
+      "shuffleOptions": false,
+      "createdAt": "2023-12-01T07:00:00Z"
+    }
+  ]
+}
