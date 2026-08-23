@@ -1,0 +1,21 @@
+{
+  "id": "settings-singleton",
+  "applicationName": "CERTEO",
+  "logoUrl": null,
+  "timeZone": "Europe/Paris",
+  "isNewApplicationAlertEnabled": true,
+  "isTrainingReminderAlertEnabled": true,
+  "isSystemUpdateAlertEnabled": false,
+  "sessionTimeoutMinutes": 30,
+  "minPasswordLength": 8,
+  "isPasswordUppercaseRequired": true,
+  "isPasswordSpecialCharRequired": true,
+  "passwordExpirationDays": 90,
+  "isLinkedInSharingAllowed": false,
+  "linkedInApiKeySet": false,
+  "isOdcSyncActive": false,
+  "smtpHost": null,
+  "smtpPort": 587,
+  "smtpUsername": null,
+  "smtpPasswordSet": false
+}

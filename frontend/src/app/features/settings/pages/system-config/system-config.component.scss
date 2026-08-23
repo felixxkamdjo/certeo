@@ -2,7 +2,587 @@
 @use 'styles/mixins' as *;
 
 .system-config {
-  &__header {
-    margin-bottom: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// ============================================================
+// Succès
+// ============================================================
+.save-success {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-lg;
+  background: $color-success-light;
+  color: $color-success;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-lg;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+
+  .material-symbols-outlined { font-size: 20px; }
+}
+
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ============================================================
+// Layout 12 colonnes — nav sticky + contenu
+// ============================================================
+.settings-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-xl;
+  align-items: start;
+
+  @include desktop {
+    grid-template-columns: 240px 1fr;
   }
+}
+
+// ============================================================
+// Navigation interne sticky
+// ============================================================
+.settings-nav {
+  position: sticky;
+  top: $spacing-lg;
+
+  @include mobile {
+    position: static;
+    display: flex;
+    overflow-x: auto;
+    @include scrollbar-thin;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: $color-white;
+    border: 1px solid $color-gray-200;
+    border-radius: $radius-xl;
+    overflow: hidden;
+
+    @include mobile {
+      display: flex;
+      border-radius: $radius-full;
+      white-space: nowrap;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    width: 100%;
+    padding: $spacing-md $spacing-lg;
+    border: none;
+    border-left: 4px solid transparent;
+    background: transparent;
+    color: $color-gray-600;
+    font: inherit;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    text-align: left;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    .material-symbols-outlined { font-size: 20px; }
+
+    &:hover {
+      background: $color-gray-50;
+      color: $color-gray-900;
+    }
+
+    &--active {
+      border-left-color: $color-primary;
+      background: $color-primary-bg;
+      color: $color-primary;
+      font-weight: $font-weight-bold;
+
+      .material-symbols-outlined { color: $color-primary; }
+    }
+
+    @include mobile {
+      border-left: none;
+      border-bottom: 3px solid transparent;
+      padding: $spacing-sm $spacing-md;
+      white-space: nowrap;
+
+      &--active {
+        border-left: none;
+        border-bottom-color: $color-primary;
+      }
+    }
+  }
+}
+
+// ============================================================
+// Sections de contenu
+// ============================================================
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.settings-card {
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  scroll-margin-top: $spacing-lg;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-lg $spacing-xl;
+    border-bottom: 1px solid $color-gray-100;
+    background: $color-gray-50;
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0 0 $spacing-2xs;
+  }
+
+  &__subtitle {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin: 0;
+  }
+
+  &__icon {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: $color-white;
+    border: 1px solid $color-gray-200;
+    flex-shrink: 0;
+
+    .material-symbols-outlined { font-size: 20px; color: $color-primary; }
+  }
+
+  &__body {
+    padding: $spacing-xl;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+}
+
+// ============================================================
+// Champs de formulaire
+// ============================================================
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: $color-gray-700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__input {
+    padding: 11px 14px;
+    border: 1px solid $color-gray-300;
+    border-radius: $radius-md;
+    font: inherit;
+    font-size: $font-size-base;
+    color: $color-gray-900;
+    background: $color-white;
+    width: 100%;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px $color-primary-bg;
+    }
+
+    &--half  { max-width: 480px; }
+    &--third { max-width: 280px; }
+  }
+
+  &__hint {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+    margin: 0;
+  }
+}
+
+.settings-divider {
+  height: 1px;
+  background: $color-gray-100;
+  margin: 0 (-$spacing-xl);
+
+  &--sm {
+    margin: 0;
+    background: $color-gray-100;
+  }
+}
+
+// ============================================================
+// Quick Access Cards (accès présence)
+// ============================================================
+.quick-access-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-lg;
+
+  @include mobile { grid-template-columns: 1fr; }
+}
+
+.quick-access-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: $spacing-lg;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+  background: $color-gray-50;
+  text-decoration: none;
+  color: $color-gray-900;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+    box-shadow: $shadow-sm;
+
+    .quick-access-card__arrow { color: $color-primary; transform: translateX(4px); }
+  }
+
+  &__icon {
+    @include flex-center;
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-lg;
+    background: $color-white;
+    border: 1px solid $color-gray-200;
+    flex-shrink: 0;
+
+    .material-symbols-outlined { font-size: 24px; color: $color-gray-600; }
+
+    &--primary {
+      background: $color-primary;
+      border-color: transparent;
+      .material-symbols-outlined { color: $color-white; }
+    }
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+
+    h3 {
+      font-size: $font-size-base;
+      font-weight: $font-weight-bold;
+      color: $color-gray-900;
+      margin: 0 0 $spacing-2xs;
+    }
+
+    p {
+      font-size: $font-size-sm;
+      color: $color-gray-600;
+      margin: 0;
+      line-height: $line-height-relaxed;
+    }
+  }
+
+  &__arrow {
+    font-size: 20px;
+    color: $color-gray-400;
+    flex-shrink: 0;
+    transition: all $transition-fast;
+  }
+}
+
+// ============================================================
+// Logo upload
+// ============================================================
+.logo-upload {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-lg;
+
+  &__preview {
+    @include flex-center;
+    width: 96px;
+    height: 96px;
+    border: 2px dashed $color-gray-300;
+    border-radius: $radius-lg;
+    background: $color-gray-50;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    .material-symbols-outlined { font-size: 32px; color: $color-gray-400; }
+
+    &:hover {
+      border-color: $color-primary;
+      background: $color-primary-bg;
+      .material-symbols-outlined { color: $color-primary; }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-xs;
+  }
+}
+
+.btn-text-danger {
+  background: transparent;
+  border: none;
+  color: $color-danger;
+  font: inherit;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  padding: 0 $spacing-sm;
+  transition: color $transition-fast;
+
+  &:hover { text-decoration: underline; }
+}
+
+// ============================================================
+// Select wrap (réutilise les globaux + override)
+// ============================================================
+.select-field {
+  appearance: none;
+  width: 100%;
+  padding: 11px 40px 11px 14px;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-md;
+  font: inherit;
+  font-size: $font-size-base;
+  color: $color-gray-900;
+  background: $color-white;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px $color-primary-bg;
+  }
+}
+
+.select-wrap {
+  position: relative;
+
+  &__chevron {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-gray-500;
+    pointer-events: none;
+    font-size: 20px;
+  }
+}
+
+.settings-field__input--half .select-field,
+.settings-field__input--third .select-field {
+  width: 100%;
+}
+
+// ============================================================
+// Toggle switch custom
+// ============================================================
+.toggle-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-xl;
+
+  &__info {
+    h3 {
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: $color-gray-900;
+      margin: 0 0 $spacing-2xs;
+    }
+
+    p {
+      font-size: $font-size-sm;
+      color: $color-gray-600;
+      margin: 0;
+    }
+  }
+}
+
+.toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+
+  input[type='checkbox'] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  &__track {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: $color-gray-300;
+    border-radius: $radius-full;
+    transition: background $transition-fast;
+  }
+
+  &__thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background: $color-white;
+    border-radius: 50%;
+    box-shadow: $shadow-xs;
+    transition: transform $transition-fast;
+  }
+
+  input:checked ~ &__track {
+    background: $color-primary;
+  }
+
+  &:has(input:checked) &__track {
+    background: $color-primary;
+  }
+
+  &:has(input:checked) &__thumb {
+    transform: translateX(20px);
+  }
+}
+
+// ============================================================
+// Checkboxes politique de mdp
+// ============================================================
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: $font-size-sm;
+  color: $color-gray-800;
+  cursor: pointer;
+  font-weight: $font-weight-medium;
+
+  input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    accent-color: $color-primary;
+    cursor: pointer;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  &--disabled {
+    color: $color-gray-500;
+    cursor: not-allowed;
+
+    input { cursor: not-allowed; }
+  }
+
+  &__lock {
+    margin-left: auto;
+    .material-symbols-outlined { font-size: 16px; color: $color-gray-400; }
+  }
+}
+
+// ============================================================
+// Cards d'intégrations
+// ============================================================
+.integration-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: $spacing-lg;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+  background: $color-gray-50;
+  flex-wrap: wrap;
+
+  &--odc {
+    background: $color-primary-bg;
+    border-color: rgba($color-primary, 0.2);
+  }
+
+  &__icon {
+    @include flex-center;
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-lg;
+    flex-shrink: 0;
+
+    .material-symbols-outlined { font-size: 24px; color: $color-white; }
+
+    &--linkedin {
+      background: #0A66C2;
+    }
+
+    &--odc {
+      background: $color-primary;
+    }
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 200px;
+
+    h3 {
+      font-size: $font-size-base;
+      font-weight: $font-weight-bold;
+      color: $color-gray-900;
+      margin: 0 0 $spacing-2xs;
+    }
+
+    p {
+      font-size: $font-size-sm;
+      color: $color-gray-600;
+      margin: 0;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex-shrink: 0;
+  }
+}
+
+// ============================================================
+// Responsive
+// ============================================================
+@include mobile {
+  .settings-card__body { padding: $spacing-md; }
+  .settings-divider { margin: 0 (-$spacing-md); }
+  .toggle-row { flex-direction: column; gap: $spacing-sm; }
+  .integration-card { flex-direction: column; align-items: flex-start; }
+  .logo-upload { flex-direction: column; }
 }
