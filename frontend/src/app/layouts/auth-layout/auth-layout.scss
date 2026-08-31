@@ -1,36 +1,10 @@
 @use 'styles/variables' as *;
 
 .auth-layout {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-height: 100vh;
   min-height: 100dvh;
-  background-color: $color-gray-100;
-  padding: $spacing-md;
-
-  &__card {
-    width: 100%;
-    max-width: 440px;
-    background: $color-white;
-    border-radius: $radius-xl;
-    box-shadow: $shadow-lg;
-    padding: $spacing-2xl;
-  }
-
-  &__brand {
-    text-align: center;
-    margin-bottom: $spacing-xl;
-  }
-
-  &__logo {
-    height: 48px;
-    width: auto;
-    margin-bottom: $spacing-sm;
-  }
-
-  &__tagline {
-    font-size: 0.8125rem;
-    color: $color-gray-500;
-    font-weight: 500;
-  }
+  width: 100%;
+  background-color: $color-white;
+  overflow: hidden;
 }
+

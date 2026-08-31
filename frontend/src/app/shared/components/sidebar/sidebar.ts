@@ -21,13 +21,13 @@ export class SidebarComponent {
 
   readonly navItems: NavItem[] = [
     { label: 'Tableau de bord', route: '/admin/dashboard', iconType: 'dashboard' },
-    { label: 'Formations', route: '/admin/trainings', iconType: 'trainings' },
-    { label: 'Candidatures', route: '/admin/applications', iconType: 'applications' },
-    { label: 'Présences', route: '/admin/presence', iconType: 'presence' },
-    { label: 'Évaluations', route: '/admin/evaluations', iconType: 'evaluations' },
-    { label: 'Certificats', route: '/admin/certificates', iconType: 'certificates' },
-    { label: 'Participants', route: '/admin/participants', iconType: 'participants' },
-    { label: 'Reporting', route: '/admin/reporting', iconType: 'reporting' },
+    { label: 'Formations', route: '/admin/trainings', iconType: 'school' },
+    { label: 'Candidatures', route: '/admin/applications', iconType: 'assignment' },
+    { label: 'Présences', route: '/admin/presence', iconType: 'how_to_reg' },
+    { label: 'Évaluations', route: '/admin/evaluations', iconType: 'quiz' },
+    { label: 'Certificats', route: '/admin/certificates', iconType: 'workspace_premium' },
+    { label: 'Participants', route: '/admin/participants', iconType: 'group' },
+    { label: 'Reporting', route: '/admin/reporting', iconType: 'bar_chart' },
     { label: 'Paramètres', route: '/admin/settings', iconType: 'settings' },
   ];
 
