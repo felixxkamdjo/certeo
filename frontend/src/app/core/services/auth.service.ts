@@ -1,64 +1,45 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
-import { ApiService } from './api.service';
+// core/services/auth.service.ts
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable, tap } from 'rxjs';
+import { LoginCredentials, AuthResponse, UserSession } from '../models/user.model';
 import { StorageService } from './storage.service';
-import { User, UserCredentials, AuthResponse } from '@core/models';
-
-const TOKEN_KEY = 'certeo_token';
-const USER_KEY = 'certeo_user';
+import { ENVIRONMENT } from '@env/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly api = inject(ApiService);
+  private readonly http = inject(HttpClient);
   private readonly storage = inject(StorageService);
-  private readonly router = inject(Router);
+  private readonly endpoint = `${ENVIRONMENT.apiBaseUrl}/auth`;
 
-  // --- State (Signals) ---
-  private readonly _currentUser = signal<User | null>(this.storage.getJson<User>(USER_KEY));
-  private readonly _token = signal<string | null>(this.storage.get(TOKEN_KEY));
+  readonly currentUser = signal<UserSession | null>(this.storage.getUser());
+  readonly isAuthenticated = computed(() => !!this.currentUser() && !!this.storage.getToken());
 
-  /** The currently authenticated user, or null. */
-  readonly currentUser = this._currentUser.asReadonly();
+  login(credentials: LoginCredentials): Observable<UserSession> {
+    const request$ = this.http.post<AuthResponse>(`${this.endpoint}/login`, credentials).pipe(
+      map((response) => {
+        const user: UserSession = {
+          fullName: response.userFullName,
+          email: response.userEmail,
+          role: response.role
+        };
 
-  /** Whether the user is authenticated. */
-  readonly isAuthenticated = computed(() => !!this._token());
+        this.storage.saveAuthData(response.accessToken, response.refreshToken, user);
+        this.currentUser.set(user);
 
-  /** The current user's role. */
-  readonly userRole = computed(() => this._currentUser()?.role ?? null);
-
-  // --- Actions ---
-
-  login(credentials: UserCredentials): Observable<AuthResponse> {
-    return this.api.post<AuthResponse>('/auth/login', credentials).pipe(
-      tap((response) => {
-        this._token.set(response.token);
-        this._currentUser.set(response.user);
-        this.storage.set(TOKEN_KEY, response.token);
-        this.storage.setJson(USER_KEY, response.user);
+        return user;
       })
     );
+    return request$;
   }
 
   logout(): void {
-    this._token.set(null);
-    this._currentUser.set(null);
-    this.storage.remove(TOKEN_KEY);
-    this.storage.remove(USER_KEY);
-    this.router.navigate(['/login']);
+    this.storage.clearAuth();
+    this.currentUser.set(null);
   }
 
-  getToken(): string | null {
-    return this._token();
-  }
-
-  /** Restore auth state from storage (called on app init if needed). */
-  restoreSession(): void {
-    const token = this.storage.get(TOKEN_KEY);
-    const user = this.storage.getJson<User>(USER_KEY);
-    if (token && user) {
-      this._token.set(token);
-      this._currentUser.set(user);
-    }
+  hasRole(expectedRole: string): boolean {
+    const user = this.currentUser();
+    return user?.role === expectedRole;
   }
 }

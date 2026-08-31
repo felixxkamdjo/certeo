@@ -1,20 +1,17 @@
-import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { AuthService } from '@core/services/auth.service';
-import { UserRole } from '@core/models';
+import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
-export const roleGuard = (allowedRoles: UserRole[]): CanActivateFn => {
-  return () => {
-    const authService = inject(AuthService);
-    const router = inject(Router);
-    const userRole = authService.userRole();
+export const roleGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-    if (userRole && allowedRoles.includes(userRole)) {
-      return true;
-    }
+  const expectedRole = route.data['role'] as string;
+  const user = authService.currentUser();
 
-    // Redirect to dashboard if authenticated but wrong role
-    router.navigate(['/admin/dashboard']);
-    return false;
-  };
+  if (authService.isAuthenticated() && user?.role === expectedRole) {
+    return true;
+  }
+
+  return router.createUrlTree(['/login']);
 };

@@ -1,4 +1,3 @@
-// Core — Public API
 export * from './models';
 export * from './services/api.service';
 export * from './services/auth.service';

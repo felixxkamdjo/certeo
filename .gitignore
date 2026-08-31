@@ -16,4 +16,5 @@ dist/
 .vscode/
 .kilo/
 .idea/
-.DS_Store
+.DS_Storeuploads/
+uploads/

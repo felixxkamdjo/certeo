@@ -10,8 +10,10 @@ export const routes: Routes = [
     path: '',
     component: AuthLayoutComponent,
     children: [
-      { path: 'login', loadChildren: () => import('@features/auth/auth.routes') },
-      { path: '', redirectTo: 'login', pathMatch: 'full' }
+      {
+        path: '',
+        loadChildren: () => import('@features/auth/auth.routes').then(m => m.AUTH_ROUTES)
+      }
     ]
   },
 
@@ -19,7 +21,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
-    // canActivate: [authGuard], // Activable une fois l'auth connectée
+    // canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', loadChildren: () => import('@features/dashboard/dashboard.routes') },
@@ -34,18 +36,18 @@ export const routes: Routes = [
     ]
   },
 
-  // --- Public Layout (Formulaires Visiteurs, Candidatures, Quiz, Certificats publics) ---
+  // --- Public Layout ---
   {
     path: 'public',
     component: PublicLayoutComponent,
     children: [
       { path: 'presence', loadChildren: () => import('@features/presence/presence.routes') },
-      { 
-        path: 'apply', 
+      {
+        path: 'apply',
         loadComponent: () => import('@features/applications/pages/application-form/application-form').then(m => m.ApplicationFormComponent)
       },
-      { 
-        path: 'apply/:trainingId', 
+      {
+        path: 'apply/:trainingId',
         loadComponent: () => import('@features/applications/pages/application-form/application-form').then(m => m.ApplicationFormComponent)
       },
       { path: 'quiz', loadChildren: () => import('@features/evaluations/evaluations.routes') },

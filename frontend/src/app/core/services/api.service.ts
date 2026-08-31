@@ -1,36 +1,68 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
+import { ENVIRONMENT } from '@env/environment';
+
+export type QueryParamsMap = Record<
+  string,
+  string | number | boolean | readonly (string | number | boolean)[] | undefined
+>;
+
+export interface HttpOptions {
+  headers?: HttpHeaders | Record<string, string | string[]>;
+  params?: HttpParams | QueryParamsMap;
+  responseType?: 'json' | 'blob' | 'text' | 'arraybuffer';
+}
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = environment.apiUrl;
+  private readonly baseUrl = ENVIRONMENT.apiBaseUrl.replace(/\/+$/, '');
 
-  get<T>(path: string, params?: Record<string, string | number | boolean>): Observable<T> {
-    let httpParams = new HttpParams();
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        httpParams = httpParams.set(key, String(value));
-      });
+  private buildUrl(endpoint: string): string {
+    return `${this.baseUrl}/${endpoint.replace(/^\/+/, '')}`;
+  }
+
+  private normalizeOptions(optionsOrParams?: HttpOptions | QueryParamsMap): HttpOptions | undefined {
+    if (!optionsOrParams) return undefined;
+    if ('params' in optionsOrParams || 'headers' in optionsOrParams || 'responseType' in optionsOrParams) {
+      return optionsOrParams as HttpOptions;
     }
-    return this.http.get<T>(`${this.baseUrl}${path}`, { params: httpParams });
+    return { params: optionsOrParams as QueryParamsMap };
   }
 
-  post<T>(path: string, body: unknown = {}): Observable<T> {
-    return this.http.post<T>(`${this.baseUrl}${path}`, body);
+  get<T>(endpoint: string, optionsOrParams?: HttpOptions | QueryParamsMap): Observable<T> {
+    const url = this.buildUrl(endpoint);
+    const options = this.normalizeOptions(optionsOrParams);
+    const request$ = this.http.get(url, options as object) as Observable<T>;
+    return request$;
   }
 
-  put<T>(path: string, body: unknown = {}): Observable<T> {
-    return this.http.put<T>(`${this.baseUrl}${path}`, body);
+  post<T>(endpoint: string, body: unknown, optionsOrParams?: HttpOptions | QueryParamsMap): Observable<T> {
+    const url = this.buildUrl(endpoint);
+    const options = this.normalizeOptions(optionsOrParams);
+    const request$ = this.http.post(url, body, options as object) as Observable<T>;
+    return request$;
   }
 
-  patch<T>(path: string, body: unknown = {}): Observable<T> {
-    return this.http.patch<T>(`${this.baseUrl}${path}`, body);
+  put<T>(endpoint: string, body: unknown, optionsOrParams?: HttpOptions | QueryParamsMap): Observable<T> {
+    const url = this.buildUrl(endpoint);
+    const options = this.normalizeOptions(optionsOrParams);
+    const request$ = this.http.put(url, body, options as object) as Observable<T>;
+    return request$;
   }
 
-  delete<T>(path: string): Observable<T> {
-    return this.http.delete<T>(`${this.baseUrl}${path}`);
+  patch<T>(endpoint: string, body: unknown, optionsOrParams?: HttpOptions | QueryParamsMap): Observable<T> {
+    const url = this.buildUrl(endpoint);
+    const options = this.normalizeOptions(optionsOrParams);
+    const request$ = this.http.patch(url, body, options as object) as Observable<T>;
+    return request$;
+  }
+
+  delete<T>(endpoint: string, optionsOrParams?: HttpOptions | QueryParamsMap): Observable<T> {
+    const url = this.buildUrl(endpoint);
+    const options = this.normalizeOptions(optionsOrParams);
+    const request$ = this.http.delete(url, options as object) as Observable<T>;
+    return request$;
   }
 }
