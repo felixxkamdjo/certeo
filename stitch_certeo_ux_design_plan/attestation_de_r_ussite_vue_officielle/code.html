@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Attestation de Réussite - CERTEO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#9a4600",
+                        "on-surface": "#1b1c1c",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#fbf9f8",
+                        "surface-container-highest": "#e4e2e2",
+                        "primary": "#9a4600",
+                        "primary-fixed-dim": "#ffb68c",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "surface-container-high": "#e9e8e7",
+                        "on-secondary-container": "#646464",
+                        "background": "#fbf9f8",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container": "#efeded",
+                        "on-primary-fixed": "#321200",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#584235",
+                        "tertiary-container": "#9fa0a0",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#353737",
+                        "outline": "#8c7263",
+                        "inverse-surface": "#303031",
+                        "secondary-container": "#e2e2e2",
+                        "inverse-primary": "#ffb68c",
+                        "tertiary": "#5d5f5f",
+                        "outline-variant": "#e0c0af",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dbdad9",
+                        "on-primary-container": "#5c2700",
+                        "surface-bright": "#fbf9f8",
+                        "secondary": "#5e5e5e",
+                        "on-secondary-fixed-variant": "#474747",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "inverse-on-surface": "#f2f0f0",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-background": "#1b1c1c",
+                        "primary-container": "#ff7900",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e4e2e2",
+                        "on-primary-fixed-variant": "#753400",
+                        "surface-container-low": "#f5f3f3",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#ffdbc9",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-tertiary-fixed": "#1a1c1c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .certificate-shadow { box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full border-r border-outline-variant bg-surface w-[280px] h-screen fixed left-0 top-0 shadow-sm z-50">
+<div class="p-6 border-b border-surface-container-low">
+<h1 class="text-headline-md font-headline-md font-extrabold text-primary">CERTEO</h1>
+<p class="font-label-md text-label-md text-secondary mt-1">Talent Management</p>
+</div>
+<div class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="person_check">person_check</span>
+                Presence ODC
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                Users
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+                Trainings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                Applications
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+                Participants
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="rate_review">rate_review</span>
+                Evaluation
+            </a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-fixed text-on-primary-fixed rounded-lg font-label-md text-label-md font-bold scale-[0.98] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined fill" data-icon="verified">verified</span>
+                Certificates
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                Reporting
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+<div class="p-4 border-t border-surface-container-low flex items-center gap-3">
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a corporate administrator in a modern office environment, wearing a dark blazer over a crisp white shirt, brightly lit with natural light, reflecting a modern, institutional corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDusxBa4sWSuY-usTJOhd2sNVQOTxSaRQ_-MJYFHz_hxni5fcciX6QjyQNx4A0vB6dJKzAcO2TxQnxXE_uO7-G_Zy8rfa2NA7EDvqk4G7BLEtP2iBEiCmDjsNieIcuB_CIH3RuZRO02pA7k-T2eQ0Dbxi06LTcl6LbMle3CA3DNWqWcrRdeYa4ebLps13dx7AfS74e9w6Dt22F8wWhABrjhVOqT6A_5W3-1cN6_jD5s_QQgzrFJEnTM"/>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">Admin User</p>
+<p class="text-xs text-secondary truncate">admin@certeo.odc</p>
+</div>
+</div>
+</nav>
+<!-- Main Wrapper -->
+<div class="flex-1 md:ml-[280px] flex flex-col min-h-screen w-full">
+<!-- TopAppBar -->
+<header class="h-16 w-full sticky top-0 z-40 bg-surface border-b border-outline-variant flex items-center justify-between px-margin-desktop md:px-margin-desktop px-margin-mobile">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface p-2 -ml-2 rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="text-headline-md font-headline-md font-black text-primary md:hidden">CERTEO</h2>
+<div class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant w-64 focus-within:border-primary transition-colors">
+<span class="material-symbols-outlined text-secondary mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none outline-none text-body-md font-body-md w-full text-on-surface placeholder:text-secondary focus:ring-0 p-0" placeholder="Rechercher..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-secondary hover:text-primary transition-opacity active:opacity-70 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-secondary hover:text-primary transition-opacity active:opacity-70 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop overflow-y-auto">
+<div class="max-w-[1000px] mx-auto">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface mb-2">Attestation de Réussite</h1>
+<p class="text-body-md font-body-md text-secondary">Aperçu officiel du certificat généré par CERTEO.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-6 h-12 rounded-lg bg-[#000000] text-white font-label-md text-label-md hover:bg-inverse-surface transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                            Télécharger en PDF
+                        </button>
+<button class="flex items-center gap-2 px-6 h-12 rounded-lg bg-primary-container text-white font-label-md text-label-md hover:bg-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">share</span>
+                            Partager sur LinkedIn
+                        </button>
+</div>
+</div>
+<!-- Certificate Canvas -->
+<div class="bg-surface-container-lowest rounded-2xl certificate-shadow border border-outline-variant p-8 md:p-16 relative overflow-hidden flex flex-col items-center text-center">
+<!-- Decorative Elements -->
+<div class="absolute top-0 left-0 w-32 h-32 bg-primary-container opacity-10 rounded-br-full"></div>
+<div class="absolute bottom-0 right-0 w-48 h-48 bg-primary opacity-5 rounded-tl-full"></div>
+<div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-container to-primary"></div>
+<div class="absolute inset-0 border-[12px] border-surface-container-low pointer-events-none rounded-2xl z-0"></div>
+<div class="absolute inset-[16px] border border-outline-variant opacity-30 pointer-events-none rounded-xl z-0"></div>
+<!-- Certificate Content -->
+<div class="relative z-10 w-full flex flex-col items-center">
+<!-- Header / Logos -->
+<div class="flex justify-between items-center w-full mb-12">
+<div class="flex flex-col text-left">
+<span class="text-headline-md font-headline-md font-black text-primary tracking-tight">CERTEO</span>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-widest mt-1">Orange Digital Center</span>
+</div>
+<div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-primary-container text-3xl">workspace_premium</span>
+</div>
+</div>
+<!-- Title -->
+<h2 class="text-secondary font-label-md text-label-md uppercase tracking-[0.2em] mb-4">Attestation de Réussite</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-2xl mx-auto mb-8">
+                            Nous certifions par la présente que
+                        </p>
+<!-- Candidate Name -->
+<h1 class="text-headline-xl font-headline-xl text-on-surface mb-8">Jean Dupont</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-2xl mx-auto mb-4">
+                            a suivi avec succès et validé l'ensemble des modules de la formation
+                        </p>
+<!-- Training Name -->
+<h3 class="text-headline-md font-headline-md text-primary mb-12">Développement Full-Stack Avancé</h3>
+<div class="w-16 h-[1px] bg-outline-variant mb-12"></div>
+<!-- Footer Details -->
+<div class="flex flex-col md:flex-row justify-between w-full items-end mt-8">
+<!-- Date & Location -->
+<div class="text-left flex-1 mb-8 md:mb-0">
+<p class="text-body-md font-body-md text-secondary mb-1">Fait à <strong>Paris</strong></p>
+<p class="text-body-md font-body-md text-secondary">Le <strong>24 Octobre 2023</strong></p>
+</div>
+<!-- QR Code -->
+<div class="flex flex-col items-center mx-8 mb-8 md:mb-0">
+<div class="w-24 h-24 bg-white border-2 border-surface-container-high p-2 rounded-lg shadow-sm mb-2">
+<div class="w-full h-full bg-on-surface flex items-center justify-center rounded-sm" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, #ffffff 4px, #ffffff 8px);">
+<span class="material-symbols-outlined text-white text-4xl">qr_code_2</span>
+</div>
+</div>
+<span class="text-[10px] text-secondary font-mono tracking-wider">ID: CRT-8492-FX</span>
+</div>
+<!-- Signature -->
+<div class="text-right flex-1 flex flex-col items-end">
+<div class="mb-2 h-16 flex items-end">
+<!-- Stylized signature -->
+<span class="font-[cursive] text-3xl text-on-surface opacity-80" style="font-family: 'Brush Script MT', cursive;">S. Martin</span>
+</div>
+<div class="h-[1px] w-48 bg-on-surface mb-2"></div>
+<p class="text-body-md font-body-md font-bold text-on-surface">Sophie Martin</p>
+<p class="text-xs text-secondary">Directrice des Formations ODC</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

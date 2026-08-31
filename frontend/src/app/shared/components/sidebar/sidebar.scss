@@ -1,0 +1,136 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: $color-gray-900;
+  color: $color-white;
+  overflow-y: auto;
+  @include scrollbar-thin;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-lg $spacing-md;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  &__logo {
+    height: 36px;
+    width: auto;
+  }
+
+  &__nav {
+    flex: 1;
+    padding: $spacing-sm 0;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-lg;
+    margin: $spacing-2xs $spacing-sm;
+    border-radius: $radius-md;
+    color: $color-gray-400;
+    font-size: $font-size-base;
+    font-weight: 500;
+    transition: all $transition-fast;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.06);
+      color: $color-white;
+    }
+
+    &--active {
+      background-color: $color-primary;
+      color: $color-white;
+
+      .sidebar__icon-dot {
+        background-color: $color-white;
+      }
+
+      &:hover {
+        background-color: $color-primary-dark;
+      }
+    }
+  }
+
+  &__icon-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: $radius-full;
+    background-color: $color-gray-500;
+    flex-shrink: 0;
+    transition: background-color $transition-fast;
+  }
+
+  &__label {
+    @include text-truncate;
+  }
+
+  &__footer {
+    padding: $spacing-md;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__avatar {
+    @include flex-center;
+    @include size(36px);
+    border-radius: $radius-full;
+    background-color: $color-primary;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__user-name {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    @include text-truncate;
+  }
+
+  &__user-role {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+  }
+
+  &__logout {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    width: 100%;
+    padding: $spacing-sm;
+    border-radius: $radius-md;
+    color: $color-gray-400;
+    font-size: $font-size-sm;
+    text-align: left;
+    transition: all $transition-fast;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.06);
+      color: $color-danger;
+    }
+  }
+
+  &__logout-icon {
+    flex-shrink: 0;
+  }
+}

@@ -1,0 +1,13 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.training-create {
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  .step-content {
+    @include card;
+    margin-top: $spacing-lg;
+  }
+}

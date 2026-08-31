@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Résultats de l'évaluation - CERTEO</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#9a4600",
+                    "on-surface": "#1b1c1c",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#fbf9f8",
+                    "surface-container-highest": "#e4e2e2",
+                    "primary": "#9a4600",
+                    "primary-fixed-dim": "#ffb68c",
+                    "on-secondary-fixed": "#1b1b1b",
+                    "surface-container-high": "#e9e8e7",
+                    "on-secondary-container": "#646464",
+                    "background": "#fbf9f8",
+                    "tertiary-fixed": "#e2e2e2",
+                    "surface-container": "#efeded",
+                    "on-primary-fixed": "#321200",
+                    "on-error": "#ffffff",
+                    "on-surface-variant": "#584235",
+                    "tertiary-container": "#9fa0a0",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#353737",
+                    "outline": "#8c7263",
+                    "inverse-surface": "#303031",
+                    "secondary-container": "#e2e2e2",
+                    "inverse-primary": "#ffb68c",
+                    "tertiary": "#5d5f5f",
+                    "outline-variant": "#e0c0af",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#dbdad9",
+                    "on-primary-container": "#5c2700",
+                    "surface-bright": "#fbf9f8",
+                    "secondary": "#5e5e5e",
+                    "on-secondary-fixed-variant": "#474747",
+                    "secondary-fixed-dim": "#c6c6c6",
+                    "inverse-on-surface": "#f2f0f0",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "on-background": "#1b1c1c",
+                    "primary-container": "#ff7900",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e4e2e2",
+                    "on-primary-fixed-variant": "#753400",
+                    "surface-container-low": "#f5f3f3",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#ffdbc9",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "on-tertiary-fixed": "#1a1c1c"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"],
+                    "headline-xl": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background min-h-screen text-on-background font-body-md text-body-md flex antialiased">
+<!-- SideNavBar -->
+<nav class="w-[280px] h-screen fixed left-0 top-0 bg-surface flex flex-col border-r border-outline-variant z-50">
+<!-- Brand Header -->
+<div class="px-6 py-8 border-b border-surface-variant flex flex-col items-center justify-center bg-surface-container-low">
+<h1 class="text-headline-md font-headline-md font-extrabold text-primary">CERTEO</h1>
+<span class="font-label-md text-label-md text-secondary mt-1">Talent Management</span>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">person_check</span>
+                Presence ODC
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">group</span>
+                Users
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">school</span>
+                Trainings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">assignment</span>
+                Applications
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">groups</span>
+                Participants
+            </a>
+<!-- Active Tab: Evaluation -->
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-fixed text-on-primary-fixed rounded-lg font-bold font-label-md text-label-md active:scale-[0.98] transition-transform duration-150" href="#">
+<span class="material-symbols-outlined icon-filled">rate_review</span>
+                Evaluation
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">verified</span>
+                Certificates
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Reporting
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container-highest transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col ml-[280px] w-[calc(100%-280px)] min-h-screen">
+<!-- TopAppBar -->
+<header class="h-16 w-full sticky top-0 z-40 bg-surface border-b border-outline-variant flex items-center justify-between px-margin-desktop">
+<div class="flex items-center">
+<!-- Search could go here based on JSON "search_bar": "on_left" -->
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full font-body-md text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none w-64" placeholder="Rechercher..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-secondary hover:text-primary transition-colors cursor-pointer active:opacity-70 p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-secondary hover:text-primary transition-colors cursor-pointer active:opacity-70 p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center overflow-hidden cursor-pointer ml-2">
+<span class="material-symbols-outlined text-secondary">person</span>
+</div>
+</div>
+</header>
+<!-- Canvas Area -->
+<main class="flex-1 p-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 mb-8 font-label-md text-label-md text-secondary">
+<a class="hover:text-primary transition-colors" href="#">Évaluations</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface">Résultat du module</span>
+</div>
+<!-- Header / Hero Result -->
+<div class="bg-surface-container-lowest rounded-xl p-8 mb-gutter relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8 border border-outline-variant/30" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);">
+<!-- Decorative background elements -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-container opacity-5 rounded-bl-full pointer-events-none"></div>
+<div class="flex-1 text-center lg:text-left z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full font-label-md text-label-md text-secondary mb-4">
+<span class="material-symbols-outlined text-[16px]">school</span>
+                        Formation Initiale
+                    </div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Félicitations pour votre parcours !</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        Vous avez brillamment complété le module <strong class="text-on-surface">"Principes Avancés de la Cybersécurité"</strong>. Votre score dépasse le seuil requis de 75%.
+                    </p>
+<div class="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+<!-- Primary Action -->
+<button class="bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary transition-colors px-6 py-3 rounded-lg font-label-md text-label-md flex items-center gap-2 min-h-[48px]">
+<span class="material-symbols-outlined icon-filled">workspace_premium</span>
+                            Télécharger mon attestation
+                        </button>
+<!-- Secondary Action -->
+<button class="bg-transparent border border-primary text-primary hover:bg-primary-fixed hover:text-on-primary-fixed transition-colors px-6 py-3 rounded-lg font-label-md text-label-md flex items-center gap-2 min-h-[48px]">
+<span class="material-symbols-outlined">menu_book</span>
+                            Revoir le cours
+                        </button>
+</div>
+</div>
+<!-- Score Circle -->
+<div class="relative z-10 shrink-0 flex flex-col items-center justify-center p-6">
+<div class="w-40 h-40 rounded-full border-8 border-surface-container-high flex items-center justify-center relative">
+<!-- SVG for circular progress to make it look premium -->
+<svg class="absolute inset-0 w-full h-full -rotate-90" viewbox="0 0 100 100">
+<circle class="text-surface-container-high" cx="50" cy="50" fill="none" r="46" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary-container drop-shadow-sm" cx="50" cy="50" fill="none" r="46" stroke="#ff7900" stroke-dasharray="289" stroke-dashoffset="43" stroke-width="8"></circle> <!-- 85% of 289 approx 245, offset 44 -->
+</svg>
+<div class="text-center">
+<span class="font-headline-xl text-headline-xl text-primary block leading-none">85</span>
+<span class="font-label-md text-label-md text-secondary block mt-1">/ 100</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-primary mt-4 bg-primary-fixed px-4 py-1 rounded-full">Score Validé</span>
+</div>
+</div>
+<!-- Bento Grid Details -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Stats Column -->
+<div class="lg:col-span-1 space-y-gutter">
+<div class="bg-surface-container-lowest rounded-xl p-6 border border-outline-variant/30" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Détails de session</h3>
+<ul class="space-y-4">
+<li class="flex justify-between items-center py-3 border-b border-surface-variant">
+<div class="flex items-center gap-3 text-secondary font-body-md text-body-md">
+<span class="material-symbols-outlined">calendar_today</span>
+                                    Date
+                                </div>
+<span class="font-label-md text-label-md text-on-surface">24 Oct 2023</span>
+</li>
+<li class="flex justify-between items-center py-3 border-b border-surface-variant">
+<div class="flex items-center gap-3 text-secondary font-body-md text-body-md">
+<span class="material-symbols-outlined">timer</span>
+                                    Temps passé
+                                </div>
+<span class="font-label-md text-label-md text-on-surface">42 min 15 sec</span>
+</li>
+<li class="flex justify-between items-center py-3 border-b border-surface-variant">
+<div class="flex items-center gap-3 text-secondary font-body-md text-body-md">
+<span class="material-symbols-outlined">format_list_numbered</span>
+                                    Questions
+                                </div>
+<span class="font-label-md text-label-md text-on-surface">20 Questions</span>
+</li>
+<li class="flex justify-between items-center py-3">
+<div class="flex items-center gap-3 text-secondary font-body-md text-body-md">
+<span class="material-symbols-outlined">flag</span>
+                                    Seuil de réussite
+                                </div>
+<span class="font-label-md text-label-md text-on-surface">75 / 100</span>
+</li>
+</ul>
+</div>
+<!-- Promo/Next Step Card -->
+<div class="bg-surface-variant rounded-xl p-6 relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">Prochaine étape</h4>
+<p class="font-body-md text-body-md text-secondary mb-4">Le module "Sécurité des Réseaux" est maintenant débloqué.</p>
+<button class="bg-on-surface text-surface hover:bg-inverse-surface transition-colors px-4 py-2 rounded-lg font-label-md text-label-md inline-flex items-center gap-2">
+                                Commencer
+                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<span class="material-symbols-outlined absolute -right-6 -bottom-6 text-[120px] text-surface-container opacity-50 pointer-events-none">hub</span>
+</div>
+</div>
+<!-- Recap Column -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl border border-outline-variant/30 flex flex-col" style="box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);">
+<div class="p-6 border-b border-surface-variant flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface">Récapitulatif des réponses</h3>
+<div class="flex gap-4 font-label-md text-label-md">
+<div class="flex items-center gap-1 text-[#166534]"> <!-- Explicit green for user prompt constraint -->
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                17 Correctes
+                            </div>
+<div class="flex items-center gap-1 text-error">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+                                3 Incorrectes
+                            </div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-0 max-h-[600px]">
+<!-- List Items -->
+<!-- Correct Answer -->
+<div class="p-6 border-b border-surface-variant hover:bg-surface-bright transition-colors flex gap-4 items-start">
+<div class="shrink-0 mt-1 h-8 w-8 rounded-full bg-[#f0fdf4] text-[#166534] flex items-center justify-center">
+<span class="material-symbols-outlined icon-filled text-[20px]">check</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-on-surface mb-1">1. Quelle est la principale fonction d'un pare-feu ?</h4>
+<p class="font-body-md text-body-md text-secondary mb-2">Votre réponse : Filtrer le trafic réseau entrant et sortant selon des règles de sécurité.</p>
+<div class="inline-flex items-center gap-2 bg-[#f0fdf4] border border-[#bbf7d0] text-[#166534] px-3 py-1 rounded-md font-label-md text-[12px]">
+                                    +5 points
+                                </div>
+</div>
+</div>
+<!-- Correct Answer -->
+<div class="p-6 border-b border-surface-variant hover:bg-surface-bright transition-colors flex gap-4 items-start">
+<div class="shrink-0 mt-1 h-8 w-8 rounded-full bg-[#f0fdf4] text-[#166534] flex items-center justify-center">
+<span class="material-symbols-outlined icon-filled text-[20px]">check</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-on-surface mb-1">2. Que signifie l'acronyme VPN ?</h4>
+<p class="font-body-md text-body-md text-secondary mb-2">Votre réponse : Virtual Private Network.</p>
+<div class="inline-flex items-center gap-2 bg-[#f0fdf4] border border-[#bbf7d0] text-[#166534] px-3 py-1 rounded-md font-label-md text-[12px]">
+                                    +5 points
+                                </div>
+</div>
+</div>
+<!-- Incorrect Answer -->
+<div class="p-6 border-b border-surface-variant bg-error-container/20 hover:bg-error-container/30 transition-colors flex gap-4 items-start">
+<div class="shrink-0 mt-1 h-8 w-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined icon-filled text-[20px]">close</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-on-surface mb-1">3. Lequel de ces protocoles n'est pas chiffré par défaut ?</h4>
+<p class="font-body-md text-body-md text-secondary line-through mb-1">Votre réponse : HTTPS</p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">subdirectory_arrow_right</span>
+                                    Correction : HTTP
+                                </p>
+<div class="inline-flex items-center gap-2 bg-error-container border border-error/20 text-on-error-container px-3 py-1 rounded-md font-label-md text-[12px]">
+                                    0 point
+                                </div>
+</div>
+</div>
+<!-- Correct Answer -->
+<div class="p-6 border-b border-surface-variant hover:bg-surface-bright transition-colors flex gap-4 items-start">
+<div class="shrink-0 mt-1 h-8 w-8 rounded-full bg-[#f0fdf4] text-[#166534] flex items-center justify-center">
+<span class="material-symbols-outlined icon-filled text-[20px]">check</span>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-on-surface mb-1">4. Qu'est-ce que le phishing ?</h4>
+<p class="font-body-md text-body-md text-secondary mb-2">Votre réponse : Une technique visant à tromper l'utilisateur pour obtenir des informations confidentielles.</p>
+<div class="inline-flex items-center gap-2 bg-[#f0fdf4] border border-[#bbf7d0] text-[#166534] px-3 py-1 rounded-md font-label-md text-[12px]">
+                                    +5 points
+                                </div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low border-t border-surface-variant text-center">
+<button class="text-primary font-label-md text-label-md hover:underline transition-all">Voir toutes les questions</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

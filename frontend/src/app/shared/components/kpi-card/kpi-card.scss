@@ -1,0 +1,66 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+
+  &__icon {
+    @include flex-center;
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+    flex-shrink: 0;
+
+    .material-symbols-outlined {
+      font-size: 24px;
+    }
+    
+    &--primary {
+      background: $color-primary-bg;
+      color: $color-primary;
+    }
+
+    &--secondary {
+      background: $color-gray-100;
+      color: $color-gray-600;
+    }
+
+    &--warning {
+      background: $color-warning-light;
+      color: $color-warning;
+    }
+
+    &--success {
+      background: $color-success-light;
+      color: $color-success;
+    }
+
+    &--danger {
+      background: $color-danger-light;
+      color: $color-danger;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $color-gray-500;
+    margin: 0;
+  }
+
+  &__value {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 2px 0 0;
+  }
+}

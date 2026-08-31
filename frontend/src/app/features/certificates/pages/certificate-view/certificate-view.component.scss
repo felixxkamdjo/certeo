@@ -1,0 +1,8 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.certificate-view {
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+}

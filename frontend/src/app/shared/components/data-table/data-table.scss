@@ -1,0 +1,43 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.data-table-container {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  thead tr {
+    background: $color-gray-50;
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  th {
+    padding: $spacing-md;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: $color-gray-900;
+    white-space: nowrap;
+  }
+
+  &__row {
+    cursor: pointer;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $color-gray-50;
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-xl !important;
+    color: $color-gray-500;
+  }
+}

@@ -1,0 +1,59 @@
+@use 'styles/variables' as *;
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: $color-gray-700;
+  }
+}
+
+.form-control {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+}
+
+.btn {
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-md;
+  font-size: $font-size-base;
+  font-weight: 600;
+  text-align: center;
+  transition: all $transition-fast;
+
+  &.w-100 {
+    width: 100%;
+  }
+
+  &-primary {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background-color: $color-primary-dark;
+    }
+
+    &:disabled {
+      background-color: $color-gray-300;
+      cursor: not-allowed;
+    }
+  }
+}
