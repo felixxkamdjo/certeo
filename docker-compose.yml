@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   gateway:
     build:
@@ -22,3 +21,29 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5001
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=certeo_db;Username=certeo;Password=certeo
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16
+    container_name: certeo-postgres
+    environment:
+      POSTGRES_USER: certeo
+      POSTGRES_PASSWORD: certeo
+      POSTGRES_DB: certeo_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - certeo_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U certeo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  certeo_pg_data:
