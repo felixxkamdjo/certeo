@@ -1,0 +1,48 @@
+{
+  "score": 85,
+  "totalPoints": 100,
+  "earnedPoints": 85,
+  "moduleTitle": "QCM Final - Developpement Web",
+  "trainingLabel": "Bootcamp Fullstack",
+  "completionDate": "2024-10-24T14:32:00Z",
+  "elapsedTime": "28 min 42 sec",
+  "questionCount": 5,
+  "correctAnswers": 4,
+  "incorrectAnswers": 1,
+  "passingScore": 75,
+  "passed": true,
+  "certificateId": "cert-abc-123",
+  "answers": [
+    {
+      "question": "Quelle balise HTML est utilisee pour definir le titre principal d'une page ?",
+      "response": "<h1>",
+      "correct": true,
+      "points": "+5 points"
+    },
+    {
+      "question": "Quelle propriete CSS permet de modifier la couleur du texte ?",
+      "response": "color",
+      "correct": true,
+      "points": "+5 points"
+    },
+    {
+      "question": "Quel mot-cle permet de declarer une constante en JavaScript ?",
+      "response": "let",
+      "correction": "La bonne reponse est 'const', qui declare une variable immuable.",
+      "correct": false,
+      "points": "0 point"
+    },
+    {
+      "question": "Quel operateur JavaScript permet de comparer la valeur ET le type ?",
+      "response": "===",
+      "correct": true,
+      "points": "+5 points"
+    },
+    {
+      "question": "En CSS Flexbox, quelle propriete aligne les elements sur l'axe principal ?",
+      "response": "justify-content",
+      "correct": true,
+      "points": "+5 points"
+    }
+  ]
+}

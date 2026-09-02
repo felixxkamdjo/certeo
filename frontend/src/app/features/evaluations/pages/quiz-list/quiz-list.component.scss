@@ -1,0 +1,19 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.quiz-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.cell-title {
+  font-weight: $font-weight-semibold;
+  color: $color-gray-900;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-primary;
+  }
+}

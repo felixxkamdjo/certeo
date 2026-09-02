@@ -1,0 +1,244 @@
+<div class="email-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Envoyer un E-mail</h1>
+      <p class="page-subtitle">Communication avec les candidats</p>
+    </div>
+    <button class="btn btn--link" (click)="goBack()">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Retour
+    </button>
+  </div>
+
+  @if (isSuccess()) {
+    <div class="success-alert">
+      <span class="material-symbols-outlined success-icon">check_circle</span>
+      <div class="success-content">
+        <h3>E-mail(s) envoyé(s) avec succès !</h3>
+        <p>Les candidats recevront la notification dans quelques instants. Redirection en cours...</p>
+      </div>
+    </div>
+  } @else {
+    <div class="layout-grid">
+      
+      <!-- Editor Column -->
+      <div class="editor-col">
+        <form [formGroup]="form" class="editor-card">
+          
+          <!-- Mode Selection -->
+          <div class="mode-selector">
+            <label 
+              class="mode-card" 
+              [class.mode-card--active]="emailType() === 'personnel'"
+              (click)="toggleEmailType('personnel')"
+            >
+              <div class="mode-card__content">
+                <span class="mode-card__title">Mail personnel</span>
+                <span class="mode-card__desc">À un candidat spécifique</span>
+              </div>
+              @if (emailType() === 'personnel') {
+                <span class="material-symbols-outlined mode-card__icon">check_circle</span>
+              }
+            </label>
+            
+            <label 
+              class="mode-card" 
+              [class.mode-card--active]="emailType() === 'groupe'"
+              (click)="toggleEmailType('groupe')"
+            >
+              <div class="mode-card__content">
+                <span class="mode-card__title">Mail groupé</span>
+                <span class="mode-card__desc">Par statut de candidature</span>
+              </div>
+              @if (emailType() === 'groupe') {
+                <span class="material-symbols-outlined mode-card__icon">check_circle</span>
+              }
+            </label>
+          </div>
+
+          <!-- Recipients config -->
+          @if (emailType() === 'personnel') {
+            <div class="form-group">
+              <label class="form-label">Rechercher un candidat</label>
+              <div class="input-wrap">
+                <span class="material-symbols-outlined input-icon">search</span>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  formControlName="searchQuery" 
+                  placeholder="Nom, prénom, email..." 
+                />
+              </div>
+            </div>
+          } @else {
+            <div class="form-group">
+              <label class="form-label">Sélectionner les destinataires par statut</label>
+              <div class="status-filters">
+                <button 
+                  type="button" 
+                  class="filter-chip"
+                  [class.filter-chip--active]="isStatusSelected('TOUS')"
+                  (click)="toggleStatus('TOUS')"
+                >Tous</button>
+                <button 
+                  type="button" 
+                  class="filter-chip"
+                  [class.filter-chip--active]="isStatusSelected('SELECTED')"
+                  (click)="toggleStatus('SELECTED')"
+                >Sélectionnés</button>
+                <button 
+                  type="button" 
+                  class="filter-chip"
+                  [class.filter-chip--active]="isStatusSelected('PENDING')"
+                  (click)="toggleStatus('PENDING')"
+                >En attente</button>
+                <button 
+                  type="button" 
+                  class="filter-chip"
+                  [class.filter-chip--active]="isStatusSelected('INTERVIEW')"
+                  (click)="toggleStatus('INTERVIEW')"
+                >En entretien</button>
+                <button 
+                  type="button" 
+                  class="filter-chip"
+                  [class.filter-chip--active]="isStatusSelected('REJECTED')"
+                  (click)="toggleStatus('REJECTED')"
+                >Refusé</button>
+              </div>
+            </div>
+          }
+
+          <hr class="divider" />
+
+          <!-- Template Selection -->
+          <div class="form-group">
+            <label class="form-label">Modèle de message (Optionnel)</label>
+            <div class="select-wrap">
+              <select class="form-control form-control--select" (change)="onTemplateChange($event)">
+                <option value="">Sélectionner un modèle...</option>
+                @for (tpl of templates; track tpl.id) {
+                  <option [value]="tpl.id">{{ tpl.name }}</option>
+                }
+              </select>
+              <span class="material-symbols-outlined select-chevron">expand_more</span>
+            </div>
+          </div>
+
+          <!-- Subject -->
+          <div class="form-group">
+            <label class="form-label">Sujet de l'e-mail <span class="required">*</span></label>
+            <input 
+              type="text" 
+              class="form-control" 
+              formControlName="subject" 
+              placeholder="Ex: Convocation Entretien..." 
+            />
+          </div>
+
+          <!-- Tags -->
+          <div class="tags-section">
+            <span class="tags-label">Insérer une balise dynamique :</span>
+            <div class="tags-list">
+              @for (tag of dynamicTags; track tag.tag) {
+                <button 
+                  type="button" 
+                  class="tag-pill" 
+                  title="Insérer {{ tag.label }}"
+                  (click)="insertTag(tag.tag)"
+                >
+                  {{ tag.tag }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="form-group">
+            <label class="form-label">Message <span class="required">*</span></label>
+            <textarea 
+              class="form-control form-control--textarea" 
+              formControlName="body" 
+              rows="8"
+              placeholder="Rédigez votre message ici..."
+            ></textarea>
+          </div>
+
+          <!-- Attachment -->
+          <div class="form-group">
+            <label class="form-label">Pièce jointe (Optionnelle)</label>
+            <label class="file-upload">
+              <span class="material-symbols-outlined">attach_file</span>
+              <span class="file-upload__text">
+                {{ form.get('attachments')?.value?.name || 'Ajouter un document (PDF, DOCX)' }}
+              </span>
+              <input type="file" class="hidden-input" (change)="onFileSelected($event)" />
+            </label>
+          </div>
+          
+          <div class="editor-actions">
+            <button class="btn btn--outline" type="button" (click)="goBack()">Annuler</button>
+            <button 
+              class="btn btn--primary" 
+              type="button" 
+              [disabled]="form.invalid || isSubmitting()"
+              (click)="sendEmail()"
+            >
+              @if (isSubmitting()) {
+                <span class="spinner"></span> Envoi...
+              } @else {
+                <span class="material-symbols-outlined">send</span> Envoyer l'e-mail
+              }
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Preview Column -->
+      <div class="preview-col">
+        <div class="preview-card">
+          <div class="preview-header">
+            <span class="material-symbols-outlined">visibility</span>
+            <h3>Aperçu du rendu</h3>
+          </div>
+          
+          <div class="preview-meta">
+            <div class="meta-row">
+              <span class="meta-label">De :</span>
+              <span class="meta-value">Orange Digital Center &lt;noreply@odc.sn&gt;</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">À :</span>
+              <span class="meta-value">
+                @if (emailType() === 'personnel') {
+                  amira.diallo@example.com
+                } @else {
+                  Candidats ({{ selectedStatus().join(', ') }})
+                }
+              </span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Sujet :</span>
+              <span class="meta-value font-bold">{{ form.get('subject')?.value || '(Sans objet)' }}</span>
+            </div>
+          </div>
+
+          <div class="preview-body-container">
+            @if (form.get('body')?.value) {
+              <div class="preview-content" [innerHTML]="previewBody()"></div>
+            } @else {
+              <div class="preview-empty">
+                <span class="material-symbols-outlined">mail</span>
+                <p>Le rendu de votre e-mail s'affichera ici.</p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+    </div>
+  }
+
+</div>

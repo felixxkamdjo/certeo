@@ -1,0 +1,20 @@
+<div class="donut-chart-container">
+  <div class="donut-chart" [style.background]="gradient">
+    <div class="donut-chart__inner">
+      <span class="donut-chart__total-value">{{ totalValue }}</span>
+      <span class="donut-chart__total-label">{{ totalLabel }}</span>
+    </div>
+  </div>
+  
+  <div class="donut-legend" *ngIf="legendItems?.length">
+    @for (item of legendItems; track item.label) {
+      <div class="legend-item">
+        <div class="legend-item__label">
+          <div class="legend-color" [ngClass]="'legend-color--' + item.colorClass"></div>
+          <span>{{ item.label }}</span>
+        </div>
+        <span class="legend-item__value">{{ item.value }}</span>
+      </div>
+    }
+  </div>
+</div>

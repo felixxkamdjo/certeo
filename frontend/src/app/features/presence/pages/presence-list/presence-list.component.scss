@@ -1,0 +1,24 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.presence-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// Cellule visiteur avec avatar
+.visitor-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    strong { font-weight: $font-weight-semibold; font-size: $font-size-base; }
+    small  { color: $color-gray-500; font-size: $font-size-xs; }
+  }
+}

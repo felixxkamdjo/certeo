@@ -1,0 +1,169 @@
+<div class="certificate-list">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Gestion des Certificats</h1>
+      <p class="page-subtitle">Importez et gérez les certificats de réussite générés par ODC pour les candidats.</p>
+    </div>
+    <div class="page-header__actions">
+      <!-- Hidden file input for mass upload -->
+      <input 
+        type="file" 
+        #fileInput 
+        multiple 
+        accept=".pdf,.png,.jpg,.jpeg" 
+        style="display: none;" 
+        (change)="onFilesSelected($event)"
+      />
+      <button class="btn btn--primary" (click)="triggerFileInput()">
+        <span class="material-symbols-outlined">upload_file</span>
+        Import Groupé (PDFs)
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <app-kpi-card label="Total Candidats Eligibles" [value]="kpis().total" icon="groups" colorTheme="secondary"></app-kpi-card>
+    <app-kpi-card label="Certificats Disponibles" [value]="kpis().generated" icon="verified" colorTheme="primary"></app-kpi-card>
+    <app-kpi-card label="En attente d'import" [value]="kpis().pending" icon="pending_actions" colorTheme="secondary"></app-kpi-card>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+    
+    <!-- Action Bar / Filters -->
+    <div class="action-bar">
+      <app-table-search
+        [placeholder]="'Rechercher un candidat...'"
+        [searchValue]="searchTerm()"
+        [filters]="[{ key: 'training', label: 'Toutes les formations', type: 'select', value: trainingFilter(), options: [
+          { value: 'Développement Full-Stack Avancé', label: 'Développement Full-Stack Avancé' }
+        ] }]"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
+        (reset)="resetFilters()" />
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Candidat</th>
+            <th>Email</th>
+            <th>Formation</th>
+            <th>Statut Certificat</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of pagedParticipants(); track p.id) {
+            <tr class="data-table__row">
+              <td>
+                <div class="participant-cell">
+                  <div class="avatar">{{ getInitials(p.firstName, p.lastName) }}</div>
+                  <span class="participant-cell__name">{{ p.firstName }} {{ p.lastName }}</span>
+                </div>
+              </td>
+              <td class="text-muted">{{ p.email }}</td>
+              <td>{{ p.trainingTitle }}</td>
+              <td>
+                @if (p.hasCertificate) {
+                  <app-status-badge status="success" label="Disponible"></app-status-badge>
+                } @else {
+                  <app-status-badge status="warning" label="En attente"></app-status-badge>
+                }
+              </td>
+              <td class="text-right">
+                <div class="actions">
+                  @if (p.hasCertificate && p.certificateId) {
+                    <button class="btn btn--outline btn--sm" (click)="viewCertificate(p.certificateId)">
+                      <span class="material-symbols-outlined">visibility</span>
+                      Voir l'attestation
+                    </button>
+                  } @else {
+                    <button class="btn btn--ghost btn--sm" (click)="triggerFileInput()" title="Importer pour ce candidat spécifique">
+                      <span class="material-symbols-outlined">upload</span>
+                      Importer
+                    </button>
+                  }
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty-row">
+                <span class="material-symbols-outlined">workspace_premium</span>
+                <p>Aucun candidat trouvé</p>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination 
+      [totalItems]="filteredParticipants().length" 
+      [itemsPerPage]="itemsPerPage()" 
+      [currentPage]="currentPage()"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination>
+  </div>
+</div>
+
+<!-- Modal: Résultat de l'import -->
+@if (isImportModalOpen()) {
+  <div class="modal-overlay" (click)="cancelImport()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">Récapitulatif d'Import</h2>
+        <button class="icon-btn" (click)="cancelImport()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <p class="mb-4">
+          Nous avons analysé <strong>{{ matchResults().length }}</strong> fichiers importés. 
+          L'algorithme a trouvé <strong>{{ successfulMatchesCount }}</strong> correspondances.
+        </p>
+
+        <div class="match-list">
+          @for (result of matchResults(); track result.fileName) {
+            <div class="match-item" [class.match-item--success]="result.success" [class.match-item--error]="!result.success">
+              <div class="match-item__file">
+                <span class="material-symbols-outlined">{{ result.success ? 'check_circle' : 'error' }}</span>
+                <span>{{ result.fileName }}</span>
+              </div>
+              <div class="match-item__arrow">
+                <span class="material-symbols-outlined">arrow_right_alt</span>
+              </div>
+              <div class="match-item__participant">
+                @if (result.success && result.matchedParticipant) {
+                  <strong>{{ result.matchedParticipant.firstName }} {{ result.matchedParticipant.lastName }}</strong>
+                } @else {
+                  <span class="text-danger">Aucun candidat reconnu</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" (click)="cancelImport()" [disabled]="isImporting()">Annuler</button>
+        <button class="btn btn--primary" (click)="confirmImport()" [disabled]="isImporting() || successfulMatchesCount === 0">
+          @if (isImporting()) {
+            <span class="material-symbols-outlined spinner">progress_activity</span>
+            Importation...
+          } @else {
+            Valider {{ successfulMatchesCount }} imports
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}

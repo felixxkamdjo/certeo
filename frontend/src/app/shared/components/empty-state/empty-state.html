@@ -1,0 +1,15 @@
+<div class="empty-state">
+  <div class="empty-state__icon">
+    @if (icon) {
+      <span class="material-symbols-outlined">{{ icon }}</span>
+    } @else {
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+      </svg>
+    }
+  </div>
+  <h4 class="empty-state__title">{{ title }}</h4>
+  <p class="empty-state__description">{{ description }}</p>
+  <ng-content></ng-content>
+</div>

@@ -1,0 +1,365 @@
+<div class="system-config" [formGroup]="form">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Paramètres du Système</h1>
+      <p class="page-subtitle">
+        Gérez les paramètres globaux de l'application, les politiques de sécurité et les intégrations.
+      </p>
+    </div>
+    <div class="page-header__actions">
+      <button
+        class="btn btn--outline"
+        type="button"
+        [disabled]="!form.dirty"
+        (click)="promptCancel()">
+        Annuler les modifications
+      </button>
+      <button
+        class="btn btn--primary"
+        type="button"
+        [disabled]="isSaving()"
+        (click)="promptSave()">
+        @if (isSaving()) {
+          <span class="material-symbols-outlined spin">progress_activity</span>
+          Enregistrement...
+        } @else {
+          <span class="material-symbols-outlined">save</span>
+          Enregistrer tous les paramètres
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Succès -->
+  @if (isSaved()) {
+    <div class="save-success" role="status">
+      <span class="material-symbols-outlined">check_circle</span>
+      Paramètres enregistrés avec succès.
+    </div>
+  }
+
+  <!-- Layout 12 colonnes -->
+  <div class="settings-layout">
+
+    <!-- Nav interne sticky (col 3) -->
+    <nav class="settings-nav" aria-label="Sections des paramètres">
+      <ul>
+        <li>
+          <button
+            class="settings-nav__item"
+            [class.settings-nav__item--active]="activeSection() === 'general'"
+            type="button"
+            (click)="scrollTo('general')">
+            <span class="material-symbols-outlined">location_on</span>
+            Présence
+          </button>
+        </li>
+        <li>
+          <button
+            class="settings-nav__item"
+            [class.settings-nav__item--active]="activeSection() === 'notifications'"
+            type="button"
+            (click)="scrollTo('notifications')">
+            <span class="material-symbols-outlined">notifications_active</span>
+            Notifications
+          </button>
+        </li>
+        <li>
+          <button
+            class="settings-nav__item"
+            [class.settings-nav__item--active]="activeSection() === 'security'"
+            type="button"
+            (click)="scrollTo('security')">
+            <span class="material-symbols-outlined">shield</span>
+            Sécurité
+          </button>
+        </li>
+        <li>
+          <button
+            class="settings-nav__item"
+            [class.settings-nav__item--active]="activeSection() === 'integrations'"
+            type="button"
+            (click)="scrollTo('integrations')">
+            <span class="material-symbols-outlined">extension</span>
+            Intégrations
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Contenu sections (col 9) -->
+    <div class="settings-content">
+
+      <!-- =============================================== -->
+      <!-- SECTION 1 — Accès rapide Présence             -->
+      <!-- =============================================== -->
+      <section class="settings-card" id="general">
+        <header class="settings-card__header">
+          <div>
+            <h2 class="settings-card__title">Gestion de la Présence</h2>
+            <p class="settings-card__subtitle">Configurez le formulaire visiteur et gérez le QR code d'accueil.</p>
+          </div>
+          <div class="settings-card__icon">
+            <span class="material-symbols-outlined">location_on</span>
+          </div>
+        </header>
+
+        <div class="settings-card__body">
+          <div class="quick-access-grid">
+
+            <a class="quick-access-card" routerLink="presence-config">
+              <div class="quick-access-card__icon">
+                <span class="material-symbols-outlined">list_alt</span>
+              </div>
+              <div class="quick-access-card__info">
+                <h3>Configuration du formulaire</h3>
+                <p>Personnalisez les champs, motifs de visite, tranches d'âge et profils visiteurs.</p>
+              </div>
+              <span class="material-symbols-outlined quick-access-card__arrow">arrow_forward</span>
+            </a>
+
+            <a class="quick-access-card" routerLink="qr-code">
+              <div class="quick-access-card__icon quick-access-card__icon--primary">
+                <span class="material-symbols-outlined">qr_code_2</span>
+              </div>
+              <div class="quick-access-card__info">
+                <h3>QR Code d'accueil</h3>
+                <p>Générez, téléchargez et imprimez le QR code scannable par les visiteurs à l'entrée.</p>
+              </div>
+              <span class="material-symbols-outlined quick-access-card__arrow">arrow_forward</span>
+            </a>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================================== -->
+      <!-- SECTION 2 — Notifications                     -->
+      <!-- =============================================== -->
+      <section class="settings-card" id="notifications">
+        <header class="settings-card__header">
+          <div>
+            <h2 class="settings-card__title">Préférences Email & Alertes</h2>
+            <p class="settings-card__subtitle">Contrôlez les communications automatisées du système.</p>
+          </div>
+          <div class="settings-card__icon">
+            <span class="material-symbols-outlined">notifications_active</span>
+          </div>
+        </header>
+
+        <div class="settings-card__body">
+
+          <div class="toggle-row">
+            <div class="toggle-row__info">
+              <h3>Nouvelles Candidatures</h3>
+              <p>Recevoir un e-mail lorsqu'un candidat soumet une candidature.</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isNewApplicationAlertEnabled" role="switch" />
+              <span class="toggle-switch__track"><span class="toggle-switch__thumb"></span></span>
+            </label>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <div class="toggle-row">
+            <div class="toggle-row__info">
+              <h3>Rappels de Formation</h3>
+              <p>Envoi automatique de rappels 24h avant le début de la formation.</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isTrainingReminderAlertEnabled" role="switch" />
+              <span class="toggle-switch__track"><span class="toggle-switch__thumb"></span></span>
+            </label>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <div class="toggle-row">
+            <div class="toggle-row__info">
+              <h3>Mises à jour du Système</h3>
+              <p>Résumé hebdomadaire de la maintenance et des mises à jour de la plateforme.</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isSystemUpdateAlertEnabled" role="switch" />
+              <span class="toggle-switch__track"><span class="toggle-switch__thumb"></span></span>
+            </label>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================== -->
+      <!-- SECTION 3 — Sécurité                         -->
+      <!-- =============================================== -->
+      <section class="settings-card" id="security">
+        <header class="settings-card__header">
+          <div>
+            <h2 class="settings-card__title">Politiques de Sécurité</h2>
+            <p class="settings-card__subtitle">Gérez le contrôle d'accès et les règles d'authentification.</p>
+          </div>
+          <div class="settings-card__icon">
+            <span class="material-symbols-outlined">shield</span>
+          </div>
+        </header>
+
+        <div class="settings-card__body">
+
+          <!-- Session timeout -->
+          <div class="settings-field">
+            <label class="settings-field__label" for="sessionTimeout">
+              Durée d'expiration de la session
+            </label>
+            <div class="select-wrap settings-field__input--third">
+              <select id="sessionTimeout" class="select-field" formControlName="sessionTimeoutMinutes">
+                @for (opt of sessionTimeoutOptions; track opt.value) {
+                  <option [value]="opt.value">{{ opt.label }}</option>
+                }
+              </select>
+              <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+            </div>
+            <p class="settings-field__hint">
+              Les utilisateurs seront automatiquement déconnectés après cette période d'inactivité.
+            </p>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <!-- Password policy -->
+          <div class="settings-field">
+            <label class="settings-field__label">Exigences du Mot de Passe</label>
+            <div class="checkbox-list">
+              <label class="checkbox-item checkbox-item--disabled">
+                <input type="checkbox" checked disabled />
+                <span>Minimum 8 caractères</span>
+                <span class="checkbox-item__lock">
+                  <span class="material-symbols-outlined">lock</span>
+                </span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" formControlName="isPasswordUppercaseRequired" />
+                <span>Au moins une lettre majuscule</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" formControlName="isPasswordSpecialCharRequired" />
+                <span>Au moins un chiffre et un caractère spécial</span>
+              </label>
+
+              <div class="settings-divider settings-divider--sm"></div>
+
+              <label class="checkbox-item">
+                <input type="checkbox" formControlName="passwordExpirationEnabled" />
+                <span>Forcer la réinitialisation du mot de passe tous les 90 jours</span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =============================================== -->
+      <!-- SECTION 4 — Intégrations                     -->
+      <!-- =============================================== -->
+      <section class="settings-card" id="integrations">
+        <header class="settings-card__header">
+          <div>
+            <h2 class="settings-card__title">Intégrations Externes</h2>
+            <p class="settings-card__subtitle">Connectez CERTEO à des services tiers.</p>
+          </div>
+          <div class="settings-card__icon">
+            <span class="material-symbols-outlined">extension</span>
+          </div>
+        </header>
+
+        <div class="settings-card__body">
+
+          <!-- LinkedIn -->
+          <div class="integration-card">
+            <div class="integration-card__icon integration-card__icon--linkedin">
+              <span class="material-symbols-outlined">share</span>
+            </div>
+            <div class="integration-card__info">
+              <h3>Partage Social LinkedIn</h3>
+              <p>Permettre aux participants de partager leurs certificats sur LinkedIn.</p>
+            </div>
+            <div class="integration-card__actions">
+              @if (linkedInApiKeySet()) {
+                <app-status-badge status="success" label="Configuré"></app-status-badge>
+                <button class="btn btn--outline btn--sm" type="button">
+                  <span class="material-symbols-outlined">settings</span>
+                  Gérer la clé
+                </button>
+              } @else {
+                <app-status-badge variant="neutral" label="Non configuré"></app-status-badge>
+                <button class="btn btn--outline btn--sm" type="button">
+                  <span class="material-symbols-outlined">add</span>
+                  Ajouter une clé API
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <!-- ODC Sync -->
+          <div class="integration-card integration-card--odc">
+            <div class="integration-card__icon integration-card__icon--odc">
+              <span class="material-symbols-outlined">sync</span>
+            </div>
+            <div class="integration-card__info">
+              <h3>Portail Orange Digital Center</h3>
+              <p>Synchroniser les données de formations et participants avec le portail ODC.</p>
+            </div>
+            <div class="integration-card__actions">
+              @if (isOdcSyncActive()) {
+                <app-status-badge status="success" label="Connecté"></app-status-badge>
+                <button class="btn btn--outline btn--sm" type="button">
+                  <span class="material-symbols-outlined">settings</span>
+                  Gérer la sync
+                </button>
+              } @else {
+                <app-status-badge variant="neutral" label="Inactif"></app-status-badge>
+                <button class="btn btn--primary btn--sm" type="button">
+                  <span class="material-symbols-outlined">link</span>
+                  Activer
+                </button>
+              }
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Dialog confirmation sauvegarde -->
+  <app-confirm-dialog
+    [isOpen]="showSaveDialog()"
+    title="Enregistrer les paramètres ?"
+    message="Les modifications apportées seront appliquées immédiatement à toute la plateforme."
+    confirmText="Enregistrer"
+    cancelText="Annuler"
+    variant="primary"
+    icon="save"
+    [isLoading]="isSaving()"
+    (confirm)="confirmSave()"
+    (cancel)="cancelSave()">
+  </app-confirm-dialog>
+
+  <!-- Dialog confirmation annulation -->
+  <app-confirm-dialog
+    [isOpen]="showCancelDialog()"
+    title="Annuler les modifications ?"
+    message="Toutes les modifications non enregistrées seront perdues. Cette action est irréversible."
+    confirmText="Oui, annuler"
+    cancelText="Continuer l'édition"
+    variant="warning"
+    icon="undo"
+    (confirm)="confirmCancel()"
+    (cancel)="cancelDiscard()">
+  </app-confirm-dialog>
+
+</div>

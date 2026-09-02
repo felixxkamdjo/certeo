@@ -1,0 +1,216 @@
+<div class="quiz-results">
+
+  @if (result(); as r) {
+
+    <!-- Header minimal — 100% public, aucun lien admin -->
+    <header class="results-header">
+      <div class="results-header__brand">
+        <strong>CERTEO</strong>
+        <span>{{ r.trainingLabel }}</span>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="results-hero" [class.results-hero--failed]="!passed()">
+
+      <div class="results-hero__copy">
+
+        <span class="formation-badge">
+          <span class="material-symbols-outlined">school</span>
+          {{ r.trainingLabel }}
+        </span>
+
+        @if (passed()) {
+          <h1>Felicitations !</h1>
+          <p>
+            Vous avez reussi le module <strong>"{{ r.moduleTitle }}"</strong>
+            avec un score de <strong class="score-highlight">{{ r.score }}%</strong>.
+            Votre attestation est disponible ci-dessous.
+          </p>
+        } @else {
+          <h1>Evaluation terminee</h1>
+          <p>
+            Vous avez obtenu <strong class="score-highlight score-highlight--fail">{{ r.score }}%</strong>
+            pour le module <strong>"{{ r.moduleTitle }}"</strong>.
+            Le seuil requis est de {{ r.passingScore }}%.
+            Vous pouvez repasser l'evaluation apres avoir revu le contenu.
+          </p>
+        }
+
+        <div class="points-summary">
+          <span class="material-symbols-outlined">star</span>
+          {{ r.earnedPoints }} / {{ r.totalPoints }} points
+          &nbsp;·&nbsp;
+          <span class="material-symbols-outlined">check_circle</span>
+          {{ correctCount() }} / {{ r.questionCount }} correctes
+        </div>
+
+        <!-- CTA principal -->
+        <div class="results-hero__actions">
+          @if (passed() && certificateId()) {
+            <button class="btn btn--primary" type="button" (click)="goToCertificate()">
+              <span class="material-symbols-outlined">workspace_premium</span>
+              Voir mon attestation
+            </button>
+          }
+          <button class="btn btn--outline" type="button" (click)="retakeQuiz()">
+            <span class="material-symbols-outlined">replay</span>
+            {{ passed() ? 'Repasser l\'evaluation' : 'Réessayer' }}
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Score Circle -->
+      <div
+        class="score-circle"
+        [class.score-circle--failed]="!passed()"
+        [style.--score]="scorePercent()"
+        role="img"
+        [attr.aria-label]="'Score : ' + score() + ' sur 100'">
+        <div class="score-circle__inner">
+          <strong>{{ score() }}</strong>
+          <span>/ 100</span>
+        </div>
+        <span class="score-circle__label" [class.score-circle__label--fail]="!passed()">
+          {{ passed() ? 'Reussi' : 'Echec' }}
+        </span>
+      </div>
+
+    </section>
+
+    <!-- Grid resultats -->
+    <div class="results-grid">
+
+      <!-- Sidebar -->
+      <aside class="results-sidebar">
+
+        <!-- Details session -->
+        <section class="results-panel">
+          <h2 class="results-panel__title">Details de session</h2>
+          <ul class="session-list">
+            <li>
+              <span><span class="material-symbols-outlined">calendar_today</span>Date</span>
+              <strong>{{ formatDate(r.completionDate) }}</strong>
+            </li>
+            <li>
+              <span><span class="material-symbols-outlined">timer</span>Duree</span>
+              <strong>{{ r.elapsedTime }}</strong>
+            </li>
+            <li>
+              <span><span class="material-symbols-outlined">quiz</span>Questions</span>
+              <strong>{{ r.questionCount }}</strong>
+            </li>
+            <li>
+              <span><span class="material-symbols-outlined">check_circle</span>Correctes</span>
+              <strong class="val--success">{{ correctCount() }}</strong>
+            </li>
+            <li>
+              <span><span class="material-symbols-outlined">cancel</span>Incorrectes</span>
+              <strong class="val--danger">{{ incorrectCount() }}</strong>
+            </li>
+            <li>
+              <span><span class="material-symbols-outlined">flag</span>Seuil requis</span>
+              <strong>{{ r.passingScore }}%</strong>
+            </li>
+            <li>
+              <span><span class="material-symbols-outlined">star</span>Points</span>
+              <strong>{{ r.earnedPoints }} / {{ r.totalPoints }}</strong>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Bloc certificat si reussi -->
+        @if (passed() && certificateId()) {
+          <section class="cert-card">
+            <span class="material-symbols-outlined cert-card__icon" aria-hidden="true">workspace_premium</span>
+            <div class="cert-card__content">
+              <h2>Attestation disponible</h2>
+              <p>Votre attestation de reussite est prete. Vous pouvez la consulter et la telecharger.</p>
+              <button class="btn btn--primary btn--sm" type="button" (click)="goToCertificate()">
+                <span class="material-symbols-outlined">open_in_new</span>
+                Voir l'attestation
+              </button>
+            </div>
+          </section>
+        } @else if (!passed()) {
+          <section class="retry-card">
+            <h2>Que faire ?</h2>
+            <p>Revisez le contenu de la formation et retentez l'evaluation lorsque vous vous sentez pret.</p>
+            <button class="btn btn--outline btn--sm" type="button" (click)="retakeQuiz()">
+              <span class="material-symbols-outlined">replay</span>
+              Repasser l'evaluation
+            </button>
+          </section>
+        }
+
+      </aside>
+
+      <!-- Recapitulatif des reponses -->
+      <section class="results-panel recap-panel">
+
+        <header class="recap-panel__header">
+          <h2 class="results-panel__title">Recapitulatif des reponses</h2>
+          <div class="score-badges">
+            <app-status-badge
+              status="success"
+              [label]="correctCount() + ' Correctes'">
+            </app-status-badge>
+            <app-status-badge
+              status="danger"
+              [label]="incorrectCount() + ' Incorrectes'">
+            </app-status-badge>
+          </div>
+        </header>
+
+        <div class="answer-list">
+          @for (answer of answers(); track answer.question; let i = $index) {
+            <article class="answer-item" [class.answer-item--wrong]="!answer.correct">
+              <span class="answer-item__icon">
+                <span class="material-symbols-outlined">
+                  {{ answer.correct ? 'check' : 'close' }}
+                </span>
+              </span>
+              <div class="answer-item__content">
+                <h3>{{ i + 1 }}. {{ answer.question }}</h3>
+                <p class="answer-item__response" [class.struck]="!answer.correct">
+                  Votre reponse : <em>{{ answer.response }}</em>
+                </p>
+                @if (answer.correction) {
+                  <p class="answer-item__correction">
+                    <span class="material-symbols-outlined">subdirectory_arrow_right</span>
+                    Correction : {{ answer.correction }}
+                  </p>
+                }
+                <span class="points-badge" [class.points-badge--zero]="!answer.correct">
+                  {{ answer.points }}
+                </span>
+              </div>
+            </article>
+          }
+        </div>
+
+        <footer class="recap-panel__footer">
+          <span class="recap-footer__total">
+            Total : <strong>{{ r.earnedPoints }} / {{ r.totalPoints }} points</strong>
+          </span>
+          @if (passed() && certificateId()) {
+            <button class="btn btn--primary btn--sm" type="button" (click)="goToCertificate()">
+              <span class="material-symbols-outlined">workspace_premium</span>
+              Voir l'attestation
+            </button>
+          }
+        </footer>
+
+      </section>
+
+    </div>
+
+  } @else {
+    <div class="results-loading">
+      <span class="material-symbols-outlined spin">progress_activity</span>
+      <p>Chargement des resultats...</p>
+    </div>
+  }
+
+</div>

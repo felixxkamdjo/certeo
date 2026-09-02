@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CERTEO - Évaluation en cours</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#9a4600",
+                      "on-surface": "#1b1c1c",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#fbf9f8",
+                      "surface-container-highest": "#e4e2e2",
+                      "primary": "#9a4600",
+                      "primary-fixed-dim": "#ffb68c",
+                      "on-secondary-fixed": "#1b1b1b",
+                      "surface-container-high": "#e9e8e7",
+                      "on-secondary-container": "#646464",
+                      "background": "#fbf9f8",
+                      "tertiary-fixed": "#e2e2e2",
+                      "surface-container": "#efeded",
+                      "on-primary-fixed": "#321200",
+                      "on-error": "#ffffff",
+                      "on-surface-variant": "#584235",
+                      "tertiary-container": "#9fa0a0",
+                      "secondary-fixed": "#e2e2e2",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-container": "#353737",
+                      "outline": "#8c7263",
+                      "inverse-surface": "#303031",
+                      "secondary-container": "#e2e2e2",
+                      "inverse-primary": "#ffb68c",
+                      "tertiary": "#5d5f5f",
+                      "outline-variant": "#e0c0af",
+                      "on-tertiary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "surface-dim": "#dbdad9",
+                      "on-primary-container": "#5c2700",
+                      "surface-bright": "#fbf9f8",
+                      "secondary": "#5e5e5e",
+                      "on-secondary-fixed-variant": "#474747",
+                      "secondary-fixed-dim": "#c6c6c6",
+                      "inverse-on-surface": "#f2f0f0",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "on-background": "#1b1c1c",
+                      "primary-container": "#ff7900",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#e4e2e2",
+                      "on-primary-fixed-variant": "#753400",
+                      "surface-container-low": "#f5f3f3",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#ffdbc9",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "on-tertiary-fixed": "#1a1c1c"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "margin-desktop": "40px",
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "headline-md": ["Hanken Grotesk"],
+                      "label-md": ["Hanken Grotesk"],
+                      "headline-xl": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Custom styles for hidden native radio inputs to rely entirely on UI */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Focused Minimal Header (Navigation Suppressed per mandate) -->
+<header class="bg-surface-container-lowest border-b border-outline-variant sticky top-0 z-40 h-16 w-full flex items-center justify-between px-margin-mobile md:px-margin-desktop">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-black text-primary tracking-tight">CERTEO</span>
+<div class="hidden md:block w-px h-6 bg-outline-variant mx-2"></div>
+<span class="hidden md:inline font-label-md text-label-md text-secondary uppercase tracking-wider">Évaluation des Compétences Techniques</span>
+</div>
+<!-- Timer -->
+<div class="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] border border-surface-container-highest">
+<span class="material-symbols-outlined text-secondary text-[20px]">timer</span>
+<span class="font-headline-md text-body-lg text-on-surface tabular-nums tracking-wide">42:15</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col items-center justify-center p-margin-mobile md:p-gutter w-full max-w-container-max mx-auto relative overflow-hidden">
+<!-- Subtle Background Decoration -->
+<div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary-fixed opacity-30 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-[-20%] right-[-10%] w-[40%] h-[40%] bg-tertiary-fixed opacity-40 rounded-full blur-[80px] pointer-events-none"></div>
+<!-- Quiz Container -->
+<div class="w-full max-w-[800px] bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-outline-variant/30 flex flex-col relative z-10 overflow-hidden">
+<!-- Progress Section -->
+<div class="px-6 pt-8 pb-4 md:px-10 border-b border-outline-variant/30 bg-surface-bright">
+<div class="flex justify-between items-end mb-3">
+<h2 class="font-label-md text-label-md text-secondary uppercase tracking-widest">Question 4 sur 20</h2>
+<span class="font-label-md text-label-md text-primary-container">20% complété</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[20%] rounded-full transition-all duration-500 ease-in-out relative overflow-hidden">
+<div class="absolute inset-0 bg-white/20 w-full animate-[shimmer_2s_infinite] -translate-x-full"></div>
+</div>
+</div>
+<style>
+                    @keyframes shimmer {
+                        100% { transform: translateX(100%); }
+                    }
+                </style>
+</div>
+<!-- Question Area -->
+<div class="p-6 md:p-10 flex-1 flex flex-col">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-8">
+                    Dans une architecture microservices, quel pattern est le plus approprié pour gérer une transaction distribuée s'étendant sur plusieurs services indépendants ?
+                </h1>
+<!-- Options List -->
+<div class="flex flex-col gap-4 mt-auto">
+<!-- Option 1: Unselected -->
+<label class="group relative flex items-start gap-4 p-5 rounded-lg border border-outline-variant bg-surface hover:bg-surface-container-low hover:border-outline cursor-pointer transition-all duration-200">
+<input class="visually-hidden" name="q4" type="radio"/>
+<div class="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full border-2 border-outline group-hover:border-on-surface-variant flex items-center justify-center transition-colors">
+<!-- Inner dot hidden by default -->
+</div>
+<span class="font-body-lg text-body-lg text-on-surface-variant group-hover:text-on-surface transition-colors">
+                            Two-Phase Commit (2PC)
+                        </span>
+</label>
+<!-- Option 2: Selected State Example -->
+<label class="group relative flex items-start gap-4 p-5 rounded-lg border-2 border-primary-container bg-primary-fixed/20 cursor-pointer shadow-[0_2px_8px_rgba(255,121,0,0.1)] transition-all duration-200">
+<input checked="" class="visually-hidden" name="q4" type="radio"/>
+<div class="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full border-2 border-primary-container flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-primary-container"></div>
+</div>
+<span class="font-body-lg text-body-lg text-on-primary-fixed-variant font-bold">
+                            Le pattern Saga (Chorégraphie ou Orchestration)
+                        </span>
+<!-- Subtle selection indicator line -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container rounded-l-lg"></div>
+</label>
+<!-- Option 3: Unselected -->
+<label class="group relative flex items-start gap-4 p-5 rounded-lg border border-outline-variant bg-surface hover:bg-surface-container-low hover:border-outline cursor-pointer transition-all duration-200">
+<input class="visually-hidden" name="q4" type="radio"/>
+<div class="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full border-2 border-outline group-hover:border-on-surface-variant flex items-center justify-center transition-colors">
+</div>
+<span class="font-body-lg text-body-lg text-on-surface-variant group-hover:text-on-surface transition-colors">
+                            Event Sourcing centralisé
+                        </span>
+</label>
+<!-- Option 4: Unselected -->
+<label class="group relative flex items-start gap-4 p-5 rounded-lg border border-outline-variant bg-surface hover:bg-surface-container-low hover:border-outline cursor-pointer transition-all duration-200">
+<input class="visually-hidden" name="q4" type="radio"/>
+<div class="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full border-2 border-outline group-hover:border-on-surface-variant flex items-center justify-center transition-colors">
+</div>
+<span class="font-body-lg text-body-lg text-on-surface-variant group-hover:text-on-surface transition-colors">
+                            API Gateway Aggregation
+                        </span>
+</label>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="px-6 py-5 md:px-10 border-t border-outline-variant/30 bg-surface-container-lowest flex items-center justify-between">
+<button class="h-12 px-6 rounded-lg border border-outline text-secondary font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-low hover:text-on-surface transition-colors focus:ring-2 focus:ring-primary-container/50 focus:outline-none" type="button">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    Précédent
+                </button>
+<button class="h-12 px-8 rounded-lg bg-primary-container text-white font-label-md text-label-md flex items-center gap-2 shadow-sm hover:bg-surface-tint transition-colors focus:ring-2 focus:ring-primary-container focus:ring-offset-2 focus:ring-offset-surface-container-lowest focus:outline-none" type="button">
+                    Suivant
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Subtle hint below card -->
+<p class="mt-6 font-body-md text-body-md text-secondary text-center max-w-md">
+            Assurez-vous de sélectionner l'option la plus précise. Vous pourrez revenir sur cette question plus tard si le temps le permet.
+        </p>
+</main>
+</body></html>

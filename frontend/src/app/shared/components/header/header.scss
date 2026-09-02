@@ -1,0 +1,221 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.header {
+  @include flex-between;
+  height: $header-height;
+  padding: 0 $spacing-2xl; // Marges horizontales gauche/droite augmentées
+  background-color: $color-white;
+  border-bottom: 1px solid $color-gray-200;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 440px;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+  }
+
+  &__action-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-full;
+    border: none;
+    background: transparent;
+    color: $color-gray-600;
+    cursor: pointer;
+    transition: background-color $transition-fast, color $transition-fast;
+
+    &:hover {
+      background-color: $color-gray-100;
+      color: $color-primary;
+    }
+
+    span {
+      font-size: 22px;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: $radius-full;
+    background-color: $color-danger;
+  }
+
+  &__user-dropdown {
+    position: relative;
+  }
+
+  &__profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: $radius-full;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $color-gray-100;
+    }
+
+    .dropdown-chevron {
+      font-size: 20px;
+      color: $color-gray-600;
+    }
+  }
+}
+
+// Search bar in header
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    font-size: 20px;
+    color: $color-gray-400;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    height: 38px;
+    padding: 8px 14px 8px 38px;
+    border: 1px solid $color-gray-300;
+    border-radius: $radius-full;
+    font-size: $font-size-sm;
+    color: $color-gray-900;
+    background-color: $color-gray-50;
+    transition: all $transition-fast;
+
+    &::placeholder {
+      color: $color-gray-400;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: $color-white;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.12);
+    }
+  }
+}
+
+.user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: $radius-full;
+  background-color: $color-primary;
+  color: $color-white;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Dropdown popup menu
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+  background-color: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  padding: $spacing-xs 0;
+  z-index: $z-dropdown;
+  animation: fadeIn 150ms ease-out;
+
+  &__header {
+    padding: $spacing-sm $spacing-md;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__name {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-gray-900;
+  }
+
+  &__email {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+  }
+
+  &__divider {
+    height: 1px;
+    background-color: $color-gray-200;
+    margin: $spacing-xs 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    background: none;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: $color-gray-700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color $transition-fast, color $transition-fast;
+
+    span.material-symbols-outlined {
+      font-size: 20px;
+      color: $color-gray-500;
+    }
+
+    &:hover {
+      background-color: $color-gray-100;
+      color: $color-primary;
+
+      span.material-symbols-outlined {
+        color: $color-primary;
+      }
+    }
+
+    &--danger {
+      color: $color-danger;
+
+      span.material-symbols-outlined {
+        color: $color-danger;
+      }
+
+      &:hover {
+        background-color: rgba($color-danger, 0.1);
+        color: $color-danger;
+
+        span.material-symbols-outlined {
+          color: $color-danger;
+        }
+      }
+    }
+  }
+}
+
+

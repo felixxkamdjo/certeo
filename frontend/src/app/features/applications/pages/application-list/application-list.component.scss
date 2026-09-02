@@ -1,0 +1,86 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.application-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// --- Filters Bar (layout spécifique à cette page) ---
+.filters-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md $spacing-lg;
+  background: $color-white;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+  border-bottom: 1px solid $color-gray-200;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    flex: 1;
+    min-width: 300px;
+    flex-wrap: wrap;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+}
+
+// --- Candidate Cell ---
+.candidate-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  &__name {
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// --- Dialog Custom Content ---
+.dialog-status-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-top: $spacing-xs;
+}
+
+.dialog-candidat-info {
+  margin: 0;
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+  background: $color-gray-50;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  border: 1px solid $color-gray-200;
+
+  strong {
+    color: $color-gray-900;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.form-label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: $color-gray-700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.select-field--full {
+  width: 100%;
+}

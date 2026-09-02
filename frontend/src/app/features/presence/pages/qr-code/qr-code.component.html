@@ -1,0 +1,173 @@
+<div class="qr-code-view">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-header no-print">
+    <div class="breadcrumb">
+      <a routerLink="/admin/settings" class="breadcrumb__link">Paramètres</a>
+      <span class="material-symbols-outlined breadcrumb__sep">chevron_right</span>
+      <span class="breadcrumb__active">Gestion du QR Code</span>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header no-print">
+    <div class="page-header__text">
+      <h1 class="page-title">QR Code d'accueil</h1>
+      <p class="page-subtitle">
+        Le QR code permet aux visiteurs d'ouvrir le formulaire de présence depuis leur téléphone.
+      </p>
+    </div>
+  </div>
+
+  <div class="qr-layout">
+
+    <!-- Card QR Code principale -->
+    <section class="qr-card" id="qr-print-zone">
+
+      <div class="qr-card__badge no-print">
+        <span class="status-dot"></span>
+        QR code actif
+      </div>
+
+      <!-- Instructions (masquées à l'impression) -->
+      <ol class="qr-instructions no-print">
+        <li>
+          <span class="step-num">1</span>
+          <span>Imprimez et affichez ce QR code à l'accueil.</span>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <span>Les visiteurs le scannent avec leur téléphone.</span>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <span>Le formulaire s'ouvre uniquement si le visiteur est dans le périmètre ODC.</span>
+        </li>
+      </ol>
+
+      <!-- QR Code — vrai QR scannable via API -->
+      <div class="qr-frame">
+        @if (!qrImageError()) {
+          <img
+            class="qr-image"
+            [class.qr-image--loading]="!qrImageLoaded()"
+            [src]="qrImageUrl()"
+            [alt]="'QR code pointant vers ' + checkInUrl()"
+            width="220"
+            height="220"
+            (load)="onQrLoaded()"
+            (error)="onQrError()" />
+          @if (!qrImageLoaded()) {
+            <div class="qr-placeholder">
+              <span class="material-symbols-outlined spin">progress_activity</span>
+              <span>Génération...</span>
+            </div>
+          }
+        } @else {
+          <!-- Fallback si pas de connexion internet -->
+          <div class="qr-fallback">
+            <span class="material-symbols-outlined">qr_code_2</span>
+            <p>QR code indisponible</p>
+            <small>Connexion requise pour générer le code</small>
+          </div>
+        }
+      </div>
+
+      <!-- Infos imprimées sous le QR -->
+      <div class="qr-print-info">
+        <p class="qr-card__site">
+          <span class="material-symbols-outlined no-print">location_on</span>
+          {{ siteId() }}
+        </p>
+        <p class="qr-card__url print-only">{{ checkInUrl() }}</p>
+        <p class="qr-card__meta no-print">
+          <span class="material-symbols-outlined">history</span>
+          Généré le {{ generatedAt() | date:'dd/MM/yyyy' }} à {{ generatedAt() | date:'HH:mm' }}
+        </p>
+      </div>
+    </section>
+
+    <!-- Sidebar actions (masquée à l'impression) -->
+    <aside class="qr-sidebar no-print">
+
+      <!-- Exports -->
+      <div class="action-card">
+        <h2 class="action-card__title">
+          <span class="material-symbols-outlined">download</span>
+          Exporter le code
+        </h2>
+        <div class="action-card__buttons">
+          <button class="btn btn--primary" type="button" (click)="downloadPng()">
+            <span class="material-symbols-outlined">image</span>
+            Télécharger PNG
+          </button>
+          <button class="btn btn--outline" type="button" (click)="downloadSvg()">
+            <span class="material-symbols-outlined">code</span>
+            Télécharger SVG
+          </button>
+          <button class="btn btn--dark" type="button" (click)="print()">
+            <span class="material-symbols-outlined">print</span>
+            Imprimer directement
+          </button>
+        </div>
+      </div>
+
+      <!-- Configuration -->
+      <div class="action-card">
+        <h2 class="action-card__title">
+          <span class="material-symbols-outlined">info</span>
+          Configuration
+        </h2>
+        <dl class="config-list">
+          <div class="config-list__item">
+            <dt>Identifiant du lieu</dt>
+            <dd>{{ siteId() }}</dd>
+          </div>
+          <div class="config-list__item">
+            <dt>URL encodée</dt>
+            <dd class="url-dd">{{ checkInUrl() }}</dd>
+          </div>
+          <div class="config-list__item">
+            <dt>Périmètre GPS</dt>
+            <dd>150 mètres autour de l'ODC</dd>
+          </div>
+          <div class="config-list__item">
+            <dt>Dernière génération</dt>
+            <dd>{{ generatedAt() | date:'dd/MM/yyyy à HH:mm' }}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Régénérer -->
+      <div class="action-card action-card--danger">
+        <h2 class="action-card__title">
+          <span class="material-symbols-outlined">warning</span>
+          Note de sécurité
+        </h2>
+        <p class="action-card__desc">
+          La régénération <strong>invalide immédiatement</strong> le QR code affiché.
+          Tout lien partagé ou imprimé ne fonctionnera plus.
+        </p>
+        <button class="btn-danger-link" type="button" (click)="promptRegenerate()">
+          <span class="material-symbols-outlined">autorenew</span>
+          Régénérer le code
+        </button>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- Dialog confirmation régénération -->
+  <app-confirm-dialog
+    [isOpen]="showConfirm()"
+    title="Régénérer le QR Code ?"
+    message="Cette action va créer un nouveau QR code et invalider l'ancien. Tous les QR codes imprimés ou partagés ne fonctionneront plus."
+    confirmText="Régénérer"
+    cancelText="Annuler"
+    variant="danger"
+    icon="autorenew"
+    (confirm)="confirmRegenerate()"
+    (cancel)="cancelRegenerate()">
+  </app-confirm-dialog>
+
+</div>

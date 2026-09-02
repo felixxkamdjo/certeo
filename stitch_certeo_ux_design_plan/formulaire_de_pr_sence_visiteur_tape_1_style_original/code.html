@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CERTEO - Visitor Presence Form Step 1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-secondary-container": "#646464",
+                        "outline": "#8c7263",
+                        "background": "#fbf9f8",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-primary-fixed": "#321200",
+                        "on-primary-fixed-variant": "#753400",
+                        "tertiary-container": "#9fa0a0",
+                        "on-background": "#1b1c1c",
+                        "on-surface-variant": "#584235",
+                        "on-tertiary-container": "#353737",
+                        "primary-fixed": "#ffdbc9",
+                        "surface-bright": "#fbf9f8",
+                        "primary-container": "#ff7900",
+                        "on-secondary-fixed-variant": "#474747",
+                        "surface-container-highest": "#e4e2e2",
+                        "secondary-fixed": "#e2e2e2",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "primary": "#9a4600",
+                        "inverse-surface": "#303031",
+                        "surface-container-high": "#e9e8e7",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "outline-variant": "#e0c0af",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e4e2e2",
+                        "secondary": "#5e5e5e",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface": "#fbf9f8",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#dbdad9",
+                        "tertiary-fixed": "#e2e2e2",
+                        "primary-fixed-dim": "#ffb68c",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#e2e2e2",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1b1c1c",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-container-low": "#f5f3f3",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#ffb68c",
+                        "surface-tint": "#9a4600",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#5d5f5f",
+                        "surface-container": "#efeded",
+                        "on-primary-container": "#5c2700"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-white text-on-background font-body-md min-h-screen">
+<!-- Header Area -->
+<header class="w-full flex flex-col items-center pt-8 pb-6 px-margin-mobile bg-white">
+<img alt="CERTEO Logo" class="h-24 w-auto object-contain mb-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs0KokgAnwwQpS6gJWLXSWkr8cYTcOaRrbGpRsTQy_bEl_sAyvm69xSObBLWuXVrvWub07o6Bn1gj2jvU16owzOjdeqv1ro7g12ePQ1oqMu2WnIWkm4mfyev_PM1kmN4y7my9DRrUkCtl1UvyouivqobFmqmlm-D0eML8MHB4XO23Ppie3hT6nSdqUcvIvz6PPplXsdxZ3BpNxMZ6bpg0maHL9Tzt-o721rR7zEneq9xnQ7FRymJ2lSdyruzG7w893xw"/>
+<h1 class="font-headline-lg-mobile text-on-background text-center">Enregistrement Visiteur</h1>
+</header>
+<main class="w-full max-w-md mx-auto px-margin-mobile pb-32">
+<!-- Progress Indicator -->
+<div class="mb-6">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md text-on-surface-variant">Étape 1 sur 2</span>
+<span class="font-label-md text-primary-container">Informations Personnelles</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2">
+<div class="bg-primary-container h-2 rounded-full" style="width: 50%"></div>
+</div>
+</div>
+<!-- Form Card Container -->
+<div class="bg-surface-bright rounded-xl shadow-md border border-surface-container-highest p-6 mb-8">
+<div class="mb-6">
+<h2 class="font-headline-md text-on-background mb-2">Bienvenue</h2>
+<p class="font-body-md text-on-surface-variant">Veuillez remplir vos informations pour enregistrer votre présence.</p>
+</div>
+<form class="space-y-6">
+<!-- Prénom -->
+<div>
+<label class="block font-label-md text-on-background mb-1" for="prenom">Prénom</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container bg-surface-container-lowest text-on-surface font-body-md transition-colors" id="prenom" name="prenom" placeholder="Votre prénom" required="" type="text"/>
+</div>
+<!-- Nom -->
+<div>
+<label class="block font-label-md text-on-background mb-1" for="nom">Nom</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container bg-surface-container-lowest text-on-surface font-body-md transition-colors" id="nom" name="nom" placeholder="Votre nom" required="" type="text"/>
+</div>
+<!-- Adresse mail -->
+<div>
+<label class="block font-label-md text-on-background mb-1" for="email">Adresse mail</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container bg-surface-container-lowest text-on-surface font-body-md transition-colors" id="email" name="email" placeholder="votre.email@exemple.com" required="" type="email"/>
+</div>
+<!-- Numéro de téléphone -->
+<div>
+<label class="block font-label-md text-on-background mb-1" for="telephone">Numéro de téléphone</label>
+<input class="w-full h-12 px-4 rounded-lg border border-outline-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container bg-surface-container-lowest text-on-surface font-body-md transition-colors" id="telephone" name="telephone" placeholder="+33 6 00 00 00 00" type="tel"/>
+</div>
+<!-- Sexe -->
+<div>
+<label class="block font-label-md text-on-background mb-2">Sexe</label>
+<div class="flex gap-4">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="w-5 h-5 text-primary-container border-outline-variant focus:ring-primary-container bg-surface-container-lowest" name="sexe" type="radio" value="homme"/>
+<span class="font-body-md text-on-surface">Homme</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="w-5 h-5 text-primary-container border-outline-variant focus:ring-primary-container bg-surface-container-lowest" name="sexe" type="radio" value="femme"/>
+<span class="font-body-md text-on-surface">Femme</span>
+</label>
+</div>
+</div>
+<!-- Tranche d'âge -->
+<div>
+<label class="block font-label-md text-on-background mb-2">Tranche d'âge</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="flex items-center justify-center p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low bg-surface-container-lowest transition-colors has-[:checked]:border-primary-container has-[:checked]:bg-primary-fixed/20">
+<input class="hidden" name="age" type="radio" value="-18"/>
+<span class="font-body-md text-on-surface w-full text-center">-18 ans</span>
+</label>
+<label class="flex items-center justify-center p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low bg-surface-container-lowest transition-colors has-[:checked]:border-primary-container has-[:checked]:bg-primary-fixed/20">
+<input class="hidden" name="age" type="radio" value="18-25"/>
+<span class="font-body-md text-on-surface w-full text-center">18-25 ans</span>
+</label>
+<label class="flex items-center justify-center p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low bg-surface-container-lowest transition-colors has-[:checked]:border-primary-container has-[:checked]:bg-primary-fixed/20">
+<input class="hidden" name="age" type="radio" value="26-35"/>
+<span class="font-body-md text-on-surface w-full text-center">26-35 ans</span>
+</label>
+<label class="flex items-center justify-center p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low bg-surface-container-lowest transition-colors has-[:checked]:border-primary-container has-[:checked]:bg-primary-fixed/20">
+<input class="hidden" name="age" type="radio" value="36-45"/>
+<span class="font-body-md text-on-surface w-full text-center">36-45 ans</span>
+</label>
+<label class="flex items-center justify-center p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low bg-surface-container-lowest transition-colors col-span-2 has-[:checked]:border-primary-container has-[:checked]:bg-primary-fixed/20">
+<input class="hidden" name="age" type="radio" value="45+"/>
+<span class="font-body-md text-on-surface w-full text-center">45+ ans</span>
+</label>
+</div>
+</div>
+<!-- Profil -->
+<div>
+<label class="block font-label-md text-on-background mb-2">Profil (plusieurs choix possibles)</label>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer p-2 rounded hover:bg-surface-container-low">
+<input class="w-5 h-5 text-primary-container rounded border-outline-variant focus:ring-primary-container bg-surface-container-lowest" name="profil" type="checkbox" value="etudiant"/>
+<span class="font-body-md text-on-surface">Étudiant</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer p-2 rounded hover:bg-surface-container-low">
+<input class="w-5 h-5 text-primary-container rounded border-outline-variant focus:ring-primary-container bg-surface-container-lowest" name="profil" type="checkbox" value="salarie"/>
+<span class="font-body-md text-on-surface">Salarié</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer p-2 rounded hover:bg-surface-container-low">
+<input class="w-5 h-5 text-primary-container rounded border-outline-variant focus:ring-primary-container bg-surface-container-lowest" name="profil" type="checkbox" value="entrepreneur"/>
+<span class="font-body-md text-on-surface">Entrepreneur</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer p-2 rounded hover:bg-surface-container-low">
+<input class="w-5 h-5 text-primary-container rounded border-outline-variant focus:ring-primary-container bg-surface-container-lowest" name="profil" type="checkbox" value="chercheur_emploi"/>
+<span class="font-body-md text-on-surface">Chercheur d'emploi</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer p-2 rounded hover:bg-surface-container-low">
+<input class="w-5 h-5 text-primary-container rounded border-outline-variant focus:ring-primary-container bg-surface-container-lowest" name="profil" type="checkbox" value="retraite"/>
+<span class="font-body-md text-on-surface">Retraité</span>
+</label>
+</div>
+</div>
+<!-- Motif de présence -->
+<div>
+<label class="block font-label-md text-on-background mb-1" for="motif">Motif de présence</label>
+<div class="relative">
+<select class="w-full h-12 pl-4 pr-10 rounded-lg border border-outline-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container bg-surface-container-lowest text-on-surface font-body-md appearance-none transition-colors" id="motif" name="motif">
+<option disabled="" selected="" value="">Sélectionnez un motif...</option>
+<option value="renseignements">Renseignements</option>
+<option value="parcours_decouverte">Parcours découverte</option>
+<option value="developpement_projet">Développement d'un projet</option>
+<option value="formation">Formation</option>
+<option value="animations_evenements">Animations ou événements</option>
+<option value="concours_challenge">Concours et challenge</option>
+<option value="acces_coworking">Accès au coworking</option>
+<option value="reunion">Réunion</option>
+<option value="stagiaire">Stagiaire</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-on-surface-variant">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+</form>
+</div>
+</main>
+<!-- Fixed Bottom Action Area -->
+<div class="fixed bottom-0 left-0 w-full bg-white border-t border-outline-variant p-margin-mobile flex justify-center z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<button class="w-full max-w-md bg-primary-container text-white h-[48px] rounded-lg font-label-md flex justify-center items-center gap-2 hover:bg-[#e66d00] transition-colors active:scale-[0.98]" type="button">
+<span>Suivant</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</body></html>

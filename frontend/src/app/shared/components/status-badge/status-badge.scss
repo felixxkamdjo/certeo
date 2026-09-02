@@ -1,0 +1,42 @@
+@use 'sass:color';
+@use 'styles/variables' as *;
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: $radius-full;
+  font-size: 12px;
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+
+  &--success, &--accepted {
+    background: $color-success-light;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+  }
+
+  &--warning, &--pending {
+    background: $color-warning-light;
+    color: #b45309;
+    border: 1px solid #fde68a;
+  }
+
+  &--danger, &--rejected {
+    background: $color-danger-light;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+  }
+
+  &--info, &--under_review {
+    background: $color-info-light;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+  }
+
+  &--neutral, &--default, &--interview {
+    background: #ede9fe;
+    color: #6d28d9;
+    border: 1px solid #ddd6fe;
+  }
+}

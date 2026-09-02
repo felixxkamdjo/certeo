@@ -1,0 +1,655 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.application-wizard {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-md;
+}
+
+// --- Wizard Container Card ---
+.wizard-card {
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-2xl;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+// --- Header & Stepper ---
+.wizard-header {
+  padding: $spacing-xl $spacing-2xl $spacing-lg;
+  border-bottom: 1px solid $color-gray-200;
+  background: linear-gradient(180deg, $color-gray-50 0%, $color-white 100%);
+
+  @include mobile {
+    padding: $spacing-lg $spacing-md;
+  }
+
+  &__tag {
+    display: inline-block;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $color-primary;
+    background: $color-primary-bg;
+    padding: 4px 12px;
+    border-radius: $radius-full;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-extrabold;
+    color: $color-gray-900;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  &__subtitle {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin: $spacing-xs 0 0;
+  }
+}
+
+// --- Stepper Navigation ---
+.stepper-wrap {
+  margin-top: $spacing-xl;
+}
+
+.stepper-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+
+  @include mobile {
+    display: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    background: transparent;
+    border: none;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-lg;
+    cursor: pointer;
+    transition: all $transition-fast;
+    opacity: 0.6;
+    text-align: left;
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    &--active {
+      opacity: 1;
+      .stepper-nav__circle {
+        background: $color-primary;
+        color: $color-white;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 4px $color-primary-bg;
+      }
+      .stepper-nav__step-title {
+        color: $color-gray-900;
+        font-weight: $font-weight-bold;
+      }
+    }
+
+    &--completed {
+      opacity: 1;
+      .stepper-nav__circle {
+        background: $color-success;
+        color: $color-white;
+        border-color: $color-success;
+      }
+    }
+  }
+
+  &__circle {
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    border-radius: $radius-full;
+    border: 2px solid $color-gray-300;
+    background: $color-white;
+    color: $color-gray-600;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    transition: all $transition-fast;
+    flex-shrink: 0;
+
+    .check-icon {
+      font-size: 20px;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__step-num {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $color-gray-500;
+  }
+
+  &__step-title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-gray-700;
+    white-space: nowrap;
+  }
+}
+
+.progress-bar-wrap {
+  display: none;
+
+  @include mobile {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: $color-gray-200;
+  border-radius: $radius-full;
+  overflow: hidden;
+
+  &__fill {
+    height: 100%;
+    background: $color-primary;
+    border-radius: $radius-full;
+    transition: width $transition-slow;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-600;
+    text-align: right;
+  }
+}
+
+// --- Body & Steps ---
+.wizard-body {
+  padding: $spacing-2xl;
+
+  @include mobile {
+    padding: $spacing-lg $spacing-md;
+  }
+}
+
+.step-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+
+  &__icon {
+    @include flex-center;
+    width: 44px;
+    height: 44px;
+    border-radius: $radius-xl;
+    background: $color-primary-bg;
+    color: $color-primary;
+    flex-shrink: 0;
+
+    .material-symbols-outlined {
+      font-size: 22px;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin: $spacing-xs 0 0;
+  }
+}
+
+// --- Form Controls Grid ---
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-lg;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &--full {
+    grid-column: 1 / -1;
+  }
+}
+
+.form-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-gray-800;
+
+  .required {
+    color: $color-danger;
+  }
+}
+
+.input-wrap {
+  position: relative;
+  width: 100%;
+
+  &__icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-gray-400;
+    font-size: 20px;
+    pointer-events: none;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  background: $color-white;
+  border: 1.5px solid $color-gray-200;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-family: $font-family-base;
+  color: $color-gray-900;
+  transition: all $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px $color-primary-bg;
+  }
+
+  &::placeholder {
+    color: $color-gray-400;
+  }
+
+  &--select {
+    padding-left: 14px;
+    padding-right: 40px;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  &--textarea {
+    padding: 14px;
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  &--error {
+    border-color: $color-danger !important;
+    background-color: #fff8f8;
+
+    &:focus {
+      box-shadow: 0 0 0 3px $color-danger-light !important;
+    }
+  }
+}
+
+.select-wrap {
+  position: relative;
+  width: 100%;
+
+  &__chevron {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-gray-500;
+    pointer-events: none;
+    font-size: 22px;
+  }
+}
+
+.char-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+
+  &__value {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+    margin-left: auto;
+  }
+}
+
+.error-msg {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-danger;
+  margin-top: 2px;
+}
+
+// --- File Dropzone ---
+.file-dropzone {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding: $spacing-xl;
+  border: 2px dashed $color-gray-300;
+  border-radius: $radius-xl;
+  background: $color-gray-50;
+  cursor: pointer;
+  transition: all $transition-fast;
+  text-align: center;
+
+  &:hover {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+  }
+
+  &__icon {
+    font-size: 36px;
+    color: $color-primary;
+  }
+
+  &__title {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-800;
+  }
+
+  &__desc {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+  }
+
+  &__input {
+    display: none;
+  }
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md $spacing-lg;
+  background: $color-gray-50;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__icon {
+    color: $color-primary;
+    font-size: 24px;
+  }
+
+  &__name {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+  }
+
+  &__remove {
+    @include flex-center;
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-full;
+    background: transparent;
+    border: none;
+    color: $color-gray-500;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: $color-danger-light;
+      color: $color-danger;
+    }
+  }
+}
+
+// --- Checkbox Label ---
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  cursor: pointer;
+  padding: $spacing-sm 0;
+
+  .checkbox-input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: $color-primary;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .checkbox-text {
+    font-size: $font-size-sm;
+    color: $color-gray-700;
+    line-height: 1.4;
+  }
+}
+
+// --- Wizard Footer Actions ---
+.wizard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-lg $spacing-2xl;
+  background: $color-gray-50;
+  border-top: 1px solid $color-gray-200;
+
+  @include mobile {
+    padding: $spacing-md;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: 12px $spacing-xl;
+  border-radius: $radius-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  font-family: $font-family-base;
+  cursor: pointer;
+  transition: all $transition-fast;
+  border: none;
+
+  .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  &--primary {
+    background: $color-primary;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background: $color-primary-dark;
+      box-shadow: 0 4px 12px rgba(255, 121, 0, 0.25);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &--outline {
+    background: $color-white;
+    border: 1px solid $color-gray-300;
+    color: $color-gray-800;
+
+    &:hover {
+      background: $color-gray-100;
+    }
+  }
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid $color-white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// --- Success Screen Card ---
+.success-card {
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-2xl;
+  box-shadow: $shadow-lg;
+  padding: $spacing-3xl $spacing-2xl;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+
+  @include mobile {
+    padding: $spacing-xl $spacing-md;
+  }
+
+  &__icon-wrap {
+    @include flex-center;
+    width: 80px;
+    height: 80px;
+    border-radius: $radius-full;
+    background: $color-success-light;
+    color: $color-success;
+    margin: 0 auto $spacing-lg;
+  }
+
+  &__icon {
+    font-size: 48px;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-extrabold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  &__desc {
+    font-size: $font-size-base;
+    color: $color-gray-600;
+    margin: $spacing-sm 0 $spacing-xl;
+    line-height: 1.5;
+  }
+}
+
+.application-badge {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: $spacing-md $spacing-2xl;
+  background: $color-gray-50;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  margin-bottom: $spacing-xl;
+
+  &__label {
+    font-size: $font-size-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $color-gray-500;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__code {
+    font-size: $font-size-xl;
+    color: $color-primary;
+    letter-spacing: 0.05em;
+  }
+}
+
+.next-steps-box {
+  background: $color-primary-bg;
+  border: 1px solid rgba(255, 121, 0, 0.2);
+  border-radius: $radius-xl;
+  padding: $spacing-lg;
+  text-align: left;
+  margin-bottom: $spacing-2xl;
+
+  &__title {
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: $color-primary-dark;
+    margin: 0 0 $spacing-md;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: $spacing-sm;
+      font-size: $font-size-sm;
+      color: $color-gray-800;
+
+      .material-symbols-outlined {
+        color: $color-primary;
+        font-size: 20px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+    }
+  }
+}
+
+.success-card__actions {
+  display: flex;
+  justify-content: center;
+}

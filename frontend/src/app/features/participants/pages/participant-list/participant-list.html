@@ -1,0 +1,134 @@
+<div class="participant-list">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Gestion des Participants</h1>
+      <p class="page-subtitle">Consultez et gérez l'ensemble des participants aux formations.</p>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <app-kpi-card label="Total Participants" [value]="kpis().total" icon="groups" colorTheme="primary"></app-kpi-card>
+    <app-kpi-card label="Apprenants Actifs" [value]="kpis().active" icon="trending_up" colorTheme="secondary"></app-kpi-card>
+    <app-kpi-card label="Formations Terminées" [value]="kpis().completed" icon="task_alt" colorTheme="secondary"></app-kpi-card>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+    
+    <!-- Action Bar / Filters -->
+    <div class="action-bar">
+      <app-table-search
+        [placeholder]="'Rechercher un participant...'"
+        [searchValue]="searchTerm()"
+        [filters]="[{ key: 'training', label: 'Toutes les formations', type: 'select', value: trainingFilter(), options: [
+          { value: 'Dev Web Intensif', label: 'Dev Web Intensif' },
+          { value: 'Data Science', label: 'Data Science' },
+          { value: 'UI/UX Design', label: 'UI/UX Design' }
+        ] }]"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
+        (reset)="onSearchChange(''); onTrainingChange('')" />
+
+      <div class="action-bar__buttons">
+        <button class="btn btn--outline" (click)="onEvaluate()">
+          <span class="material-symbols-outlined">assignment</span>
+          Evaluer
+        </button>
+        <button class="btn btn--dark" (click)="onExportCsv()">
+          <span class="material-symbols-outlined">download</span>
+          Exporter CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Participant</th>
+            <th>Email</th>
+            <th>Formation</th>
+            <th>Présence</th>
+            <th>Statut</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of pagedParticipants(); track p.id) {
+            <tr class="data-table__row" (click)="navigateToDetail(p.id)">
+              <td>
+                <div class="participant-cell">
+                  <div class="avatar">{{ getInitials(p.firstName, p.lastName) }}</div>
+                  <span class="participant-cell__name">{{ p.firstName }} {{ p.lastName }}</span>
+                </div>
+              </td>
+              <td class="text-muted">{{ p.email }}</td>
+              <td>{{ p.trainingTitle }}</td>
+              <td>
+                <div class="presence-cell">
+                  <div class="progress-bar">
+                    <div 
+                      class="progress-bar__fill" 
+                      [style.width.%]="p.presenceRate"
+                      [class.progress-bar__fill--dark]="p.presenceRate === 100"
+                    ></div>
+                  </div>
+                  <span class="presence-cell__rate">{{ p.presenceRate }}%</span>
+                </div>
+              </td>
+              <td>
+                <app-status-badge
+                  [variant]="p.status | lowercase"
+                  [label]="getStatusLabel(p.status)">
+                </app-status-badge>
+              </td>
+              <td class="text-right" (click)="$event.stopPropagation()">
+                <div class="actions">
+                  <button class="icon-btn icon-btn--view" title="Voir le profil" (click)="navigateToDetail(p.id)">
+                    <span class="material-symbols-outlined">visibility</span>
+                  </button>
+                  <button class="icon-btn icon-btn--delete" title="Retirer le participant" (click)="openDeleteModal(p)">
+                    <span class="material-symbols-outlined">person_remove</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-row">
+                <span class="material-symbols-outlined">group_off</span>
+                <p>Aucun participant trouvé</p>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination 
+      [totalItems]="filteredParticipants().length" 
+      [itemsPerPage]="itemsPerPage()" 
+      [currentPage]="currentPage()"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination>
+  </div>
+
+  <!-- Modale de confirmation de suppression -->
+  <app-confirm-dialog
+    [isOpen]="isDeleteModalOpen()"
+    title="Retirer le participant"
+    [message]="selectedForDelete() ? 'Voulez-vous retirer ' + selectedForDelete()?.firstName + ' ' + selectedForDelete()?.lastName + ' de la liste des participants ?' : ''"
+    confirmText="Retirer"
+    variant="danger"
+    icon="person_remove"
+    [isLoading]="isDeleting()"
+    (confirm)="onDeleteConfirm()"
+    (cancel)="onDeleteCancel()"
+  ></app-confirm-dialog>
+
+</div>

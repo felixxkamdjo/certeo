@@ -1,0 +1,196 @@
+<div class="quiz-send">
+
+  <!-- Breadcrumb (pattern standard du projet) -->
+  <div class="breadcrumb-header">
+    <div class="breadcrumb">
+      <a routerLink="/admin/evaluations" class="breadcrumb__link">Évaluations</a>
+      <span class="material-symbols-outlined breadcrumb__sep">chevron_right</span>
+      <span class="breadcrumb__active">Envoyer une évaluation</span>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Envoyer une Évaluation</h1>
+      <p class="page-subtitle">
+        Envoyez un questionnaire aux participants ayant terminé une formation.
+        Ils recevront un lien unique par e-mail accompagné de vos consignes.
+      </p>
+    </div>
+  </div>
+
+  @if (isSent()) {
+    <!-- Confirmation -->
+    <div class="send-success">
+      <div class="send-success__icon">
+        <span class="material-symbols-outlined">check_circle</span>
+      </div>
+      <div class="send-success__content">
+        <h2>Évaluation envoyée</h2>
+        <p>L'invitation a été transmise avec succès à tous les participants ayant terminé cette formation.</p>
+        <div class="send-success__actions">
+          <button class="btn btn--outline" type="button" (click)="reset()">
+            <span class="material-symbols-outlined">add</span>
+            Envoyer une autre
+          </button>
+          <a class="btn btn--primary" routerLink="/admin/evaluations">
+            <span class="material-symbols-outlined">list</span>
+            Voir les évaluations
+          </a>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <!-- Formulaire d'envoi -->
+    <div class="send-layout">
+      <form class="send-form" [formGroup]="form" (ngSubmit)="send()">
+
+        <!-- Card principale -->
+        <div class="form-card form-card--accent">
+          <div class="form-card__header">
+            <span class="material-symbols-outlined form-card__icon">send</span>
+            <div>
+              <h2 class="form-card__title">Configuration de l'envoi</h2>
+              <p class="form-card__subtitle">
+                Sélectionnez la formation et l'évaluation, ajoutez des consignes si besoin, puis envoyez.
+              </p>
+            </div>
+          </div>
+
+          <!-- Formation -->
+          <div class="form-group">
+            <label class="form-label" for="trainingId">
+              Formation
+              <span class="form-required" aria-hidden="true">*</span>
+            </label>
+            <div class="select-wrapper">
+              <select
+                id="trainingId"
+                class="form-select"
+                formControlName="trainingId"
+                (change)="onTrainingChange($any($event.target).value)">
+                <option value="">Sélectionner une formation</option>
+                @for (training of trainings(); track training.id) {
+                  <option [value]="training.id">{{ training.name }}</option>
+                }
+              </select>
+              <span class="material-symbols-outlined select-chevron">expand_more</span>
+            </div>
+            @if (form.get('trainingId')?.invalid && form.get('trainingId')?.touched) {
+              <p class="form-error">Veuillez sélectionner une formation.</p>
+            }
+          </div>
+
+          <!-- Evaluation -->
+          <div class="form-group">
+            <label class="form-label" for="evaluationId">
+              Évaluation
+              <span class="form-required" aria-hidden="true">*</span>
+            </label>
+            <div class="select-wrapper">
+              <select
+                id="evaluationId"
+                class="form-select"
+                formControlName="evaluationId"
+                [attr.disabled]="availableEvaluations().length === 0 ? true : null">
+                <option value="">Sélectionner une évaluation</option>
+                @for (ev of availableEvaluations(); track ev.id) {
+                  <option [value]="ev.id">
+                    {{ ev.title }} ({{ ev.questionCount }} questions{{ ev.duration ? ', ' + ev.duration + ' min' : '' }})
+                  </option>
+                }
+              </select>
+              <span class="material-symbols-outlined select-chevron">expand_more</span>
+            </div>
+            @if (form.get('evaluationId')?.invalid && form.get('evaluationId')?.touched) {
+              <p class="form-error">Veuillez sélectionner une évaluation.</p>
+            }
+            @if (form.get('trainingId')?.value && availableEvaluations().length === 0) {
+              <p class="form-hint form-hint--warn">
+                <span class="material-symbols-outlined">info</span>
+                Aucune évaluation disponible pour cette formation.
+              </p>
+            }
+          </div>
+
+          <!-- Consignes -->
+          <div class="form-group">
+            <label class="form-label" for="instructions">
+              Consignes
+              <span class="form-optional">(optionnel)</span>
+            </label>
+            <textarea
+              id="instructions"
+              class="form-textarea"
+              formControlName="instructions"
+              rows="5"
+              placeholder="Ex : Vous disposez de 30 minutes. Aucun document n'est autorisé. Répondez à toutes les questions...">
+            </textarea>
+            <p class="form-hint">
+              <span class="material-symbols-outlined">info</span>
+              Ces consignes seront incluses dans l'e-mail d'invitation et affichées aux participants avant de commencer.
+            </p>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <a class="btn btn--outline" routerLink="/admin/evaluations">Annuler</a>
+            <button class="btn btn--primary" type="submit" [disabled]="isSending()">
+              @if (isSending()) {
+                <span class="material-symbols-outlined spin">progress_activity</span>
+                Envoi en cours...
+              } @else {
+                <span class="material-symbols-outlined">send</span>
+                Envoyer l'évaluation
+              }
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+      <!-- Panneau informatif -->
+      <aside class="send-info">
+        <div class="info-card">
+          <h3 class="info-card__title">
+            <span class="material-symbols-outlined">help</span>
+            Comment ça fonctionne
+          </h3>
+          <ol class="info-card__steps">
+            <li>
+              <span class="step-number">1</span>
+              <span>Sélectionnez la formation dont les participants ont terminé le parcours.</span>
+            </li>
+            <li>
+              <span class="step-number">2</span>
+              <span>Choisissez l'évaluation à leur envoyer.</span>
+            </li>
+            <li>
+              <span class="step-number">3</span>
+              <span>Ajoutez des consignes spécifiques si nécessaire (durée, règles, documents autorisés...).</span>
+            </li>
+            <li>
+              <span class="step-number">4</span>
+              <span>Cliquez sur "Envoyer l'évaluation". Chaque participant recevra un lien unique par e-mail.</span>
+            </li>
+          </ol>
+        </div>
+
+        <div class="info-card info-card--warning">
+          <p class="info-card__title">
+            <span class="material-symbols-outlined">warning</span>
+            Important
+          </p>
+          <p>
+            L'évaluation sera envoyée aux participants ayant <strong>terminé</strong> la formation sélectionnée.
+            Vérifiez votre sélection avant d'envoyer.
+          </p>
+        </div>
+      </aside>
+    </div>
+  }
+
+</div>

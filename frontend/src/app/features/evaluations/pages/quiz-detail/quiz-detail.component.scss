@@ -1,0 +1,324 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.quiz-detail {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// --- Breadcrumb ---
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    color: $color-gray-600;
+    text-decoration: none;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    transition: color $transition-fast;
+
+    &:hover { color: $color-primary; }
+
+    .material-symbols-outlined { font-size: 18px; }
+  }
+
+  &__sep {
+    font-size: 18px;
+    color: $color-gray-400;
+  }
+
+  &__active {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+    @include text-truncate;
+    max-width: 320px;
+  }
+}
+
+// --- Eyebrow sous le breadcrumb ---
+.quiz-detail__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xs;
+}
+
+// --- Grid principal ---
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+  align-items: start;
+
+  @include tablet-up {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
+.detail-main {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.detail-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  position: sticky;
+  top: $spacing-lg;
+}
+
+// --- Detail Card ---
+.detail-card {
+  @include card($spacing-xl);
+  border: 1px solid $color-gray-200;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  &--accent {
+    border-left: 4px solid $color-primary;
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: $spacing-md;
+  }
+
+  &__kicker {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $color-primary;
+    margin: 0 0 $spacing-2xs;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+}
+
+// --- Metadata grid ---
+.metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metadata-item {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__val {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+  }
+}
+
+// --- Question count badge ---
+.question-count-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: $color-primary-bg;
+  color: $color-primary;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  white-space: nowrap;
+}
+
+// --- Questions preview info ---
+.questions-preview-info {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background: $color-gray-50;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-md;
+
+  .material-symbols-outlined {
+    font-size: 20px;
+    color: $color-gray-400;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  p {
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    line-height: $line-height-relaxed;
+
+    strong { color: $color-gray-900; }
+  }
+}
+
+// --- Meta pills ---
+.quiz-meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 5px 12px;
+  background: $color-gray-100;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $color-gray-700;
+
+  .material-symbols-outlined { font-size: 16px; }
+
+  &--success {
+    background: $color-success-light;
+    border-color: transparent;
+    color: $color-success;
+  }
+}
+
+// --- Statut row ---
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-success;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  &--active { background: $color-success; }
+  &--inactive { background: $color-gray-400; }
+}
+
+// --- Stat card ---
+.stat-card {
+  &__big {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-extrabold;
+    color: $color-primary;
+    line-height: 1;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin: 0;
+  }
+
+  &__divider {
+    height: 1px;
+    background: $color-gray-200;
+    margin: 0 (-$spacing-xl);
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+
+    strong { color: $color-gray-900; font-weight: $font-weight-bold; }
+  }
+}
+
+// --- Quick actions ---
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.quick-action {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  border: none;
+  background: transparent;
+  color: $color-gray-700;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  font-family: $font-family-base;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background $transition-fast, color $transition-fast;
+
+  .material-symbols-outlined { font-size: 18px; }
+
+  &:hover {
+    background: $color-gray-100;
+    color: $color-gray-900;
+  }
+
+  &--danger:hover {
+    background: $color-danger-light;
+    color: $color-danger;
+  }
+}
+
+// --- Not found ---
+.not-found-state {
+  @include flex-column-center;
+  gap: $spacing-md;
+  padding: $spacing-3xl $spacing-xl;
+  text-align: center;
+
+  .material-symbols-outlined {
+    font-size: 64px;
+    color: $color-gray-300;
+  }
+
+  h2 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+    color: $color-gray-600;
+  }
+}

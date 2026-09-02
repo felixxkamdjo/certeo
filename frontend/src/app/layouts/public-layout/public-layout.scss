@@ -1,0 +1,42 @@
+@use 'styles/variables' as *;
+
+.public-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background-color: $color-gray-50;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: $spacing-md $spacing-2xl;
+    background-color: $color-white;
+    border-bottom: 1px solid $color-gray-200;
+    box-shadow: $shadow-xs;
+    height: 64px;
+  }
+
+  &__logo {
+    height: 36px;
+    width: auto;
+  }
+
+  &__content {
+    flex: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: $spacing-2xl $spacing-lg;
+    box-sizing: border-box;
+  }
+
+  &__footer {
+    padding: $spacing-lg;
+    text-align: center;
+    font-size: 0.8125rem;
+    color: $color-gray-500;
+    border-top: 1px solid $color-gray-200;
+    background-color: $color-white;
+  }
+}

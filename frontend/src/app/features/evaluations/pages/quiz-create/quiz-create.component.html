@@ -1,0 +1,290 @@
+<section class="quiz-create">
+
+  <!-- Breadcrumb + Annuler -->
+  <div class="breadcrumb-header">
+    <div class="breadcrumb">
+      <a routerLink="/admin/evaluations" class="breadcrumb__link">Evaluations</a>
+      <span class="material-symbols-outlined breadcrumb__sep">chevron_right</span>
+      <span class="breadcrumb__active">
+        {{ isEditMode() ? 'Modifier l\'evaluation' : 'Nouvelle evaluation QCM' }}
+      </span>
+    </div>
+    <a routerLink="/admin/evaluations" class="btn btn-cancel">
+      <span class="material-symbols-outlined">close</span>
+      <span>Annuler</span>
+    </a>
+  </div>
+
+  <!-- Page Header centré -->
+  <div class="page-header">
+    <h1 class="page-header__title">
+      {{ isEditMode() ? 'Modifier l\'evaluation' : 'Nouvelle Evaluation QCM' }}
+    </h1>
+    <p class="page-header__subtitle">
+      {{ isEditMode()
+        ? 'Mettez a jour les informations de votre questionnaire.'
+        : 'Creez un nouveau questionnaire a choix multiples pour evaluer les participants.' }}
+    </p>
+  </div>
+
+  @if (saved()) {
+    <div class="form-message form-message--success" role="status">
+      <span class="material-symbols-outlined">check_circle</span>
+      L'evaluation a ete enregistree avec succes.
+    </div>
+  }
+
+  @if (!saved() && form.invalid && form.touched) {
+    <div class="form-message form-message--error" role="alert">
+      <span class="material-symbols-outlined">error</span>
+      Veuillez corriger les erreurs avant d'enregistrer.
+    </div>
+  }
+
+  <form class="quiz-form" id="quiz-form" [formGroup]="form" (ngSubmit)="save()">
+
+    <!-- Colonne principale -->
+    <div class="quiz-form__main">
+
+      <!-- Informations generales -->
+      <section class="form-panel form-panel--accent">
+        <h2>
+          <span class="material-symbols-outlined section-icon" aria-hidden="true">info</span>
+          Informations Generales
+        </h2>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="eval-title">Titre de l'evaluation <span class="field-required" aria-hidden="true">*</span></label>
+            <input
+              id="eval-title"
+              formControlName="title"
+              type="text"
+              placeholder="Ex : QCM Final - Module Javascript"
+              [class.input--error]="isInvalid(form.get('title'))" />
+            @if (getError(form.get('title'), 'required')) {
+              <span class="field-error">Le titre est obligatoire.</span>
+            }
+          </div>
+          <div class="form-field">
+            <label for="eval-training">Formation associee <span class="field-required" aria-hidden="true">*</span></label>
+            <div class="select-field" [class.select-field--error]="isInvalid(form.get('trainingId'))">
+              <select
+                id="eval-training"
+                formControlName="trainingId"
+                [class.input--error]="isInvalid(form.get('trainingId'))">
+                <option value="" disabled>Selectionner une formation</option>
+                @for (t of trainings(); track t.id) {
+                  <option [value]="t.id">{{ t.name }}</option>
+                }
+              </select>
+              <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+            </div>
+            @if (getError(form.get('trainingId'), 'required')) {
+              <span class="field-error">Veuillez selectionner une formation.</span>
+            }
+          </div>
+          <div class="form-field">
+            <label for="eval-desc">Description (optionnel)</label>
+            <textarea
+              id="eval-desc"
+              formControlName="description"
+              placeholder="Instructions generales pour les participants..."
+              rows="3">
+            </textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Questions -->
+      <section class="form-panel" formArrayName="questions">
+        <div class="section-heading">
+          <h2>
+            <span class="material-symbols-outlined section-icon" aria-hidden="true">format_list_bulleted</span>
+            Questions
+          </h2>
+          <span class="question-count">
+            {{ questions.length }} Question{{ questions.length === 1 ? '' : 's' }}
+          </span>
+        </div>
+
+        @for (question of questions.controls; track $index; let qi = $index) {
+          <article class="question-card" [formGroupName]="qi">
+
+            <!-- Actions (copier / supprimer) — petits boutons en abs -->
+            <div class="question-card__actions">
+              <button
+                class="action-btn"
+                type="button"
+                title="Dupliquer la question"
+                (click)="duplicateQuestion(qi)">
+                <span class="material-symbols-outlined">content_copy</span>
+              </button>
+              <button
+                class="action-btn action-btn--danger"
+                type="button"
+                title="Supprimer la question"
+                [disabled]="questions.length === 1"
+                (click)="removeQuestion(qi)">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+
+            <!-- Corps de la question -->
+            <div class="question-card__body">
+              <span class="question-number">{{ qi + 1 }}</span>
+              <div class="question-card__content">
+
+                <!-- Enonce -->
+                <input
+                  class="question-input"
+                  [class.input--error]="isQuestionInvalid(qi)"
+                  [formControlName]="'question'"
+                  placeholder="Entrez votre question ici..."
+                  type="text"
+                  [attr.aria-label]="'Question ' + (qi + 1)" />
+                @if (isQuestionInvalid(qi)) {
+                  <span class="field-error">L'enonce de la question est obligatoire.</span>
+                }
+
+                <!-- Options -->
+                <div class="options">
+                  @for (option of optionsFor(qi).controls; track $index; let oi = $index) {
+                    <div class="option-row" [class.option-row--correct]="correctOptionControlFor(qi).value === oi">
+                      <!-- Radio : sélection de la bonne réponse -->
+                      <input
+                        type="radio"
+                        [name]="'correct-q' + qi"
+                        [value]="oi"
+                        [checked]="correctOptionControlFor(qi).value === oi"
+                        (change)="correctOptionControlFor(qi).setValue(oi)"
+                        [attr.aria-label]="'Marquer option ' + ['A','B','C','D','E','F'][oi] + ' comme correcte'" />
+
+                      <!-- Champ texte de l'option -->
+                      <span class="option-input">
+                        <span class="option-letter">{{ ['A','B','C','D','E','F'][oi] }}.</span>
+                        <input
+                          [formControl]="option"
+                          type="text"
+                          [placeholder]="'Option ' + ['A','B','C','D','E','F'][oi]"
+                          [attr.aria-label]="'Texte option ' + ['A','B','C','D','E','F'][oi]" />
+                        @if (correctOptionControlFor(qi).value === oi) {
+                          <span class="material-symbols-outlined correct-mark" aria-label="Bonne reponse">check</span>
+                        }
+                        @if (optionsFor(qi).length > 2) {
+                          <button
+                            class="option-remove"
+                            type="button"
+                            [attr.aria-label]="'Supprimer option ' + ['A','B','C','D','E','F'][oi]"
+                            (click)="removeOption(qi, oi)">
+                            <span class="material-symbols-outlined">close</span>
+                          </button>
+                        }
+                      </span>
+                    </div>
+                  }
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Footer : points + ajouter option -->
+            <div class="question-card__footer">
+              <label class="points-field">
+                Points :
+                <input formControlName="points" min="1" max="100" type="number" />
+              </label>
+              <button class="text-button" type="button" (click)="addOption(qi)">
+                <span class="material-symbols-outlined">add</span>
+                <span class="text-button__label">Ajouter une option</span>
+              </button>
+            </div>
+
+          </article>
+        }
+
+        <!-- Bouton ajouter question -->
+        <button class="add-question" type="button" (click)="addQuestion()">
+          <span class="add-question__icon">
+            <span class="material-symbols-outlined">add</span>
+          </span>
+          <span>Ajouter une question</span>
+        </button>
+
+      </section>
+    </div>
+
+    <!-- Colonne settings (sticky) -->
+    <div class="settings-column">
+      <aside class="form-panel settings-panel">
+
+        <!-- Bouton Enregistrer -->
+        <button class="save-button" type="submit" (click)="save()">
+          <span class="material-symbols-outlined" aria-hidden="true">save</span>
+          {{ isEditMode() ? 'Enregistrer les modifications' : "Enregistrer l'evaluation" }}
+        </button>
+
+        <!-- Titre paramètres -->
+        <h2>
+          <span class="material-symbols-outlined section-icon" aria-hidden="true">settings</span>
+          Parametres
+        </h2>
+
+        <!-- Durée -->
+        <div class="form-field">
+          <label for="eval-duration">
+            <span class="material-symbols-outlined field-icon" aria-hidden="true">schedule</span>
+            Duree estimee (min) <span class="field-required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="eval-duration"
+            formControlName="duration"
+            min="1"
+            max="300"
+            type="number"
+            [class.input--error]="isInvalid(form.get('duration'))" />
+          @if (getError(form.get('duration'), 'required') || getError(form.get('duration'), 'min')) {
+            <span class="field-error">Duree invalide (min. 1 minute).</span>
+          }
+        </div>
+
+        <!-- Toggles -->
+        <label class="toggle-field">
+          <span>
+            <span class="material-symbols-outlined field-icon" aria-hidden="true">shuffle</span>
+            Melanger les questions
+          </span>
+          <input formControlName="shuffleQuestions" type="checkbox" role="switch" />
+        </label>
+
+        <label class="toggle-field">
+          <span>
+            <span class="material-symbols-outlined field-icon" aria-hidden="true">shuffle</span>
+            Melanger les options
+          </span>
+          <input formControlName="shuffleOptions" type="checkbox" role="switch" />
+        </label>
+
+        <!-- Total points -->
+        <div class="points-summary-wrap">
+          <div class="points-summary">
+            <div class="points-summary__left">
+              <span class="points-summary__label">Total des points</span>
+              <span class="points-summary__value">{{ totalPoints() }}</span>
+            </div>
+            <span class="material-symbols-outlined points-summary__icon" aria-hidden="true">military_tech</span>
+          </div>
+        </div>
+
+        <!-- Apercu -->
+        <button class="preview-button" type="button" (click)="preview()">
+          <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+          Apercu du quiz
+        </button>
+
+      </aside>
+    </div>
+
+  </form>
+</section>
+
+

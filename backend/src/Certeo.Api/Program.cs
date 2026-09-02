@@ -1,41 +1,133 @@
+using System.Text;
+using Certeo.Api.Infrastructure;
+using Certeo.Api.Infrastructure.Storage;
+using Certeo.Api.Infrastructure.Seed;
+using Certeo.Api.Infrastructure.Auth;
+using Certeo.Api.Modules.Identity.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Certeo.Api.Modules.Trainings;
+using Certeo.Api.Modules.Applications;
+using Certeo.Api.Infrastructure.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// ==========================================
+// DATABASE & ENTITY FRAMEWORK
+// ==========================================
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
+builder.Services.AddDbContext<CerteoDbContext>(options =>
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+    {
+        npgsqlOptions.MigrationsAssembly(typeof(CerteoDbContext).Assembly.FullName);
+        npgsqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorCodesToAdd: null);
+    }));
+
+// ==========================================
+// AUTHENTICATION & AUTHORIZATION
+// ==========================================
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection(JwtSettings.SectionName));
+
+var jwtSettings = builder.Configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>()
+    ?? throw new InvalidOperationException("Configuration Jwt manquante dans appsettings.");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings.Issuer,
+            ValidAudience = jwtSettings.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SigningKey)),
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+// security and business services
+builder.Services.AddScoped<JwtTokenGenerator>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<SlugGenerator>();
+builder.Services.AddScoped<ITrainingService, TrainingService>();
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
+
+// ==========================================
+// API, SWAGGER & CORS
+// ==========================================
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "CERTEO API", Version = "v1" });
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+// ==========================================
+// BUILD APPLICATION
+// ==========================================
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ==========================================
+// REQUEST PIPELINE
+// ==========================================
+
+// development only: Swagger, migration et seeding
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CERTEO API v1"));
+
+    // seeding & migration in one transaction
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<CerteoDbContext>();
+    
+    dbContext.Database.Migrate();
+    await ReferenceDataSeeder.SeedAsync(dbContext);
 }
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseCors("AllowAll");
 
-app.MapGet("/weatherforecast", () =>
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+// authentification & autorisation
+app.UseAuthentication();
+app.UseAuthorization();
+
+// router & endpoints
+app.MapControllers();
+
+var uploadsRootPath = Path.GetFullPath(builder.Configuration["Storage:RootPath"] ?? "/app/uploads");
+Directory.CreateDirectory(uploadsRootPath);
+
+app.UseStaticFiles(new StaticFileOptions
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(uploadsRootPath),
+    RequestPath = "/uploads"
+});
+
+// basic healthcheck
+app.MapGet("/health", () => Results.Ok(new { Status = "Healthy", Timestamp = DateTimeOffset.UtcNow }));
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

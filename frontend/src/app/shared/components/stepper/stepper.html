@@ -1,0 +1,24 @@
+<div class="stepper">
+  @for (step of steps; track step.number; let idx = $index) {
+    <div 
+      class="stepper__step" 
+      [class.stepper__step--active]="currentStep === step.number"
+      [class.stepper__step--completed]="currentStep > step.number"
+      (click)="onStepClick(step.number)"
+    >
+      <div class="stepper__circle">
+        @if (currentStep > step.number) {
+          ✓
+        } @else {
+          {{ step.number }}
+        }
+      </div>
+      <div class="stepper__info">
+        <span class="stepper__title">{{ step.title }}</span>
+      </div>
+    </div>
+    @if (idx < steps.length - 1) {
+      <div class="stepper__line" [class.stepper__line--completed]="currentStep > step.number"></div>
+    }
+  }
+</div>

@@ -1,0 +1,522 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+// ============================================================
+// Wrapper racine
+// ============================================================
+.presence-form {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  padding: $spacing-xl $spacing-md;
+}
+
+// ============================================================
+// Header public
+// ============================================================
+.presence-form__header {
+  text-align: center;
+
+  h1 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-extrabold;
+    color: $color-gray-900;
+    margin: $spacing-xs 0;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin: 0;
+  }
+}
+
+.presence-form__eyebrow {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $color-primary;
+  margin: 0;
+}
+
+// ============================================================
+// Panneau géolocalisation
+// ============================================================
+.location-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: $spacing-2xl $spacing-xl;
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+  text-align: center;
+
+  &__test-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: 5px 12px;
+    background: $color-warning-light;
+    border: 1px solid rgba($color-warning, 0.3);
+    border-radius: $radius-full;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: #b45309;
+
+    .material-symbols-outlined { font-size: 16px; }
+  }
+
+  &__icon {
+    .material-symbols-outlined {
+      font-size: 56px;
+      color: $color-primary;
+    }
+  }
+
+  &__content {
+    h2 {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: $color-gray-900;
+      margin: 0 0 $spacing-xs;
+    }
+
+    p {
+      font-size: $font-size-sm;
+      color: $color-gray-600;
+      margin: 0;
+      line-height: $line-height-relaxed;
+    }
+  }
+}
+
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ============================================================
+// Barre de progression étapes
+// ============================================================
+.progress-bar {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-sm;
+    font-size: $font-size-sm;
+
+    span  { color: $color-gray-500; }
+    strong { color: $color-gray-900; font-weight: $font-weight-semibold; }
+  }
+
+  &__track {
+    height: 6px;
+    background: $color-gray-200;
+    border-radius: $radius-full;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    background: $color-primary;
+    border-radius: inherit;
+    transition: width $transition-slow;
+  }
+}
+
+// ============================================================
+// Card formulaire
+// ============================================================
+.form-card {
+  @include card($spacing-xl);
+  border: 1px solid $color-gray-200;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  &__intro {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin: (-$spacing-sm) 0 0;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: $spacing-md;
+  }
+}
+
+// ============================================================
+// Form fields
+// ============================================================
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  grid-column: span 1;
+
+  &:nth-child(1),
+  &:nth-child(2) {
+    grid-column: span 2; // Nom et email pleine largeur
+
+    @include mobile { grid-column: span 1; }
+  }
+
+  label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: $color-gray-700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid $color-gray-300;
+    border-radius: $radius-md;
+    background: $color-white;
+    color: $color-gray-900;
+    font: inherit;
+    font-size: $font-size-base;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px $color-primary-bg;
+    }
+  }
+
+  select { appearance: none; }
+}
+
+.required { color: $color-danger; }
+.optional  { color: $color-gray-400; text-transform: none; letter-spacing: 0; font-weight: $font-weight-regular; }
+
+.select-wrap {
+  position: relative;
+
+  select { padding-right: 40px; }
+
+  .material-symbols-outlined {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-gray-500;
+    pointer-events: none;
+    font-size: 20px;
+  }
+}
+
+// ============================================================
+// Radio groupe inline (Sexe)
+// ============================================================
+.radio-group {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 8px 14px;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-md;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  color: $color-gray-700;
+  transition: all $transition-fast;
+
+  input[type='radio'] {
+    width: 16px;
+    height: 16px;
+    accent-color: $color-primary;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
+    &:focus { outline: none; }
+  }
+
+  &:has(input:checked) {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+    color: $color-primary;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// ============================================================
+// Fieldset générique
+// ============================================================
+.form-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  legend {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: $color-gray-700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: $spacing-xs;
+    float: left;
+    width: 100%;
+  }
+}
+
+// ============================================================
+// Grille tranches d'âge (2 cols, 5e option pleine largeur)
+// ============================================================
+.age-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-sm;
+
+  .age-card:last-child {
+    grid-column: span 2;
+  }
+}
+
+.age-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  border: 1.5px solid $color-gray-200;
+  border-radius: $radius-md;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-gray-700;
+  text-align: center;
+  transition: all $transition-fast;
+  background: $color-white;
+
+  input[type='radio'] { display: none; }
+
+  &--selected {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+    color: $color-primary;
+    font-weight: $font-weight-bold;
+  }
+
+  &:hover:not(&--selected) {
+    border-color: $color-gray-400;
+    background: $color-gray-50;
+  }
+}
+
+// ============================================================
+// Profil radio-chips
+// ============================================================
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: $spacing-sm;
+}
+
+.profile-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-md $spacing-sm;
+  border: 1.5px solid $color-gray-200;
+  border-radius: $radius-lg;
+  cursor: pointer;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $color-gray-700;
+  text-align: center;
+  transition: all $transition-fast;
+  background: $color-white;
+
+  input[type='radio'] { display: none; }
+
+  .material-symbols-outlined {
+    font-size: 24px;
+    color: $color-gray-400;
+    transition: color $transition-fast;
+  }
+
+  &--selected {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+    color: $color-primary;
+
+    .material-symbols-outlined { color: $color-primary; }
+  }
+
+  &:hover:not(&--selected) {
+    border-color: $color-gray-300;
+    background: $color-gray-50;
+  }
+}
+
+// ============================================================
+// Liste formations étape 2 (radio-cards)
+// ============================================================
+.training-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.training-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  border: 1.5px solid $color-gray-200;
+  border-radius: $radius-lg;
+  cursor: pointer;
+  transition: all $transition-fast;
+  background: $color-white;
+
+  input[type='radio'] { display: none; }
+
+  &__icon {
+    @include flex-center;
+    width: 44px;
+    height: 44px;
+    border-radius: $radius-full;
+    background: $color-gray-100;
+    flex-shrink: 0;
+    transition: all $transition-fast;
+
+    .material-symbols-outlined { font-size: 22px; color: $color-gray-500; }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    strong {
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: $color-gray-900;
+    }
+
+    span {
+      font-size: $font-size-xs;
+      color: $color-gray-500;
+    }
+  }
+
+  &--selected {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+
+    .training-card__icon {
+      background: $color-primary;
+      .material-symbols-outlined { color: $color-white; }
+    }
+
+    .training-card__info strong { color: $color-primary; }
+  }
+
+  &:hover:not(&--selected) {
+    border-color: $color-gray-300;
+    background: $color-gray-50;
+  }
+}
+
+// ============================================================
+// Écran succès
+// ============================================================
+.success-screen {
+  @include flex-column-center;
+  gap: $spacing-lg;
+  padding: $spacing-3xl $spacing-xl;
+  text-align: center;
+
+  &__icon {
+    .material-symbols-outlined {
+      font-size: 80px;
+      color: $color-success;
+    }
+  }
+
+  &__eyebrow {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $color-success;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-extrabold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: $color-gray-600;
+    margin: 0;
+    line-height: $line-height-relaxed;
+    max-width: 360px;
+  }
+}
+
+// ============================================================
+// Erreur
+// ============================================================
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: $color-danger-light;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  color: $color-danger;
+  font-weight: $font-weight-semibold;
+
+  .material-symbols-outlined { font-size: 18px; }
+}

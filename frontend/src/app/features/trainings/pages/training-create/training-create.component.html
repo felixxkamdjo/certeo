@@ -1,0 +1,474 @@
+<div class="wizard-page">
+  <!-- Breadcrumb with Annuler Button -->
+  <div class="breadcrumb-header">
+    <div class="breadcrumb">
+      <a routerLink="/admin/trainings" class="breadcrumb__link">Formations</a>
+      <span class="material-symbols-outlined breadcrumb__sep">chevron_right</span>
+      <span class="breadcrumb__active">
+        {{ isEditMode() ? 'Modifier la formation' : 'Nouvelle formation' }}
+      </span>
+    </div>
+
+    <a routerLink="/admin/trainings" class="btn btn-cancel">
+      <span class="material-symbols-outlined">close</span>
+      <span>Annuler</span>
+    </a>
+  </div>
+
+  <!-- Page Title & Header -->
+  <div class="page-header">
+    <h1 class="page-header__title">
+      {{ isEditMode() ? 'Modifier la formation' : 'Créer une formation' }}
+    </h1>
+    <p class="page-header__subtitle">Configurez les détails logistiques et le formulaire de votre nouvelle session d'apprentissage.</p>
+  </div>
+
+  <!-- Stepper Header Navigation -->
+  <app-stepper
+    [steps]="steps"
+    [currentStep]="currentStep()"
+    (stepChange)="setStep($event)"
+  ></app-stepper>
+
+  <!-- Step Forms Container -->
+  <div class="wizard-card">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <!-- STEP 1: Informations Générales -->
+      @if (currentStep() === 1) {
+        <div class="step-pane">
+          <div class="step-pane__header">
+            <span class="material-symbols-outlined step-pane__icon">info</span>
+            <h3>Informations Générales</h3>
+          </div>
+
+          <div class="form-grid">
+            <!-- Title -->
+            <div class="form-group col-span-full">
+              <label for="title">Titre de la formation *</label>
+              <input
+                id="title"
+                type="text"
+                formControlName="title"
+                class="form-control"
+                placeholder="Ex: Développeur Web Fullstack"
+              />
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+              <label for="category">Catégorie / Type *</label>
+              <select id="category" formControlName="category" class="form-control">
+                <option value="Développement Logiciel">Développement Logiciel</option>
+                <option value="Design & UX">Design & UX</option>
+                <option value="Data & IA">Data & IA</option>
+                <option value="Développement Mobile">Développement Mobile</option>
+                <option value="Gestion de projet">Gestion de projet</option>
+              </select>
+            </div>
+
+            <!-- Capacity -->
+            <div class="form-group">
+              <label for="capacity">Capacité maximale *</label>
+              <input
+                id="capacity"
+                type="number"
+                formControlName="capacity"
+                class="form-control"
+                placeholder="Nombre de places"
+              />
+            </div>
+
+            <!-- Description -->
+            <div class="form-group col-span-full">
+              <label for="description">Description de la formation</label>
+              <textarea
+                id="description"
+                formControlName="description"
+                rows="5"
+                class="form-control"
+                placeholder="Décrivez les objectifs, le public cible et le contenu global..."
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- STEP 2: Planification & Lieu -->
+      @if (currentStep() === 2) {
+        <div class="step-pane">
+          <div class="step-pane__header">
+            <span class="material-symbols-outlined step-pane__icon">calendar_month</span>
+            <h3>Planification & Lieu</h3>
+          </div>
+
+          <div class="form-grid">
+            <!-- Start Date -->
+            <div class="form-group">
+              <label for="startDate">Date de début *</label>
+              <input
+                id="startDate"
+                type="date"
+                formControlName="startDate"
+                class="form-control"
+              />
+            </div>
+
+            <!-- End Date -->
+            <div class="form-group">
+              <label for="endDate">Date de fin *</label>
+              <input
+                id="endDate"
+                type="date"
+                formControlName="endDate"
+                class="form-control"
+              />
+            </div>
+
+            <!-- Mode Selection Cards -->
+            <div class="form-group col-span-full">
+              <label>Mode de formation *</label>
+              <div class="mode-cards">
+                <label class="mode-card" [class.mode-card--selected]="form.value.mode === 'Physique'">
+                  <input type="radio" formControlName="mode" value="Physique" class="sr-only" />
+                  <span class="material-symbols-outlined mode-card__icon">location_on</span>
+                  <div class="mode-card__text">
+                    <strong>Physique (ODC)</strong>
+                    <p>Formation en présentiel dans les locaux d'Orange Digital Center.</p>
+                  </div>
+                </label>
+
+                <label class="mode-card" [class.mode-card--selected]="form.value.mode === 'En ligne'">
+                  <input type="radio" formControlName="mode" value="En ligne" class="sr-only" />
+                  <span class="material-symbols-outlined mode-card__icon">devices</span>
+                  <div class="mode-card__text">
+                    <strong>En ligne</strong>
+                    <p>Session virtuelle via plateforme de visioconférence (Teams, Zoom).</p>
+                  </div>
+                </label>
+
+                <label class="mode-card" [class.mode-card--selected]="form.value.mode === 'Hybride'">
+                  <input type="radio" formControlName="mode" value="Hybride" class="sr-only" />
+                  <span class="material-symbols-outlined mode-card__icon">published_with_changes</span>
+                  <div class="mode-card__text">
+                    <strong>Hybride</strong>
+                    <p>Combinaison de cours en ligne et ateliers présentiels.</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- STEP 3: Communication & Audience -->
+      @if (currentStep() === 3) {
+        <div class="step-pane">
+          <div class="step-pane__header">
+            <span class="material-symbols-outlined step-pane__icon">campaign</span>
+            <h3>Communication & Audience</h3>
+          </div>
+
+          <div class="form-grid">
+            <!-- Status -->
+            <div class="form-group col-span-full">
+              <label for="status">Statut de la formation *</label>
+              <select id="status" formControlName="status" class="form-control">
+                <option value="Ouverte">Ouverte (Candidatures actives)</option>
+                <option value="Brouillon">Brouillon</option>
+                <option value="Fermée">Fermée</option>
+              </select>
+            </div>
+
+            <!-- Target Audience -->
+            <div class="form-group col-span-full">
+              <label for="targetAudience">Public cible *</label>
+              <input
+                id="targetAudience"
+                type="text"
+                formControlName="targetAudience"
+                class="form-control"
+                placeholder="Sélectionnez le public visé..."
+              />
+            </div>
+
+            <!-- Social Post Text -->
+            <div class="form-group col-span-full">
+              <label for="socialPostText">Message réseaux sociaux</label>
+              <textarea
+                id="socialPostText"
+                formControlName="socialPostText"
+                rows="3"
+                class="form-control"
+                placeholder="Rédigez le texte qui accompagnera la publication..."
+              ></textarea>
+            </div>
+
+            <!-- Upload Promotional Banner with real File Reader preview -->
+            <div class="form-group col-span-full">
+              <label>Affiche promotionnelle</label>
+
+              @if (bannerPreview(); as previewUrl) {
+                <div class="banner-preview-box">
+                  <img [src]="previewUrl" alt="Affiche promotionnelle" class="banner-preview-img" />
+                  <button type="button" class="btn btn-outline btn-sm remove-banner-btn" (click)="bannerPreview.set(null)">
+                    <span class="material-symbols-outlined">delete</span>
+                    <span>Changer d'image</span>
+                  </button>
+                </div>
+              } @else {
+                <div class="dropzone" (click)="fileInput.click()">
+                  <input
+                    #fileInput
+                    type="file"
+                    accept="image/*"
+                    class="sr-only"
+                    (change)="onFileSelected($event)"
+                  />
+                  <span class="material-symbols-outlined dropzone__icon">cloud_upload</span>
+                  <p class="dropzone__title">Cliquez pour importer votre affiche</p>
+                  <p class="dropzone__sub">PNG, JPG ou PDF (Max. 5MB) — Format conseillé : 1200x630px</p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- STEP 4: Configuration du Formulaire de Candidature (Exact mockup matching) -->
+      @if (currentStep() === 4) {
+        <div class="step-pane">
+          <div class="step-pane__header">
+            <h3>Configuration du Formulaire de Candidature</h3>
+          </div>
+
+          <p class="step-pane__sub">Définissez les informations requises pour les candidats souhaitant postuler à cette formation.</p>
+
+          <div class="form-config-layout">
+            <!-- Left Column: Champs Standards -->
+            <div class="form-config-col">
+              <div class="config-card">
+                <div class="config-card__header">
+                  <span class="material-symbols-outlined config-card__icon">badge</span>
+                  <h4>Champs Standards</h4>
+                </div>
+
+                <div class="switch-field-list">
+                  <!-- Nom & Prénom -->
+                  <div class="switch-item">
+                    <div class="switch-item__text">
+                      <strong>Nom & Prénom</strong>
+                      <span>Requis par défaut</span>
+                    </div>
+                    <label class="switch-toggle switch-toggle--disabled">
+                      <input type="checkbox" checked disabled />
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <!-- Email -->
+                  <div class="switch-item">
+                    <div class="switch-item__text">
+                      <strong>Email</strong>
+                      <span>Requis par défaut</span>
+                    </div>
+                    <label class="switch-toggle switch-toggle--disabled">
+                      <input type="checkbox" checked disabled />
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <!-- Numéro de Téléphone -->
+                  <div class="switch-item">
+                    <div class="switch-item__text">
+                      <strong>Numéro de Téléphone</strong>
+                      <span>Rendre obligatoire</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" formControlName="requirePhone" />
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <!-- Lien Portfolio / GitHub -->
+                  <div class="switch-item">
+                    <div class="switch-item__text">
+                      <strong>Lien Portfolio / GitHub</strong>
+                      <span>Optionnel</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" formControlName="requirePortfolio" />
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <!-- CV (Upload) -->
+                  <div class="switch-item">
+                    <div class="switch-item__text">
+                      <strong>CV (Upload)</strong>
+                      <span>Rendre obligatoire</span>
+                    </div>
+                    <label class="switch-toggle">
+                      <input type="checkbox" formControlName="requireCv" />
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Questions Personnalisées -->
+            <div class="form-config-col">
+              <div class="config-card">
+                <div class="config-card__header flex-between">
+                  <div class="flex-align-center gap-2">
+                    <span class="material-symbols-outlined config-card__icon">format_list_bulleted</span>
+                    <div>
+                      <h4>Questions Personnalisées</h4>
+                      <p class="config-card__subtext">Ajoutez des questions spécifiques à cette formation.</p>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-dark btn-sm" (click)="openQuestionForm()">
+                    <span class="material-symbols-outlined">add</span>
+                    <span>Ajouter une question</span>
+                  </button>
+                </div>
+
+                <!-- Interactive Question Form (Modal/Inline Creator) -->
+                @if (showQuestionForm()) {
+                  <div class="question-form-box">
+                    <h5 class="question-form-box__title">
+                      {{ editingQuestionId ? 'Modifier la Question' : 'Nouvelle Question Personnalisée' }}
+                    </h5>
+
+                    <div class="form-group">
+                      <label>Libellé de la question *</label>
+                      <input
+                        type="text"
+                        [(ngModel)]="newQuestionTitle"
+                        [ngModelOptions]="{standalone: true}"
+                        class="form-control"
+                        placeholder="Ex: Avez-vous de l'expérience avec Python ?"
+                      />
+                    </div>
+
+                    <div class="form-grid-2">
+                      <div class="form-group">
+                        <label>Mode de réponse *</label>
+                        <select [(ngModel)]="newQuestionType" [ngModelOptions]="{standalone: true}" class="form-control">
+                          <option value="Choix unique">Choix unique</option>
+                          <option value="Choix multiple">Choix multiple</option>
+                          <option value="Texte court">Texte court</option>
+                          <option value="Texte long">Texte long</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Caractère obligatoire *</label>
+                        <select [(ngModel)]="newQuestionRequired" [ngModelOptions]="{standalone: true}" class="form-control">
+                          <option [ngValue]="true">Requis</option>
+                          <option [ngValue]="false">Optionnel</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    @if (newQuestionType === 'Choix unique' || newQuestionType === 'Choix multiple') {
+                      <div class="form-group">
+                        <label>Options de réponse (séparées par une virgule)</label>
+                        <input
+                          type="text"
+                          [(ngModel)]="newQuestionOptionsText"
+                          [ngModelOptions]="{standalone: true}"
+                          class="form-control"
+                          placeholder="Ex: Oui, Non, En partie"
+                        />
+                      </div>
+                    }
+
+                    <div class="question-form-actions">
+                      <button type="button" class="btn btn-outline btn-sm" (click)="cancelQuestionForm()">Annuler</button>
+                      <button type="button" class="btn btn-primary btn-sm" (click)="saveCustomQuestion()">
+                        {{ editingQuestionId ? 'Enregistrer les modifications' : 'Ajouter la question' }}
+                      </button>
+                    </div>
+                  </div>
+                }
+
+                <div class="custom-questions-list">
+                  @for (q of customQuestions(); track q.id) {
+                    <div class="question-card">
+                      <div class="question-card__header">
+                        <span class="question-card__title">{{ q.title }}</span>
+                        <span class="badge-type">{{ q.type }}</span>
+                        <div class="question-card__actions">
+                          <button type="button" class="btn-icon-action" (click)="editQuestion(q)" title="Modifier la question">
+                            <span class="material-symbols-outlined">edit</span>
+                          </button>
+                          <button type="button" class="btn-icon-danger" (click)="removeCustomQuestion(q.id)" title="Supprimer">
+                            <span class="material-symbols-outlined">delete</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="question-card__footer">
+                        <button
+                          type="button"
+                          class="badge-req-btn"
+                          [class.badge-req-btn--opt]="!q.required"
+                          (click)="toggleQuestionRequired(q.id)"
+                          title="Cliquer pour changer le statut requis/optionnel"
+                        >
+                          {{ q.required ? 'Requis' : 'Optionnel' }}
+                        </button>
+                        @if (q.options.length > 0) {
+                          <span class="question-options">Options: {{ q.options.join(', ') }}</span>
+                        }
+                      </div>
+                    </div>
+                  }
+
+                  <!-- Clickable block to add question -->
+                  <div class="add-question-box" (click)="openQuestionForm()">
+                    <span class="material-symbols-outlined">add_circle_outline</span>
+                    <span>Cliquez pour ajouter une nouvelle question</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Wizard Navigation Controls (Matching Footer Mockup) -->
+      <div class="wizard-controls">
+        @if (currentStep() > 1) {
+          <button type="button" class="btn btn-outline" (click)="prevStep()">
+            <span>Précédent</span>
+          </button>
+        } @else {
+          <div></div>
+        }
+
+        <div class="wizard-controls__right">
+          @if (currentStep() < 4) {
+            <button type="button" class="btn btn-primary" (click)="nextStep()">
+              <span>Suivant</span>
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          } @else {
+            <button type="button" class="btn btn-text" (click)="submit()">
+              <span>Enregistrer comme brouillon</span>
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <span class="material-symbols-outlined">rocket_launch</span>
+              <span>Publier la formation</span>
+            </button>
+          }
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+

@@ -1,0 +1,355 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Fiche Candidat - CERTEO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e4e2e2",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1b1c1c",
+                        "surface-container-high": "#e9e8e7",
+                        "surface": "#fbf9f8",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "inverse-surface": "#303031",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#9a4600",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-fixed-variant": "#753400",
+                        "on-secondary-fixed-variant": "#474747",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "secondary": "#5e5e5e",
+                        "tertiary": "#5d5f5f",
+                        "surface-dim": "#dbdad9",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#ffb68c",
+                        "primary-fixed": "#ffdbc9",
+                        "surface-container": "#efeded",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#353737",
+                        "primary": "#9a4600",
+                        "on-primary-fixed": "#321200",
+                        "on-secondary-container": "#646464",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-bright": "#fbf9f8",
+                        "tertiary-container": "#9fa0a0",
+                        "on-surface": "#1b1c1c",
+                        "on-surface-variant": "#584235",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-primary-container": "#5c2700",
+                        "outline-variant": "#e0c0af",
+                        "primary-container": "#ff7900",
+                        "background": "#fbf9f8",
+                        "inverse-primary": "#ffb68c",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "secondary-container": "#e2e2e2",
+                        "surface-container-low": "#f5f3f3",
+                        "error-container": "#ffdad6",
+                        "outline": "#8c7263",
+                        "surface-variant": "#e4e2e2",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    },
+                    "boxShadow": {
+                        "tech": "0 4px 12px rgba(0, 0, 0, 0.05)"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased flex min-h-screen font-body-md text-body-md">
+<!-- SideNavBar -->
+<aside class="w-72 h-screen fixed left-0 top-0 bg-surface-container-low dark:bg-surface-dim border-r border-outline-variant flex flex-col p-base gap-2 z-50">
+<!-- Brand Header -->
+<div class="px-4 py-6 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined font-bold">corporate_fare</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">CERTEO</h1>
+<p class="font-label-md text-label-md text-secondary">Orange Digital Center</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 overflow-y-auto space-y-1 mt-4 px-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+                Presence ODC
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+                Users
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">school</span>
+                Trainings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-container text-on-primary-container font-bold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person_search</span>
+                Applications
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">how_to_reg</span>
+                Participants
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">assessment</span>
+                Evaluation
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">verified</span>
+                Certificats
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Reporting
+            </a>
+</nav>
+<div class="mt-auto px-2 pb-4">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="ml-72 flex-1 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="h-16 fixed top-0 right-0 w-[calc(100%-18rem)] bg-surface border-b border-outline-variant shadow-sm flex justify-between items-center px-gutter z-40">
+<div class="flex-1 flex items-center">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-body-md text-on-surface" placeholder="Search..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Admin Profile" class="w-full h-full object-cover" data-alt="A clean, professional headshot of an administrative user in a bright, modern office setting. The lighting is soft and even, reflecting a corporate yet approachable aesthetic. The image is cropped tightly around the face and shoulders, suitable for a profile avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5xM9AvYFnVBlso6eb0NIF9XNGhpPN1_WM9wV_HmInGG1Eq-BgGDRXxOake675oQYhLqMPX9QXm_9wC9_51sxqrW6HeNp2KteNrJyiBiQwXuCx_Mo6jw0jA9J0YRHx0Qgp7iH1oPhQeRp6nz5tMdM6vIfa76R1APvwfHNmoJFi5DEkwcc7EmlBjqpAEoUqc0zHuO6CAml0OsZB2phKyJIlbVuD5SNu9NJVEY53qLTLDo68JY2L4gPK">
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 pt-24 px-gutter pb-margin-desktop bg-surface-bright">
+<div class="max-w-5xl mx-auto space-y-6">
+<!-- Header / Candidate Info -->
+<div class="bg-surface-container-lowest rounded-xl shadow-tech p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-l-4 border-primary">
+<div class="flex items-center gap-6">
+<div class="w-24 h-24 rounded-full overflow-hidden border-2 border-surface-container-high shrink-0">
+<img alt="Candidate Avatar" class="w-full h-full object-cover" data-alt="A professional portrait of a young tech candidate, looking confident and approachable. The background is a blurred modern office environment with subtle orange and white lighting accents. The style is clean, corporate, and high-quality, fitting for a modern talent management portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtw1MapX0ENa2egM7XMmJr93G2h-2VOwJYA_cPAkBdBEqFD8tcPZNePilOknwu8fX-TjFkaSkgWTzWGB90nthSB3yqc2Cni5dAdAz0FGTf0cxlmhIM5tRE-2xEbRwgTZBgV7YQckXtUzsOCkFIJ91OJFePf3a4y0wIzNDfNaC8EyYr7UnkUEHKDZHSZlRQ52gXbD68WDz0g4x50g9mV3HqCUxszROkIzYl6rvDpazbvnz0YdOjngt5">
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Aminata Diallo</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-1">Développeur Full Stack Junior</p>
+<div class="flex items-center gap-3 mt-3">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0E5] text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                    En attente d'évaluation
+                                </span>
+<span class="text-secondary font-body-md text-sm">Candidature #APP-2023-442</span>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">edit_document</span>
+                            Évaluer
+                        </button>
+<button class="px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline text-on-surface hover:bg-surface-container-low transition-colors font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">forum</span>
+                            Entretien
+                        </button>
+<button class="px-4 py-2 rounded-lg bg-surface-container-lowest border border-error text-error hover:bg-error-container transition-colors font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">cancel</span>
+                            Refuser
+                        </button>
+<button class="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                            Sélectionner
+                        </button>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Left Column: Details -->
+<div class="lg:col-span-1 space-y-6">
+<!-- Contact Info -->
+<div class="bg-surface-container-lowest rounded-xl shadow-tech p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Coordonnées</h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">mail</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Email</p>
+<p class="text-on-surface">aminata.d@example.com</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">call</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Téléphone</p>
+<p class="text-on-surface">+221 77 123 45 67</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">location_on</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Résidence</p>
+<p class="text-on-surface">Dakar, Sénégal</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">link</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Liens</p>
+<div class="flex gap-2 mt-1">
+<a class="text-primary hover:underline" href="#">LinkedIn</a>
+<span class="text-outline-variant">•</span>
+<a class="text-primary hover:underline" href="#">GitHub</a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<!-- Documents -->
+<div class="bg-surface-container-lowest rounded-xl shadow-tech p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Documents</h3>
+<div class="space-y-3">
+<a class="flex items-center p-3 rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors group" href="#">
+<span class="material-symbols-outlined text-secondary group-hover:text-primary mr-3">picture_as_pdf</span>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-on-surface">CV_Aminata_Diallo.pdf</p>
+<p class="text-sm text-secondary">Mis à jour le 12 Oct 2023</p>
+</div>
+<span class="material-symbols-outlined text-secondary">download</span>
+</a>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl shadow-tech p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Informations Complémentaires</h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">work</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Profession actuelle</p>
+<p class="text-on-surface">Étudiante / Freelance</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">laptop_mac</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Ordinateur personnel</p>
+<p class="text-on-surface">Oui</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">campaign</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Source de découverte</p>
+<p class="text-on-surface">Réseaux Sociaux (LinkedIn)</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-0.5">event_available</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Disponibilité</p>
+<p class="text-on-surface">Immédiate (Temps plein)</p>
+</div>
+</li>
+</ul>
+</div></div>
+<!-- Right Column: Exp & Motivation -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Motivation -->
+<div class="bg-surface-container-lowest rounded-xl shadow-tech p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Lettre de Motivation</h3>
+<div class="p-4 bg-surface-container-low rounded-lg border border-outline-variant text-on-surface-variant leading-relaxed">
+<p>Passionnée par le développement web depuis mes années universitaires, j'ai suivi avec un grand intérêt les initiatives de l'Orange Digital Center. Je suis particulièrement motivée par l'opportunité de rejoindre votre programme de formation intensive pour parfaire mes compétences en React et Node.js. Mon projet de fin d'études portait sur une application de gestion de ressources locales, démontrant ma capacité à concevoir des solutions techniques pour des problèmes concrets.</p>
+</div>
+</div>
+<!-- Expériences -->
+<div class="bg-surface-container-lowest rounded-xl shadow-tech p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Parcours</h3>
+<div class="relative border-l-2 border-outline-variant ml-3 space-y-8">
+<!-- Item 1 -->
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-primary rounded-full -left-[7px] top-1.5 border-2 border-surface-container-lowest"></div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-md text-label-md text-on-surface text-lg">Master en Génie Logiciel</h4>
+<span class="text-sm text-secondary">2021 - 2023</span>
+</div>
+<p class="text-on-surface-variant">Université Cheikh Anta Diop (UCAD)</p>
+</div>
+<!-- Item 2 -->
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-surface-container-high rounded-full -left-[7px] top-1.5 border-2 border-outline-variant"></div>
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-label-md text-label-md text-on-surface text-lg">Stage Développeur Front-End</h4>
+<span class="text-sm text-secondary">Juin 2022 - Sept 2022</span>
+</div>
+<p class="text-on-surface-variant">TechSolutions Dakar</p>
+<p class="text-sm text-secondary mt-2">Développement d'interfaces utilisateurs avec Vue.js. Intégration d'APIs REST et participation aux rituels agiles.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

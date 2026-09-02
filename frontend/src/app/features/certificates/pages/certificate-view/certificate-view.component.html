@@ -1,0 +1,89 @@
+@if (participant(); as p) {
+  <div class="certificate-view-container" [class.is-public]="isPublicView()">
+    
+    <!-- Page Header & Actions -->
+    <div class="view-header">
+      <div class="view-header__text">
+        <h1 class="text-headline-lg">Attestation de Reussite</h1>
+        <p class="text-body-md text-secondary">Apercu officiel du certificat genere par CERTEO.</p>
+      </div>
+      <div class="view-header__actions">
+        <button class="btn-action btn-action--dark" (click)="downloadPdf()">
+          <span class="material-symbols-outlined">download</span>
+          Telecharger en PDF
+        </button>
+        <button class="btn-action btn-action--primary" (click)="shareLinkedIn()" [disabled]="!isPublicView()" [title]="!isPublicView() ? 'Action indisponible en previsualisation admin' : ''">
+          <span class="material-symbols-outlined">share</span>
+          Partager sur LinkedIn
+        </button>
+      </div>
+    </div>
+
+    <!-- PDF Viewer -->
+    <div class="pdf-viewer">
+      <!-- Toolbar -->
+      <div class="pdf-viewer__toolbar">
+        <div class="toolbar__left">
+          <span class="material-symbols-outlined toolbar__icon">picture_as_pdf</span>
+          <span class="toolbar__title">Certificat {{ p.certificateId }}</span>
+        </div>
+
+        <div class="toolbar__center">
+          <!-- Page Navigation -->
+          @if (totalPages() > 1) {
+            <button class="toolbar__btn" (click)="previousPage()" [disabled]="currentPage() <= 1">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <span class="toolbar__page-info">{{ currentPage() }} / {{ totalPages() }}</span>
+            <button class="toolbar__btn" (click)="nextPage()" [disabled]="currentPage() >= totalPages()">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+            <span class="toolbar__separator"></span>
+          }
+
+          <!-- Zoom -->
+          <button class="toolbar__btn" (click)="zoomOut()" [disabled]="zoom() <= 0.5">
+            <span class="material-symbols-outlined">remove</span>
+          </button>
+          <span class="toolbar__zoom-info">{{ zoom() * 100 | number:'1.0-0' }}%</span>
+          <button class="toolbar__btn" (click)="zoomIn()" [disabled]="zoom() >= 3">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+        </div>
+
+        <div class="toolbar__right">
+          <button class="toolbar__btn" (click)="downloadPdf()" title="Telecharger">
+            <span class="material-symbols-outlined">download</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Canvas Area -->
+      <div class="pdf-viewer__canvas-area">
+        @if (isLoading()) {
+          <div class="pdf-viewer__loading">
+            <div class="spinner"></div>
+            <span>Chargement du certificat...</span>
+          </div>
+        }
+
+        @if (hasError()) {
+          <div class="pdf-viewer__error">
+            <span class="material-symbols-outlined">error_outline</span>
+            <p>Impossible de charger le PDF.</p>
+            <p class="text-sm">Apercu via le lecteur natif du navigateur :</p>
+            <iframe [src]="pdfUrl()" class="pdf-viewer__fallback-iframe" draggable="false" title="pdf-viewer"></iframe>
+          </div>
+        }
+
+        <div #pdfContainer class="pdf-viewer__canvas-wrapper" [class.hidden]="isLoading() || hasError()"></div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="certificate-not-found">
+    <span class="material-symbols-outlined">error</span>
+    <h2>Certificat Introuvable</h2>
+    <p>Ce certificat n'existe pas ou n'est plus disponible.</p>
+  </div>
+}
