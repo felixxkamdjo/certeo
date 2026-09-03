@@ -1,10 +1,14 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { StepperComponent, StepItem } from '@shared/components/stepper/stepper';
 import { TrainingService } from '../../services/training.service';
-import { TrainingStatus } from '../../models/training.model';
+import {
+  TrainingStatus,
+  TrainingMode,
+  CreateTrainingRequest
+} from '../../models/training.model';
 
 @Component({
   selector: 'app-training-create',
@@ -13,14 +17,19 @@ import { TrainingStatus } from '../../models/training.model';
   templateUrl: './training-create.component.html',
   styleUrl: './training-create.component.scss',
 })
-export class TrainingCreateComponent implements OnInit {
+export class TrainingCreateComponent {
   private readonly fb = inject(FormBuilder);
   private readonly trainingService = inject(TrainingService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
-  currentStep = signal(1);
-  isEditMode = signal(false);
+  readonly TrainingMode = TrainingMode;
+  readonly TrainingStatus = TrainingStatus;
+
+  readonly currentStep = signal(1);
+  readonly isEditMode = signal(false);
+  readonly isSubmitting = signal(false);
+  readonly editId = signal<string | null>(null);
 
   readonly steps: StepItem[] = [
     { number: 1, title: 'Informations', description: 'Titre & catégorie' },
@@ -29,25 +38,25 @@ export class TrainingCreateComponent implements OnInit {
     { number: 4, title: 'Formulaire', description: 'Champs de candidature' },
   ];
 
-  // 4-step wizard form group
-  form = this.fb.group({
-    // Step 1: Informations
-    title: ['', [Validators.required]],
-    category: ['Développement Logiciel', [Validators.required]],
+  // Initialize multi-step reactive form
+  readonly form = this.fb.group({
+    // Capture basic training details
+    title: ['', [Validators.required, Validators.minLength(3)]],
+    category: ['Développement Web', [Validators.required]],
     capacity: [30, [Validators.required, Validators.min(1)]],
     description: ['', [Validators.required]],
 
-    // Step 2: Planification
+    // Schedule dates and session format
     startDate: ['', [Validators.required]],
     endDate: ['', [Validators.required]],
     mode: ['Physique' as 'Physique' | 'En ligne' | 'Hybride', [Validators.required]],
 
-    // Step 3: Communication
+    // Define communication and visibility settings
     status: [TrainingStatus.Open, [Validators.required]],
     targetAudience: ['Étudiants, jeunes diplômés, reconversion professionnelle.'],
     socialPostText: ['🚀 Lancez votre carrière tech avec la formation CERTEO !'],
 
-    // Step 4: Formulaire candidature (Champs Standards & Questions Personnalisées)
+    // Configure required candidate fields
     requireLastName: [true],
     requireEmail: [true],
     requirePhone: [true],
@@ -55,9 +64,10 @@ export class TrainingCreateComponent implements OnInit {
     requireCv: [true],
   });
 
-  // Step 3 Image Upload preview signal
+  // Track banner preview image URL
   readonly bannerPreview = signal<string | null>(null);
 
+  // Read selected image file as data URL
   onFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
@@ -69,8 +79,14 @@ export class TrainingCreateComponent implements OnInit {
     }
   }
 
-  // Step 4 Custom questions state & interactive creation
-  readonly customQuestions = signal([
+  // Manage custom registration questions list
+  readonly customQuestions = signal<Array<{
+    id: number;
+    title: string;
+    type: string;
+    required: boolean;
+    options: string[];
+  }>>([
     {
       id: 1,
       title: 'Avez-vous un ordinateur personnel ?',
@@ -94,7 +110,7 @@ export class TrainingCreateComponent implements OnInit {
     },
   ]);
 
-  // Inline question creator / editor form state
+  // Manage question modal form state
   readonly showQuestionForm = signal(false);
   editingQuestionId: number | null = null;
   newQuestionTitle = '';
@@ -102,6 +118,45 @@ export class TrainingCreateComponent implements OnInit {
   newQuestionRequired = true;
   newQuestionOptionsText = '';
 
+  constructor() {
+    // Load existing training data on edit mode
+    const id = this.route.snapshot.queryParamMap.get('editId');
+    if (id) {
+      this.editId.set(id);
+      this.isEditMode.set(true);
+      this.trainingService.getById(id).subscribe({
+        next: (item) => {
+          if (!item) return;
+
+          const modeString: 'Physique' | 'En ligne' | 'Hybride' =
+            item.mode === TrainingMode.Online
+              ? 'En ligne'
+              : item.mode === TrainingMode.Hybrid
+              ? 'Hybride'
+              : 'Physique';
+
+          this.form.patchValue({
+            title: item.title,
+            category: item.categoryLabel || 'Développement Web',
+            capacity: item.maxCapacity,
+            description: item.description,
+            startDate: item.startDate,
+            endDate: item.endDate,
+            mode: modeString,
+            status: item.status,
+            targetAudience: item.targetAudience ?? '',
+            socialPostText: item.socialMediaMessage ?? '',
+          });
+
+          if (item.imageUrl) {
+            this.bannerPreview.set(item.imageUrl);
+          }
+        },
+      });
+    }
+  }
+
+  // Open modal to add a new question
   openQuestionForm(): void {
     this.editingQuestionId = null;
     this.newQuestionTitle = '';
@@ -111,6 +166,7 @@ export class TrainingCreateComponent implements OnInit {
     this.showQuestionForm.set(true);
   }
 
+  // Populate modal with selected question data for editing
   editQuestion(q: { id: number; title: string; type: string; required: boolean; options: string[] }): void {
     this.editingQuestionId = q.id;
     this.newQuestionTitle = q.title;
@@ -120,11 +176,13 @@ export class TrainingCreateComponent implements OnInit {
     this.showQuestionForm.set(true);
   }
 
+  // Reset and close question modal
   cancelQuestionForm(): void {
     this.editingQuestionId = null;
     this.showQuestionForm.set(false);
   }
 
+  // Persist question changes or append a new entry
   saveCustomQuestion(): void {
     if (!this.newQuestionTitle.trim()) return;
 
@@ -162,66 +220,101 @@ export class TrainingCreateComponent implements OnInit {
     this.editingQuestionId = null;
   }
 
+  // Remove question by ID from the list
   removeCustomQuestion(id: number): void {
     this.customQuestions.update((list) => list.filter((q) => q.id !== id));
   }
 
+  // Invert mandatory requirement flag for a question
   toggleQuestionRequired(id: number): void {
     this.customQuestions.update((list) =>
       list.map((q) => (q.id === id ? { ...q, required: !q.required } : q))
     );
   }
 
-  ngOnInit(): void {
-    const editId = this.route.snapshot.queryParamMap.get('editId');
-    if (editId) {
-      this.trainingService.getById(editId).subscribe((item) => {
-        if (item) {
-          this.isEditMode.set(true);
-          this.form.patchValue({
-            title: item.title,
-            category: item.category,
-            capacity: item.capacity,
-            description: item.description,
-            startDate: item.startDate,
-            endDate: item.endDate,
-            mode: item.mode,
-            status: item.status,
-            targetAudience: item.targetAudience,
-            socialPostText: item.socialPostText,
-          });
-        }
-      });
-    }
-  }
-
+  // Jump to specific step number
   setStep(step: number): void {
     if (step >= 1 && step <= 4) {
       this.currentStep.set(step);
     }
   }
 
+  // Advance to next wizard step
   nextStep(): void {
     if (this.currentStep() < 4) {
       this.currentStep.update((s) => s + 1);
     }
   }
 
+  // Return to previous wizard step
   prevStep(): void {
     if (this.currentStep() > 1) {
       this.currentStep.update((s) => s - 1);
     }
   }
 
+  // Delegate submission call
   submit(): void {
-    if (this.form.valid) {
-      const val = this.form.getRawValue();
-      this.trainingService.create(val as any).subscribe(() => {
-        this.router.navigate(['/admin/trainings']);
-      });
-    } else {
+    this.onSubmit();
+  }
+
+  // Validate form and submit creation payload
+  onSubmit(): void {
+    if (this.form.invalid) {
       this.form.markAllAsTouched();
+      return;
     }
+
+    this.isSubmitting.set(true);
+    const val = this.form.getRawValue();
+
+    // Map string mode to numeric backend enum
+    const numericMode: TrainingMode =
+      val.mode === 'En ligne'
+        ? TrainingMode.Online
+        : val.mode === 'Hybride'
+        ? TrainingMode.Hybrid
+        : TrainingMode.InPerson;
+
+    // Calculate default application deadline one week before start date
+    let deadline = val.startDate!;
+    try {
+      const start = new Date(val.startDate!);
+      start.setDate(start.getDate() - 7);
+      deadline = start.toISOString().split('T')[0];
+    } catch {}
+
+    const payload: CreateTrainingRequest = {
+      title: val.title!,
+      description: val.description!,
+      categoryId: '51dee000-48c7-4533-980a-2ad5bb205f51', // Default category ID
+      startDate: val.startDate!,
+      endDate: val.endDate!,
+      applicationDeadline: deadline,
+      location: 'Douala',
+      mode: numericMode,
+      maxCapacity: Number(val.capacity) || 30,
+      minCapacity: 10,
+      targetAudience: val.targetAudience ?? undefined,
+      isQuizMandatory: false,
+      isCertificateEnabled: true,
+      publishImmediately: val.status === TrainingStatus.Open,
+      customQuestions: this.customQuestions().map((q, idx) => ({
+        label: q.title,
+        type: q.type,
+        isRequired: q.required,
+        options: q.options,
+      })),
+    };
+
+    this.trainingService.create(payload).subscribe({
+      next: () => {
+        this.isSubmitting.set(false);
+        this.router.navigate(['/admin/trainings']);
+      },
+      error: () => {
+        this.isSubmitting.set(false);
+      },
+    });
   }
 }
-

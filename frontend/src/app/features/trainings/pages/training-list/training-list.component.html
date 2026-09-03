@@ -78,21 +78,22 @@
                   <a [routerLink]="['/admin/trainings', item.id]" class="training-cell__title">
                     {{ item.title }}
                   </a>
-                  <span class="training-cell__sub">{{ item.cohort || item.category }}</span>
+                  <span class="training-cell__sub">{{ item.categoryLabel }}</span>
                 </div>
               </td>
-              <td class="text-secondary">{{ item.startDate }}</td>
-              <td class="text-secondary">{{ item.endDate }}</td>
+              <td class="text-secondary">{{ item.startDate | date:'dd/MM/yyyy' }}</td>
+              <td class="text-secondary">{{ item.endDate | date:'dd/MM/yyyy' }}</td>
               <td>
                 <app-status-badge
-                  [variant]="'info'"
-                  [label]="item.participantsCount + ' / ' + item.capacity">
+                  [status]="'info'"
+                  [label]="item.selectedCount + ' / ' + item.maxCapacity">
                 </app-status-badge>
               </td>
               <td>
+                @let statusConfig = getStatusBadgeConfig(item.status);
                 <app-status-badge
-                  [variant]="item.status === 'Ouverte' ? 'success' : item.status === 'Fermée' ? 'danger' : item.status === 'Archivée' ? 'neutral' : 'warning'"
-                  [label]="item.status">
+                  [status]="statusConfig.variant"
+                  [label]="statusConfig.label">
                 </app-status-badge>
               </td>
               <td class="text-right">
@@ -103,7 +104,7 @@
                   <a [routerLink]="['/admin/trainings/new']" [queryParams]="{ editId: item.id }" class="icon-btn icon-btn--edit" title="Modifier">
                     <span class="material-symbols-outlined">edit</span>
                   </a>
-                  <a routerLink="/admin/applications" class="icon-btn icon-btn--view" title="Candidats">
+                  <a routerLink="/admin/applications" [queryParams]="{ trainingId: item.id }" class="icon-btn icon-btn--view" title="Candidats">
                     <span class="material-symbols-outlined">group</span>
                   </a>
                   <button type="button" class="icon-btn icon-btn--delete" title="Archiver la formation" (click)="promptArchive(item.id)">
@@ -125,11 +126,12 @@
     </div>
 
     <!-- Pagination -->
-    <app-pagination 
-      [totalItems]="trainings().length" 
-      [itemsPerPage]="10" 
-      [currentPage]="1"
-    ></app-pagination>
+    <app-pagination
+      [totalItems]="totalCount()"
+      [itemsPerPage]="pageSize()"
+      [currentPage]="currentPage()"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
   </div>
 
   <!-- Confirmation Modal for Archiving -->
@@ -143,5 +145,3 @@
     (cancel)="onCancelArchive()"
   ></app-confirm-dialog>
 </div>
-
-

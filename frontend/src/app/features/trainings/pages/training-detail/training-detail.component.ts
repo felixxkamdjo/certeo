@@ -2,7 +2,6 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TrainingService } from '../../services/training.service';
-import { Training } from '../../models/training.model';
 
 @Component({
   selector: 'app-training-detail',
@@ -15,7 +14,7 @@ export class TrainingDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly trainingService = inject(TrainingService);
 
-  readonly training = signal<Training | undefined>(undefined);
+  readonly training = signal<any>(undefined);
   readonly copied = signal(false);
 
   readonly mockApplicants = signal([

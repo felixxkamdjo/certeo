@@ -45,7 +45,7 @@ public sealed class TrainingService : ITrainingService
         page = page < 1 ? 1 : page;
         pageSize = pageSize is < 1 or > 100 ? 20 : pageSize;
 
-        var query = _context.Trainings.AsQueryable();
+        var query = _context.Trainings.AsNoTracking();
 
         if (status.HasValue)
         {
@@ -57,9 +57,11 @@ public sealed class TrainingService : ITrainingService
             query = query.Where(t => t.CategoryId == categoryId.Value);
         }
 
-        if (!string.IsNullOrWhiteSpace(search))
+        // Ignore all searches that are empty or equal to "undefined"
+        var cleanSearch = search?.Trim();
+        if (!string.IsNullOrWhiteSpace(cleanSearch) && !cleanSearch.Equals("undefined", StringComparison.OrdinalIgnoreCase))
         {
-            var pattern = $"%{search.Trim()}%";
+            var pattern = $"%{cleanSearch}%";
             query = query.Where(t => EF.Functions.ILike(t.Title, pattern)
                 || (t.Description != null && EF.Functions.ILike(t.Description, pattern)));
         }
@@ -74,7 +76,7 @@ public sealed class TrainingService : ITrainingService
                 t.Id,
                 t.Title,
                 t.ImageUrl,
-                t.Category.Label,
+                t.Category != null ? t.Category.Label : string.Empty,
                 t.StartDate,
                 t.EndDate,
                 t.MaxCapacity,
@@ -90,6 +92,7 @@ public sealed class TrainingService : ITrainingService
     public async Task<TrainingDetailResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var training = await LoadDetailQueryable()
+            .AsNoTracking()
             .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
 
         return training is null ? null : MapToDetail(training);
@@ -100,6 +103,7 @@ public sealed class TrainingService : ITrainingService
         var visibleStatuses = new[] { TrainingStatus.PUBLISHED, TrainingStatus.IN_PROGRESS };
 
         var training = await LoadDetailQueryable()
+            .AsNoTracking()
             .SingleOrDefaultAsync(t => t.Slug == slug && visibleStatuses.Contains(t.Status), cancellationToken);
 
         return training is null ? null : MapToDetail(training);
@@ -143,7 +147,7 @@ public sealed class TrainingService : ITrainingService
             CreatedById = currentUserId,
         };
 
-        // standard application fields - all are created by default, but LinkedIn URL is not required
+        // Champs de candidature standard : activés par défaut, seul le lien LinkedIn reste facultatif
         foreach (var field in Enum.GetValues<StandardApplicationField>())
         {
             training.ApplicationFields.Add(new TrainingApplicationField
@@ -182,7 +186,6 @@ public sealed class TrainingService : ITrainingService
             throw new DomainValidationException("La catégorie sélectionnée est invalide.");
         }
 
-        // slug is generated only once at creation and never changes, so that public URLs never break even if the title changes.
         training.Title = request.Title;
         training.Description = request.Description;
         training.ImageUrl = request.ImageUrl;
@@ -259,7 +262,6 @@ public sealed class TrainingService : ITrainingService
             .SingleOrDefaultAsync(t => t.Id == trainingId, cancellationToken)
             ?? throw new DomainNotFoundException("Formation introuvable.");
 
-        // standard application fields - update existing or create new if missing (should not happen normally)
         foreach (var fieldConfig in request.StandardFields)
         {
             var existingField = training.ApplicationFields.SingleOrDefault(f => f.Field == fieldConfig.Field);
@@ -281,7 +283,6 @@ public sealed class TrainingService : ITrainingService
             }
         }
 
-        // custom questions - update existing, add new, remove deleted
         var incomingIds = request.CustomQuestions
             .Where(q => q.Id.HasValue)
             .Select(q => q.Id!.Value)
@@ -328,8 +329,6 @@ public sealed class TrainingService : ITrainingService
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    // helper method to load the full entity with its relations 
-
     private IQueryable<Training> LoadDetailQueryable()
     {
         return _context.Trainings
@@ -352,7 +351,7 @@ public sealed class TrainingService : ITrainingService
             t.Description,
             t.ImageUrl,
             t.CategoryId,
-            t.Category.Label,
+            t.Category?.Label ?? string.Empty,
             t.StartDate,
             t.EndDate,
             t.ApplicationDeadline,
@@ -367,7 +366,7 @@ public sealed class TrainingService : ITrainingService
             t.IsCertificateEnabled,
             t.Status,
             t.Slug,
-            $"{t.CreatedBy.FirstName} {t.CreatedBy.LastName}",
+            t.CreatedBy != null ? $"{t.CreatedBy.FirstName} {t.CreatedBy.LastName}" : string.Empty,
             t.CreatedAt,
             applicationsCount,
             selectedCount,
