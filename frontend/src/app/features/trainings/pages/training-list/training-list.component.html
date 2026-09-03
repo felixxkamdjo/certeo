@@ -6,7 +6,7 @@
       <p class="page-subtitle">Gérez le catalogue des formations et le suivi des cohortes.</p>
     </div>
     <div class="page-header__actions">
-      <a routerLink="/admin/trainings/new" class="btn btn--primary">
+      <a routerLink="/admin/trainings/create" class="btn btn--primary">
         <span class="material-symbols-outlined">add</span>
         <span>Créer une formation</span>
       </a>
@@ -101,7 +101,7 @@
                   <a [routerLink]="['/admin/trainings', item.id]" class="icon-btn icon-btn--view" title="Voir les détails">
                     <span class="material-symbols-outlined">visibility</span>
                   </a>
-                  <a [routerLink]="['/admin/trainings/new']" [queryParams]="{ editId: item.id }" class="icon-btn icon-btn--edit" title="Modifier">
+                  <a [routerLink]="['/admin/trainings/create']" [queryParams]="{ editId: item.id }" class="icon-btn icon-btn--edit" title="Modifier">
                     <span class="material-symbols-outlined">edit</span>
                   </a>
                   <a routerLink="/admin/applications" [queryParams]="{ trainingId: item.id }" class="icon-btn icon-btn--view" title="Candidats">
