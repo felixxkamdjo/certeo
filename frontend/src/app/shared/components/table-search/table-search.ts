@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 export interface TableSearchOption {
@@ -17,16 +18,15 @@ export interface TableSearchFilter {
 @Component({
   selector: 'app-table-search',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './table-search.html',
   styleUrl: './table-search.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableSearchComponent {
-  readonly placeholder = input<string>('Rechercher...');
-  readonly searchValue = input<string>('');
+  readonly placeholder = input('Rechercher...');
+  readonly searchValue = input('');
   readonly filters = input<TableSearchFilter[]>([]);
-  readonly showReset = input<boolean>(true);
+  readonly showReset = input(true);
 
   readonly searchChange = output<string>();
   readonly filterChange = output<{ key: string; value: string }>();

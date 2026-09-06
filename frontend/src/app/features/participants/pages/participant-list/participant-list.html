@@ -17,34 +17,16 @@
 
   <!-- Table Card -->
   <div class="table-card">
-    
+
     <!-- Action Bar / Filters -->
     <div class="action-bar">
-      <div class="action-bar__filters">
-        <div class="search-input">
-          <span class="material-symbols-outlined search-input__icon">search</span>
-          <input
-            class="search-input__field"
-            type="text"
-            placeholder="Rechercher un participant..."
-            [value]="searchTerm()"
-            (input)="onSearchChange($any($event.target).value)"
-          />
-        </div>
-        <div class="select-wrap">
-          <select
-            class="select-field"
-            [value]="trainingFilter()"
-            (change)="onTrainingChange($any($event.target).value)"
-          >
-            <option value="">Toutes les formations</option>
-            <option value="Dev Web Intensif">Dev Web Intensif</option>
-            <option value="Data Science">Data Science</option>
-            <option value="UI/UX Design">UI/UX Design</option>
-          </select>
-          <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
-        </div>
-      </div>
+      <app-table-search
+        [placeholder]="'Rechercher un participant...'"
+        [searchValue]="searchTerm()"
+        [filters]="[{ key: 'training', label: 'Toutes les formations', type: 'select', value: trainingFilter(), options: trainingOptions() }]"
+        (searchChange)="onSearchChange($any($event))"
+        (filterChange)="onFilterChange($any($event))"
+        (reset)="onSearchChange(''); onTrainingChange('')" />
 
       <div class="action-bar__buttons">
         <button class="btn btn--outline" (click)="onEvaluate()">
@@ -59,76 +41,82 @@
     </div>
 
     <!-- Table -->
-    <div class="table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Participant</th>
-            <th>Email</th>
-            <th>Formation</th>
-            <th>Présence</th>
-            <th>Statut</th>
-            <th class="text-right">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (p of pagedParticipants(); track p.id) {
-            <tr class="data-table__row" (click)="navigateToDetail(p.id)">
-              <td>
-                <div class="participant-cell">
-                  <div class="avatar">{{ getInitials(p.firstName, p.lastName) }}</div>
-                  <span class="participant-cell__name">{{ p.firstName }} {{ p.lastName }}</span>
-                </div>
-              </td>
-              <td class="text-muted">{{ p.email }}</td>
-              <td>{{ p.trainingTitle }}</td>
-              <td>
-                <div class="presence-cell">
-                  <div class="progress-bar">
-                    <div 
-                      class="progress-bar__fill" 
-                      [style.width.%]="p.presenceRate"
-                      [class.progress-bar__fill--dark]="p.presenceRate === 100"
-                    ></div>
-                  </div>
-                  <span class="presence-cell__rate">{{ p.presenceRate }}%</span>
-                </div>
-              </td>
-              <td>
-                <span class="status-badge status-badge--{{ p.status | lowercase }}">
-                  {{ getStatusLabel(p.status) }}
-                </span>
-              </td>
-              <td class="text-right" (click)="$event.stopPropagation()">
-                <div class="actions">
-                  <button class="icon-btn icon-btn--view" title="Voir le profil" (click)="navigateToDetail(p.id)">
-                    <span class="material-symbols-outlined">visibility</span>
-                  </button>
-                  <button class="icon-btn icon-btn--delete" title="Retirer le participant" (click)="openDeleteModal(p)">
-                    <span class="material-symbols-outlined">person_remove</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          } @empty {
+    @if (isLoading()) {
+      <p class="loading-state">Chargement des participants...</p>
+    } @else if (loadError()) {
+      <p class="error-state">{{ loadError() }}</p>
+    } @else {
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
             <tr>
-              <td colspan="6" class="empty-row">
-                <span class="material-symbols-outlined">group_off</span>
-                <p>Aucun participant trouvé</p>
-              </td>
+              <th>Participant</th>
+              <th>Email</th>
+              <th>Formation</th>
+              <th>Présence</th>
+              <th>Statut</th>
+              <th class="text-right">Actions</th>
             </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            @for (p of pagedParticipants(); track p.id) {
+              <tr class="data-table__row" (click)="navigateToDetail(p.id)">
+                <td>
+                  <div class="participant-cell">
+                    <div class="avatar">{{ getInitials(p.firstName, p.lastName) }}</div>
+                    <span class="participant-cell__name">{{ p.firstName }} {{ p.lastName }}</span>
+                  </div>
+                </td>
+                <td class="text-muted">{{ p.email }}</td>
+                <td>{{ p.trainingTitle }}</td>
+                <td>
+                  <div class="presence-cell">
+                    <div class="progress-bar">
+                      <div class="progress-bar__fill"
+                          [style.width.%]="p.attendanceRate"
+                          [class.progress-bar__fill--dark]="p.attendanceRate === 100">
+                      </div>
+                    </div>
+                    <span class="presence-cell__rate">{{ p.attendanceRate }}%</span>
+                  </div>
+                </td>
+                <td>
+                  <app-status-badge
+                    [variant]="getStatusVariant(p.status)"
+                    [label]="getStatusLabel(p.status)">
+                  </app-status-badge>
+                </td>
+                <td class="text-right" (click)="$event.stopPropagation()">
+                  <div class="actions">
+                    <button class="icon-btn icon-btn--view" title="Voir le profil" (click)="navigateToDetail(p.id)">
+                      <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                    <button class="icon-btn icon-btn--delete" title="Retirer le participant" (click)="openDeleteModal(p)">
+                      <span class="material-symbols-outlined">person_remove</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty-row">
+                  <span class="material-symbols-outlined">group_off</span>
+                  <p>Aucun participant trouvé</p>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
 
-    <!-- Pagination -->
-    <app-pagination 
-      [totalItems]="filteredParticipants().length" 
-      [itemsPerPage]="itemsPerPage()" 
-      [currentPage]="currentPage()"
-      (pageChange)="onPageChange($event)"
-    ></app-pagination>
+      <!-- Pagination -->
+      <app-pagination
+        [totalItems]="filteredParticipants().length"
+        [itemsPerPage]="itemsPerPage()"
+        [currentPage]="currentPage()"
+        (pageChange)="onPageChange($event)"
+      ></app-pagination>
+    }
   </div>
 
   <!-- Modale de confirmation de suppression -->

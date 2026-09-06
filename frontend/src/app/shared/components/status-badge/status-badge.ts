@@ -1,19 +1,39 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 export type BadgeStatus = 'success' | 'warning' | 'danger' | 'info' | 'default';
 
+/**
+ * Composant badge de statut réutilisable.
+ *
+ * Usage simple (statut fixe) :
+ *   <app-status-badge status="success" label="Retenu" />
+ *
+ * Usage dynamique (classe variable BEM) :
+ *   <app-status-badge [variant]="item.status | lowercase" [label]="getStatusLabel(item.status)" />
+ *   → génère class="status-badge status-badge--pending" etc.
+ */
 @Component({
   selector: 'app-status-badge',
   standalone: true,
+  imports: [],
   templateUrl: './status-badge.html',
   styleUrl: './status-badge.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusBadgeComponent {
+  /** Statut typé (success | warning | danger | info | default). Prioritaire sur variant. */
+  @Input() status?: BadgeStatus;
 
-  status = input.required<BadgeStatus>();
-  label = input<string>('');
+  /**
+   * Variant libre : accepte n'importe quelle chaîne (ex: 'pending', 'active', 'under_review').
+   * Génère la classe BEM status-badge--{variant}.
+   * Utilisé quand le statut vient d'une enum dynamique.
+   */
+  @Input() variant?: string;
 
-  // to calculate the class based on the status input
-  readonly badgeClass = computed(() => `badge badge-${this.status()}`);
+  /** Texte affiché dans le badge. */
+  @Input({ required: true }) label: string = '';
+
+  get badgeVariant(): string {
+    return this.status ?? this.variant ?? 'default';
+  }
 }
