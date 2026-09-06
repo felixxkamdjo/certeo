@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Certeo.Api.Modules.Trainings;
 using Certeo.Api.Infrastructure.Middleware;
+using Certeo.Api.Modules.Participants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,7 @@ builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<SlugGenerator>();
 builder.Services.AddScoped<ITrainingService, TrainingService>();
+builder.Services.AddScoped<IParticipantService, ParticipantService>();
 
 // ==========================================
 // API, SWAGGER & CORS
