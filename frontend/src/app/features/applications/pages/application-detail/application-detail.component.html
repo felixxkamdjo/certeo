@@ -1,4 +1,14 @@
-@if (application(); as app) {
+@if (isLoading()) {
+  <div class="loading-state">
+    <span class="material-symbols-outlined loading-spinner">progress_activity</span>
+    <p>Chargement de la fiche candidat...</p>
+  </div>
+} @else if (loadError()) {
+  <div class="loading-state">
+    <span class="material-symbols-outlined">error</span>
+    <p>{{ loadError() }}</p>
+  </div>
+} @else if (application(); as app) {
   <div class="application-detail">
 
     <!-- Back Button -->
@@ -19,7 +29,7 @@
               <span class="material-symbols-outlined">schedule</span>
               {{ getStatusLabel(app.status) }}
             </span>
-            <span class="candidate-id">Candidature #APP-{{ app.id }}-2023</span>
+            <span class="candidate-id">Dossier {{ app.fileNumber }}</span>
           </div>
         </div>
       </div>
@@ -71,26 +81,24 @@
                 <p class="info-list__value">{{ app.phone }}</p>
               </div>
             </li>
-            <li class="info-list__item">
-              <span class="material-symbols-outlined info-list__icon">location_on</span>
-              <div>
-                <p class="info-list__label">Residence</p>
-                <p class="info-list__value">{{ app.location }}</p>
-              </div>
-            </li>
+            @if (locationLabel) {
+              <li class="info-list__item">
+                <span class="material-symbols-outlined info-list__icon">location_on</span>
+                <div>
+                  <p class="info-list__label">Residence</p>
+                  <p class="info-list__value">{{ locationLabel }}</p>
+                </div>
+              </li>
+            }
             <li class="info-list__item">
               <span class="material-symbols-outlined info-list__icon">link</span>
               <div>
-                <p class="info-list__label">Liens</p>
-                <div class="info-list__links">
-                  @if (app.linkedinUrl) {
-                    <a [href]="app.linkedinUrl" target="_blank" class="info-link">LinkedIn</a>
-                  }
-                  @if (app.githubUrl) {
-                    <span class="info-link-separator">•</span>
-                    <a [href]="app.githubUrl" target="_blank" class="info-link">GitHub</a>
-                  }
-                </div>
+                <p class="info-list__label">LinkedIn / Portfolio</p>
+                @if (app.portfolioUrl) {
+                  <a [href]="app.portfolioUrl" target="_blank" class="info-link">{{ app.portfolioUrl }}</a>
+                } @else {
+                  <p class="info-list__value text-muted">Non fourni</p>
+                }
               </div>
             </li>
           </ul>
@@ -99,15 +107,17 @@
         <!-- Documents -->
         <div class="detail-card">
           <h2 class="detail-card__title">Documents</h2>
-          @if (app.cvFileName) {
-            <a class="document-item" href="#" target="_blank">
+          @if (app.cvUrl) {
+            <a class="document-item" [href]="app.cvUrl" target="_blank">
               <span class="material-symbols-outlined document-item__icon">picture_as_pdf</span>
               <div class="document-item__info">
-                <p class="document-item__name">{{ app.cvFileName }}</p>
-                <p class="document-item__date">Mis a jour le {{ app.cvDate | date: 'dd MMM yyyy' }}</p>
+                <p class="document-item__name">{{ cvFileName }}</p>
+                <p class="document-item__date">Reçu le {{ app.applicationDate | date: 'dd MMM yyyy' }}</p>
               </div>
               <span class="material-symbols-outlined document-item__action">download</span>
             </a>
+          } @else {
+            <p class="text-muted">Aucun CV fourni.</p>
           }
         </div>
 
@@ -115,34 +125,33 @@
         <div class="detail-card">
           <h2 class="detail-card__title">Informations Complementaires</h2>
           <ul class="info-list">
-            <li class="info-list__item">
-              <span class="material-symbols-outlined info-list__icon">work</span>
-              <div>
-                <p class="info-list__label">Profession actuelle</p>
-                <p class="info-list__value">{{ app.currentJob }}</p>
-              </div>
-            </li>
-            <li class="info-list__item">
-              <span class="material-symbols-outlined info-list__icon">laptop_mac</span>
-              <div>
-                <p class="info-list__label">Ordinateur personnel</p>
-                <p class="info-list__value">{{ app.hasLaptop ? 'Oui' : 'Non' }}</p>
-              </div>
-            </li>
-            <li class="info-list__item">
-              <span class="material-symbols-outlined info-list__icon">campaign</span>
-              <div>
-                <p class="info-list__label">Source de decouverte</p>
-                <p class="info-list__value">{{ app.discoverySource }}</p>
-              </div>
-            </li>
-            <li class="info-list__item">
-              <span class="material-symbols-outlined info-list__icon">event_available</span>
-              <div>
-                <p class="info-list__label">Disponibilite</p>
-                <p class="info-list__value">{{ app.availability }}</p>
-              </div>
-            </li>
+            @if (app.currentOccupation) {
+              <li class="info-list__item">
+                <span class="material-symbols-outlined info-list__icon">work</span>
+                <div>
+                  <p class="info-list__label">Profession actuelle</p>
+                  <p class="info-list__value">{{ app.currentOccupation }}</p>
+                </div>
+              </li>
+            }
+            @if (app.hasPersonalComputer !== null && app.hasPersonalComputer !== undefined) {
+              <li class="info-list__item">
+                <span class="material-symbols-outlined info-list__icon">laptop_mac</span>
+                <div>
+                  <p class="info-list__label">Ordinateur personnel</p>
+                  <p class="info-list__value">{{ app.hasPersonalComputer ? 'Oui' : 'Non' }}</p>
+                </div>
+              </li>
+            }
+            @if (app.odcDiscoverySourceLabel) {
+              <li class="info-list__item">
+                <span class="material-symbols-outlined info-list__icon">campaign</span>
+                <div>
+                  <p class="info-list__label">Source de decouverte</p>
+                  <p class="info-list__value">{{ app.odcDiscoverySourceLabel }}</p>
+                </div>
+              </li>
+            }
           </ul>
         </div>
 
@@ -152,44 +161,71 @@
       <div class="detail-col detail-col--right">
 
         <!-- Motivation -->
+        @if (app.coverLetter) {
+          <div class="detail-card">
+            <h2 class="detail-card__title">Lettre de Motivation</h2>
+            <div class="motivation-text">{{ app.coverLetter }}</div>
+          </div>
+        }
+
+        <!-- Parcours académique -->
         <div class="detail-card">
-          <h2 class="detail-card__title">Lettre de Motivation</h2>
-          <div class="motivation-text">{{ app.motivation }}</div>
+          <h2 class="detail-card__title">Parcours académique</h2>
+          <ul class="info-list">
+            @if (app.schoolOrUniversity) {
+              <li class="info-list__item">
+                <div>
+                  <p class="info-list__label">Établissement</p>
+                  <p class="info-list__value">{{ app.schoolOrUniversity }}</p>
+                </div>
+              </li>
+            }
+            @if (app.specialization) {
+              <li class="info-list__item">
+                <div>
+                  <p class="info-list__label">Spécialisation</p>
+                  <p class="info-list__value">{{ app.specialization }}</p>
+                </div>
+              </li>
+            }
+            @if (app.educationLevelLabel) {
+              <li class="info-list__item">
+                <div>
+                  <p class="info-list__label">Niveau d'études</p>
+                  <p class="info-list__value">
+                    {{ app.educationLevelLabel }}{{ app.graduationYear ? ' (' + app.graduationYear + ')' : '' }}
+                  </p>
+                </div>
+              </li>
+            }
+            @if (!app.schoolOrUniversity && !app.specialization && !app.educationLevelLabel) {
+              <li class="info-list__item">
+                <p class="text-muted">Aucune information académique fournie.</p>
+              </li>
+            }
+          </ul>
         </div>
 
-        <!-- Timeline -->
-        <div class="detail-card">
-          <h2 class="detail-card__title">Parcours</h2>
-          <div class="timeline">
-            @for (entry of app.timeline; track entry.title; let last = $last) {
-              <div class="timeline__item" [class.timeline__item--current]="entry.isCurrent">
-                <div class="timeline__dot"></div>
-                @if (!last) {
-                  <div class="timeline__line"></div>
-                }
-                <div class="timeline__content">
-                  <div class="timeline__header">
-                    <h3 class="timeline__title">{{ entry.title }}</h3>
-                    <span class="timeline__period">{{ entry.period }}</span>
+        <!-- Réponses aux questions personnalisées -->
+        @if (app.answers.length > 0) {
+          <div class="detail-card">
+            <h2 class="detail-card__title">Réponses complémentaires</h2>
+            <ul class="info-list">
+              @for (answer of app.answers; track answer.trainingQuestionId) {
+                <li class="info-list__item">
+                  <div>
+                    <p class="info-list__label">{{ answer.prompt }}</p>
+                    <p class="info-list__value">{{ answer.value }}</p>
                   </div>
-                  <p class="timeline__org">{{ entry.organization }}</p>
-                  @if (entry.description) {
-                    <p class="timeline__desc">{{ entry.description }}</p>
-                  }
-                </div>
-              </div>
-            }
+                </li>
+              }
+            </ul>
           </div>
-        </div>
+        }
 
       </div>
     </div>
 
-  </div>
-} @else if (isLoading()) {
-  <div class="loading-state">
-    <span class="material-symbols-outlined loading-spinner">progress_activity</span>
-    <p>Chargement de la fiche candidat...</p>
   </div>
 }
 
@@ -212,4 +248,3 @@
   (confirm)="handleDialogConfirm()"
   (cancel)="handleDialogCancel()"
 ></app-confirm-dialog>
-

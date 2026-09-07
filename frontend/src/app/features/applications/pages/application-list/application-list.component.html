@@ -18,7 +18,7 @@
 
   <!-- Table Card -->
   <div class="table-card">
-    
+
     <!-- Filters / Action Bar -->
     <div class="filters-bar">
       <div class="filters-bar__left">
@@ -39,11 +39,11 @@
             (change)="onStatusChange($any($event.target).value)"
           >
             <option value="">Tous les statuts</option>
-            <option value="PENDING">En attente</option>
-            <option value="UNDER_REVIEW">En révision</option>
-            <option value="INTERVIEW">En entretien</option>
-            <option value="ACCEPTED">Retenu</option>
-            <option value="REJECTED">Refusé</option>
+            <option value="0">En attente</option>
+            <option value="1">En entretien</option>
+            <option value="2">Évalué</option>
+            <option value="3">Sélectionné</option>
+            <option value="4">Refusé</option>
           </select>
           <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
         </div>
@@ -55,6 +55,10 @@
           <span class="material-symbols-outlined">filter_list_off</span>
           Réinitialiser
         </button>
+        <button class="btn btn--outline" (click)="onExportCsv()">
+          <span class="material-symbols-outlined">download</span>
+          Exporter CSV
+        </button>
         <a class="btn btn--primary" routerLink="email">
           <span class="material-symbols-outlined">mail</span>
           Envoyer un e-mail
@@ -62,102 +66,117 @@
       </div>
     </div>
 
-    <!-- Table -->
-    <div class="table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Nom Complet</th>
-            <th>Formation</th>
-            <th>Date de Candidature</th>
-            <th>Statut</th>
-            <th class="text-right">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (app of pagedApplications(); track app.id) {
-            <tr class="data-table__row" (click)="navigateToDetail(app.id)">
-              <td>
-                <div class="candidate-cell">
-                  <div class="avatar">{{ getInitials(app.firstName, app.lastName) }}</div>
-                  <span class="candidate-cell__name">{{ app.firstName }} {{ app.lastName }}</span>
-                </div>
-              </td>
-              <td>{{ app.trainingTitle }}</td>
-              <td class="text-muted">{{ app.createdAt | date: 'dd MMM yyyy' }}</td>
-              <td>
-                <span class="status-badge status-badge--{{ app.status | lowercase }}">
-                  {{ getStatusLabel(app.status) }}
-                </span>
-              </td>
-              <td class="text-right" (click)="$event.stopPropagation()">
-                <div class="actions">
-                  <button class="icon-btn icon-btn--view" title="Voir les détails" (click)="navigateToDetail(app.id)">
-                    <span class="material-symbols-outlined">visibility</span>
-                  </button>
-                  <button class="icon-btn icon-btn--edit" title="Modifier le statut" (click)="openStatusModal(app)">
-                    <span class="material-symbols-outlined">edit</span>
-                  </button>
-                  <button class="icon-btn icon-btn--delete" title="Supprimer" (click)="openDeleteModal(app)">
-                    <span class="material-symbols-outlined">delete</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="5" class="empty-row">
-                <span class="material-symbols-outlined">search_off</span>
-                <p>Aucune candidature trouvée</p>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+    <!-- Loading / Error states -->
+    @if (isLoading()) {
+      <div class="loading-state">
+        <span class="material-symbols-outlined loading-spinner">progress_activity</span>
+        <p>Chargement des candidatures...</p>
+      </div>
+    } @else if (loadError()) {
+      <div class="empty-row">
+        <span class="material-symbols-outlined">error</span>
+        <p>{{ loadError() }}</p>
+      </div>
+    } @else {
 
-    <!-- Pagination Component -->
-    <app-pagination 
-      [totalItems]="filteredApplications().length" 
-      [itemsPerPage]="itemsPerPage()" 
-      [currentPage]="currentPage()"
-      (pageChange)="onPageChange($event)"
-    ></app-pagination>
+      <!-- Table -->
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Nom Complet</th>
+              <th>Formation</th>
+              <th>Date de Candidature</th>
+              <th>Statut</th>
+              <th class="text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (app of pagedApplications(); track app.id) {
+              <tr class="data-table__row" (click)="navigateToDetail(app.id)">
+                <td>
+                  <div class="candidate-cell">
+                    <div class="avatar">{{ getInitials(app.fullName) }}</div>
+                    <span class="candidate-cell__name">{{ app.fullName }}</span>
+                  </div>
+                </td>
+                <td>{{ app.trainingTitle }}</td>
+                <td class="text-muted">{{ app.applicationDate | date: 'dd MMM yyyy' }}</td>
+                <td>
+                  <span class="status-badge" [ngClass]="'status-badge--' + getStatusVariant(app.status)">
+                    {{ getStatusLabel(app.status) }}
+                  </span>
+                </td>
+                <td class="text-right" (click)="$event.stopPropagation()">
+                  <div class="actions">
+                    <button class="icon-btn icon-btn--view" title="Voir les détails" (click)="navigateToDetail(app.id)">
+                      <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                    <button class="icon-btn icon-btn--edit" title="Modifier le statut" (click)="openStatusModal(app)">
+                      <span class="material-symbols-outlined">edit</span>
+                    </button>
+                    <button class="icon-btn icon-btn--delete" title="Supprimer" (click)="openDeleteModal(app)">
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="empty-row">
+                  <span class="material-symbols-outlined">search_off</span>
+                  <p>Aucune candidature trouvée</p>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Component -->
+      <app-pagination
+        [totalItems]="filteredApplications().length"
+        [itemsPerPage]="itemsPerPage()"
+        [currentPage]="currentPage()"
+        (pageChange)="onPageChange($event)"
+      ></app-pagination>
+    }
   </div>
 
   <!-- Status Change Dialog -->
   <app-confirm-dialog
     [isOpen]="isStatusModalOpen()"
     title="Modifier le statut de la candidature"
-    confirmText="Enregistrer le statut"
     variant="primary"
     icon="edit_note"
     [isLoading]="isStatusSaving()"
-    (confirm)="onStatusConfirm()"
     (cancel)="onStatusCancel()"
   >
     @if (selectedAppForStatus(); as app) {
       <div class="dialog-status-content">
         <p class="dialog-candidat-info">
-          Candidat : <strong>{{ app.firstName }} {{ app.lastName }}</strong> ({{ app.trainingTitle }})
+          Candidat : <strong>{{ app.fullName }}</strong> ({{ app.trainingTitle }})
         </p>
-        <div class="form-group">
-          <label class="form-label" for="newStatusSelect">Nouveau statut</label>
-          <div class="select-wrap">
-            <select 
-              id="newStatusSelect"
-              class="select-field select-field--full"
-              [value]="targetStatus()"
-              (change)="targetStatus.set($any($event.target).value)"
-            >
-              <option value="PENDING">En attente</option>
-              <option value="UNDER_REVIEW">En révision</option>
-              <option value="INTERVIEW">En entretien</option>
-              <option value="ACCEPTED">Retenu</option>
-              <option value="REJECTED">Refusé</option>
-            </select>
-            <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
-          </div>
+        <p class="text-muted" style="margin-bottom: 12px;">
+          Statut actuel : <strong>{{ getStatusLabel(app.status) }}</strong>
+        </p>
+        <div class="action-buttons-grid">
+          <button class="btn btn--outline" [disabled]="isStatusSaving()" (click)="applyTransition('interview')">
+            <span class="material-symbols-outlined">forum</span>
+            Entretien
+          </button>
+          <button class="btn btn--outline" [disabled]="isStatusSaving()" (click)="applyTransition('evaluate')">
+            <span class="material-symbols-outlined">edit_document</span>
+            Évaluer
+          </button>
+          <button class="btn btn--primary" [disabled]="isStatusSaving()" (click)="applyTransition('select')">
+            <span class="material-symbols-outlined">check_circle</span>
+            Sélectionner
+          </button>
+          <button class="btn btn--danger" [disabled]="isStatusSaving()" (click)="applyTransition('reject')">
+            <span class="material-symbols-outlined">cancel</span>
+            Refuser
+          </button>
         </div>
       </div>
     }
@@ -167,7 +186,7 @@
   <app-confirm-dialog
     [isOpen]="isDeleteModalOpen()"
     title="Supprimer la candidature"
-    [message]="selectedAppForDelete() ? 'Êtes-vous sûr de vouloir supprimer définitivement la candidature de ' + selectedAppForDelete()?.firstName + ' ' + selectedAppForDelete()?.lastName + ' ? Cette action est irréversible.' : ''"
+    [message]="selectedAppForDelete() ? 'Êtes-vous sûr de vouloir supprimer définitivement la candidature de ' + selectedAppForDelete()?.fullName + ' ? Cette action est irréversible.' : ''"
     confirmText="Supprimer définitivement"
     variant="danger"
     icon="delete_forever"
@@ -177,4 +196,3 @@
   ></app-confirm-dialog>
 
 </div>
-
