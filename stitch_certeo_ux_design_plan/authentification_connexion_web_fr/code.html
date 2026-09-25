@@ -1,0 +1,221 @@
+<!DOCTYPE html><html class="light" lang="fr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Connexion CERTEO</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#8c7263",
+                        "background": "#fbf9f8",
+                        "inverse-primary": "#ffb68c",
+                        "on-background": "#1b1c1c",
+                        "on-primary-fixed-variant": "#753400",
+                        "on-surface": "#1b1c1c",
+                        "surface-container-high": "#e9e8e7",
+                        "on-secondary-container": "#646464",
+                        "on-primary-fixed": "#321200",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "surface-container-highest": "#e4e2e2",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#e0c0af",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "surface": "#fbf9f8",
+                        "tertiary": "#5d5f5f",
+                        "surface-container-low": "#f5f3f3",
+                        "surface-dim": "#dbdad9",
+                        "secondary": "#5e5e5e",
+                        "surface-variant": "#e4e2e2",
+                        "secondary-container": "#e2e2e2",
+                        "tertiary-container": "#9fa0a0",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#e2e2e2",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#9a4600",
+                        "primary-fixed": "#ffdbc9",
+                        "on-secondary-fixed-variant": "#474747",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary-fixed-dim": "#ffb68c",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#ff7900",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "primary": "#9a4600",
+                        "surface-bright": "#fbf9f8",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#303031",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container": "#efeded",
+                        "on-primary-container": "#5c2700",
+                        "on-tertiary-container": "#353737",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#584235"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased h-screen w-screen overflow-hidden flex flex-col md:flex-row">
+<!-- Left Column: Login Form -->
+<div class="flex-1 flex flex-col justify-center px-margin-mobile md:px-16 lg:px-24 bg-surface-container-lowest z-10 relative">
+<div class="w-full max-w-md mx-auto">
+<!-- Brand -->
+<div class="mb-12">
+<img alt="CERTEO Logo" class="h-16 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe1eiW-goiuSpE7N3wFC2uX6ffMNx0PTB1kVDwgOZNAxPu_nLRjoe-h4U9lOfE7wShEJCKcnm-qbujCSNO77tDyo9g5SFWVBWHkI0BcypOVh-OmAoxE63FnMQKFx5UdbAy4faFcJJHUAoPOjutfhDkHj6FDbQ7E7R-Sc5H_JOjcl4QIaLtFbXrZI9mlmammbKm38r_Y8AaEHJ4bK1ZW9HQay9YK4H2ru0N4bnLWu68QVhvlA9LRYAgkNAbuLsuooiJjQ">
+</div>
+<!-- Header -->
+<div class="mb-8">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Bienvenue</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Connectez-vous pour accéder à l'écosystème de gestion des talents.</p>
+</div>
+<!-- Form -->
+<form action="#" class="space-y-6" method="POST">
+<!-- Email -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="email">Adresse e-mail</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="mail">mail</span>
+</div>
+<input class="w-full pl-10 pr-3 py-3 border border-surface-dim rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-shadow bg-surface-container-lowest text-on-surface font-body-md" id="email" name="email" placeholder="admin@orange.com" required="" type="email">
+</div>
+</div>
+<!-- Password -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="password">Mot de passe</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="lock">lock</span>
+</div>
+<input class="w-full pl-10 pr-10 py-3 border border-surface-dim rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-shadow bg-surface-container-lowest text-on-surface font-body-md" id="password" name="password" placeholder="••••••••" required="" type="password">
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" id="togglePassword">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" data-icon="visibility">visibility</span>
+</div>
+</div>
+</div>
+<!-- Remember Me & Forgot Password -->
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+
+
+</div>
+<div class="text-sm">
+
+</div>
+</div>
+<!-- Submit Button -->
+<div>
+<button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm font-label-md text-label-md text-on-primary bg-primary-container hover:bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary min-h-[48px] items-center" type="submit">
+                        Se connecter
+                    </button>
+</div>
+</form>
+<div class="mt-8 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Besoin d'aide ? <a class="font-label-md text-label-md text-on-surface hover:text-primary transition-colors underline decoration-surface-dim underline-offset-4" href="#">Contacter l'administrateur</a>
+</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Visual (Hidden on mobile) -->
+<div class="hidden md:flex flex-1 relative bg-surface-container-high overflow-hidden items-center justify-center p-8">
+<!-- Abstract Tech Visual representation -->
+<div class="absolute inset-0 z-0">
+<div class="bg-cover bg-center w-full h-full opacity-40 mix-blend-multiply" data-alt="Abstract, modern corporate visualization featuring flowing lines and intersecting translucent planes in varying shades of deep orange and crisp white. High-key lighting emphasizing a clean, efficient, tech-forward aesthetic. Institutional authority conveyed through structured geometric patterns fading into a soft white background. Soft tech shadows create subtle depth, conveying a reliable digital ecosystem." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDup85U2tg9a52C7rvGStq7QlhH5yCbPnk7ftG9mlyzjTuZ9qI0r5ANXq-yYITh6HgLOWthvs4DQmM7OcfJdfmCBVMUf4PnZqik3cJwKslUgNRLw5iNX4rtIqvi8DgCJjjD6WCqteoOevPvHgXXFGKaPwRhWxLxN45f1wSIW4XfrsOjH0pepg7WZaySWru7mL_UiX80PPPa4IEZwIbrG_vdehsC1QsTXBM9U9YBM7u0aAQziA4bh9_J')"></div>
+</div>
+<!-- Decorative Elements overlay -->
+<div class="absolute top-1/4 left-1/4 w-64 h-64 bg-primary rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary-fixed rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+<!-- Glassmorphism Card showcasing system features -->
+<div class="relative z-10 max-w-lg w-full bg-surface-container-lowest/80 backdrop-blur-md border border-surface-lowest rounded-xl p-8 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-icon="dashboard">dashboard</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Gestion simplifiée</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Hub centralisé pour toutes les opérations de talents.</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container-low transition-colors border border-transparent hover:border-surface-dim">
+<span class="material-symbols-outlined text-primary" data-icon="group">group</span>
+<span class="font-label-md text-label-md text-on-surface">Suivi des utilisateurs et participants</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container-low transition-colors border border-transparent hover:border-surface-dim">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+<span class="font-label-md text-label-md text-on-surface">Contrôle du cycle de vie des formations</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg bg-surface hover:bg-surface-container-low transition-colors border border-transparent hover:border-surface-dim">
+<span class="material-symbols-outlined text-primary" data-icon="assessment">assessment</span>
+<span class="font-label-md text-label-md text-on-surface">Rapports et analyses avancés</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+        // Simple password toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            const icon = this.querySelector('span');
+            icon.textContent = type === 'password' ? 'visibility' : 'visibility_off';
+        });
+    </script>
+
+
+</body></html>

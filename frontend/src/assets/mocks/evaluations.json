@@ -1,0 +1,41 @@
+{
+  "items": [
+    {
+      "id": "quiz-web-final",
+      "title": "QCM Final - Developpement Web",
+      "trainingName": "Bootcamp Fullstack",
+      "type": "qcm",
+      "questionCount": 25,
+      "createdAt": "2023-10-12T00:00:00Z"
+    },
+      {
+      "id": "quiz-web-final",
+      "title": "QCM Final - Developpement Web",
+      "trainingName": "Bootcamp Fullstack",
+      "type": "qcm",
+      "questionCount": 25,
+      "createdAt": "2023-10-12T00:00:00Z"
+    },
+    {
+      "id": "quiz-design-entry",
+      "title": "Quiz d'entree - Design UI",
+      "trainingName": "UX Design Mastery",
+      "type": "qcm",
+      "questionCount": 10,
+      "createdAt": "2023-11-05T00:00:00Z"
+    },
+    {
+      "id": "quiz-data-midcourse",
+      "title": "Evaluation Mi-parcours Data",
+      "trainingName": "Data Science Fundamentals",
+      "type": "qcm",
+      "questionCount": 40,
+      "createdAt": "2023-11-20T00:00:00Z"
+    }
+  ],
+  "statistics": {
+    "totalEvaluations": 12,
+    "totalParticipations": 458,
+    "averageScore": 78
+  }
+}

@@ -1,0 +1,52 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.trainings-page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// Cellule formation
+.training-cell {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+    text-decoration: none;
+
+    &:hover { color: $color-primary; }
+  }
+
+  &__sub {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+    margin-top: 2px;
+  }
+}
+
+// Tab pills (filtre d'onglet)
+.tab-pills {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.tab-pill {
+  padding: 6px $spacing-md;
+  border-radius: $radius-full;
+  border: 1px solid $color-gray-200;
+  background: transparent;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-gray-600;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &--active, &:hover {
+    background: $color-primary;
+    color: $color-white;
+    border-color: $color-primary;
+  }
+}

@@ -1,0 +1,417 @@
+<!DOCTYPE html><html class="light" lang="fr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>CERTEO - Gestion des Évaluations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#f2f0f0",
+                      "secondary-container": "#e2e2e2",
+                      "error-container": "#ffdad6",
+                      "surface-dim": "#dbdad9",
+                      "inverse-surface": "#303031",
+                      "primary": "#9a4600",
+                      "on-secondary": "#ffffff",
+                      "tertiary": "#5d5f5f",
+                      "on-surface-variant": "#584235",
+                      "on-tertiary-fixed-variant": "#454747",
+                      "surface-container-high": "#e9e8e7",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "surface": "#fbf9f8",
+                      "outline": "#8c7263",
+                      "on-primary-fixed-variant": "#753400",
+                      "primary-fixed-dim": "#ffb68c",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#fbf9f8",
+                      "background": "#fbf9f8",
+                      "primary-fixed": "#ffdbc9",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#c6c6c6",
+                      "on-tertiary-container": "#353737",
+                      "secondary-fixed": "#e2e2e2",
+                      "surface-tint": "#9a4600",
+                      "on-secondary-container": "#646464",
+                      "surface-variant": "#e4e2e2",
+                      "on-primary-fixed": "#321200",
+                      "on-secondary-fixed": "#1b1b1b",
+                      "on-surface": "#1b1c1c",
+                      "on-primary-container": "#5c2700",
+                      "surface-container-low": "#f5f3f3",
+                      "on-primary": "#ffffff",
+                      "surface-container-highest": "#e4e2e2",
+                      "tertiary-fixed": "#e2e2e2",
+                      "on-secondary-fixed-variant": "#474747",
+                      "primary-container": "#ff7900",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "tertiary-container": "#9fa0a0",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "surface-container": "#efeded",
+                      "inverse-primary": "#ffb68c",
+                      "outline-variant": "#e0c0af",
+                      "on-background": "#1b1c1c",
+                      "secondary": "#5e5e5e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "container-max": "1280px",
+                      "base": "8px",
+                      "margin-desktop": "40px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-xl": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg-mobile": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #F6F6F6; /* Matches style guidance for secondary sections */
+        }
+      </style>
+</head>
+<body class="bg-[#F6F6F6] text-on-surface antialiased min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="hidden md:flex w-[280px] h-screen fixed left-0 top-0 bg-surface dark:bg-surface-container-low border-r border-outline-variant dark:border-outline shadow-sm dark:shadow-none flex-col z-50">
+<!-- Brand Header -->
+<div class="flex items-center gap-4 px-6 py-8 border-b border-surface-container-low dark:border-surface-container">
+<div class="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center text-on-primary font-headline-md text-headline-md font-extrabold shadow-[0_4px_12px_rgba(255,121,0,0.3)]">
+                C
+            </div>
+<div>
+<h1 class="text-headline-md font-headline-md font-black text-primary dark:text-primary-container tracking-tight">CERTEO</h1>
+<p class="text-[12px] font-semibold text-secondary uppercase tracking-widest mt-0.5">Talent Management</p>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-highest dark:hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-highest dark:hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">person_check</span>
+                Presence ODC
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-highest dark:hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">group</span>
+                Users
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-highest dark:hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">school</span>
+                Trainings
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-highest dark:hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">assignment</span>
+                Applications
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-highest dark:hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">groups</span>
+                Participants
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-fixed dark:bg-on-primary-fixed-variant text-on-primary-fixed dark:text-primary-fixed rounded-lg font-bold font-label-md text-label-md shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-transform duration-150 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">rate_review</span>
+                Evaluation
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-highest dark:hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">verified</span>
+                Certificates
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-highest dark:hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">analytics</span>
+                Reporting
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-highest dark:hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">settings</span>
+                Settings
+            </a>
+</nav>
+<!-- User Profile (Bottom) -->
+<div class="p-6 border-t border-surface-container-low dark:border-surface-container">
+<div class="flex items-center gap-3 cursor-pointer hover:bg-surface-container-low p-2 rounded-lg transition-colors">
+<img class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A small, circular, high-resolution portrait photograph of a confident professional wearing modern business casual attire against a clean, bright white background. The lighting is soft and flattering, reflecting a polished corporate environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJQZzPU4RE1wjWxWnMYyMHT1ApPkJboW6tIKjgkYq0BaxOCoG_EM2TkTKQNCCBcnd_s_HVWxpeIYvRoprS0nNsJ58358h-r2nxDTFyCKhjY6Qfb753Y9vBqWGxf8D5TdgJRpigFoR52MRjKHeV9qWBlSgFm7_ifXJhNtErUDbpRbc6u7jmvmb8TuRgQw8dGxygeBxanikYGbmpJ-UYHkq6EJAK1owkuaPTrUFaWebCSku5E8rdtSlX">
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md text-on-surface truncate">Admin User</p>
+<p class="text-[12px] text-secondary truncate">admin@certeo.odc</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-[280px] flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="h-16 w-full sticky top-0 z-40 bg-surface dark:bg-surface-container-lowest border-b border-outline-variant dark:border-outline flex items-center justify-between px-4 md:px-margin-desktop shadow-sm">
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-on-surface hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+<!-- Search (Left) -->
+<div class="hidden md:flex items-center bg-surface-container-low rounded-lg px-4 py-2 w-96 border border-transparent focus-within:border-primary-container focus-within:bg-surface transition-all">
+<span class="material-symbols-outlined text-secondary mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md text-on-surface w-full placeholder-secondary" placeholder="Rechercher une évaluation..." type="text">
+</div>
+<div class="flex items-center gap-4">
+<button class="text-secondary hover:text-primary dark:hover:text-primary-fixed-dim transition-opacity active:opacity-70">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-secondary hover:text-primary dark:hover:text-primary-fixed-dim transition-opacity active:opacity-70">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center md:hidden border border-primary-container/30">
+<img class="w-full h-full rounded-full object-cover" data-alt="A small, circular, high-resolution portrait photograph of a confident professional wearing modern business casual attire against a clean, bright white background. The lighting is soft and flattering, reflecting a polished corporate environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLILMRmGKApwPUzOYc60mMR-pMaaxiabI8-Qdy8OAJ11XT-ntobSV2IrXDbMuF8bv7AcOoMMZznEUZEFGm2xOMhNM8oRxUtOqOYrfwNIJGAN0vn11i6ph3-q5u48Sf6voLuyAkP-f0LRdJv4zwhJPmQzvj-EQz7NRFlFA4FENSsVwSYpFYq8MMX28E8frxXRtk5EXYWfCqEgUHJ3dfWYSooFimB_0gJZpb_9-FKRPNrrfZYLPTUn_3">
+</div>
+</div>
+</header>
+<!-- Canvas / Page Content -->
+<div class="p-4 md:p-margin-desktop flex-1 max-w-container-max mx-auto w-full space-y-8">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Gestion des Évaluations</h2>
+<p class="font-body-md text-body-md text-secondary max-w-2xl">Consultez et gérez l'ensemble des questionnaires et quiz créés pour vos formations.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-[#000000] text-white font-label-md text-label-md px-6 py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.1)] min-h-[48px]">
+<span class="material-symbols-outlined text-[20px]">send</span>
+                        Envoyer une évaluation
+                    </button>
+<button class="bg-primary-container text-white font-label-md text-label-md px-6 py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-orange-600 transition-colors shadow-[0_4px_12px_rgba(255,121,0,0.2)] min-h-[48px]">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Créer une évaluation
+                    </button>
+</div>
+</div>
+<!-- KPI Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface rounded-2xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-l-4 border-primary-container flex items-center gap-4 hover:-translate-y-1 transition-transform duration-300">
+<div class="w-14 h-14 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">assignment</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-secondary">Total Évaluations</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">12</p>
+</div>
+</div>
+<div class="bg-surface rounded-2xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:-translate-y-1 transition-transform duration-300">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[32px]">groups</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-secondary">Participations totales</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">458</p>
+</div>
+</div>
+<div class="bg-surface rounded-2xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:-translate-y-1 transition-transform duration-300">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[32px]">military_tech</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-secondary">Score moyen</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">78%</p>
+</div>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden">
+<div class="p-6 border-b border-surface-variant flex justify-between items-center bg-white">
+<h3 class="font-headline-md text-headline-md text-on-surface">Liste des évaluations</h3>
+<div class="flex gap-2">
+<button class="p-2 text-secondary hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#F6F6F6] border-b border-surface-variant">
+<th class="py-4 px-6 font-label-md text-[12px] uppercase tracking-wider text-on-surface">Nom de l'évaluation</th>
+<th class="py-4 px-6 font-label-md text-[12px] uppercase tracking-wider text-on-surface hidden md:table-cell">Formation associée</th>
+<th class="py-4 px-6 font-label-md text-[12px] uppercase tracking-wider text-on-surface">Type</th>
+<th class="py-4 px-6 font-label-md text-[12px] uppercase tracking-wider text-on-surface text-center">Questions</th>
+<th class="py-4 px-6 font-label-md text-[12px] uppercase tracking-wider text-on-surface hidden lg:table-cell">Date de création</th>
+<th class="py-4 px-6 font-label-md text-[12px] uppercase tracking-wider text-on-surface text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant bg-white">
+<!-- Row 1 -->
+<tr class="hover:bg-[#FAFAFA] transition-colors group">
+<td class="py-4 px-6">
+<p class="font-label-md text-label-md text-on-surface">QCM Final - Développement Web</p>
+</td>
+<td class="py-4 px-6 hidden md:table-cell">
+<p class="font-body-md text-body-md text-secondary">Bootcamp Fullstack</p>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-3 py-1 rounded-xl text-xs font-semibold bg-primary-fixed text-on-primary-fixed-variant">
+                                        QCM
+                                    </span>
+</td>
+<td class="py-4 px-6 text-center">
+<p class="font-body-md text-body-md text-secondary">25</p>
+</td>
+<td class="py-4 px-6 hidden lg:table-cell">
+<p class="font-body-md text-body-md text-secondary">12 Oct 2023</p>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 group-hover:opacity-100 transition-opacity"><button class="p-2 text-secondary hover:text-primary-container rounded-lg hover:bg-primary-container/10 transition-colors" title="Aperçu"><span class="material-symbols-outlined text-[20px]">visibility</span></button><button class="p-2 text-secondary hover:text-primary-container rounded-lg hover:bg-primary-container/10 transition-colors" title="Modifier"><span class="material-symbols-outlined text-[20px]">edit</span></button><button class="p-2 text-secondary hover:text-primary-container rounded-lg hover:bg-primary-container/10 transition-colors" title="Archiver"><span class="material-symbols-outlined text-[20px]">archive</span></button></div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-[#FAFAFA] transition-colors group">
+<td class="py-4 px-6">
+<p class="font-label-md text-label-md text-on-surface">Quiz d'entrée - Design UI</p>
+</td>
+<td class="py-4 px-6 hidden md:table-cell">
+<p class="font-body-md text-body-md text-secondary">UX Design Mastery</p>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-3 py-1 rounded-xl text-xs font-semibold bg-primary-fixed text-on-primary-fixed-variant">QCM</span>
+</td>
+<td class="py-4 px-6 text-center">
+<p class="font-body-md text-body-md text-secondary">10</p>
+</td>
+<td class="py-4 px-6 hidden lg:table-cell">
+<p class="font-body-md text-body-md text-secondary">05 Nov 2023</p>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 group-hover:opacity-100 transition-opacity"><button class="p-2 text-secondary hover:text-primary-container rounded-lg hover:bg-primary-container/10 transition-colors" title="Aperçu"><span class="material-symbols-outlined text-[20px]">visibility</span></button><button class="p-2 text-secondary hover:text-primary-container rounded-lg hover:bg-primary-container/10 transition-colors" title="Modifier"><span class="material-symbols-outlined text-[20px]">edit</span></button><button class="p-2 text-secondary hover:text-primary-container rounded-lg hover:bg-primary-container/10 transition-colors" title="Archiver"><span class="material-symbols-outlined text-[20px]">archive</span></button></div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-[#FAFAFA] transition-colors group">
+<td class="py-4 px-6">
+<p class="font-label-md text-label-md text-on-surface">Évaluation Mi-parcours Data</p>
+</td>
+<td class="py-4 px-6 hidden md:table-cell">
+<p class="font-body-md text-body-md text-secondary">Data Science Fundamentals</p>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-3 py-1 rounded-xl text-xs font-semibold bg-primary-fixed text-on-primary-fixed-variant">
+                                        QCM
+                                    </span>
+</td>
+<td class="py-4 px-6 text-center">
+<p class="font-body-md text-body-md text-secondary">40</p>
+</td>
+<td class="py-4 px-6 hidden lg:table-cell">
+<p class="font-body-md text-body-md text-secondary">20 Nov 2023</p>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex justify-end gap-2 group-hover:opacity-100 transition-opacity"><button class="p-2 text-secondary hover:text-primary-container rounded-lg hover:bg-primary-container/10 transition-colors" title="Aperçu"><span class="material-symbols-outlined text-[20px]">visibility</span></button><button class="p-2 text-secondary hover:text-primary-container rounded-lg hover:bg-primary-container/10 transition-colors" title="Modifier"><span class="material-symbols-outlined text-[20px]">edit</span></button><button class="p-2 text-secondary hover:text-primary-container rounded-lg hover:bg-primary-container/10 transition-colors" title="Archiver"><span class="material-symbols-outlined text-[20px]">archive</span></button></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-surface-variant flex items-center justify-between bg-white">
+<p class="font-body-md text-[14px] text-secondary">Affichage de 1 à 3 sur 12 évaluations</p>
+<div class="flex gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:bg-surface-container-low transition-colors" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary-container text-white font-label-md text-sm shadow-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:bg-surface-container-low transition-colors font-label-md text-sm">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:bg-surface-container-low transition-colors font-label-md text-sm">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+
+</body></html>

@@ -1,0 +1,44 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.analytics-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// Grille de graphiques 2 colonnes
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-lg;
+
+  @include tablet { grid-template-columns: 1fr; }
+}
+
+.chart-card {
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-xl;
+  box-shadow: $shadow-sm;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__title {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  &--span-2 {
+    grid-column: span 2;
+    @include tablet { grid-column: span 1; }
+  }
+}

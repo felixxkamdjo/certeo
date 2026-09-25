@@ -1,0 +1,357 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Candidatures - Développement Web Fullstack | CERTEO Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#9a4600",
+                        "surface-tint": "#9a4600",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "tertiary": "#5d5f5f",
+                        "on-surface": "#1b1c1c",
+                        "surface-container": "#efeded",
+                        "surface-variant": "#e4e2e2",
+                        "on-primary-fixed-variant": "#753400",
+                        "tertiary-container": "#9fa0a0",
+                        "on-surface-variant": "#584235",
+                        "surface": "#fbf9f8",
+                        "tertiary-fixed": "#e2e2e2",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "surface-dim": "#dbdad9",
+                        "outline": "#8c7263",
+                        "on-primary-container": "#5c2700",
+                        "background": "#fbf9f8",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "on-tertiary-container": "#353737",
+                        "inverse-primary": "#ffb68c",
+                        "inverse-surface": "#303031",
+                        "primary-fixed-dim": "#ffb68c",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#e2e2e2",
+                        "outline-variant": "#e0c0af",
+                        "on-primary-fixed": "#321200",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#ff7900",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-container-high": "#e9e8e7",
+                        "secondary-fixed": "#e2e2e2",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container-low": "#f5f3f3",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#fbf9f8",
+                        "on-secondary-fixed-variant": "#474747",
+                        "secondary": "#5e5e5e",
+                        "surface-container-highest": "#e4e2e2",
+                        "primary-fixed": "#ffdbc9",
+                        "on-background": "#1b1c1c",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-secondary-container": "#646464"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col md:flex-row">
+<!-- Mobile Top App Bar (Visible only on mobile) -->
+<header class="fixed top-0 w-full z-50 border-b border-outline-variant bg-surface flex justify-between items-center h-16 px-margin-mobile md:hidden">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-black text-primary">CERTEO Admin</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest cursor-pointer active:opacity-80">
+<img alt="Administrator Profile" class="object-cover w-full h-full" data-alt="A professional headshot of an administrator in a corporate setting. Bright, modern lighting. High quality photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY7wUIl0rp5XKhUMHKuLwc1X8YvKCbfyVbFDV17NkTkpbA2VErPcYUjQYSgrc-3eWrM-IiZ7VxxwabyUjbxVh-j2ddVhpW5-mfuy_SiPmGiW5C1q-bEbi7Gytso7ZL7LScu5sqU0P4dO4if01fzQIMNBtmyBrzejsT6_003FDn_G6vlEQGr7pzDW_-gXujIFwmPBUEFnXv6HSowox_EdijrGu-aUAfxTUrHK4htIkf1R0U4xjgIrdL">
+</div>
+</div>
+</header>
+<!-- Side Nav (Hidden on mobile) -->
+<nav class="hidden md:flex flex-col pt-8 pb-8 px-4 w-[280px] bg-surface-container-low shadow-sm shrink-0 min-h-screen border-r border-surface-variant z-40 fixed top-0 left-0">
+<div class="mb-10 px-4">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Certeo Portal</h1>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Management Console</p>
+</div>
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-container text-on-primary-container font-bold transition-all active:scale-95 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined fill-icon">school</span>
+                    Formations
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">group</span>
+                    Candidats
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">badge</span>
+                    Formateurs
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Paramètres
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-4 flex items-center gap-3 py-3 border-t border-surface-variant pt-6">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="Administrator Profile" class="object-cover w-full h-full" data-alt="A professional headshot of an administrator in a corporate setting. Bright, modern lighting. High quality photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfwedHAmfC5ifvL2qjl0Z8BfRHA4TSxrnj58-6wrBIQ-xI7ic1hRN57VYUf0dBE7VlTQo6EERysY5v_iZ9-GboTTx9TK7ZqzgaUR4xHf9rRa_9ZYnVCouzt4Z5BLKQD6HiuUwJT67xqnTR4LXVQHumUHUs3QNXLa8qlZq5tAZbLA0UTsSshbwhXZcKqhp5bJdumn0Gv7bMQNrEeA37GPLMtlwTshHlWeDB6uj_-5vGGt6CabIfzour">
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Admin User</p>
+<p class="text-sm text-on-surface-variant">admin@certeo.com</p>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-[280px] pt-20 md:pt-8 px-margin-mobile md:px-margin-desktop pb-24 md:pb-12 max-w-[container-max] w-full mx-auto flex flex-col gap-8 min-h-screen">
+<!-- Breadcrumbs & Header -->
+<header class="flex flex-col gap-4">
+<nav class="flex items-center gap-2 text-sm text-on-surface-variant font-label-md text-label-md">
+<a class="hover:text-primary transition-colors" href="#">Formations</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Développement Web Fullstack</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-surface">Candidatures</span>
+</nav>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Candidatures - Développement Web Fullstack</h2>
+</div>
+<button class="border border-outline-variant text-on-surface-variant font-label-md text-label-md px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-surface-container-low transition-all whitespace-nowrap self-start md:self-auto min-h-[48px]"><span class="material-symbols-outlined">mail</span>Envoyer un mail</button><button class="bg-primary-container text-on-primary-container font-label-md text-label-md px-6 py-3 rounded-lg flex items-center gap-2 hover:opacity-90 transition-opacity whitespace-nowrap self-start md:self-auto min-h-[48px]">
+<span class="material-symbols-outlined">download</span>
+                    Exporter CSV
+                </button>
+</div>
+</header>
+<!-- KPIs -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-l-4 border-surface-variant flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-2xl">group</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Total</p>
+<p class="font-headline-md text-headline-md text-on-surface">45</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-l-4 border-[#10B981] flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-[#D1FAE5] flex items-center justify-center text-[#065F46]">
+<span class="material-symbols-outlined text-2xl">check_circle</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Retenus</p>
+<p class="font-headline-md text-headline-md text-on-surface">12</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-l-4 border-[#F59E0B] flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-[#FEF3C7] flex items-center justify-center text-[#92400E]">
+<span class="material-symbols-outlined text-2xl">schedule</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">En attente</p>
+<p class="font-headline-md text-headline-md text-on-surface">28</p>
+</div>
+</div>
+</section>
+<!-- Filter Bar -->
+<section class="bg-surface-container-lowest p-4 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex flex-col md:flex-row gap-4">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-surface-variant bg-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md text-body-md min-h-[48px]" placeholder="Rechercher par nom..." type="text">
+</div>
+<div class="flex flex-col md:flex-row gap-4">
+<select class="w-full md:w-auto px-4 py-3 rounded-lg border border-surface-variant bg-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md text-body-md min-h-[48px]">
+<option value="">Tous les statuts</option>
+<option value="attente">En attente</option>
+<option value="retenu">Retenu</option>
+<option value="refuse">Refusé</option>
+</select>
+<div class="relative w-full md:w-auto">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">calendar_today</span>
+<input class="w-full md:w-auto pl-10 pr-4 py-3 rounded-lg border border-surface-variant bg-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md text-body-md min-h-[48px]" type="date">
+</div>
+</div>
+</section>
+<!-- Data Table Card -->
+<section class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden flex-grow flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container text-on-surface font-label-md text-label-md uppercase text-xs tracking-wider">
+<tr>
+<th class="px-6 py-4 font-semibold">Candidat</th>
+<th class="px-6 py-4 font-semibold hidden md:table-cell">Email</th>
+<th class="px-6 py-4 font-semibold hidden sm:table-cell">Date</th>
+<th class="px-6 py-4 font-semibold">Statut</th>
+<th class="px-6 py-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant font-body-md text-body-md bg-surface-container-lowest">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest shrink-0">
+<img alt="Amira Benali" class="object-cover w-full h-full" data-alt="A bright, professional headshot of a young student in a modern tech environment. Soft lighting, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNoz8oLI1XU3iA6h9-MKmbCA7aX8lA4NSiD0auCn9PV3vmxl1yF532gSjNSCyVOW6ZLFbV26RTcf70umuVPomg5TQzYsFnxxgoRqBvHJ2Lnu44cnculUe73CWovZx2KxKy1K79iQAKoi5wuNEBV_T3dtTiRQC6O2XgILv4Qd-zKbHcVgftP4U76IAQ6MQTiKU_5KX9SsjTxBv5chPYRsP-dpjU4yPKVPNoWCzM8YsXYHrG1-PvY0QG">
+</div>
+<div>
+<p class="font-semibold text-on-surface">Amira Benali</p>
+<p class="text-sm text-on-surface-variant md:hidden">amira.b@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 hidden md:table-cell text-on-surface-variant">amira.b@example.com</td>
+<td class="px-6 py-4 hidden sm:table-cell text-on-surface-variant">12 Oct 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEF3C7] text-[#92400E]">
+                                    En attente
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container" title="Voir">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest shrink-0">
+<img alt="Youssef Trabelsi" class="object-cover w-full h-full" data-alt="A portrait of a focused young man working in a high-tech lab setting. Clean, corporate lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDARgsyTGEwdDXoDV-OAfByrX-XLdjJ26j6BOY94JMfc0jn63By5T3kNrf3Z9gEfVFXGwZ71jWRnzW51CoN_d_ttwOYc43unk2ybo7ng0V1HOiwik8FXxZ17aH9RRQT4lADoZjQ05BI355GXqao0bIKIPEr4i7LSmmotLNliPFWACXFLC_tn0Udku506bD2zEX9q685RMTtlgq7iaCbIU1KxEknJs1hEsLqnujs-nDCZISPkdmzkYqw">
+</div>
+<div>
+<p class="font-semibold text-on-surface">Youssef Trabelsi</p>
+<p class="text-sm text-on-surface-variant md:hidden">y.trabelsi@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 hidden md:table-cell text-on-surface-variant">y.trabelsi@example.com</td>
+<td class="px-6 py-4 hidden sm:table-cell text-on-surface-variant">10 Oct 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#D1FAE5] text-[#065F46]">
+                                    Retenu
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container" title="Voir">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest shrink-0 flex items-center justify-center text-on-surface-variant font-bold bg-surface-variant">
+                                        SO
+                                    </div>
+<div>
+<p class="font-semibold text-on-surface">Sarra Oueslati</p>
+<p class="text-sm text-on-surface-variant md:hidden">sarra.o@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 hidden md:table-cell text-on-surface-variant">sarra.o@example.com</td>
+<td class="px-6 py-4 hidden sm:table-cell text-on-surface-variant">08 Oct 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEE2E2] text-[#991B1B]">
+                                    Refusé
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container" title="Voir">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group"><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest shrink-0 flex items-center justify-center text-on-surface-variant font-bold bg-surface-variant">MK</div><div><p class="font-semibold text-on-surface">Mehdi Kallel</p><p class="text-sm text-on-surface-variant md:hidden">m.kallel@example.com</p></div></div></td><td class="px-6 py-4 hidden md:table-cell text-on-surface-variant">m.kallel@example.com</td><td class="px-6 py-4 hidden sm:table-cell text-on-surface-variant">07 Oct 2023</td><td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEF3C7] text-[#92400E]">En entretien</span></td><td class="px-6 py-4 text-right"><div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100"><button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container" title="Voir"><span class="material-symbols-outlined text-[20px]">visibility</span></button></div></td></tr><tr class="hover:bg-surface-container-low transition-colors group"><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest shrink-0 flex items-center justify-center text-on-surface-variant font-bold bg-surface-variant">LB</div><div><p class="font-semibold text-on-surface">Leila Belhadj</p><p class="text-sm text-on-surface-variant md:hidden">l.belhadj@example.com</p></div></div></td><td class="px-6 py-4 hidden md:table-cell text-on-surface-variant">l.belhadj@example.com</td><td class="px-6 py-4 hidden sm:table-cell text-on-surface-variant">06 Oct 2023</td><td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#D1FAE5] text-[#065F46]">Retenu</span></td><td class="px-6 py-4 text-right"><div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100"><button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container" title="Voir"><span class="material-symbols-outlined text-[20px]">visibility</span></button></div></td></tr><tr class="hover:bg-surface-container-low transition-colors group"><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest shrink-0 flex items-center justify-center text-on-surface-variant font-bold bg-surface-variant">OM</div><div><p class="font-semibold text-on-surface">Omar Mansour</p><p class="text-sm text-on-surface-variant md:hidden">o.mansour@example.com</p></div></div></td><td class="px-6 py-4 hidden md:table-cell text-on-surface-variant">o.mansour@example.com</td><td class="px-6 py-4 hidden sm:table-cell text-on-surface-variant">05 Oct 2023</td><td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEF3C7] text-[#92400E]">En attente</span></td><td class="px-6 py-4 text-right"><div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100"><button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container" title="Voir"><span class="material-symbols-outlined text-[20px]">visibility</span></button></div></td></tr><tr class="hover:bg-surface-container-low transition-colors group"><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest shrink-0 flex items-center justify-center text-on-surface-variant font-bold bg-surface-variant">SA</div><div><p class="font-semibold text-on-surface">Sonia Ayari</p><p class="text-sm text-on-surface-variant md:hidden">s.ayari@example.com</p></div></div></td><td class="px-6 py-4 hidden md:table-cell text-on-surface-variant">s.ayari@example.com</td><td class="px-6 py-4 hidden sm:table-cell text-on-surface-variant">04 Oct 2023</td><td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEE2E2] text-[#991B1B]">Refusé</span></td><td class="px-6 py-4 text-right"><div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100"><button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container" title="Voir"><span class="material-symbols-outlined text-[20px]">visibility</span></button></div></td></tr><tr class="hover:bg-surface-container-low transition-colors group"><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest shrink-0 flex items-center justify-center text-on-surface-variant font-bold bg-surface-variant">KJ</div><div><p class="font-semibold text-on-surface">Karim Jendoubi</p><p class="text-sm text-on-surface-variant md:hidden">k.jendoubi@example.com</p></div></div></td><td class="px-6 py-4 hidden md:table-cell text-on-surface-variant">k.jendoubi@example.com</td><td class="px-6 py-4 hidden sm:table-cell text-on-surface-variant">03 Oct 2023</td><td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEF3C7] text-[#92400E]">En entretien</span></td><td class="px-6 py-4 text-right"><div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100"><button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container" title="Voir"><span class="material-symbols-outlined text-[20px]">visibility</span></button></div></td></tr></tbody>
+</table>
+</div>
+<div class="p-4 border-t border-surface-variant bg-surface-container-lowest flex items-center justify-between text-sm text-on-surface-variant mt-auto">
+<span>Affichage 1-3 sur 45</span>
+<div class="flex gap-1">
+<button class="p-1 rounded hover:bg-surface-container disabled:opacity-50" disabled=""><span class="material-symbols-outlined text-[20px]">chevron_left</span></button>
+<button class="px-3 py-1 rounded bg-primary-container text-on-primary-container font-medium">1</button>
+<button class="px-3 py-1 rounded hover:bg-surface-container font-medium">2</button>
+<button class="px-3 py-1 rounded hover:bg-surface-container font-medium">3</button>
+<span class="px-2 py-1">...</span>
+<button class="p-1 rounded hover:bg-surface-container"><span class="material-symbols-outlined text-[20px]">chevron_right</span></button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

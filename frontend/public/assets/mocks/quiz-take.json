@@ -1,0 +1,34 @@
+{
+  "quizTitle": "QCM Final - Developpement Web",
+  "trainingLabel": "Bootcamp Fullstack",
+  "instructions": "Vous disposez de 30 minutes pour repondre a toutes les questions. Aucun document n'est autorise. Lisez attentivement chaque enonce avant de repondre. Une seule reponse correcte par question.",
+  "initialQuestionIndex": 0,
+  "durationSeconds": 1800,
+  "questions": [
+    {
+      "title": "Quelle balise HTML est utilisee pour definir le titre principal d'une page ?",
+      "options": ["<header>", "<h1>", "<title>", "<head>"],
+      "answer": 1
+    },
+    {
+      "title": "Quelle propriete CSS permet de modifier la couleur du texte ?",
+      "options": ["background-color", "font-style", "color", "text-decoration"],
+      "answer": 2
+    },
+    {
+      "title": "Quel mot-cle permet de declarer une constante en JavaScript moderne ?",
+      "options": ["var", "let", "const", "static"],
+      "answer": 2
+    },
+    {
+      "title": "Quel operateur JavaScript permet de comparer la valeur ET le type ?",
+      "options": ["==", "=", "===", "!="],
+      "answer": 2
+    },
+    {
+      "title": "En CSS Flexbox, quelle propriete aligne les elements sur l'axe principal ?",
+      "options": ["align-items", "justify-content", "flex-direction", "flex-wrap"],
+      "answer": 1
+    }
+  ]
+}

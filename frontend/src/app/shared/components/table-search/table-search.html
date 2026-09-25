@@ -1,0 +1,46 @@
+<div class="table-search">
+  <div class="table-search__fields">
+    <label class="table-search__input">
+      <span class="material-symbols-outlined" aria-hidden="true">search</span>
+      <span class="sr-only">{{ placeholder() }}</span>
+      <input
+        type="search"
+        [placeholder]="placeholder()"
+        [ngModel]="searchValue()"
+        (ngModelChange)="onSearch($event)" />
+    </label>
+
+    @for (filter of filters(); track filter.key) {
+      @if (filter.type === 'select') {
+        <label class="table-search__select">
+          <span class="sr-only">{{ filter.label }}</span>
+          <select
+            [ngModel]="filter.value ?? ''"
+            (ngModelChange)="onFilterChange(filter.key, $event)">
+            <option value="">{{ filter.label }}</option>
+            @for (option of filter.options ?? []; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+        </label>
+      } @else {
+        <label class="table-search__date">
+          <span class="sr-only">{{ filter.label }}</span>
+          <input
+            type="date"
+            [attr.aria-label]="filter.label"
+            [ngModel]="filter.value ?? ''"
+            (ngModelChange)="onFilterChange(filter.key, $event)" />
+        </label>
+      }
+    }
+  </div>
+
+  @if (showReset()) {
+    <button type="button" class="table-search__reset" (click)="onReset()">
+      <span class="material-symbols-outlined" aria-hidden="true">filter_list_off</span>
+      Réinitialiser
+    </button>
+  }
+</div>

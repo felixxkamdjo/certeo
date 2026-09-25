@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Parcours Académique - Étape 2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed-dim": "#ffb68c",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "on-primary-container": "#5c2700",
+                        "surface-container-highest": "#e4e2e2",
+                        "inverse-primary": "#ffb68c",
+                        "secondary": "#5e5e5e",
+                        "tertiary-container": "#9fa0a0",
+                        "on-surface": "#1b1c1c",
+                        "on-surface-variant": "#584235",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#9a4600",
+                        "on-secondary-fixed-variant": "#474747",
+                        "surface-dim": "#dbdad9",
+                        "on-tertiary-container": "#353737",
+                        "tertiary-fixed": "#e2e2e2",
+                        "background": "#fbf9f8",
+                        "error": "#ba1a1a",
+                        "surface-container": "#efeded",
+                        "surface": "#fbf9f8",
+                        "primary-fixed": "#ffdbc9",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#303031",
+                        "on-secondary-container": "#646464",
+                        "surface-variant": "#e4e2e2",
+                        "tertiary": "#5d5f5f",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-background": "#1b1c1c",
+                        "surface-container-high": "#e9e8e7",
+                        "surface-container-low": "#f5f3f3",
+                        "on-primary-fixed": "#321200",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#e2e2e2",
+                        "primary": "#9a4600",
+                        "on-primary-fixed-variant": "#753400",
+                        "secondary-container": "#e2e2e2",
+                        "primary-container": "#ff7900",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8c7263",
+                        "inverse-on-surface": "#f2f0f0",
+                        "surface-bright": "#fbf9f8",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#e0c0af"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px"
+                    },
+                    fontFamily: {
+                        "headline-xl": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center font-body-md antialiased md:p-margin-desktop p-margin-mobile">
+<!-- Top Navigation Placeholder (suppressed for transactional flow) -->
+<main class="w-full max-w-[480px] bg-surface-container-lowest shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-xl overflow-hidden flex flex-col h-full md:h-auto min-h-[600px] md:min-h-0 relative">
+<!-- Header -->
+<header class="flex justify-center items-center px-4 md:px-6 py-4 bg-surface border-b border-outline-variant/30 sticky top-0 z-10">
+<img alt="CERTEO" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoQysVeWieDHTkrCOSBtND1yJukmP7M_GayM_LWZHiYBED1kgDNSOIuwHmNnvvklsrIrie-WurdUnh7l1tEChlhBm6_9wh8j8wXaWZ5GmQ6bcBt5zC8nGBOyiMHCBp2EVY1viq9pmHWiQzZAJVNj4HLcXjpxtOcKuYfKz-2Up2Y47xe0iNbvm_Bvo9Qz5lmZ05hCdQj8uPlLmuoXutGdlNCq1ITqlaPYh96Y5lbeogiR6XsTSIrmElxE47ZYFdP6Nsbg">
+</header>
+<!-- Content Canvas -->
+<div class="flex-1 overflow-y-auto px-4 md:px-6 py-6 pb-24">
+<!-- Stepper -->
+<div class="mb-8">
+<div class="flex gap-2 w-full mb-3">
+<div class="h-2 flex-1 rounded-full bg-primary-container"></div>
+<div class="h-2 flex-1 rounded-full bg-primary-container"></div>
+<div class="h-2 flex-1 rounded-full bg-surface-variant"></div>
+<div class="h-2 flex-1 rounded-full bg-surface-variant"></div>
+</div>
+<div class="flex justify-between px-1 text-on-surface-variant font-label-md text-label-md text-xs">
+<span>Informations</span>
+<span class="text-primary font-bold">Parcours</span>
+<span>Projet</span>
+<span>Validation</span>
+</div>
+</div>
+<!-- Title -->
+<div class="mb-8 text-center">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2">Parcours Académique</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Veuillez renseigner les informations relatives à votre dernier diplôme.</p>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-6">
+<!-- Select: Dernier diplôme -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="diploma">Dernier diplôme obtenu</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border border-[#E0E0E0] text-on-surface font-body-md text-body-md rounded-lg px-4 py-3 h-12 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all" id="diploma" name="diploma">
+<option disabled="" selected="" value="">Sélectionnez un diplôme</option>
+<option value="bac">Baccalauréat</option>
+<option value="bts">BTS / DUT</option>
+<option value="licence">Licence / Bachelor</option>
+<option value="master">Master</option>
+<option value="doctorat">Doctorat</option>
+<option value="autre">Autre</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Input: École/Université -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="school">École ou Université</label>
+<input class="w-full bg-surface border border-[#E0E0E0] text-on-surface font-body-md text-body-md rounded-lg px-4 py-3 h-12 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all placeholder:text-on-surface-variant/50" id="school" name="school" placeholder="Ex: Université Paris 1" type="text">
+</div>
+<div class="flex flex-col md:flex-row gap-6">
+<!-- Input: Année d'obtention -->
+<div class="flex flex-col gap-2 flex-1">
+<label class="font-label-md text-label-md text-on-surface" for="year">Année d'obtention</label>
+<input class="w-full bg-surface border border-[#E0E0E0] text-on-surface font-body-md text-body-md rounded-lg px-4 py-3 h-12 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all placeholder:text-on-surface-variant/50" id="year" max="2030" min="1950" name="year" placeholder="Ex: 2023" type="number">
+</div>
+<!-- Input: Spécialisation -->
+<div class="flex flex-col gap-2 flex-[2]">
+<label class="font-label-md text-label-md text-on-surface" for="specialization">Spécialisation</label>
+<input class="w-full bg-surface border border-[#E0E0E0] text-on-surface font-body-md text-body-md rounded-lg px-4 py-3 h-12 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all placeholder:text-on-surface-variant/50" id="specialization" name="specialization" placeholder="Ex: Informatique, Management..." type="text">
+</div>
+</div>
+<!-- Input: Profession actuelle -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="profession">Profession actuelle</label>
+<input class="w-full bg-surface border border-[#E0E0E0] text-on-surface font-body-md text-body-md rounded-lg px-4 py-3 h-12 focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent transition-all placeholder:text-on-surface-variant/50" id="profession" name="profession" placeholder="Ex: Développeur, Étudiant..." type="text">
+</div>
+</form>
+</div>
+<!-- Sticky Footer Actions -->
+<div class="absolute bottom-0 left-0 w-full bg-surface-container-lowest border-t border-surface-variant p-4 md:px-6 md:py-4 flex justify-between gap-4 z-20">
+<button class="flex-1 h-12 rounded-lg border border-primary-container text-primary-container font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary-container/10 transition-colors active:scale-95 duration-100" type="button">
+<span class="material-symbols-outlined" style="font-size: 20px;">arrow_back</span>
+                Précédent
+            </button>
+<button class="flex-1 h-12 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-[#e66c00] transition-colors shadow-sm active:scale-95 duration-100" type="button">
+                Suivant
+                <span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- Bottom Nav Placeholder (suppressed for transactional flow) -->
+</body></html>

@@ -1,0 +1,39 @@
+<nav class="sidebar">
+  <!-- Brand Logo -->
+  <div class="sidebar__brand">
+    <img src="assets/images/logo_certeo.png" alt="CERTEO" class="sidebar__logo" />
+  </div>
+
+  <!-- Navigation items -->
+  <ul class="sidebar__nav">
+    @for (item of navItems; track item.route) {
+      <li>
+        <a
+          class="sidebar__link"
+          [routerLink]="item.route"
+          routerLinkActive="sidebar__link--active"
+        >
+          <!-- Active orange bar indicator on left -->
+          <div class="sidebar__active-indicator"></div>
+          
+          <span class="material-symbols-outlined sidebar__icon">{{ item.iconType }}</span>
+          <span class="sidebar__label">{{ item.label }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+
+  <!-- Sidebar Footer: Current User Profile (initials + name) -->
+  <div class="sidebar__footer">
+    <div class="sidebar__user">
+      <div class="sidebar__avatar">
+        <span>ODC</span>
+      </div>
+      <div class="sidebar__user-info">
+        <span class="sidebar__user-name">Thomas Admin</span>
+        <span class="sidebar__user-role">Administrateur</span>
+      </div>
+    </div>
+  </div>
+</nav>
+

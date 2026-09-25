@@ -1,0 +1,133 @@
+<div class="presence-list">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Liste de Présence</h1>
+      <p class="page-subtitle">Gérez et consultez les enregistrements de présence du jour.</p>
+    </div>
+    <div class="page-header__actions">
+      <button class="btn btn--outline" type="button" (click)="exportCsv()">
+        <span class="material-symbols-outlined">download</span>
+        Exporter
+      </button>
+      <a class="btn btn--outline" routerLink="/admin/settings/presence-config">
+        <span class="material-symbols-outlined">settings</span>
+        Configurer le formulaire
+      </a>
+      <a class="btn btn--primary" routerLink="/admin/settings/qr-code">
+        <span class="material-symbols-outlined">qr_code_2</span>
+        QR Code d'accueil
+      </a>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <app-kpi-card
+      label="Visiteurs aujourd'hui"
+      [value]="stats().todayTotal"
+      icon="group"
+      colorTheme="primary"
+      trend="+12%"
+      trendDirection="up">
+    </app-kpi-card>
+    <app-kpi-card
+      label="Moyenne hebdomadaire"
+      [value]="stats().thisWeekTotal"
+      icon="calendar_month"
+      colorTheme="secondary">
+    </app-kpi-card>
+    <app-kpi-card
+      label="Motif le plus fréquent"
+      [value]="stats().topReason"
+      icon="category"
+      colorTheme="secondary"
+      subtitle="45% des visites aujourd'hui">
+    </app-kpi-card>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+
+    <!-- Filtres -->
+    <div class="table-card__toolbar">
+      <app-table-search
+        [placeholder]="'Rechercher un visiteur...'"
+        [searchValue]="search()"
+        [filters]="[
+          { key: 'date',     label: 'Date de présence',        type: 'date',   value: selectedDate() },
+          { key: 'training', label: 'Toutes les formations',   type: 'select', value: selectedTraining(),
+            options: trainingOptions() }
+        ]"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
+        (reset)="resetFilters()" />
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Visiteur</th>
+            <th>Email</th>
+            <th>Profil</th>
+            <th>Motif</th>
+            <th>Formation</th>
+            <th>Heure</th>
+            <th class="text-right">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of pagedEntries(); track entry.id) {
+            <tr class="data-table__row">
+              <td>
+                <div class="visitor-cell">
+                  <div class="avatar">{{ entry.visitorName.charAt(0) }}</div>
+                  <div class="visitor-cell__info">
+                    <strong>{{ entry.visitorName }}</strong>
+                    <small>{{ entry.phone }}</small>
+                  </div>
+                </div>
+              </td>
+              <td class="text-muted">{{ entry.email }}</td>
+              <td>
+                <span class="status-badge status-badge--{{ profileVariant(entry.profile) }}">
+                  {{ entry.profile || 'Visiteur' }}
+                </span>
+              </td>
+              <td class="text-secondary">{{ entry.visitReason }}</td>
+              <td class="text-secondary">{{ entry.trainingName || '—' }}</td>
+              <td class="text-secondary">{{ entry.checkInTime }}</td>
+              <td class="text-right">
+                <button class="icon-btn icon-btn--view" type="button" [attr.aria-label]="'Voir ' + entry.visitorName">
+                  <span class="material-symbols-outlined">visibility</span>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7">
+                <app-empty-state
+                  title="Aucune présence trouvée"
+                  description="Aucun enregistrement ne correspond à vos critères. Modifiez la date ou les filtres."
+                  icon="search_off">
+                </app-empty-state>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination réactive -->
+    <app-pagination
+      [totalItems]="filteredEntries().length"
+      [itemsPerPage]="itemsPerPage"
+      [currentPage]="currentPage()"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
+
+  </div>
+</div>

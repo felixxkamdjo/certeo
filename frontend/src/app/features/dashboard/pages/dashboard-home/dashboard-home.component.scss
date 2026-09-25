@@ -1,0 +1,135 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.dashboard-home {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// Dashboard Row
+.dashboard-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include desktop {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+// Card locale au dashboard
+.card {
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  padding: $spacing-xl;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &--border {
+      border-bottom: 1px solid $color-gray-200;
+      padding-bottom: $spacing-lg;
+      margin-bottom: -$spacing-lg;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+}
+
+// Quick Actions
+.quick-actions__list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  .action-btn {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 12px $spacing-lg;
+  }
+}
+
+// Info Alert
+.info-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: $color-primary-bg;
+  border-radius: $radius-lg;
+  margin-top: auto;
+
+  p {
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $color-primary-dark;
+  }
+}
+
+// Select Wrap (local au dashboard pour le filtre de chart)
+.select-wrap {
+  position: relative;
+
+  &__chevron {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-gray-500;
+    pointer-events: none;
+    font-size: 20px;
+  }
+}
+
+.select-field {
+  appearance: none;
+  padding: 8px 36px 8px 12px;
+  background: $color-gray-50;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-family: $font-family-base;
+  color: $color-gray-900;
+  cursor: pointer;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    background: $color-white;
+  }
+}
+
+.candidate-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  &__name { font-weight: $font-weight-semibold; }
+}
+
+.btn-link {
+  background: transparent;
+  border: none;
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover { text-decoration: underline; }
+}
+
+.mb-lg { margin-bottom: $spacing-lg; }
