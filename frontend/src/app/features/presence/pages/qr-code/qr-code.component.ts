@@ -14,7 +14,7 @@ import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confir
 export class QrCodeViewComponent {
   private readonly doc = inject(DOCUMENT);
 
-  readonly siteId      = signal('ODC-YDE-ACCUEIL-01');
+  readonly siteId      = signal('ODC-DOUALA');
   readonly generatedAt = signal(new Date());
   readonly showConfirm = signal(false);
 
@@ -66,7 +66,13 @@ export class QrCodeViewComponent {
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
 
     @page {
       size: A4 portrait;
@@ -82,26 +88,69 @@ export class QrCodeViewComponent {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20mm;
+      padding: 0;
+      position: relative;
+    }
+
+    /* Motif de fond: Bandes diagonales "Corporate Dynamique" */
+    .bg-pattern {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-color: #ffffff;
+      background-image: 
+        linear-gradient(110deg, transparent 20%, rgba(255, 121, 0, 0.04) 20%, rgba(255, 121, 0, 0.04) 40%, transparent 40%),
+        linear-gradient(110deg, transparent 60%, rgba(255, 121, 0, 0.06) 60%, rgba(255, 121, 0, 0.06) 75%, transparent 75%);
+    }
+
+    /* Blocs asymétriques haut et bas */
+    .shape-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 35mm;
+      background: #ff7900;
+      clip-path: polygon(0 0, 100% 0, 100% 10mm, 0 100%);
+      z-index: 0;
+    }
+
+    .shape-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 25mm;
+      background: #ff7900;
+      clip-path: polygon(0 15mm, 100% 0, 100% 100%, 0 100%);
+      z-index: 0;
     }
 
     .poster {
+      position: relative;
+      z-index: 1;
       width: 100%;
       max-width: 170mm;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8mm;
+      gap: 6mm;
       text-align: center;
+      margin-top: 15mm;
     }
 
-    /* Bande orange supérieure */
-    .poster__stripe {
-      width: 100%;
-      height: 6mm;
-      background: #ff7900;
-      border-radius: 3mm;
+    .bienvenue {
+      font-size: 20pt;
+      color: #333;
+      font-weight: 600;
       margin-bottom: 2mm;
+      line-height: 1.2;
+    }
+
+    .bienvenue strong {
+      color: #ff7900;
+      font-weight: 800;
+      font-size: 24pt;
     }
 
     /* Logo / Marque */
@@ -124,7 +173,7 @@ export class QrCodeViewComponent {
       font-weight: 400;
     }
 
-    /* Titre */
+    /* Titre original */
     .poster__title {
       font-size: 22pt;
       font-weight: 800;
@@ -148,17 +197,18 @@ export class QrCodeViewComponent {
       border-radius: 2px;
     }
 
-    /* Encadré QR */
+    /* Encadré QR stylisé */
     .poster__qr-box {
+      border: 3.5px solid #ff7900;
+      border-radius: 8mm;
+      padding: 6mm;
       background: #ffffff;
-      border: 2.5px solid #eeeeee;
-      border-radius: 5mm;
-      padding: 8mm;
       box-shadow: 0 4px 24px rgba(0,0,0,0.10);
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4mm;
+      position: relative;
     }
 
     .poster__qr-box img {
@@ -175,7 +225,7 @@ export class QrCodeViewComponent {
       font-weight: 600;
     }
 
-    /* Instructions */
+    /* Instructions originales */
     .poster__steps {
       display: flex;
       gap: 6mm;
@@ -228,24 +278,23 @@ export class QrCodeViewComponent {
       font-weight: 600;
       color: #424242;
     }
-
-    /* Bande orange inférieure */
-    .poster__bottom-stripe {
-      width: 100%;
-      height: 3mm;
-      background: linear-gradient(90deg, #ff7900 0%, #ffb27a 100%);
-      border-radius: 2mm;
-      margin-top: 2mm;
-    }
   </style>
 </head>
 <body>
+  <div class="bg-pattern"></div>
+  <div class="shape-top"></div>
+  <div class="shape-bottom"></div>
+
   <div class="poster">
-    <div class="poster__stripe"></div>
+    
+    <p class="bienvenue">
+      Bienvenue à<br/>
+      <strong>Orange Digital Center</strong>
+    </p>
 
     <div class="poster__brand">
       <img src="${logoUrl}" alt="Logo CERTEO" />
-      <span class="poster__brand-sub">Orange Digital Center</span>
+      <span class="poster__brand-sub">Écosystème des talents</span>
     </div>
 
     <h1 class="poster__title">Enregistrez<br/>votre présence</h1>
@@ -278,8 +327,6 @@ export class QrCodeViewComponent {
     <div class="poster__footer">
       <span class="poster__site-id">${siteId}</span>
     </div>
-
-    <div class="poster__bottom-stripe"></div>
   </div>
 
   <script>

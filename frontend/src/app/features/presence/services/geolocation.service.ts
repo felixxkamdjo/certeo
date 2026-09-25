@@ -2,8 +2,8 @@ import { Injectable, signal } from '@angular/core';
 
 export interface Coordinates { latitude: number; longitude: number; }
 
-const ODC_CENTER: Coordinates = { latitude: 4.051056, longitude: 9.767868 };
-const MAX_RADIUS_METERS = 150;
+const ODC_CENTER: Coordinates = { latitude: 4.047669059429335, longitude: 9.694744229631175 };
+const MAX_RADIUS_METERS = 35;
 
 @Injectable({ providedIn: 'root' })
 export class GeolocationService {

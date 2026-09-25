@@ -18,18 +18,18 @@
 
     <!-- Header public -->
     <header class="presence-form__header">
-      <h1>Enregistrement visiteur</h1>
-      <p>Complétez ce formulaire en deux étapes pour enregistrer votre arrivée.</p>
+      <h1>Présence dans l'Orange Digital Center</h1>
+      <p>Bienvenue au sein d'Orange Digital Center! Dans un but de convivialité et de sécurité, nous vous invitons à compléter ce court formulaire.</p>
     </header>
 
     <!-- Vérification géolocalisation -->
     @if (geolocation.isWithinPerimeter() !== true) {
       <section class="location-panel">
 
-        @if (isGeoTestMode) {
+        @if (isDevMode) {
           <div class="location-panel__test-badge">
             <span class="material-symbols-outlined">science</span>
-            Mode test géolocalisation — ?geo=test actif
+            Mode test géolocalisation inactif (Mode Dev)
           </div>
         }
 
@@ -77,7 +77,7 @@
       <div class="progress-bar">
         <div class="progress-bar__header">
           <span>Étape {{ step() }} sur 2</span>
-          <strong>{{ step() === 1 ? 'Informations personnelles' : 'Votre visite' }}</strong>
+          <strong>{{ step() === 1 ? 'Informations personnelles' : 'Précisions sur votre visite' }}</strong>
         </div>
         <div class="progress-bar__track">
           <div class="progress-bar__fill" [style.width]="step() === 1 ? '50%' : '100%'"></div>
@@ -88,24 +88,24 @@
 
         <!-- Étape 1 : Informations personnelles -->
         @if (step() === 1) {
-          <h2>Bienvenue</h2>
-          <p class="form-card__intro">Veuillez remplir vos informations pour enregistrer votre présence.</p>
-
           <div class="form-grid">
-            <div class="form-field">
+            <div class="form-field" [class.is-invalid]="isInvalid('visitorName')">
               <label for="visitorName">Nom complet <span class="required">*</span></label>
               <input id="visitorName" formControlName="visitorName" placeholder="Votre nom et prénom" />
+              @if (isInvalid('visitorName')) { <span class="field-error">Le nom est requis.</span> }
             </div>
-            <div class="form-field">
+            <div class="form-field" [class.is-invalid]="isInvalid('email')">
               <label for="email">Adresse mail <span class="required">*</span></label>
               <input id="email" formControlName="email" placeholder="votre.email@exemple.com" type="email" />
+              @if (isInvalid('email')) { <span class="field-error">Un email valide est requis.</span> }
             </div>
-            <div class="form-field">
-              <label for="phone">Téléphone <span class="optional">(optionnel)</span></label>
+            <div class="form-field" [class.is-invalid]="isInvalid('phone')">
+              <label for="phone">Téléphone <span class="required">*</span></label>
               <input id="phone" formControlName="phone" placeholder="+237 6 00 00 00 00" type="tel" />
+              @if (isInvalid('phone')) { <span class="field-error">Le téléphone est requis.</span> }
             </div>
-            <div class="form-field">
-              <label>Sexe</label>
+            <div class="form-field" [class.is-invalid]="isInvalid('gender')">
+              <label>Sexe <span class="required">*</span></label>
               <div class="radio-group">
                 <label class="radio-option">
                   <input formControlName="gender" value="Femme" type="radio" />
@@ -115,30 +115,28 @@
                   <input formControlName="gender" value="Homme" type="radio" />
                   <span>Homme</span>
                 </label>
-                <label class="radio-option">
-                  <input formControlName="gender" value="" type="radio" />
-                  <span>Non renseigné</span>
-                </label>
               </div>
+              @if (isInvalid('gender')) { <span class="field-error">Le sexe est requis.</span> }
             </div>
           </div>
 
-          <!-- Tranche d'âge -->
-          <fieldset class="form-fieldset">
-            <legend>Tranche d'âge</legend>
+          <!-- Tranche d'âge (Source unique de vérité TS) -->
+          <fieldset class="form-fieldset" [class.is-invalid]="isInvalid('ageRange')">
+            <legend>Tranche d'âge <span class="required">*</span></legend>
             <div class="age-grid">
-              @for (age of ['-18 ans', '18-25', '26-35', '36-45', '45+']; track age) {
+              @for (age of ageRangeOptions; track age) {
                 <label class="age-card" [class.age-card--selected]="form.controls.ageRange.value === age">
                   <input formControlName="ageRange" [value]="age" type="radio" />
                   <span>{{ age }}</span>
                 </label>
               }
             </div>
+            @if (isInvalid('ageRange')) { <span class="field-error">Veuillez sélectionner une tranche d'âge.</span> }
           </fieldset>
 
-          <!-- Profil : checkboxes visuelles -->
-          <fieldset class="form-fieldset">
-            <legend>Profil</legend>
+          <!-- Profil (Source unique de vérité TS) -->
+          <fieldset class="form-fieldset" [class.is-invalid]="isInvalid('profile')">
+            <legend>Profil <span class="required">*</span></legend>
             <div class="profile-grid">
               @for (p of profileOptions; track p.value) {
                 <label class="profile-chip" [class.profile-chip--selected]="form.controls.profile.value === p.value">
@@ -148,20 +146,17 @@
                 </label>
               }
             </div>
+            @if (isInvalid('profile')) { <span class="field-error">Veuillez sélectionner un profil.</span> }
           </fieldset>
 
-          <!-- Motif de présence -->
+          <!-- Motif de présence (Source unique de vérité TS) -->
           <div class="form-field">
             <label for="visitReason">Motif de présence <span class="required">*</span></label>
             <div class="select-wrap">
               <select id="visitReason" formControlName="visitReason">
-                <option value="Renseignements">Renseignements</option>
-                <option value="Parcours découverte">Parcours découverte</option>
-                <option value="Développement d'un projet">Développement d'un projet</option>
-                <option value="Formation">Formation</option>
-                <option value="Animations ou événements">Animations ou événements</option>
-                <option value="Accès au coworking">Accès au coworking</option>
-                <option value="Réunion">Réunion</option>
+                @for (reason of reasonOptions; track reason.value) {
+                  <option [value]="reason.value">{{ reason.label }}</option>
+                }
               </select>
               <span class="material-symbols-outlined">expand_more</span>
             </div>
@@ -173,46 +168,120 @@
           </button>
         }
 
-        <!-- Étape 2 : Votre visite -->
+        <!-- Étape 2 : Précisions selon le motif sélectionné -->
         @if (step() === 2) {
-          <h2>Précisez votre visite</h2>
-          <p class="form-card__intro">Sélectionnez la formation à laquelle vous participez, si nécessaire.</p>
+          <div class="step-header">
+            <div class="step-header__badge">
+              <span class="material-symbols-outlined">{{ currentReasonConfig().icon }}</span>
+              <span>{{ currentReasonConfig().label }}</span>
+            </div>
+            <h2>{{ currentReasonConfig().questionTitle }}</h2>
+            <p class="form-card__intro">{{ currentReasonConfig().questionSubtitle }}</p>
+          </div>
 
-          <!-- Radio-cards formations -->
-          <div class="training-list">
-            <label class="training-card" [class.training-card--selected]="form.controls.trainingId.value === ''">
-              <input formControlName="trainingId" value="" type="radio" />
-              <span class="training-card__icon">
-                <span class="material-symbols-outlined">event_available</span>
-              </span>
-              <div class="training-card__info">
-                <strong>Aucune formation</strong>
-                <span>Visite libre</span>
-              </div>
-            </label>
-            @for (training of trainingService.trainings(); track training.id) {
-              <label class="training-card" [class.training-card--selected]="form.controls.trainingId.value === training.id">
-                <input formControlName="trainingId" [value]="training.id" type="radio" />
+          <!-- Cas 1 : Formation (À quelle formation participez-vous ?) -->
+          @if (currentReasonConfig().questionType === 'training') {
+            <div class="training-list" [class.is-invalid]="isInvalid('trainingId')">
+              <label class="training-card" [class.training-card--selected]="form.controls.trainingId.value === ''">
+                <input formControlName="trainingId" value="" type="radio" />
                 <span class="training-card__icon">
-                  <span class="material-symbols-outlined">school</span>
+                  <span class="material-symbols-outlined">event_available</span>
                 </span>
                 <div class="training-card__info">
-                  <strong>{{ training.title }}</strong>
-                  @if (training.cohort) { <span>{{ training.cohort }}</span> }
+                  <strong>Formation générale / Visite libre</strong>
+                  <span>Accès sans cohorte spécifique</span>
                 </div>
               </label>
-            }
-          </div>
+
+              @for (training of trainingService.trainings(); track training.id) {
+                <label class="training-card" [class.training-card--selected]="form.controls.trainingId.value === training.id">
+                  <input formControlName="trainingId" [value]="training.id" type="radio" />
+                  <span class="training-card__icon">
+                    <span class="material-symbols-outlined">school</span>
+                  </span>
+                  <div class="training-card__info">
+                    <strong>{{ training.title }}</strong>
+                    @if (training.cohort) { <span>Cohorte : {{ training.cohort }}</span> }
+                  </div>
+                </label>
+              }
+            </div>
+            @if (isInvalid('trainingId')) { <p class="field-error" style="margin-top: 8px;">Veuillez sélectionner une option.</p> }
+          }
+
+          <!-- Cas 2 : Coworking (2 questions : Nom startup/projet et Effectif) -->
+          @if (currentReasonConfig().questionType === 'coworking') {
+            <div class="dynamic-questions">
+              <div class="form-field" [class.is-invalid]="isInvalid('startupName')">
+                <label for="startupName">Nom de la startup ou du projet <span class="required">*</span></label>
+                <input
+                  id="startupName"
+                  formControlName="startupName"
+                  placeholder="Ex: Certeo Tech, Kiro AI..."
+                  type="text"
+                />
+                @if (isInvalid('startupName')) { <span class="field-error">Ce champ est requis.</span> }
+              </div>
+
+              <div class="form-field" [class.is-invalid]="isInvalid('teamSize')">
+                <label for="teamSize">Votre effectif <span class="required">*</span></label>
+                <input
+                  id="teamSize"
+                  formControlName="teamSize"
+                  placeholder="Ex: 3 personnes"
+                  type="text"
+                />
+                @if (isInvalid('teamSize')) { <span class="field-error">L'effectif est requis.</span> }
+              </div>
+            </div>
+          }
+
+          <!-- Cas 3 : Questions textuelles personnalisées (Projet, Événement, etc.) -->
+          @if (currentReasonConfig().questionType === 'text_question') {
+            <div class="dynamic-questions">
+              <div class="form-field" [class.is-invalid]="isInvalid('details')">
+                <label for="details">{{ currentReasonConfig().customFieldLabel }} <span class="required">*</span></label>
+                <input
+                  id="details"
+                  formControlName="details"
+                  [placeholder]="currentReasonConfig().customFieldPlaceholder || 'Votre réponse...'"
+                  type="text"
+                />
+                @if (isInvalid('details')) { <span class="field-error">Cette information est requise.</span> }
+              </div>
+            </div>
+          }
+
+          <!-- Cas 4 : Validation directe sans questions (Réunion, Stagiaire, etc.) -->
+          @if (currentReasonConfig().questionType === 'direct_confirm') {
+            <div class="direct-confirm-card">
+              <div class="direct-confirm-card__icon">
+                <span class="material-symbols-outlined">verified_user</span>
+              </div>
+              <div class="direct-confirm-card__body">
+                <strong>Enregistrement direct</strong>
+                <p>Aucune information complémentaire requise. Cliquez ci-dessous pour confirmer votre arrivée.</p>
+              </div>
+            </div>
+          }
 
           <div class="form-card__actions">
             <button class="btn btn--outline" type="button" (click)="back()">
               <span class="material-symbols-outlined">arrow_back</span>
               Retour
             </button>
-            <button class="btn btn--primary" type="submit">
-              <span class="material-symbols-outlined">check_circle</span>
-              Confirmer ma présence
-            </button>
+            <div style="display: flex; gap: 8px;">
+              @if (isDevMode) {
+                <button class="btn btn--outline" style="border-color: #ff9800; color: #ff9800;" type="button" (click)="forceSuccess()">
+                  <span class="material-symbols-outlined">bug_report</span>
+                  Forcer Succès (Dev)
+                </button>
+              }
+              <button class="btn btn--primary" type="submit">
+                <span class="material-symbols-outlined">check_circle</span>
+                Confirmer ma présence
+              </button>
+            </div>
           </div>
         }
 

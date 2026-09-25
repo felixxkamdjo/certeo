@@ -512,16 +512,31 @@
 }
 
 @include mobile {
-  .quiz-results { margin: 0 (-$spacing-md); }
+  .quiz-results {
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-  .results-header { margin-inline: $spacing-md; }
+  .results-header { margin-inline: 0; }
 
   .results-hero {
-    margin-inline: (-$spacing-md);
-    border-radius: 0;
-    padding: $spacing-xl $spacing-md;
+    margin-inline: 0;
+    border-radius: $radius-lg;
+    padding: $spacing-lg $spacing-md;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 
     &::before { display: none; }
+  }
+
+  .results-hero__copy {
+    align-items: center;
+  }
+
+  .score-circle {
+    align-self: center;
+    margin-top: $spacing-lg;
   }
 
   .results-grid { grid-template-columns: 1fr; }
@@ -533,6 +548,10 @@
     flex-direction: column;
     align-items: flex-start;
     gap: $spacing-sm;
+  }
+
+  .answer-item {
+    padding: $spacing-md;
   }
 }
 

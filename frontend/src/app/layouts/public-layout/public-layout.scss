@@ -1,9 +1,13 @@
 @use 'styles/variables' as *;
+@use 'styles/mixins' as *;
 
 .public-layout {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   background-color: $color-gray-50;
 
   &__header {
@@ -15,11 +19,22 @@
     border-bottom: 1px solid $color-gray-200;
     box-shadow: $shadow-xs;
     height: 64px;
+    width: 100%;
+    box-sizing: border-box;
+
+    @include mobile {
+      padding: $spacing-sm $spacing-md;
+      height: 56px;
+    }
   }
 
   &__logo {
     height: 36px;
     width: auto;
+
+    @include mobile {
+      height: 30px;
+    }
   }
 
   &__content {
@@ -29,6 +44,10 @@
     margin: 0 auto;
     padding: $spacing-2xl $spacing-lg;
     box-sizing: border-box;
+
+    @include mobile {
+      padding: $spacing-md $spacing-sm;
+    }
   }
 
   &__footer {
@@ -38,5 +57,13 @@
     color: $color-gray-500;
     border-top: 1px solid $color-gray-200;
     background-color: $color-white;
+    width: 100%;
+    box-sizing: border-box;
+
+    @include mobile {
+      padding: $spacing-md;
+      font-size: $font-size-xs;
+    }
   }
 }
+

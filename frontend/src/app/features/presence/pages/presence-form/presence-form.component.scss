@@ -6,11 +6,20 @@
 // ============================================================
 .presence-form {
   max-width: 560px;
+  width: 100%;
+  box-sizing: border-box;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: $spacing-xl;
   padding: $spacing-xl $spacing-md;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  @include mobile {
+    padding: $spacing-md $spacing-xs;
+    gap: $spacing-lg;
+  }
 }
 
 // ============================================================
@@ -24,6 +33,10 @@
     font-weight: $font-weight-extrabold;
     color: $color-gray-900;
     margin: $spacing-xs 0;
+
+    @include mobile {
+      font-size: $font-size-xl;
+    }
   }
 
   p {
@@ -56,20 +69,33 @@
   border-radius: $radius-xl;
   box-shadow: $shadow-sm;
   text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+
+  @include mobile {
+    padding: $spacing-xl $spacing-md;
+  }
 
   &__test-badge {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: $spacing-xs;
     padding: 5px 12px;
     background: $color-warning-light;
     border: 1px solid rgba($color-warning, 0.3);
-    border-radius: $radius-full;
+    border-radius: $radius-lg;
     font-size: $font-size-xs;
     font-weight: $font-weight-bold;
     color: #b45309;
+    width: 100%;
+    box-sizing: border-box;
 
-    .material-symbols-outlined { font-size: 16px; }
+    @include mobile {
+      border-radius: $radius-md;
+    }
+
+    .material-symbols-outlined { font-size: 16px; flex-shrink: 0; }
   }
 
   &__icon {
@@ -114,6 +140,13 @@
     align-items: center;
     margin-bottom: $spacing-sm;
     font-size: $font-size-sm;
+    gap: $spacing-sm;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
 
     span  { color: $color-gray-500; }
     strong { color: $color-gray-900; font-weight: $font-weight-semibold; }
@@ -144,6 +177,12 @@
   flex-direction: column;
   gap: $spacing-lg;
 
+  @include mobile {
+    padding: $spacing-lg $spacing-md;
+    gap: $spacing-md;
+    border-radius: $radius-lg;
+  }
+
   h2 {
     font-size: $font-size-xl;
     font-weight: $font-weight-bold;
@@ -160,7 +199,29 @@
   &__actions {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: $spacing-md;
+    flex-wrap: wrap;
+
+    @include mobile {
+      flex-direction: column-reverse;
+      gap: $spacing-sm;
+
+      .btn {
+        width: 100%;
+      }
+
+      > div {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-xs;
+
+        .btn {
+          width: 100%;
+        }
+      }
+    }
   }
 }
 
@@ -182,6 +243,7 @@
   flex-direction: column;
   gap: $spacing-xs;
   grid-column: span 1;
+  min-width: 0;
 
   &:nth-child(1),
   &:nth-child(2) {
@@ -221,6 +283,34 @@
   }
 
   select { appearance: none; }
+}
+
+.form-field.is-invalid {
+  label { color: $color-danger; }
+  
+  input, select {
+    border-color: $color-danger;
+    background-color: $color-danger-light;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($color-danger, 0.2);
+    }
+  }
+}
+
+fieldset.is-invalid {
+  legend { color: $color-danger; }
+  .age-card, .profile-chip {
+    border-color: $color-danger;
+    background-color: $color-danger-light;
+  }
+}
+
+.field-error {
+  font-size: $font-size-xs;
+  color: $color-danger;
+  font-weight: $font-weight-medium;
+  margin-top: -2px;
 }
 
 .required { color: $color-danger; }
@@ -291,6 +381,7 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-sm;
+  min-width: 0;
 
   legend {
     font-size: $font-size-xs;
@@ -311,10 +402,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: $spacing-sm;
-
-  .age-card:last-child {
-    grid-column: span 2;
-  }
 }
 
 .age-card {
@@ -352,8 +439,12 @@
 // ============================================================
 .profile-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   gap: $spacing-sm;
+
+  @include mobile {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .profile-chip {
@@ -414,6 +505,11 @@
   transition: all $transition-fast;
   background: $color-white;
 
+  @include mobile {
+    padding: $spacing-sm $spacing-md;
+    gap: $spacing-sm;
+  }
+
   input[type='radio'] { display: none; }
 
   &__icon {
@@ -464,6 +560,93 @@
 }
 
 // ============================================================
+// Étape 2 : Header dynamique & Questions
+// ============================================================
+.step-header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__badge {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: 4px 12px;
+    background: $color-primary-bg;
+    color: $color-primary;
+    border: 1px solid rgba($color-primary, 0.2);
+    border-radius: $radius-full;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+
+    .material-symbols-outlined {
+      font-size: 16px;
+    }
+  }
+
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: $spacing-xs 0 0;
+  }
+}
+
+.dynamic-questions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.direct-confirm-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: $color-gray-50;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+
+  @include mobile {
+    flex-direction: column;
+    text-align: center;
+    padding: $spacing-md;
+  }
+
+  &__icon {
+    @include flex-center;
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+    background: $color-primary-bg;
+    color: $color-primary;
+    flex-shrink: 0;
+
+    .material-symbols-outlined {
+      font-size: 26px;
+    }
+  }
+
+  &__body {
+    strong {
+      display: block;
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: $color-gray-900;
+      margin-bottom: 2px;
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-size-xs;
+      color: $color-gray-600;
+      line-height: $line-height-base;
+    }
+  }
+}
+
+// ============================================================
 // Écran succès
 // ============================================================
 .success-screen {
@@ -471,6 +654,12 @@
   gap: $spacing-lg;
   padding: $spacing-3xl $spacing-xl;
   text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+
+  @include mobile {
+    padding: $spacing-xl $spacing-md;
+  }
 
   &__icon {
     .material-symbols-outlined {
