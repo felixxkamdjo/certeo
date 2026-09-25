@@ -1,0 +1,326 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>CERTEO - Création de Formation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#9a4600",
+                        "surface-container-high": "#e9e8e7",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container": "#efeded",
+                        "on-primary-container": "#5c2700",
+                        "on-secondary-container": "#646464",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "tertiary": "#5d5f5f",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#9a4600",
+                        "outline-variant": "#e0c0af",
+                        "primary-fixed-dim": "#ffb68c",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#753400",
+                        "secondary-container": "#e2e2e2",
+                        "secondary-fixed": "#e2e2e2",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "surface-bright": "#fbf9f8",
+                        "primary-container": "#ff7900",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f5f3f3",
+                        "surface": "#fbf9f8",
+                        "secondary": "#5e5e5e",
+                        "inverse-primary": "#ffb68c",
+                        "surface-dim": "#dbdad9",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdbc9",
+                        "on-primary-fixed": "#321200",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "inverse-surface": "#303031",
+                        "tertiary-container": "#9fa0a0",
+                        "on-surface-variant": "#584235",
+                        "surface-variant": "#e4e2e2",
+                        "on-secondary-fixed-variant": "#474747",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#8c7263",
+                        "tertiary-fixed": "#e2e2e2",
+                        "background": "#fbf9f8",
+                        "on-tertiary-container": "#353737",
+                        "on-surface": "#1b1c1c",
+                        "surface-container-highest": "#e4e2e2",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1b1c1c",
+                        "on-secondary-fixed": "#1b1b1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Soft Tech Shadow */
+        .soft-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Input focus rings */
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #FF7900;
+            border-color: #FF7900;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-full bg-surface-container-lowest border-r border-outline-variant w-[280px] py-base flex-shrink-0 z-40 relative">
+<div class="px-gutter pb-gutter pt-base flex items-center gap-4">
+<img alt="CERTEO Logo" class="h-10 w-10 object-contain rounded-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnAxypTnZTlePqnjN6XxcfnVuakKtNBWSlwq1uBI7MzzJpvjJYV4IEjIFH847pptK5wKQN2RZCqzihSGICCz9RkjJbUSTJVT4YCKLL_QQBkO5bQxXdUwPwFrupz-r1NgHWinsfNYxTERIjFomeNE40rmEhMmH4y3vaUiYupj6sNV0ciWumCaiP0mn9OKa-BYmqGTRPxAbBTwvRZMJ-phpzu61p3b5fJPq9qHdT0wVR112N2Xdi4UgXyzj7p5Qqgvg32g">
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface">CERTEO</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Admin Portal</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto mt-4 px-2 flex flex-col gap-1">
+<!-- Nav Items -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+<span>Présence ODC</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<span>Administrateurs</span>
+</a>
+<!-- Active Item -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-on-primary transition-all duration-200 ease-in-out font-label-md text-label-md shadow-sm" href="#">
+<span class="material-symbols-outlined" data-weight="fill">school</span>
+<span>Formations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>Candidatures</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span>Participants</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span>Évaluations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">workspace_premium</span>
+<span>Certificats</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Rapports</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 px-2 flex flex-col gap-1 border-t border-outline-variant/50">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Paramètres</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-error hover:bg-error-container transition-all duration-200 ease-in-out font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-surface">
+<!-- TopAppBar -->
+<header class="bg-surface flex justify-between items-center w-full px-gutter md:px-margin-desktop h-16 z-30 border-b border-outline-variant flex-shrink-0">
+<!-- Mobile Menu Button (Visible only on mobile) -->
+<button class="md:hidden p-2 -ml-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Search Bar -->
+<div class="flex-1 max-w-md hidden md:flex items-center relative">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-body-md font-body-md text-on-surface focus:ring-2 focus:ring-primary-container transition-all" placeholder="Rechercher..." type="text">
+</div>
+<!-- Spacer for mobile -->
+<div class="flex-1 md:hidden"></div>
+<!-- Actions -->
+<div class="flex items-center gap-2 md:gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary-container rounded-full border border-surface"></span>
+</button>
+<div class="h-6 w-px bg-outline-variant mx-1 hidden md:block"></div>
+<button class="flex items-center gap-2 hover:bg-surface-container-low p-1 pr-3 rounded-full transition-colors border border-transparent hover:border-outline-variant">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</div>
+<span class="font-label-md text-label-md hidden md:block text-on-surface">Admin User</span>
+<span class="material-symbols-outlined hidden md:block text-on-surface-variant text-sm">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-[#f6f6f6]">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md mb-2">
+<span class="hover:text-primary cursor-pointer transition-colors">Formations</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-surface">Création</span>
+</div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Créer une nouvelle formation</h2>
+</div>
+</div>
+<!-- Form Container (Card) -->
+<div class="bg-white rounded-xl soft-shadow overflow-hidden border-l-4 border-l-primary">
+<form class="p-4 md:p-6 lg:p-8 flex flex-col gap-8">
+<!-- Section: Informations Générales -->
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 pb-2 border-b border-outline-variant/50">Informations Générales</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Titre -->
+<div class="col-span-1 md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="titre">Titre de la formation <span class="text-error">*</span></label>
+<input class="w-full px-4 py-3 border border-[#E0E0E0] rounded-lg bg-surface font-body-md text-body-md text-on-surface transition-all focus:border-primary-container focus:ring-1 focus:ring-primary-container" id="titre" name="titre" placeholder="Ex: Développement Web Fullstack" required="" type="text">
+</div>
+<!-- Catégorie -->
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="categorie">Catégorie / Type <span class="text-error">*</span></label>
+<div class="relative">
+<select class="w-full px-4 py-3 border border-[#E0E0E0] rounded-lg bg-surface font-body-md text-body-md text-on-surface appearance-none transition-all focus:border-primary-container focus:ring-1 focus:ring-primary-container" id="categorie" name="categorie" required="">
+<option disabled="" selected="" value="">Sélectionner une catégorie</option>
+<option value="dev">Développement Logiciel</option>
+<option value="data">Data Science &amp; IA</option>
+<option value="design">UI/UX Design</option>
+<option value="marketing">Marketing Digital</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<!-- Capacité -->
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="capacite">Capacité maximale <span class="text-error">*</span></label>
+<div class="relative">
+<input class="w-full pl-10 pr-4 py-3 border border-[#E0E0E0] rounded-lg bg-surface font-body-md text-body-md text-on-surface transition-all focus:border-primary-container focus:ring-1 focus:ring-primary-container" id="capacite" min="1" name="capacite" placeholder="Ex: 25" required="" type="number">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">group</span>
+</div>
+</div>
+<!-- Description -->
+<div class="col-span-1 md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="description">Description <span class="text-error">*</span></label>
+<textarea class="w-full px-4 py-3 border border-[#E0E0E0] rounded-lg bg-surface font-body-md text-body-md text-on-surface transition-all focus:border-primary-container focus:ring-1 focus:ring-primary-container resize-y" id="description" name="description" placeholder="Décrivez les objectifs et le contenu de la formation..." required="" rows="4"></textarea>
+</div>
+</div>
+</div>
+<!-- Section: Planification & Lieu -->
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 pb-2 border-b border-outline-variant/50">Planification &amp; Lieu</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Date de début -->
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="date_debut">Date de début <span class="text-error">*</span></label>
+<div class="relative">
+<input class="w-full pl-10 pr-4 py-3 border border-[#E0E0E0] rounded-lg bg-surface font-body-md text-body-md text-on-surface transition-all focus:border-primary-container focus:ring-1 focus:ring-primary-container" id="date_debut" name="date_debut" required="" type="date">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">calendar_today</span>
+</div>
+</div>
+<!-- Date de fin -->
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="date_fin">Date de fin <span class="text-error">*</span></label>
+<div class="relative">
+<input class="w-full pl-10 pr-4 py-3 border border-[#E0E0E0] rounded-lg bg-surface font-body-md text-body-md text-on-surface transition-all focus:border-primary-container focus:ring-1 focus:ring-primary-container" id="date_fin" name="date_fin" required="" type="date">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">event</span>
+</div>
+</div>
+<!-- Mode / Lieu -->
+<div class="col-span-1 md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface mb-3">Mode de formation <span class="text-error">*</span></label>
+<div class="flex flex-col sm:flex-row gap-4">
+<label class="flex items-center gap-3 p-4 border border-[#E0E0E0] rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors flex-1 has-[:checked]:border-primary-container has-[:checked]:bg-primary-fixed">
+<input checked="" class="text-primary-container focus:ring-primary-container h-5 w-5 border-[#E0E0E0]" name="mode" type="radio" value="physique">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">location_on</span>
+<span class="font-body-md text-body-md text-on-surface">Physique (ODC)</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-4 border border-[#E0E0E0] rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors flex-1 has-[:checked]:border-primary-container has-[:checked]:bg-primary-fixed">
+<input class="text-primary-container focus:ring-primary-container h-5 w-5 border-[#E0E0E0]" name="mode" type="radio" value="en_ligne">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">videocam</span>
+<span class="font-body-md text-body-md text-on-surface">En ligne</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions Footer -->
+<div class="mt-8 pt-6 border-t border-outline-variant flex flex-col-reverse sm:flex-row justify-end gap-4">
+<button class="px-6 py-3 border border-primary text-primary hover:bg-primary-fixed font-label-md text-label-md rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[48px]" type="button">
+                                    Annuler
+                                </button>
+<button class="px-6 py-3 bg-[#FF7900] text-white hover:bg-primary font-label-md text-label-md rounded-lg transition-colors flex items-center justify-center gap-2 min-h-[48px] shadow-sm" type="submit">
+<span class="material-symbols-outlined">save</span>
+                                    Enregistrer la formation
+                                </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

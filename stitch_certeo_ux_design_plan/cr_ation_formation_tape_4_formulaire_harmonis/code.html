@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CERTEO - Configuration du Formulaire de Candidature</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#e0c0af",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-secondary-fixed-variant": "#474747",
+                        "primary": "#9a4600",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-bright": "#fbf9f8",
+                        "on-primary-fixed-variant": "#753400",
+                        "on-surface": "#1b1c1c",
+                        "surface-container": "#efeded",
+                        "primary-container": "#ff7900",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "secondary": "#5e5e5e",
+                        "primary-fixed": "#ffdbc9",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#ffb68c",
+                        "on-primary-container": "#5c2700",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#646464",
+                        "surface": "#fbf9f8",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1b1c1c",
+                        "on-primary-fixed": "#321200",
+                        "on-secondary-fixed": "#1b1b1b",
+                        "primary-fixed-dim": "#ffb68c",
+                        "surface-container-highest": "#e4e2e2",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-container-low": "#f5f3f3",
+                        "tertiary-container": "#9fa0a0",
+                        "outline": "#8c7263",
+                        "tertiary": "#5d5f5f",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#584235",
+                        "secondary-container": "#e2e2e2",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#fbf9f8",
+                        "surface-container-high": "#e9e8e7",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-tint": "#9a4600",
+                        "surface-dim": "#dbdad9",
+                        "surface-variant": "#e4e2e2",
+                        "tertiary-fixed": "#e2e2e2",
+                        "secondary-fixed": "#e2e2e2",
+                        "inverse-surface": "#303031",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#353737"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .soft-tech-shadow { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+        .toggle-checkbox:checked { right: 0; border-color: #ff7900; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #ff7900; }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col bg-surface-container-low border-r border-outline-variant fixed left-0 top-0 h-full w-[280px] py-base transition-all duration-200 ease-in-out z-40">
+<div class="px-gutter mb-8 mt-4">
+<div class="flex items-center gap-4 mb-6">
+<img class="w-10 h-10 object-contain rounded-lg" data-alt="A modern, minimalist corporate logo featuring clean geometric shapes in deep orange and black. The logo is set against a pristine white background with high-key lighting, emphasizing professional authority and high-tech precision. The design should convey institutional reliability and digital innovation, perfectly suited for a top-tier corporate portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxNORRfnwmFq5C6vXEM3oXY4GvgumkKfZtM0QOT9BWvYg8biJaenjnrl4pTRtdLPww4wyLoQYbTSDVGdGigsObo_kYvYqXBd-Ys1SXpnnwlJh76LaOPlhrN3fpQFzTwCkEatqWl9g8GhdFtdMhaVTo9qg1QKcUr2NfdE1mTxgPNjON97G4ljs8AoDbns1QE-8ZDyOeyjpE4IjNRcFKImI8zg5YTzqI2dwm1K-BQjg94UmSq5Kb468A"/>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface">Admin Portal</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Orange Digital Center</p>
+</div>
+</div>
+<button class="w-full bg-primary-container text-white font-label-md text-label-md h-12 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add</span>
+                Add New Talent
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto px-2 space-y-2">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">event_available</span>
+                Presence ODC
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">group</span>
+                Users
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg bg-primary-container text-white mx-2 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+                Trainings
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">description</span>
+                Applications
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">people</span>
+                Participants
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">assignment_turned_in</span>
+                Evaluations
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">workspace_premium</span>
+                Certificats
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">analytics</span>
+                Reporting
+            </a>
+</div>
+<div class="px-2 mt-auto border-t border-outline-variant pt-4 space-y-2">
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-label-md text-label-md mx-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+                Logout
+            </a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-[280px] h-full overflow-hidden">
+<!-- TopAppBar -->
+<header class="bg-surface flex justify-between items-center w-full px-margin-desktop h-16 z-50 border-b border-outline-variant shrink-0">
+<div class="flex items-center gap-6">
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-on-surface p-2 hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-extrabold text-on-surface">
+                    CERTEO
+                </div>
+</div>
+<!-- Search Bar -->
+<div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" placeholder="Search..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors scale-95 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors scale-95 active:scale-90 hidden sm:block">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+</button>
+<button class="flex items-center gap-2 pl-4 border-l border-outline-variant hover:bg-surface-container-low p-2 rounded-lg transition-colors scale-95 active:scale-90">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot of a corporate administrator in a modern office environment. The person is smiling confidently, dressed in smart casual business attire, with warm, soft natural lighting illuminating their face. The background is slightly blurred, showing a high-tech, bright white and orange office space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYoD2Noylzq44AZqM-fGla9PZR8XVQsUh9iNcg-rrJSSpTe-WNrJpZjEO3CA0cQ4zDprC7cQut_3YKbmF4NqOidoIi9VLkjDsYBWTne7LdnuaTHyU1m2zSNw0kcg44RbY2WVYzKCi_LjDGHIe4vTGs_-lBJsEHZnoPN8psiOD3Lip5rFikwHutYe4Y1t50lVeb3Gv3aWyRtdc4tiSHu5DCg2DHYNZ7bnWVgZUn0syMOFXEmcnkECtK"/>
+<span class="font-label-md text-label-md text-on-surface hidden lg:block">Profile Settings</span>
+</button>
+</div>
+</header>
+<!-- Canvas Area -->
+<main class="flex-1 overflow-y-auto bg-surface-bright p-margin-mobile md:p-margin-desktop">
+<div class="max-w-[1000px] mx-auto pb-24">
+<!-- Page Header & Stepper -->
+<div class="mb-8">
+<div class="flex items-center gap-2 mb-2">
+<a class="text-on-surface-variant hover:text-primary-container transition-colors flex items-center" href="#">
+<span class="material-symbols-outlined text-sm mr-1">arrow_back</span>
+<span class="font-label-md text-label-md">Retour aux formations</span>
+</a>
+</div>
+<h2 class="font-headline-lg text-headline-lg md:text-headline-lg text-on-surface mb-6">Création de Formation</h2>
+<!-- Custom Stepper -->
+<div class="flex items-center w-full relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-surface-variant rounded-full z-0"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-3/4 h-1 bg-primary-container rounded-full z-0 transition-all duration-500"></div>
+<div class="flex justify-between w-full z-10">
+<!-- Step 1 -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-label-md font-bold shadow-md">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<span class="font-label-md text-xs text-on-surface-variant hidden md:block">Informations</span>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-label-md font-bold shadow-md">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<span class="font-label-md text-xs text-on-surface-variant hidden md:block">Planification</span>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-label-md font-bold shadow-md">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<span class="font-label-md text-xs text-on-surface-variant hidden md:block">Communication</span>
+</div>
+<!-- Step 4 (Active) -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-label-md font-bold shadow-md ring-4 ring-primary-fixed">
+                                    4
+                                </div>
+<span class="font-label-md text-xs text-primary-container font-bold hidden md:block">Formulaire</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-8">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Configuration du Formulaire de Candidature</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Définissez les informations requises pour les candidats souhaitant postuler à cette formation.</p>
+</div>
+<!-- Bento Grid Layout for Form Configuration -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Left Column: Standard Fields -->
+<div class="lg:col-span-1 space-y-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 soft-tech-shadow border border-outline-variant/30">
+<div class="flex items-center gap-3 mb-6 pb-4 border-b border-surface-variant">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">badge</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Champs Standards</h4>
+</div>
+<div class="space-y-4">
+<!-- Field Toggle Item -->
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Nom &amp; Prénom</span>
+<span class="font-body-md text-xs text-on-surface-variant">Requis par défaut</span>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-not-allowed opacity-50" disabled="" id="toggle1" name="toggle1" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-primary-container cursor-not-allowed opacity-50" for="toggle1"></label>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Email</span>
+<span class="font-body-md text-xs text-on-surface-variant">Requis par défaut</span>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-not-allowed opacity-50" disabled="" id="toggle2" name="toggle2" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-primary-container cursor-not-allowed opacity-50" for="toggle2"></label>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors border border-outline-variant/50 bg-surface-bright">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Numéro de Téléphone</span>
+<span class="font-body-md text-xs text-on-surface-variant">Rendre obligatoire</span>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-primary-container" id="toggle3" name="toggle3" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-primary-container cursor-pointer" for="toggle3"></label>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors border border-outline-variant/50">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Lien LinkedIn</span>
+<span class="font-body-md text-xs text-on-surface-variant">Optionnel</span>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 border-surface-variant appearance-none cursor-pointer" id="toggle4" name="toggle4" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-surface-variant cursor-pointer" for="toggle4"></label>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low transition-colors border border-outline-variant/50 bg-surface-bright">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">CV (Upload)</span>
+<span class="font-body-md text-xs text-on-surface-variant">Rendre obligatoire</span>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer border-primary-container" id="toggle5" name="toggle5" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-primary-container cursor-pointer" for="toggle5"></label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Custom Questions -->
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 soft-tech-shadow border-l-4 border-l-primary-container border-t border-r border-b border-outline-variant/30 relative overflow-hidden">
+<!-- Subtle Background Pattern -->
+<div class="absolute right-0 top-0 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-[120px]">quiz</span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-surface-variant relative z-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Questions Personnalisées</h4>
+<p class="font-body-md text-xs text-on-surface-variant">Ajoutez des questions spécifiques à cette formation.</p>
+</div>
+</div>
+<button class="bg-on-surface text-white px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-on-surface/90 transition-colors shrink-0">
+<span class="material-symbols-outlined text-sm">add</span>
+                                    Ajouter une question
+                                </button>
+</div>
+<!-- Questions List -->
+<div class="space-y-4 relative z-10">
+<!-- Question Card 1 -->
+<div class="group bg-surface border border-outline-variant/50 rounded-xl p-4 hover:border-primary-container/50 transition-colors flex gap-4">
+<div class="flex flex-col items-center justify-center text-surface-variant group-hover:text-primary-container transition-colors cursor-grab">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<h5 class="font-label-md text-label-md text-on-surface">Avez-vous un ordinateur personnel ?</h5>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant rounded text-xs font-label-md">Choix unique</span>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-fixed text-on-primary-fixed">Requis</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-outline-variant text-on-surface-variant">Options: Oui, Non</span>
+</div>
+</div>
+</div>
+<!-- Question Card 2 -->
+<div class="group bg-surface border border-outline-variant/50 rounded-xl p-4 hover:border-primary-container/50 transition-colors flex gap-4">
+<div class="flex flex-col items-center justify-center text-surface-variant group-hover:text-primary-container transition-colors cursor-grab">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<h5 class="font-label-md text-label-md text-on-surface">Décrivez brièvement votre motivation pour cette formation.</h5>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant rounded text-xs font-label-md">Texte long</span>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-fixed text-on-primary-fixed">Requis</span>
+</div>
+</div>
+</div>
+<!-- Question Card 3 -->
+<div class="group bg-surface border border-outline-variant/50 rounded-xl p-4 hover:border-primary-container/50 transition-colors flex gap-4">
+<div class="flex flex-col items-center justify-center text-surface-variant group-hover:text-primary-container transition-colors cursor-grab">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-2">
+<h5 class="font-label-md text-label-md text-on-surface">Quelles sont vos disponibilités hebdomadaires ?</h5>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant rounded text-xs font-label-md">Choix multiple</span>
+<button class="text-on-surface-variant hover:text-error transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-outline-variant text-on-surface-variant">Optionnel</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-outline-variant text-on-surface-variant">Options: Temps plein, Temps partiel, Soirées</span>
+</div>
+</div>
+</div>
+<!-- Inline Add Action area -->
+<div class="border-2 border-dashed border-outline-variant/50 rounded-xl p-6 flex flex-col items-center justify-center text-center hover:bg-surface-container-low hover:border-primary-container/50 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-surface-variant mb-2">add_circle</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Glissez ou cliquez pour ajouter une nouvelle question</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Footer Actions -->
+<div class="bg-surface border-t border-outline-variant p-4 md:px-margin-desktop flex justify-between items-center z-20 shrink-0">
+<button class="px-6 py-3 rounded-lg border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                Précédent
+            </button>
+<div class="flex gap-4">
+<button class="hidden sm:block px-6 py-3 rounded-lg text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                    Enregistrer comme brouillon
+                </button>
+<button class="px-6 py-3 rounded-lg bg-primary-container text-white font-label-md text-label-md hover:bg-primary-container/90 transition-colors shadow-md flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+                    Publier la formation
+                </button>
+</div>
+</div>
+</div>
+</body></html>

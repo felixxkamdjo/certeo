@@ -1,0 +1,36 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.empty-state {
+  @include flex-column-center;
+  padding: $spacing-2xl $spacing-md;
+  text-align: center;
+
+  &__icon {
+    font-size: 3rem;
+    margin-bottom: $spacing-md;
+    color: $color-gray-400;
+
+    .material-symbols-outlined {
+      font-size: 48px;
+    }
+
+    svg {
+      color: $color-gray-400;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: $color-gray-800;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__description {
+    font-size: $font-size-base;
+    color: $color-gray-500;
+    max-width: 400px;
+    margin-bottom: $spacing-lg;
+  }
+}

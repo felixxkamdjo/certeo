@@ -1,0 +1,378 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.detail-page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// --- Breadcrumb ---
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+
+  &__link {
+    color: $color-gray-600;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover { color: $color-primary; }
+  }
+
+  &__sep {
+    font-size: 16px;
+    color: $color-gray-400;
+  }
+
+  &__active {
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+  }
+}
+
+// --- Header Card ---
+.header-card {
+  @include flex-between;
+  padding: $spacing-xl;
+  background: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+  box-shadow: $shadow-sm;
+  flex-wrap: wrap;
+  gap: $spacing-lg;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: $font-weight-extrabold;
+    color: $color-gray-900;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  &__author {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    max-width: 720px;
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+}
+
+// --- Status Pill (spécifique training) ---
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+
+  &--open {
+    background: $color-primary-bg;
+    color: $color-primary;
+  }
+
+  &--confirmed {
+    background: $color-success-light;
+    color: #2e7d32;
+  }
+}
+
+// --- KPI Grid (3 colonnes local) ---
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include tablet-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// --- KPI Card local (remplace le shared pour ce layout spécifique) ---
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg $spacing-xl;
+  background: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+  box-shadow: $shadow-sm;
+
+  &__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: $radius-full;
+    background: $color-gray-100;
+    border: 1px solid $color-gray-200;
+    @include flex-center;
+    color: $color-gray-700;
+    flex-shrink: 0;
+
+    span { font-size: 20px; }
+
+    &--success {
+      color: $color-success;
+      background: $color-success-light;
+      border-color: transparent;
+    }
+
+    &--chart {
+      color: $color-primary;
+      background: $color-primary-bg;
+      border-color: transparent;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-500;
+  }
+
+  &__val {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-extrabold;
+    color: $color-gray-900;
+  }
+}
+
+// --- 2-Column Grid ---
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include tablet-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// --- Content Card ---
+.content-card {
+  padding: $spacing-xl;
+  background: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+  box-shadow: $shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    border-bottom: 1px solid $color-gray-100;
+    padding-bottom: $spacing-xs;
+    margin: 0;
+  }
+}
+
+.tags-row {
+  display: flex;
+  gap: $spacing-lg;
+  flex-wrap: wrap;
+}
+
+.info-tag {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-500;
+  }
+
+  &__box {
+    padding: 6px 14px;
+    background: $color-gray-50;
+    border: 1px solid $color-gray-200;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-800;
+  }
+}
+
+.desc-box {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-500;
+  }
+
+  &__text {
+    padding: $spacing-md;
+    background: $color-gray-50;
+    border: 1px solid $color-gray-200;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    color: $color-gray-800;
+    line-height: $line-height-relaxed;
+    margin: 0;
+  }
+}
+
+// --- Planning ---
+.planning-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.planning-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  &__icon {
+    color: $color-primary;
+    font-size: 22px;
+  }
+
+  &__label {
+    display: block;
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+  }
+
+  &__val {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+  }
+}
+
+// --- Communication ---
+.comm-block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-500;
+  }
+
+  &__val {
+    font-size: $font-size-sm;
+    color: $color-gray-800;
+    margin: 0;
+  }
+}
+
+.social-quote {
+  padding: $spacing-md;
+  background: $color-primary-bg;
+  border-left: 3px solid $color-primary;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-style: italic;
+  color: $color-gray-800;
+
+  p { margin: 0; }
+}
+
+// --- Share ---
+.share-block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-500;
+  }
+}
+
+.input-copy-group {
+  display: flex;
+  gap: $spacing-sm;
+
+  .copy-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid $color-gray-300;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    background: $color-gray-50;
+    color: $color-gray-800;
+    font-family: $font-family-base;
+  }
+}
+
+// --- Recent Table Card ---
+.table-card {
+  padding: $spacing-xl;
+  background: $color-white;
+  border-radius: $radius-xl;
+  border: 1px solid $color-gray-200;
+  box-shadow: $shadow-sm;
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+}
+
+.link-more {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+
+  span { font-size: 16px; }
+}

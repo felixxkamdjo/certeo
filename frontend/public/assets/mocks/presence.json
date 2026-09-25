@@ -1,0 +1,81 @@
+{
+  "stats": {
+    "todayTotal": 142,
+    "thisWeekTotal": 115,
+    "topReason": "Formation Dev"
+  },
+  "entries": [
+    {
+      "id": "1",
+      "visitorName": "Amina Njoya",
+      "email": "amina.njoya@email.com",
+      "phone": "+237 690 12 34 56",
+      "visitReason": "Formation Dev",
+      "trainingName": "Bootcamp Développement Web",
+      "trainingId": "tr-1",
+      "profile": "Étudiante",
+      "gender": "Femme",
+      "ageRange": "18-25",
+      "checkInTime": "08:42"
+    },
+    {
+      "id": "2",
+      "visitorName": "Thomas Bernard",
+      "email": "thomas.bernard@email.com",
+      "phone": "+33 6 12 34 56 78",
+      "visitReason": "Accès coworking",
+      "trainingName": "Coworking ODC",
+      "trainingId": "tr-2",
+      "profile": "Entrepreneur",
+      "gender": "Homme",
+      "ageRange": "26-35",
+      "checkInTime": "09:15"
+    },
+    {
+      "id": "3",
+      "visitorName": "Yasmine Diallo",
+      "email": "yasmine.diallo@email.com",
+      "phone": "+221 77 123 45 67",
+      "visitReason": "Renseignements",
+      "profile": "Chercheur d'emploi",
+      "gender": "Femme",
+      "ageRange": "26-35",
+      "checkInTime": "09:38"
+    },
+    {
+      "id": "4",
+      "visitorName": "Paul Martin",
+      "email": "paul.martin@email.com",
+      "phone": "+33 6 98 76 54 32",
+      "visitReason": "Réunion",
+      "profile": "Salarié",
+      "gender": "Homme",
+      "ageRange": "36-45",
+      "checkInTime": "10:06"
+    },
+    {
+      "id": "5",
+      "visitorName": "Fatou Bâ",
+      "email": "fatou.ba@email.com",
+      "phone": "+221 77 654 32 10",
+      "visitReason": "Formation Dev",
+      "trainingName": "Bootcamp Développement Web",
+      "trainingId": "tr-1",
+      "profile": "Étudiante",
+      "gender": "Femme",
+      "ageRange": "18-25",
+      "checkInTime": "08:55"
+    },
+    {
+      "id": "6",
+      "visitorName": "Ibrahim Coulibaly",
+      "email": "i.coulibaly@email.com",
+      "phone": "+225 07 123 45 67",
+      "visitReason": "Parcours découverte",
+      "profile": "Étudiant",
+      "gender": "Homme",
+      "ageRange": "18-25",
+      "checkInTime": "11:20"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.certificate-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// Cellule bénéficiaire
+.beneficiary-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  &__name { font-weight: $font-weight-semibold; }
+  &__email { font-size: $font-size-xs; color: $color-gray-500; }
+}
+
+// Cellule formation
+.formation-cell {
+  &__title { font-weight: $font-weight-semibold; }
+  &__date { font-size: $font-size-xs; color: $color-gray-500; }
+}

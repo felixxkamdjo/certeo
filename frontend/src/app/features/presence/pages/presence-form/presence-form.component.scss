@@ -1,0 +1,711 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+// ============================================================
+// Wrapper racine
+// ============================================================
+.presence-form {
+  max-width: 560px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  padding: $spacing-xl $spacing-md;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  @include mobile {
+    padding: $spacing-md $spacing-xs;
+    gap: $spacing-lg;
+  }
+}
+
+// ============================================================
+// Header public
+// ============================================================
+.presence-form__header {
+  text-align: center;
+
+  h1 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-extrabold;
+    color: $color-gray-900;
+    margin: $spacing-xs 0;
+
+    @include mobile {
+      font-size: $font-size-xl;
+    }
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin: 0;
+  }
+}
+
+.presence-form__eyebrow {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $color-primary;
+  margin: 0;
+}
+
+// ============================================================
+// Panneau géolocalisation
+// ============================================================
+.location-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: $spacing-2xl $spacing-xl;
+  background: $color-white;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+
+  @include mobile {
+    padding: $spacing-xl $spacing-md;
+  }
+
+  &__test-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    padding: 5px 12px;
+    background: $color-warning-light;
+    border: 1px solid rgba($color-warning, 0.3);
+    border-radius: $radius-lg;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: #b45309;
+    width: 100%;
+    box-sizing: border-box;
+
+    @include mobile {
+      border-radius: $radius-md;
+    }
+
+    .material-symbols-outlined { font-size: 16px; flex-shrink: 0; }
+  }
+
+  &__icon {
+    .material-symbols-outlined {
+      font-size: 56px;
+      color: $color-primary;
+    }
+  }
+
+  &__content {
+    h2 {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: $color-gray-900;
+      margin: 0 0 $spacing-xs;
+    }
+
+    p {
+      font-size: $font-size-sm;
+      color: $color-gray-600;
+      margin: 0;
+      line-height: $line-height-relaxed;
+    }
+  }
+}
+
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ============================================================
+// Barre de progression étapes
+// ============================================================
+.progress-bar {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-sm;
+    font-size: $font-size-sm;
+    gap: $spacing-sm;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    span  { color: $color-gray-500; }
+    strong { color: $color-gray-900; font-weight: $font-weight-semibold; }
+  }
+
+  &__track {
+    height: 6px;
+    background: $color-gray-200;
+    border-radius: $radius-full;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    background: $color-primary;
+    border-radius: inherit;
+    transition: width $transition-slow;
+  }
+}
+
+// ============================================================
+// Card formulaire
+// ============================================================
+.form-card {
+  @include card($spacing-xl);
+  border: 1px solid $color-gray-200;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  @include mobile {
+    padding: $spacing-lg $spacing-md;
+    gap: $spacing-md;
+    border-radius: $radius-lg;
+  }
+
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  &__intro {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin: (-$spacing-sm) 0 0;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+
+    @include mobile {
+      flex-direction: column-reverse;
+      gap: $spacing-sm;
+
+      .btn {
+        width: 100%;
+      }
+
+      > div {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-xs;
+
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// ============================================================
+// Form fields
+// ============================================================
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  grid-column: span 1;
+  min-width: 0;
+
+  &:nth-child(1),
+  &:nth-child(2) {
+    grid-column: span 2; // Nom et email pleine largeur
+
+    @include mobile { grid-column: span 1; }
+  }
+
+  label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: $color-gray-700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid $color-gray-300;
+    border-radius: $radius-md;
+    background: $color-white;
+    color: $color-gray-900;
+    font: inherit;
+    font-size: $font-size-base;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px $color-primary-bg;
+    }
+  }
+
+  select { appearance: none; }
+}
+
+.form-field.is-invalid {
+  label { color: $color-danger; }
+  
+  input, select {
+    border-color: $color-danger;
+    background-color: $color-danger-light;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($color-danger, 0.2);
+    }
+  }
+}
+
+fieldset.is-invalid {
+  legend { color: $color-danger; }
+  .age-card, .profile-chip {
+    border-color: $color-danger;
+    background-color: $color-danger-light;
+  }
+}
+
+.field-error {
+  font-size: $font-size-xs;
+  color: $color-danger;
+  font-weight: $font-weight-medium;
+  margin-top: -2px;
+}
+
+.required { color: $color-danger; }
+.optional  { color: $color-gray-400; text-transform: none; letter-spacing: 0; font-weight: $font-weight-regular; }
+
+.select-wrap {
+  position: relative;
+
+  select { padding-right: 40px; }
+
+  .material-symbols-outlined {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-gray-500;
+    pointer-events: none;
+    font-size: 20px;
+  }
+}
+
+// ============================================================
+// Radio groupe inline (Sexe)
+// ============================================================
+.radio-group {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 8px 14px;
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-md;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  color: $color-gray-700;
+  transition: all $transition-fast;
+
+  input[type='radio'] {
+    width: 16px;
+    height: 16px;
+    accent-color: $color-primary;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
+    &:focus { outline: none; }
+  }
+
+  &:has(input:checked) {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+    color: $color-primary;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// ============================================================
+// Fieldset générique
+// ============================================================
+.form-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  min-width: 0;
+
+  legend {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: $color-gray-700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: $spacing-xs;
+    float: left;
+    width: 100%;
+  }
+}
+
+// ============================================================
+// Grille tranches d'âge (2 cols, 5e option pleine largeur)
+// ============================================================
+.age-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-sm;
+}
+
+.age-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  border: 1.5px solid $color-gray-200;
+  border-radius: $radius-md;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-gray-700;
+  text-align: center;
+  transition: all $transition-fast;
+  background: $color-white;
+
+  input[type='radio'] { display: none; }
+
+  &--selected {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+    color: $color-primary;
+    font-weight: $font-weight-bold;
+  }
+
+  &:hover:not(&--selected) {
+    border-color: $color-gray-400;
+    background: $color-gray-50;
+  }
+}
+
+// ============================================================
+// Profil radio-chips
+// ============================================================
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: $spacing-sm;
+
+  @include mobile {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.profile-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-md $spacing-sm;
+  border: 1.5px solid $color-gray-200;
+  border-radius: $radius-lg;
+  cursor: pointer;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $color-gray-700;
+  text-align: center;
+  transition: all $transition-fast;
+  background: $color-white;
+
+  input[type='radio'] { display: none; }
+
+  .material-symbols-outlined {
+    font-size: 24px;
+    color: $color-gray-400;
+    transition: color $transition-fast;
+  }
+
+  &--selected {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+    color: $color-primary;
+
+    .material-symbols-outlined { color: $color-primary; }
+  }
+
+  &:hover:not(&--selected) {
+    border-color: $color-gray-300;
+    background: $color-gray-50;
+  }
+}
+
+// ============================================================
+// Liste formations étape 2 (radio-cards)
+// ============================================================
+.training-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.training-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  border: 1.5px solid $color-gray-200;
+  border-radius: $radius-lg;
+  cursor: pointer;
+  transition: all $transition-fast;
+  background: $color-white;
+
+  @include mobile {
+    padding: $spacing-sm $spacing-md;
+    gap: $spacing-sm;
+  }
+
+  input[type='radio'] { display: none; }
+
+  &__icon {
+    @include flex-center;
+    width: 44px;
+    height: 44px;
+    border-radius: $radius-full;
+    background: $color-gray-100;
+    flex-shrink: 0;
+    transition: all $transition-fast;
+
+    .material-symbols-outlined { font-size: 22px; color: $color-gray-500; }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    strong {
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: $color-gray-900;
+    }
+
+    span {
+      font-size: $font-size-xs;
+      color: $color-gray-500;
+    }
+  }
+
+  &--selected {
+    border-color: $color-primary;
+    background: $color-primary-bg;
+
+    .training-card__icon {
+      background: $color-primary;
+      .material-symbols-outlined { color: $color-white; }
+    }
+
+    .training-card__info strong { color: $color-primary; }
+  }
+
+  &:hover:not(&--selected) {
+    border-color: $color-gray-300;
+    background: $color-gray-50;
+  }
+}
+
+// ============================================================
+// Étape 2 : Header dynamique & Questions
+// ============================================================
+.step-header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &__badge {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: 4px 12px;
+    background: $color-primary-bg;
+    color: $color-primary;
+    border: 1px solid rgba($color-primary, 0.2);
+    border-radius: $radius-full;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+
+    .material-symbols-outlined {
+      font-size: 16px;
+    }
+  }
+
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gray-900;
+    margin: $spacing-xs 0 0;
+  }
+}
+
+.dynamic-questions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.direct-confirm-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: $color-gray-50;
+  border: 1px solid $color-gray-200;
+  border-radius: $radius-lg;
+
+  @include mobile {
+    flex-direction: column;
+    text-align: center;
+    padding: $spacing-md;
+  }
+
+  &__icon {
+    @include flex-center;
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+    background: $color-primary-bg;
+    color: $color-primary;
+    flex-shrink: 0;
+
+    .material-symbols-outlined {
+      font-size: 26px;
+    }
+  }
+
+  &__body {
+    strong {
+      display: block;
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: $color-gray-900;
+      margin-bottom: 2px;
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-size-xs;
+      color: $color-gray-600;
+      line-height: $line-height-base;
+    }
+  }
+}
+
+// ============================================================
+// Écran succès
+// ============================================================
+.success-screen {
+  @include flex-column-center;
+  gap: $spacing-lg;
+  padding: $spacing-3xl $spacing-xl;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+
+  @include mobile {
+    padding: $spacing-xl $spacing-md;
+  }
+
+  &__icon {
+    .material-symbols-outlined {
+      font-size: 80px;
+      color: $color-success;
+    }
+  }
+
+  &__eyebrow {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $color-success;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-extrabold;
+    color: $color-gray-900;
+    margin: 0;
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: $color-gray-600;
+    margin: 0;
+    line-height: $line-height-relaxed;
+    max-width: 360px;
+  }
+}
+
+// ============================================================
+// Erreur
+// ============================================================
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: $color-danger-light;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  color: $color-danger;
+  font-weight: $font-weight-semibold;
+
+  .material-symbols-outlined { font-size: 18px; }
+}

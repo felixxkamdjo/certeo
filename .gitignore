@@ -14,5 +14,7 @@ dist/
 
 # IDE & OS
 .vscode/
+.kilo/
 .idea/
 .DS_Store
+uploads/

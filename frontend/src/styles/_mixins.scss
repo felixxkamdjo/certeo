@@ -1,0 +1,128 @@
+// ============================================
+// CERTEO SCSS Mixins
+// Responsive, layout & utility helpers
+// ============================================
+
+@use 'variables' as *;
+
+// --- Responsive Breakpoints ---
+@mixin mobile {
+  @media screen and (max-width: #{$breakpoint-mobile - 1}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (min-width: $breakpoint-mobile) and (max-width: #{$breakpoint-desktop - 1}) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media screen and (min-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: $breakpoint-desktop) {
+    @content;
+  }
+}
+
+@mixin wide {
+  @media screen and (min-width: $breakpoint-wide) {
+    @content;
+  }
+}
+
+// --- Flexbox Shortcuts ---
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// --- Text Utilities ---
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// --- Visual Utilities ---
+@mixin card($padding: $spacing-lg) {
+  background: $color-white;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  padding: $padding;
+}
+
+@mixin focus-ring {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+@mixin scrollbar-thin {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-gray-300;
+    border-radius: $radius-full;
+
+    &:hover {
+      background: $color-gray-400;
+    }
+  }
+}
+
+// --- Sizing ---
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+// --- Absolute Positioning ---
+@mixin absolute-fill {
+  position: absolute;
+  inset: 0;
+}
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

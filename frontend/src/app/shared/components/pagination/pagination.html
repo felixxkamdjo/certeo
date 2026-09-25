@@ -1,0 +1,36 @@
+<div class="pagination">
+  <p class="pagination__info">
+    Affichage de <strong>{{ startIndex() }}</strong> à <strong>{{ endIndex() }}</strong> sur <strong>{{ totalItems() }}</strong> résultats
+  </p>
+  <nav class="pagination__nav">
+    <button 
+      class="pagination__btn pagination__btn--nav" 
+      [disabled]="currentPage() === 1"
+      (click)="prevPage()"
+    >
+      <span class="material-symbols-outlined">chevron_left</span>
+    </button>
+    
+    @for (page of pages(); track $index) {
+      @if (page === '...') {
+        <span class="pagination__dots">...</span>
+      } @else {
+        <button 
+          class="pagination__btn" 
+          [class.pagination__btn--active]="page === currentPage()"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      }
+    }
+
+    <button 
+      class="pagination__btn pagination__btn--nav" 
+      [disabled]="currentPage() === totalPages() || totalPages() === 0"
+      (click)="nextPage()"
+    >
+      <span class="material-symbols-outlined">chevron_right</span>
+    </button>
+  </nav>
+</div>

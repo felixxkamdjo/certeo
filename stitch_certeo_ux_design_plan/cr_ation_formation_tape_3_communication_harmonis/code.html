@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Création de formation - Étape 3</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#5e5e5e",
+                        "on-tertiary-container": "#353737",
+                        "on-surface": "#1b1c1c",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#5c2700",
+                        "surface-container-high": "#e9e8e7",
+                        "secondary-container": "#e2e2e2",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#9fa0a0",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#321200",
+                        "surface-container-low": "#f5f3f3",
+                        "background": "#fbf9f8",
+                        "surface-container": "#efeded",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-bright": "#fbf9f8",
+                        "tertiary": "#5d5f5f",
+                        "outline": "#8c7263",
+                        "on-primary-fixed-variant": "#753400",
+                        "surface-tint": "#9a4600",
+                        "inverse-surface": "#303031",
+                        "on-secondary-fixed-variant": "#474747",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "inverse-on-surface": "#f2f0f0",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "outline-variant": "#e0c0af",
+                        "primary-container": "#ff7900",
+                        "on-surface-variant": "#584235",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-secondary-container": "#646464",
+                        "primary": "#9a4600",
+                        "surface-container-highest": "#e4e2e2",
+                        "on-background": "#1b1c1c",
+                        "primary-fixed": "#ffdbc9",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dbdad9",
+                        "surface-variant": "#e4e2e2",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface": "#fbf9f8",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "primary-fixed-dim": "#ffb68c",
+                        "inverse-primary": "#ffb68c",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#1b1b1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col bg-surface-container-low dark:bg-surface-container-lowest h-full w-[280px] border-r border-outline-variant dark:border-outline py-base fixed left-0 top-0 z-40 transition-all duration-200 ease-in-out">
+<div class="px-margin-desktop mb-8 mt-4">
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface">Admin Portal</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Orange Digital Center</p>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">qr_code_scanner</span>
+<span class="font-label-md text-label-md">Presence ODC</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">group</span>
+<span class="font-label-md text-label-md">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg bg-primary-container text-white transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="font-label-md text-label-md">Trainings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">assignment</span>
+<span class="font-label-md text-label-md">Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">people</span>
+<span class="font-label-md text-label-md">Participants</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">grading</span>
+<span class="font-label-md text-label-md">Evaluations</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">workspace_premium</span>
+<span class="font-label-md text-label-md">Certificats</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">analytics</span>
+<span class="font-label-md text-label-md">Reporting</span>
+</a>
+</div>
+<div class="mt-auto border-t border-outline-variant dark:border-outline pt-4 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 mx-2 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col md:ml-[280px] w-full max-w-[1280px] mx-auto">
+<!-- TopAppBar Mobile -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-mobile h-16 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline z-50 sticky top-0">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant dark:text-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-extrabold text-on-surface dark:text-inverse-on-surface">CERTEO</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant dark:text-surface-variant">
+<button class="hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors scale-95 active:scale-90 transition-transform p-2 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full object-cover" data-alt="User profile avatar, professional headshot of a corporate employee in a bright office environment, modern corporate aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBW19YfHYXym6_WQnaFFPX-_LUUNf8TAImUgAO2aVG3E9Cv31lpwjIgzvm5e0hCvzIskdQfF3-gpFcZr3gZe3sjwgqry03kMqTidfiRxsXBi0UC4vmwFwEl7EZ1HIKXxHhnmft-PDGnH5WvaNNgp4frESFuYX6wv4amGJrhmPUT-Sit9qKQihsyU2BYbXX363QYhQkotQDVUSh98RXN3FMRxRla8ZovRJZbHXOifrwHj1xJmRNiKqwd"/>
+</div>
+</header>
+<!-- TopAppBar Desktop -->
+<header class="hidden md:flex justify-between items-center w-full px-margin-desktop h-16 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline z-50 sticky top-0">
+<div class="flex items-center gap-6">
+<span class="font-headline-md text-headline-md font-extrabold text-on-surface dark:text-inverse-on-surface">CERTEO</span>
+<div class="relative hidden lg:block ml-4">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container w-64" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors scale-95 active:scale-90 transition-transform p-2 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-dim transition-colors scale-95 active:scale-90 transition-transform p-2 rounded-full">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant"></div>
+<button class="flex items-center gap-3 hover:bg-surface-container-low px-3 py-1.5 rounded-lg transition-colors">
+<img alt="User profile avatar" class="w-8 h-8 rounded-full object-cover" data-alt="User profile avatar, professional headshot of a corporate employee in a bright office environment, modern corporate aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8TQQ6U0lKyfFI0dMLXPhIbT3jC1tA9TPXz2_UOhrC2jW0RZSuD_NLR-KGaM8Mb2UhMB67IYsA5ioN4xQYMoC-3UiTRDMU6OG4KOnSxI_M-YtMygfdXpE78h-tTxILVsA_1-lkOSKLdW3Cx-6HbA7_MdcG3zkF-kY1KsO8I7PyW4Xe1kVoWrqtDl09f17CQRRiKIGzKn_kFBgmuSFWzLEmaV2CdVPw3RzD1tEFQ-Oclh5x0yD0K2eg"/>
+<span class="font-label-md text-label-md text-on-surface">Profile Settings</span>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-margin-mobile md:p-gutter lg:p-margin-desktop flex-1 flex flex-col gap-8 bg-surface">
+<!-- Header & Stepper -->
+<div class="flex flex-col gap-6">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface">Création de formation</h2>
+<p class="font-body-md text-on-surface-variant mt-1">Configurez les détails de votre nouvelle session de formation.</p>
+</div>
+<!-- Stepper Component -->
+<div class="w-full max-w-3xl mx-auto mb-8">
+<div class="flex items-center justify-between relative"><!-- Connecting Line -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-surface-container-highest z-0"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-2/3 h-1 bg-primary-container z-0"></div>
+<!-- Step 1: Completed -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface absolute top-12 whitespace-nowrap">Informations</span>
+</div>
+<!-- Step 2: Completed -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface absolute top-12 whitespace-nowrap">Planification</span>
+</div>
+<!-- Step 3: Active -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface border-2 border-primary-container text-primary-container flex items-center justify-center shadow-sm">
+<span class="font-label-md text-label-md">3</span>
+</div>
+<span class="font-label-md text-label-md text-primary-container font-bold absolute top-12 whitespace-nowrap">Communication</span>
+</div>
+<!-- Step 4: Inactive -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface border-2 border-surface-container-highest text-on-surface-variant flex items-center justify-center shadow-sm">
+<span class="font-label-md text-label-md">4</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant absolute top-12 whitespace-nowrap">Formulaire</span>
+</div></div>
+</div>
+</div>
+<!-- Main Form Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-l-4 border-primary-container max-w-4xl mx-auto w-full">
+<div class="p-6 md:p-8 border-b border-surface-container-highest">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">campaign</span>
+                        Communication &amp; Audience
+                    </h3>
+<p class="font-body-md text-on-surface-variant mt-2">Définissez le public cible et préparez les supports de communication pour cette formation.</p>
+</div>
+<form class="p-6 md:p-8 flex flex-col gap-6">
+<!-- Public cible -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="formation_status">Statut de la formation *</label>
+<div class="relative">
+<select class="w-full h-12 px-4 rounded-lg border border-[#E0E0E0] focus:border-primary-container focus:ring-1 focus:ring-primary-container bg-surface-container-lowest text-on-surface font-body-md transition-colors outline-none appearance-none" id="formation_status">
+<option value="draft">Brouillon</option>
+<option value="open">Ouverte</option>
+<option value="closed">Fermée</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div><div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="audience">Public cible *</label>
+<select class="w-full h-12 px-4 rounded-lg border border-[#E0E0E0] focus:border-primary-container focus:ring-1 focus:ring-primary-container bg-surface-container-lowest text-on-surface font-body-md transition-colors outline-none appearance-none" id="audience">
+<option disabled="" selected="" value="">Sélectionnez le public visé...</option>
+<option value="dev">Développeurs Junior</option>
+<option value="design">Designers UI/UX</option>
+<option value="manager">Chefs de projet</option>
+<option value="all">Tout public (Interne)</option>
+<option value="external">Externe / Étudiants</option>
+</select>
+<div class="pointer-events-none absolute right-12 mt-10 md:mt-12 flex items-center px-2 text-on-surface-variant">
+<!-- Dropdown arrow positioning needs relative parent in real impl, simplified here for visual -->
+</div>
+</div>
+<!-- Message réseaux sociaux -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<label class="font-label-md text-label-md text-on-surface" for="social_message">Message réseaux sociaux</label>
+<span class="font-body-md text-sm text-on-surface-variant">0/280</span>
+</div>
+<textarea class="w-full p-4 rounded-lg border border-[#E0E0E0] focus:border-primary-container focus:ring-1 focus:ring-primary-container bg-surface-container-lowest text-on-surface font-body-md transition-colors outline-none resize-y" id="social_message" placeholder="Rédigez le texte qui accompagnera la publication sur LinkedIn ou Twitter..." rows="4"></textarea>
+<p class="text-xs text-on-surface-variant font-body-md flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                            Astuce : Utilisez des emojis et des hashtags pertinents pour augmenter la visibilité.
+                        </p>
+</div>
+<!-- Import d'image (affiche) -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface">Affiche promotionnelle</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant">cloud_upload</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface mb-1">Cliquez pour importer ou glissez-déposez</p>
+<p class="font-body-md text-sm text-on-surface-variant text-center">PNG, JPG ou PDF (Max. 5MB)<br/>Format recommandé : 1200x630px</p>
+<!-- Hidden input -->
+<input accept="image/png, image/jpeg, application/pdf" class="hidden" type="file"/>
+</div>
+</div>
+<!-- Form Actions -->
+<div class="mt-8 pt-6 border-t border-surface-container-highest flex flex-col-reverse md:flex-row justify-between items-center gap-4">
+<button class="w-full md:w-auto px-6 h-12 rounded-lg border border-outline text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+                            Précédent
+                        </button>
+<button class="w-full md:w-auto px-8 h-12 rounded-lg bg-[#FF7900] text-white font-label-md text-label-md hover:bg-primary transition-colors flex items-center justify-center gap-2 shadow-sm" type="submit">
+                            Suivant
+<span class="material-symbols-outlined">arrow_forward</span></button>
+</div>
+</form>
+</div>
+</div>
+</main>
+</body></html>

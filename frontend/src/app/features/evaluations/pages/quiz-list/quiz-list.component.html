@@ -1,0 +1,142 @@
+<div class="quiz-list">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Gestion des Évaluations</h1>
+      <p class="page-subtitle">Consultez et gérez l'ensemble des questionnaires créés pour vos formations.</p>
+    </div>
+    <div class="page-header__actions">
+      <button class="btn btn--dark" type="button" routerLink="send">
+        <span class="material-symbols-outlined">send</span>
+        Envoyer une évaluation
+      </button>
+      <button class="btn btn--primary" routerLink="create" type="button">
+        <span class="material-symbols-outlined">add</span>
+        Créer une évaluation
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <app-kpi-card
+      label="Total évaluations"
+      [value]="statistics()?.totalEvaluations ?? 0"
+      icon="assignment"
+      colorTheme="primary">
+    </app-kpi-card>
+    <app-kpi-card
+      label="Participations totales"
+      [value]="statistics()?.totalParticipations ?? 0"
+      icon="groups"
+      colorTheme="secondary">
+    </app-kpi-card>
+    <app-kpi-card
+      label="Score moyen"
+      [value]="(statistics()?.averageScore ?? 0) + '%'"
+      icon="military_tech"
+      colorTheme="secondary">
+    </app-kpi-card>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+
+    <!-- Toolbar avec filtres -->
+    <div class="table-card__toolbar">
+      <app-table-search
+        [placeholder]="'Rechercher une évaluation...'"
+        [searchValue]="searchTerm()"
+        [filters]="[
+          {
+            key: 'training',
+            label: 'Toutes les formations',
+            type: 'select',
+            value: trainingFilter(),
+            options: trainingOptions().map(t => ({ value: t.id, label: t.name }))
+          },
+          {
+            key: 'date',
+            label: 'Date de création',
+            type: 'date',
+            value: dateFilter()
+          }
+        ]"
+        (searchChange)="updateSearchTerm($event)"
+        (filterChange)="onFilterChange($event)"
+        (reset)="resetFilters()" />
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nom de l'évaluation</th>
+            <th>Formation associée</th>
+            <th class="text-center">Questions</th>
+            <th>Date de création</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (evaluation of visibleEvaluations(); track evaluation.id) {
+            <tr class="data-table__row">
+              <td>
+                <a class="cell-title" [routerLink]="[evaluation.id]">{{ evaluation.title }}</a>
+              </td>
+              <td class="text-secondary">{{ evaluation.trainingName }}</td>
+              <td class="text-center text-secondary">{{ evaluation.questionCount }}</td>
+              <td class="text-secondary">{{ formatDate(evaluation.createdAt) }}</td>
+              <td class="text-right">
+                <div class="row-actions">
+                  <a class="icon-btn icon-btn--view" [routerLink]="[evaluation.id]" title="Voir l'évaluation">
+                    <span class="material-symbols-outlined">visibility</span>
+                  </a>
+                  <a class="icon-btn icon-btn--edit" [routerLink]="[evaluation.id, 'edit']" title="Modifier">
+                    <span class="material-symbols-outlined">edit</span>
+                  </a>
+                  <button class="icon-btn icon-btn--delete" type="button" (click)="requestArchive(evaluation.id)" title="Archiver">
+                    <span class="material-symbols-outlined">archive</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5">
+                <app-empty-state
+                  title="Aucune évaluation trouvée"
+                  description="Aucun questionnaire ne correspond à vos filtres. Modifiez votre recherche ou créez une nouvelle évaluation."
+                  icon="search_off">
+                </app-empty-state>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination
+      [totalItems]="filteredEvaluations().length"
+      [itemsPerPage]="pageSize"
+      [currentPage]="currentPage()"
+      (pageChange)="goToPage($event)">
+    </app-pagination>
+
+  </div>
+
+  <!-- Archive Confirm Dialog -->
+  <app-confirm-dialog
+    [isOpen]="evaluationToArchive() !== null"
+    [title]="'Archiver l\'évaluation ?'"
+    [message]="'Voulez-vous vraiment archiver ' + evaluationToArchiveTitle + ' ? Elle ne sera plus visible dans la liste.'"
+    confirmText="Archiver"
+    icon="archive"
+    (confirm)="confirmArchive()"
+    (cancel)="closeArchiveDialog()">
+  </app-confirm-dialog>
+
+</div>

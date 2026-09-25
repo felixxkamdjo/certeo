@@ -1,0 +1,52 @@
+<div class="analytics-dashboard">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Reporting Global</h1>
+      <p class="page-subtitle">Aperçu des performances de formation</p>
+    </div>
+    
+    <div class="page-header__actions">
+      <div class="select-wrap">
+        <select class="select-field" [value]="timeRange()" (change)="timeRange.set($any($event.target).value)">
+          <option>Derniers 30 jours</option>
+          <option>Ce trimestre</option>
+          <option>Cette année</option>
+        </select>
+        <span class="material-symbols-outlined select-wrap__chevron">expand_more</span>
+      </div>
+      
+      <button class="btn btn--primary" (click)="exportReport()">
+        <span class="material-symbols-outlined">download</span> Exporter
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI Cards Row -->
+  <div class="kpi-grid">
+    <app-kpi-card label="Taux de réussite moyen" value="82%" trend="+3.2%" trendDirection="up" icon="trending_up" colorTheme="primary"></app-kpi-card>
+    <app-kpi-card label="Certificats délivrés" value="1,240" trend="+12%" trendDirection="up" icon="verified" colorTheme="success"></app-kpi-card>
+    <app-kpi-card label="Formations actives" value="18" subtitle="En cours" icon="school" colorTheme="warning"></app-kpi-card>
+    <app-kpi-card label="Total Participants" value="4,500" trend="+8%" trendDirection="up" icon="groups" colorTheme="secondary"></app-kpi-card>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="charts-grid">
+    <!-- Bar Chart Area -->
+    <div class="chart-card chart-card--span-2">
+      <h4 class="chart-card__title">Inscriptions par mois</h4>
+      <app-bar-chart [data]="barChartData()" [maxValue]="1000" height="256px"></app-bar-chart>
+    </div>
+
+    <!-- Donut Chart Area -->
+    <div class="chart-card">
+      <h4 class="chart-card__title">Statut des formations</h4>
+      <app-donut-chart 
+        totalValue="124" 
+        totalLabel="Total" 
+        gradient="conic-gradient(var(--color-primary, #ff7900) 0% 55%, #2e7d32 55% 85%, #9e9e9e 85% 100%)"
+        [legendItems]="donutLegendItems()">
+      </app-donut-chart>
+    </div>
+  </div>
+</div>
