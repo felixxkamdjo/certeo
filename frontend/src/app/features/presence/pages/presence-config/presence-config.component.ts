@@ -1,15 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DEFAULT_PRESENCE_CONFIG, VisitReasonConfig, ProfileConfig } from '../../models/presence.model';
 
 interface FormField {
   label: string;
+  controlName: string;
   required: boolean;
   enabled: boolean;
-}
-
-interface VisitReason {
-  label: string;
 }
 
 @Component({
@@ -23,36 +21,16 @@ export class PresenceConfigComponent {
   readonly saved = signal(false);
 
   // Champs du formulaire étape 1
-  readonly fields = signal<FormField[]>([
-    { label: 'Nom complet',    required: true,  enabled: true },
-    { label: 'Adresse mail',   required: true,  enabled: true },
-    { label: 'Téléphone',      required: false, enabled: true },
-    { label: 'Sexe',           required: false, enabled: true },
-    { label: 'Tranche d\'âge', required: false, enabled: true },
-    { label: 'Profil',         required: false, enabled: true },
-  ]);
+  readonly fields = signal<FormField[]>([...DEFAULT_PRESENCE_CONFIG.fields]);
 
   // Motifs de visite
-  readonly reasons = signal<VisitReason[]>([
-    { label: 'Renseignements' },
-    { label: 'Parcours découverte' },
-    { label: 'Formation' },
-    { label: 'Accès au coworking' },
-    { label: 'Réunion' },
-    { label: 'Développement d\'un projet' },
-  ]);
+  readonly reasons = signal<VisitReasonConfig[]>([...DEFAULT_PRESENCE_CONFIG.reasons]);
 
   // Tranches d'âge éditables
-  readonly ageRanges = signal<string[]>(['-18 ans', '18-25', '26-35', '36-45', '45+']);
+  readonly ageRanges = signal<string[]>([...DEFAULT_PRESENCE_CONFIG.ageRanges]);
 
   // Profils visiteurs avec toggles
-  readonly profiles = signal<{ label: string; enabled: boolean }[]>([
-    { label: 'Étudiant',           enabled: true },
-    { label: 'Salarié',            enabled: true },
-    { label: 'Entrepreneur',       enabled: true },
-    { label: 'Chercheur d\'emploi', enabled: true },
-    { label: 'Retraité',           enabled: false },
-  ]);
+  readonly profiles = signal<ProfileConfig[]>([...DEFAULT_PRESENCE_CONFIG.profiles]);
 
   toggleField(index: number): void {
     this.fields.update(fs => fs.map((f, i) =>
@@ -61,7 +39,15 @@ export class PresenceConfigComponent {
   }
 
   addReason(): void {
-    this.reasons.update(r => [...r, { label: 'Nouveau motif' }]);
+    const newReason: VisitReasonConfig = {
+      value: 'Nouveau motif',
+      label: 'Nouveau motif',
+      icon: 'star',
+      questionType: 'direct_confirm',
+      questionTitle: 'Validation',
+      questionSubtitle: 'Confirmez votre arrivée.'
+    };
+    this.reasons.update(r => [...r, newReason]);
   }
 
   removeReason(index: number): void {
@@ -69,7 +55,7 @@ export class PresenceConfigComponent {
   }
 
   updateReason(index: number, value: string): void {
-    this.reasons.update(r => r.map((item, i) => i === index ? { ...item, label: value } : item));
+    this.reasons.update(r => r.map((item, i) => i === index ? { ...item, label: value, value } : item));
   }
 
   addAgeRange(): void {

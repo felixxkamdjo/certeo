@@ -160,6 +160,8 @@
   transition: all $transition-fast;
   border: none;
   text-decoration: none;
+  text-align: center;
+  white-space: normal;
 
   .material-symbols-outlined {
     font-size: 18px;

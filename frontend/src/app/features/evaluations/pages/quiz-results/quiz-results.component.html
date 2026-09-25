@@ -5,7 +5,7 @@
     <!-- Header minimal — 100% public, aucun lien admin -->
     <header class="results-header">
       <div class="results-header__brand">
-        <strong>CERTEO</strong>
+        <strong>ODC</strong>
         <span>{{ r.trainingLabel }}</span>
       </div>
     </header>
@@ -163,44 +163,56 @@
           </div>
         </header>
 
-        <div class="answer-list">
-          @for (answer of answers(); track answer.question; let i = $index) {
-            <article class="answer-item" [class.answer-item--wrong]="!answer.correct">
-              <span class="answer-item__icon">
-                <span class="material-symbols-outlined">
-                  {{ answer.correct ? 'check' : 'close' }}
+        @if (passed()) {
+          <div class="answer-list">
+            @for (answer of answers(); track answer.question; let i = $index) {
+              <article class="answer-item" [class.answer-item--wrong]="!answer.correct">
+                <span class="answer-item__icon">
+                  <span class="material-symbols-outlined">
+                    {{ answer.correct ? 'check' : 'close' }}
+                  </span>
                 </span>
-              </span>
-              <div class="answer-item__content">
-                <h3>{{ i + 1 }}. {{ answer.question }}</h3>
-                <p class="answer-item__response" [class.struck]="!answer.correct">
-                  Votre reponse : <em>{{ answer.response }}</em>
-                </p>
-                @if (answer.correction) {
-                  <p class="answer-item__correction">
-                    <span class="material-symbols-outlined">subdirectory_arrow_right</span>
-                    Correction : {{ answer.correction }}
+                <div class="answer-item__content">
+                  <h3>{{ i + 1 }}. {{ answer.question }}</h3>
+                  <p class="answer-item__response" [class.struck]="!answer.correct">
+                    Votre reponse : <em>{{ answer.response }}</em>
                   </p>
-                }
-                <span class="points-badge" [class.points-badge--zero]="!answer.correct">
-                  {{ answer.points }}
-                </span>
-              </div>
-            </article>
-          }
-        </div>
+                  @if (answer.correction) {
+                    <p class="answer-item__correction">
+                      <span class="material-symbols-outlined">subdirectory_arrow_right</span>
+                      Correction : {{ answer.correction }}
+                    </p>
+                  }
+                  <span class="points-badge" [class.points-badge--zero]="!answer.correct">
+                    {{ answer.points }}
+                  </span>
+                </div>
+              </article>
+            }
+          </div>
 
-        <footer class="recap-panel__footer">
-          <span class="recap-footer__total">
-            Total : <strong>{{ r.earnedPoints }} / {{ r.totalPoints }} points</strong>
-          </span>
-          @if (passed() && certificateId()) {
-            <button class="btn btn--primary btn--sm" type="button" (click)="goToCertificate()">
-              <span class="material-symbols-outlined">workspace_premium</span>
-              Voir l'attestation
-            </button>
-          }
-        </footer>
+          <footer class="recap-panel__footer">
+            <span class="recap-footer__total">
+              Total : <strong>{{ r.earnedPoints }} / {{ r.totalPoints }} points</strong>
+            </span>
+            @if (certificateId()) {
+              <button class="btn btn--primary btn--sm" type="button" (click)="goToCertificate()">
+                <span class="material-symbols-outlined">workspace_premium</span>
+                Voir l'attestation
+              </button>
+            }
+          </footer>
+        } @else {
+          <div style="padding: 48px 24px; text-align: center; color: #4b5563;">
+            <span class="material-symbols-outlined" style="font-size: 48px; color: #9ca3af; margin-bottom: 16px;">lock</span>
+            <p style="margin: 0; font-size: 1.1rem; font-weight: 600; color: #111827;">Détail des réponses masqué</p>
+            <p style="margin: 8px 0 0 0;">Le corrigé de l'évaluation n'est disponible qu'en cas de réussite.</p>
+            <p style="margin: 16px 0 0 0; font-weight: 500;">
+              Vous avez <span style="color: #10b981;">{{ correctCount() }} réponses correctes</span> 
+              et <span style="color: #ef4444;">{{ incorrectCount() }} réponses incorrectes</span>.
+            </p>
+          </div>
+        }
 
       </section>
 

@@ -3,7 +3,7 @@
 
 .quiz-take {
   min-height: 100dvh;
-  margin: (-$spacing-xl) (-$spacing-md);
+  margin: (-$spacing-2xl) (-$spacing-lg);
   background: radial-gradient(circle at 8% 20%, $color-primary-bg, transparent 30%),
               $color-gray-50;
   color: $color-gray-900;
@@ -448,7 +448,7 @@
 // --- Responsive ---
 @include mobile {
   .quiz-take {
-    margin: (-$spacing-xl) (-$spacing-md);
+    margin: (-$spacing-md) (-$spacing-sm);
 
     &__brand span { display: none; }
     &__topbar { padding: 0 $spacing-md; }
