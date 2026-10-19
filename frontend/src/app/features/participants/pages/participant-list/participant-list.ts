@@ -1,8 +1,7 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ConfirmDialogComponent, KpiCardComponent, PaginationComponent, StatusBadgeComponent } from '@shared';
-import { TableSearchComponent } from '@shared/components';
+import { ConfirmDialogComponent, KpiCardComponent, PaginationComponent, StatusBadgeComponent, TableSearchComponent } from '@shared';
 import { ParticipantService } from '../../services/participant.service';
 import { Participant, ParticipantStatus } from '../../models/participant.model';
 
@@ -45,7 +44,7 @@ export class ParticipantListComponent implements OnInit {
     });
   }
 
-  // filter options for the training filter dropdown, derived from the participants list
+  // filters option
   readonly trainingOptions = computed(() => {
     const titles = new Set(
       this.participants().map(p => p.trainingTitle).filter((t): t is string => !!t)
@@ -156,7 +155,8 @@ export class ParticipantListComponent implements OnInit {
     this.isDeleteModalOpen.set(true);
   }
 
-  // not endpoint DELETE /api/participants/{id} yet
+  // no endpoint for deletion yet
+  // must be connected when it will exist
   onDeleteConfirm(): void {
     const p = this.selectedForDelete();
     if (!p) return;

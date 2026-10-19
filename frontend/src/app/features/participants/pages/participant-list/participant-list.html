@@ -24,8 +24,8 @@
         [placeholder]="'Rechercher un participant...'"
         [searchValue]="searchTerm()"
         [filters]="[{ key: 'training', label: 'Toutes les formations', type: 'select', value: trainingFilter(), options: trainingOptions() }]"
-        (searchChange)="onSearchChange($any($event))"
-        (filterChange)="onFilterChange($any($event))"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
         (reset)="onSearchChange(''); onTrainingChange('')" />
 
       <div class="action-bar__buttons">

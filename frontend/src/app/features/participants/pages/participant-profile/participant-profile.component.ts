@@ -18,7 +18,7 @@ export class ParticipantProfileComponent implements OnInit {
   private readonly participantService = inject(ParticipantService);
 
   readonly profile = signal<Participant | null>(null);
-  readonly isLoading = signal(true);
+  readonly isLoading = signal<boolean>(true);
   readonly loadError = signal<string | null>(null);
 
   readonly isConfirmOpen = signal(false);
@@ -61,7 +61,7 @@ export class ParticipantProfileComponent implements OnInit {
     this.router.navigate(['/admin/evaluations']);
   }
 
-  // not endpoint DELETE yet
+  // no endpoint for deletion yet.
   onRemoveConfirm(): void {
     this.isConfirmLoading.set(true);
     setTimeout(() => {

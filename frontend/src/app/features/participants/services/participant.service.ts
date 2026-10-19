@@ -12,12 +12,20 @@ export class ParticipantService {
 
   getAll(trainingId?: string): Observable<Participant[]> {
     const params = trainingId ? { trainingId } : undefined;
-    return this.api.get<Participant[]>('/participants', params).pipe(
+    return this.api.get<Participant[]>('participants', params).pipe(
       tap((data) => this._participants.set(data))
     );
   }
 
   getById(id: string): Observable<Participant> {
-    return this.api.get<Participant>(`/participants/${id}`);
+    return this.api.get<Participant>(`participants/${id}`);
+  }
+
+  deleteParticipant(id: string): Observable<void> {
+    return this.api.delete<void>(`participants/${id}`);
+  }
+
+  delete(id: string): Observable<void> {
+    return this.deleteParticipant(id);
   }
 }
