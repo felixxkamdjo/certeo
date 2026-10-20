@@ -1,62 +1,105 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { ApplicationService } from '../../services/application.service';
-import { ApplicationListItem, ApplicationStatus } from '../../models/application.model';
+import { CandidateApplication, ApplicationStatus } from '../../models/application.model';
 import { ConfirmDialogComponent, KpiCardComponent, PaginationComponent } from '@shared';
+import { Observable, of, switchMap, catchError, combineLatest, map } from 'rxjs';
 
 @Component({
   selector: 'app-application-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ConfirmDialogComponent, KpiCardComponent, PaginationComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    ConfirmDialogComponent,
+    KpiCardComponent,
+    PaginationComponent
+  ],
   templateUrl: './application-list.component.html',
   styleUrl: './application-list.component.scss'
 })
-export class ApplicationListComponent implements OnInit {
+export class ApplicationListComponent {
   private readonly router = inject(Router);
   private readonly applicationService = inject(ApplicationService);
 
-  readonly searchTerm = signal('');
-  readonly statusFilter = signal<ApplicationStatus | ''>('');
-  readonly isLoading = signal(true);
-  readonly loadError = signal<string | null>(null);
-
-  readonly isStatusModalOpen = signal(false);
-  readonly selectedAppForStatus = signal<ApplicationListItem | null>(null);
-  readonly isStatusSaving = signal(false);
-
-  readonly isDeleteModalOpen = signal(false);
-  readonly selectedAppForDelete = signal<ApplicationListItem | null>(null);
-  readonly isDeleting = signal(false);
-
-  readonly currentPage = signal(1);
-  readonly itemsPerPage = signal(5);
-  readonly dateFilter = signal('');
-
-  readonly applications = this.applicationService.applications;
   readonly ApplicationStatus = ApplicationStatus;
 
-  ngOnInit(): void {
-    this.applicationService.getAll().subscribe({
-      next: () => this.isLoading.set(false),
-      error: () => {
-        this.isLoading.set(false);
-        this.loadError.set('Impossible de charger les candidatures.');
-      }
-    });
-  }
+  // Filtres et pagination réactifs
+  readonly searchTerm = signal<string>('');
+  readonly statusFilter = signal<string>('');
+  readonly currentPage = signal<number>(1);
+  readonly itemsPerPage = signal<number>(10);
+  readonly dateFilter = signal<string>('');
+
+  // Déclencheur de rafraîchissement manuel pour les mutations (select, reject, etc.)
+  private readonly refreshTrigger = signal<number>(0);
+
+  // Flux réactif de chargement Zoneless (déclenché automatiquement dès la construction)
+  private readonly applicationsData$ = combineLatest([
+    toObservable(this.searchTerm),
+    toObservable(this.statusFilter),
+    toObservable(this.currentPage),
+    toObservable(this.itemsPerPage),
+    toObservable(this.refreshTrigger)
+  ]).pipe(
+    switchMap(([term, status, page, pageSize]) =>
+      this.applicationService.getAll(
+        undefined,
+        status || undefined,
+        term || undefined,
+        page,
+        pageSize
+      ).pipe(
+        catchError(err => {
+          console.error('Erreur chargement candidatures :', err);
+          return of({ items: [] as CandidateApplication[], totalCount: 0 });
+        })
+      )
+    )
+  );
+
+  // Conversion en Signal accessible en lecture seule dans le template
+  private readonly applicationsResponse = toSignal(this.applicationsData$, {
+    initialValue: { items: [], totalCount: 0 }
+  });
+
+  readonly applications = computed(() => this.applicationsResponse().items ?? []);
+  readonly totalItems = computed(() => this.applicationsResponse().totalCount ?? 0);
+
+  // Status Modal State
+  readonly isStatusModalOpen = signal(false);
+  readonly selectedAppForStatus = signal<CandidateApplication | null>(null);
+  readonly targetStatus = signal<ApplicationStatus>(ApplicationStatus.Pending);
+  readonly isStatusSaving = signal(false);
+
+  // Delete / Reject Modal State
+  readonly isDeleteModalOpen = signal(false);
+  readonly selectedAppForDelete = signal<CandidateApplication | null>(null);
+  readonly isDeleting = signal(false);
 
   readonly filteredApplications = computed(() => {
-    const term = this.searchTerm().toLowerCase();
+    const term = this.searchTerm().toLowerCase().trim();
     const status = this.statusFilter();
+    const date = this.dateFilter();
+
     return this.applications().filter(app => {
+      const fullName = this.getFullName(app).toLowerCase();
       const matchesSearch = !term ||
-        app.fullName.toLowerCase().includes(term) ||
-        app.email.toLowerCase().includes(term) ||
+        fullName.includes(term) ||
+        (app.email?.toLowerCase().includes(term) ?? false) ||
         (app.trainingTitle?.toLowerCase().includes(term) ?? false);
-      const matchesStatus = status === '' || app.status === status;
-      return matchesSearch && matchesStatus;
+
+      const matchesStatus = !status || String(app.status) === String(status);
+
+      const appDate = (app.applicationDate || app.createdAt || '').slice(0, 10);
+      const matchesDate = !date || appDate === date;
+
+      return matchesSearch && matchesStatus && matchesDate;
     });
   });
 
@@ -64,45 +107,54 @@ export class ApplicationListComponent implements OnInit {
     const all = this.applications();
     return {
       total: all.length,
-      pending: all.filter(a => a.status === ApplicationStatus.Pending || a.status === ApplicationStatus.InInterview).length,
-      accepted: all.filter(a => a.status === ApplicationStatus.Selected).length,
-      rejected: all.filter(a => a.status === ApplicationStatus.Rejected).length
+      pending: all.filter(a => String(a.status) === '0' || a.status === ApplicationStatus.Pending).length,
+      accepted: all.filter(a => String(a.status) === '1' || String(a.status) === '3' || a.status === ApplicationStatus.Accepted).length,
+      rejected: all.filter(a => String(a.status) === '4' || a.status === ApplicationStatus.Rejected).length
     };
   });
 
   readonly pagedApplications = computed(() => {
+    // return a slice of the filtered applications based on current page and items per page
     const all = this.filteredApplications();
     const start = (this.currentPage() - 1) * this.itemsPerPage();
     return all.slice(start, start + this.itemsPerPage());
   });
 
-  getInitials(fullName: string): string {
-    const parts = fullName.trim().split(/\s+/);
-    const first = parts[0]?.charAt(0) ?? '';
-    const last = parts.length > 1 ? parts[parts.length - 1].charAt(0) : '';
-    return (first + last).toUpperCase();
+  getFullName(app: CandidateApplication): string {
+    if (app.fullName) return app.fullName;
+    if (app.firstName || app.lastName) {
+      return `${app.firstName ?? ''} ${app.lastName ?? ''}`.trim();
+    }
+    return 'Candidat';
   }
 
-  getStatusLabel(status: ApplicationStatus): string {
-    const labels: Record<ApplicationStatus, string> = {
-      [ApplicationStatus.Pending]: 'En attente',
-      [ApplicationStatus.InInterview]: 'En entretien',
-      [ApplicationStatus.Evaluated]: 'Évalué',
-      [ApplicationStatus.Selected]: 'Sélectionné',
-      [ApplicationStatus.Rejected]: 'Refusé'
-    };
-    return labels[status];
+  getInitials(app: CandidateApplication): string {
+    const name = this.getFullName(app).trim();
+    const parts = name.split(' ');
+    if (parts.length >= 2 && parts[0] && parts[1]) {
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
   }
 
-  getStatusVariant(status: ApplicationStatus): string {
-    const variants: Record<ApplicationStatus, string> = {
-      [ApplicationStatus.Pending]: 'warning',
-      [ApplicationStatus.InInterview]: 'info',
-      [ApplicationStatus.Evaluated]: 'info',
-      [ApplicationStatus.Selected]: 'success',
-      [ApplicationStatus.Rejected]: 'danger'
-    };
-    return variants[status];
+  getStatusLabel(status: ApplicationStatus | string | number): string {
+    const s = String(status).toUpperCase();
+    if (s === 'PENDING' || s === '0') return 'En attente';
+    if (s === 'UNDER_REVIEW' || s === '1') return 'En révision';
+    if (s === 'INTERVIEW' || s === '2') return 'En entretien';
+    if (s === 'ACCEPTED' || s === '3') return 'Retenu';
+    if (s === 'REJECTED' || s === '4') return 'Refusé';
+    return 'En attente';
+  }
+
+  getStatusBadgeClass(status: ApplicationStatus | string | number): string {
+    const s = String(status).toUpperCase();
+    if (s === 'PENDING' || s === '0') return 'status-badge--pending';
+    if (s === 'UNDER_REVIEW' || s === '1') return 'status-badge--under_review';
+    if (s === 'INTERVIEW' || s === '2') return 'status-badge--interview';
+    if (s === 'ACCEPTED' || s === '3') return 'status-badge--accepted';
+    if (s === 'REJECTED' || s === '4') return 'status-badge--rejected';
+    return 'status-badge--pending';
   }
 
   navigateToDetail(id: string): void {
@@ -115,7 +167,12 @@ export class ApplicationListComponent implements OnInit {
   }
 
   onStatusChange(value: string): void {
-    this.statusFilter.set(value === '' ? '' : (Number(value) as ApplicationStatus));
+    this.statusFilter.set(value);
+    this.currentPage.set(1);
+  }
+
+  onDateChange(value: string): void {
+    this.dateFilter.set(value);
     this.currentPage.set(1);
   }
 
@@ -126,36 +183,46 @@ export class ApplicationListComponent implements OnInit {
   resetFilters(): void {
     this.searchTerm.set('');
     this.statusFilter.set('');
-    this.currentPage.set(1);
     this.dateFilter.set('');
+    this.currentPage.set(1);
   }
 
-  openStatusModal(app: ApplicationListItem): void {
+  refresh(): void {
+    this.refreshTrigger.update(v => v + 1);
+  }
+
+  openStatusModal(app: CandidateApplication): void {
     this.selectedAppForStatus.set(app);
+    this.targetStatus.set(app.status as ApplicationStatus);
     this.isStatusModalOpen.set(true);
   }
 
-  applyTransition(action: 'interview' | 'evaluate' | 'select' | 'reject'): void {
+  onStatusConfirm(): void {
     const app = this.selectedAppForStatus();
+    const newStatus = this.targetStatus();
     if (!app) return;
 
-    const call =
-      action === 'interview' ? this.applicationService.moveToInterview(app.id) :
-      action === 'evaluate' ? this.applicationService.markEvaluated(app.id) :
-      action === 'select' ? this.applicationService.select(app.id) :
-      this.applicationService.reject(app.id);
-
     this.isStatusSaving.set(true);
-    call.subscribe({
+    let action$: Observable<any>;
+
+    if (newStatus === ApplicationStatus.Accepted) {
+      action$ = this.applicationService.select(app.id);
+    } else if (newStatus === ApplicationStatus.Rejected) {
+      action$ = this.applicationService.reject(app.id);
+    } else if (newStatus === ApplicationStatus.Interview) {
+      action$ = this.applicationService.moveToInterview(app.id);
+    } else {
+      action$ = of(null);
+    }
+
+    action$.subscribe({
       next: () => {
         this.isStatusSaving.set(false);
         this.isStatusModalOpen.set(false);
         this.selectedAppForStatus.set(null);
-        this.applicationService.getAll().subscribe();
+        this.refresh();
       },
-      error: () => {
-        this.isStatusSaving.set(false);
-      }
+      error: () => this.isStatusSaving.set(false)
     });
   }
 
@@ -164,40 +231,29 @@ export class ApplicationListComponent implements OnInit {
     this.selectedAppForStatus.set(null);
   }
 
-  openDeleteModal(app: ApplicationListItem): void {
+  openDeleteModal(app: CandidateApplication): void {
     this.selectedAppForDelete.set(app);
     this.isDeleteModalOpen.set(true);
   }
 
-  // not endpoint DELETE yet
   onDeleteConfirm(): void {
     const app = this.selectedAppForDelete();
     if (!app) return;
+
     this.isDeleting.set(true);
-    setTimeout(() => {
-      this.isDeleting.set(false);
-      this.isDeleteModalOpen.set(false);
-      this.selectedAppForDelete.set(null);
-    }, 500);
+    this.applicationService.reject(app.id).subscribe({
+      next: () => {
+        this.isDeleting.set(false);
+        this.isDeleteModalOpen.set(false);
+        this.selectedAppForDelete.set(null);
+        this.refresh();
+      },
+      error: () => this.isDeleting.set(false)
+    });
   }
 
   onDeleteCancel(): void {
     this.isDeleteModalOpen.set(false);
     this.selectedAppForDelete.set(null);
-  }
-
-  onExportCsv(): void {
-    const header = ['ID', 'Nom complet', 'Email', 'Formation', 'Date', 'Statut'];
-    const rows = this.filteredApplications().map(a => [
-      a.id, a.fullName, a.email, a.trainingTitle, a.applicationDate, this.getStatusLabel(a.status)
-    ]);
-    const csv = [header, ...rows].map(r => r.join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'candidatures_certeo.csv';
-    a.click();
-    URL.revokeObjectURL(url);
   }
 }

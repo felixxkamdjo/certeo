@@ -1,55 +1,103 @@
-// src/app/features/applications/models/application.model.ts
-
-export enum ApplicationStatus {
-  Pending = 0,
-  InInterview = 1,
-  Evaluated = 2,
-  Selected = 3,
-  Rejected = 4,
+// Interface générique de pagination retournée par le backend .NET
+export interface PagedResult<T> {
+  items: T[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  totalPages?: number;
+  hasPreviousPage?: boolean;
+  hasNextPage?: boolean;
 }
 
-export interface ApplicationListItem {
+// Statuts des candidatures
+export enum ApplicationStatus {
+  Pending = 'PENDING',
+  UnderReview = 'UNDER_REVIEW',
+  Interview = 'INTERVIEW',
+  Accepted = 'ACCEPTED',
+  Rejected = 'REJECTED',
+}
+
+// Entrée d'étape dans le parcours professionnel / académique
+export interface TimelineEntry {
+  title: string;
+  organization: string;
+  period: string;
+  description?: string;
+  isCurrent?: boolean;
+}
+
+// Modèle pour la liste (ApplicationListItemResponse côté .NET)
+export interface CandidateApplication {
   id: string;
   fullName: string;
+  firstName?: string;
+  lastName?: string;
   email: string;
   phone: string;
   trainingId: string;
-  trainingTitle: string;
+  trainingTitle?: string;
   applicationDate: string;
-  status: ApplicationStatus;
+  createdAt?: string;
+  status: ApplicationStatus | number | string;
 }
 
-export interface ApplicationAnswer {
-  trainingQuestionId: string;
-  prompt: string;
-  value: string;
-}
-
-// Miroir de ApplicationDetailResponse.
+// Modèle complet pour la fiche détaillée (ApplicationDetailResponse côté .NET + UI)
 export interface ApplicationDetail {
   id: string;
   trainingId: string;
-  trainingTitle: string;
-  firstName: string;
-  lastName: string;
+  trainingTitle?: string;
+  fileNumber?: string;
+  fullName?: string;
+  firstName?: string;
+  lastName?: string;
   email: string;
   phone: string;
+
+  // Localisation
   city?: string | null;
   country?: string | null;
+  location?: string;
+
+  // Profil et Liens
+  linkedinUrl?: string | null;
+  githubUrl?: string | null;
+  portfolioUrl?: string | null;
+
+  // Référentiels & Identité
+  genderId?: string | null;
   genderLabel?: string | null;
   dateOfBirth?: string | null;
+  educationLevelId?: string | null;
   educationLevelLabel?: string | null;
   schoolOrUniversity?: string | null;
   graduationYear?: number | null;
   specialization?: string | null;
+
+  // Situation professionnelle & équipement
+  currentJob?: string;
   currentOccupation?: string | null;
-  cvUrl: string;
-  portfolioUrl?: string | null;
+  hasLaptop?: boolean;
   hasPersonalComputer?: boolean | null;
-  coverLetter?: string | null;
+
+  // Découverte & Disponibilité
+  discoverySource?: string;
+  odcDiscoverySourceId?: string | null;
   odcDiscoverySourceLabel?: string | null;
-  fileNumber: string;
-  status: ApplicationStatus;
-  applicationDate: string;
-  answers: ApplicationAnswer[];
+  availability?: string;
+
+  // Documents
+  cvUrl?: string;
+  cvFileName?: string;
+  cvDate?: string;
+
+  // Lettre et Parcours
+  motivation?: string;
+  coverLetter?: string | null;
+  timeline?: TimelineEntry[];
+
+  // Statut & Dates
+  status: ApplicationStatus | number | string;
+  applicationDate?: string;
+  createdAt?: string;
 }
