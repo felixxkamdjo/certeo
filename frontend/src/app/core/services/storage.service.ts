@@ -2,6 +2,16 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class StorageService {
+  getToken<T>(key: string): T | null {
+    const token = this.get(key);
+    if (!token) return null;
+    try {
+      return JSON.parse(token) as T;
+    } catch {
+      return null;
+    }
+  }
+
   get(key: string): string | null {
     try {
       return localStorage.getItem(key);

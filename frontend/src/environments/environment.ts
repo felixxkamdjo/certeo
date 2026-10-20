@@ -1,5 +1,5 @@
-export const environment = {
+export const ENVIRONMENT = {
   production: false,
-  apiUrl: 'http://localhost:5000/api',
+  apiBaseUrl: 'http://localhost:5239/api',
   appName: 'CERTEO',
 };

@@ -14,7 +14,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           router.navigate(['/login']);
           break;
         case 403:
-          // Forbidden — insufficient permissions
+          // Forbidden - insufficient permissions
           console.error('[HTTP 403] Accès refusé :', error.url);
           break;
         case 404:

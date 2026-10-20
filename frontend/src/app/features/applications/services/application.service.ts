@@ -1,35 +1,105 @@
-import { Injectable, inject, signal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+// features/applications/services/application.service.ts
+import { Injectable, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ApiService } from '@core/services/api.service';
-import { CandidateApplication, ApplicationStatus } from '../models/application.model';
+import {
+  CandidateApplication,
+  ApplicationDetail,
+  ApplicationStatus,
+  PagedResult
+} from '../models/application.model';
+
+export interface BulkSelectRequest {
+  applicationIds: string[];
+}
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationService {
   private readonly api = inject(ApiService);
-  private readonly _applications = signal<CandidateApplication[]>([]);
 
-  readonly applications = this._applications.asReadonly();
+  getApplications(
+    page: number = 1,
+    pageSize: number = 20,
+    search?: string,
+    status?: ApplicationStatus | string,
+    trainingId?: string
+  ): Observable<PagedResult<CandidateApplication>> {
+    const params: Record<string, string | number> = {
+      page,
+      pageSize
+    };
 
-  getAll(trainingId?: string): Observable<CandidateApplication[]> {
-    const params = trainingId ? { trainingId } : undefined;
-    return this.api.get<CandidateApplication[]>('/applications', params).pipe(
-      tap((data) => this._applications.set(data))
-    );
+    const cleanSearch = search?.trim();
+    if (cleanSearch && cleanSearch !== 'undefined' && cleanSearch.length > 0) {
+      params['search'] = cleanSearch;
+    }
+
+    if (status && status !== 'undefined') {
+      params['status'] = status;
+    }
+
+    if (trainingId && trainingId !== 'undefined' && trainingId.length > 0) {
+      params['trainingId'] = trainingId;
+    }
+
+    return this.api.get<PagedResult<CandidateApplication>>('applications', params);
   }
 
-  getById(id: string): Observable<CandidateApplication> {
-    return this.api.get<CandidateApplication>(`/applications/${id}`);
+  getAll(
+    trainingId?: string,
+    status?: ApplicationStatus | string,
+    search?: string,
+    page: number = 1,
+    pageSize: number = 20
+  ): Observable<PagedResult<CandidateApplication>> {
+    return this.getApplications(page, pageSize, search, status, trainingId);
   }
 
-  updateStatus(id: string, status: ApplicationStatus): Observable<CandidateApplication> {
-    return this.api.patch<CandidateApplication>(`/applications/${id}/status`, { status });
+  getApplicationById(id: string): Observable<ApplicationDetail> {
+    return this.api.get<ApplicationDetail>(`applications/${id}`);
+  }
+
+  getById(id: string): Observable<ApplicationDetail> {
+    return this.getApplicationById(id);
+  }
+
+  submitApplication(formData: FormData): Observable<ApplicationDetail> {
+    return this.api.post<ApplicationDetail>('applications', formData);
+  }
+
+  moveToInterview(id: string): Observable<void> {
+    return this.api.post<void>(`applications/${id}/interview`, {});
+  }
+
+  evaluate(id: string): Observable<void> {
+    return this.api.post<void>(`applications/${id}/evaluate`, {});
+  }
+
+  selectApplication(id: string): Observable<void> {
+    return this.api.post<void>(`applications/${id}/select`, {});
+  }
+
+  select(id: string): Observable<void> {
+    return this.selectApplication(id);
+  }
+
+  bulkSelect(applicationIds: string[]): Observable<void> {
+    return this.api.post<void>('applications/bulk-select', { applicationIds });
+  }
+
+  rejectApplication(id: string): Observable<void> {
+    return this.api.post<void>(`applications/${id}/reject`, {});
+  }
+
+  reject(id: string): Observable<void> {
+    return this.rejectApplication(id);
   }
 
   sendEmail(id: string, subject: string, body: string): Observable<void> {
-    return this.api.post<void>(`/applications/${id}/email`, { subject, body });
+    return this.api.post<void>(`applications/${id}/email`, { subject, body });
   }
 
   sendGroupEmail(ids: string[], subject: string, body: string): Observable<void> {
-    return this.api.post<void>('/applications/group-email', { ids, subject, body });
+    return this.api.post<void>('applications/group-email', { ids, subject, body });
   }
 }
