@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: ChangeMe123!
       POSTGRES_DB: certeo_db
     ports:
-      - "5432:5432"
+      - "5435:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
       # Possibilité de monter un dump SQL initial
