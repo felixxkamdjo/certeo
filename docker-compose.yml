@@ -1,24 +1,63 @@
-version: '3.8'
-
 services:
-  gateway:
-    build:
-      context: .
-      dockerfile: backend/src/Certeo.Gateway/Dockerfile
-    ports:
-      - "5000:5000"
+  # Database service
+  certeo-db:
+    image: postgres:17-alpine
+    container_name: certeo_postgres
+    restart: unless-stopped
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5000
-    depends_on:
-      - api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ChangeMe123!
+      POSTGRES_DB: certeo_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Possibilité de monter un dump SQL initial
+      - ./schema_certeo.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - certeo-network
 
-  api:
+  # .NET Web API service
+  certeo-api:
     build:
-      context: .
-      dockerfile: backend/src/Certeo.Api/Dockerfile
-    ports:
-      - "5001:5001"
+      context: ./backend
+      dockerfile: src/Certeo.Api/Dockerfile
+    container_name: certeo_api
+    restart: unless-stopped
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5001
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=certeo-db;Port=5432;Database=certeo_db;Username=postgres;Password=ChangeMe123!
+      - Jwt__SigningKey=CERTEO_SUPER_SECRET_KEY_FOR_JWT_ENCRYPTION_2026_MIN_32_CHARS!
+      - Jwt__Issuer=CERTEO_API
+      - Jwt__Audience=CERTEO_CLIENTS
+    ports:
+      - "5239:5239"
+    volumes:
+      - api-uploads:/app/uploads
+    depends_on:
+      certeo-db:
+        condition: service_started
+    networks:
+      - certeo-network
+
+  # Angular Frontend service
+  certeo-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: certeo_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - certeo-api
+    networks:
+      - certeo-network
+
+networks:
+  certeo-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+  api-uploads:

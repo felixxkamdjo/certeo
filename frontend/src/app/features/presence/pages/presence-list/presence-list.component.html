@@ -1,6 +1,223 @@
 <div class="presence-list">
-  <div class="presence-list__header">
-    <h1 class="heading-3">Gestion des Présences (ODC Presence)</h1>
-    <p class="text-muted">Suivi des entrées et visites quotidiennes à l'Orange Digital Center.</p>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header__text">
+      <h1 class="page-title">Liste de Présence</h1>
+      <p class="page-subtitle">Gérez et consultez les enregistrements de présence du jour.</p>
+    </div>
+    <div class="page-header__actions">
+      <button class="btn btn--outline" type="button" (click)="exportCsv()">
+        <span class="material-symbols-outlined">download</span>
+        Exporter
+      </button>
+      <a class="btn btn--outline" routerLink="/admin/presence/configuration">
+        <span class="material-symbols-outlined">settings</span>
+        Configurer le formulaire
+      </a>
+      <a class="btn btn--primary" routerLink="/admin/presence/qr-code">
+        <span class="material-symbols-outlined">qr_code_2</span>
+        QR Code d'accueil
+      </a>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <app-kpi-card
+      label="Visiteurs aujourd'hui"
+      [value]="stats().todayTotal"
+      icon="group"
+      colorTheme="primary"
+      trend="+12%"
+      trendDirection="up">
+    </app-kpi-card>
+    <app-kpi-card
+      label="Moyenne hebdomadaire"
+      [value]="stats().thisWeekTotal"
+      icon="calendar_month"
+      colorTheme="secondary">
+    </app-kpi-card>
+    <app-kpi-card
+      label="Motif le plus fréquent"
+      [value]="stats().topReason"
+      icon="category"
+      colorTheme="secondary"
+      subtitle="45% des visites aujourd'hui">
+    </app-kpi-card>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card">
+
+    <!-- Filtres -->
+    <div class="table-card__toolbar">
+      <app-table-search
+        [placeholder]="'Rechercher un visiteur...'"
+        [searchValue]="search()"
+        [filters]="[
+          { key: 'date',     label: 'Date de présence',        type: 'date',   value: selectedDate() },
+          { key: 'training', label: 'Toutes les formations',   type: 'select', value: selectedTraining(),
+            options: trainingOptions() }
+        ]"
+        (searchChange)="onSearchChange($event)"
+        (filterChange)="onFilterChange($event)"
+        (reset)="resetFilters()" />
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Visiteur</th>
+            <th>Email</th>
+            <th>Profil</th>
+            <th>Motif</th>
+            <th>Formation</th>
+            <th>Heure</th>
+            <th class="text-right">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of pagedEntries(); track entry.id) {
+            <tr class="data-table__row" (click)="viewDetails(entry)">
+              <td>
+                <div class="visitor-cell">
+                  <div class="avatar">{{ entry.visitorName.charAt(0) }}</div>
+                  <div class="visitor-cell__info">
+                    <strong>{{ entry.visitorName }}</strong>
+                    <small>{{ entry.phone }}</small>
+                  </div>
+                </div>
+              </td>
+              <td class="text-muted">{{ entry.email }}</td>
+              <td>
+                <span class="status-badge status-badge--{{ profileVariant(entry.profile) }}">
+                  {{ entry.profile || 'Visiteur' }}
+                </span>
+              </td>
+              <td class="text-secondary">{{ entry.visitReason }}</td>
+              <td class="text-secondary">{{ entry.trainingName || '—' }}</td>
+              <td class="text-secondary">{{ entry.checkInTime }}</td>
+              <td class="text-right" (click)="$event.stopPropagation()">
+                <button
+                  class="icon-btn icon-btn--view"
+                  type="button"
+                  [attr.aria-label]="'Voir ' + entry.visitorName"
+                  (click)="viewDetails(entry)">
+                  <span class="material-symbols-outlined">visibility</span>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7">
+                <app-empty-state
+                  title="Aucune présence trouvée"
+                  description="Aucun enregistrement ne correspond à vos critères. Modifiez la date ou les filtres."
+                  icon="search_off">
+                </app-empty-state>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination réactive -->
+    <app-pagination
+      [totalItems]="filteredEntries().length"
+      [itemsPerPage]="itemsPerPage"
+      [currentPage]="currentPage()"
+      (pageChange)="onPageChange($event)">
+    </app-pagination>
+
   </div>
 </div>
+
+<!-- Modale de consultation du pointage -->
+@if (isDetailOpen()) {
+  <div class="modal-backdrop" (click)="closeDetail()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-card__header">
+        <h2 class="heading-4">Détail du pointage</h2>
+        <button class="icon-btn" type="button" (click)="closeDetail()" aria-label="Fermer">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="modal-card__body">
+        @if (isDetailLoading()) {
+          <div class="loading-state">
+            <p>Chargement des détails...</p>
+          </div>
+        } @else if (selectedDetail(); as detail) {
+          <div class="detail-grid-modal">
+            <div class="detail-row">
+              <span class="detail-label">Visiteur / Apprenant</span>
+              <strong class="detail-value">{{ detail.fullName }}</strong>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">Email</span>
+              <span class="detail-value text-muted">{{ detail.email }}</span>
+            </div>
+
+            @if (detail.phone) {
+              <div class="detail-row">
+                <span class="detail-label">Téléphone</span>
+                <span class="detail-value">{{ detail.phone }}</span>
+              </div>
+            }
+
+            <div class="detail-row">
+              <span class="detail-label">Profil déclaré</span>
+              <span class="detail-value">
+                <span class="status-badge status-badge--{{ profileVariant(detail.profileLabel) }}">
+                  {{ detail.profileLabel || 'Visiteur' }}
+                </span>
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">Motif de visite</span>
+              <span class="detail-value">{{ detail.visitReasonLabel }}</span>
+            </div>
+
+            @if (detail.trainingTitle) {
+              <div class="detail-row">
+                <span class="detail-label">Formation associée</span>
+                <span class="detail-value">{{ detail.trainingTitle }}</span>
+              </div>
+            }
+
+            <div class="detail-row">
+              <span class="detail-label">Heure d'enregistrement</span>
+              <span class="detail-value">{{ detail.timestamp | date: 'dd/MM/yyyy à HH:mm:ss' }}</span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">Vérification Géofencing</span>
+              <span class="detail-value">
+                <span class="geofence-tag" [class.geofence-tag--valid]="detail.isValid" [class.geofence-tag--invalid]="!detail.isValid">
+                  <span class="material-symbols-outlined">{{ detail.isValid ? 'check_circle' : 'warning' }}</span>
+                  {{ detail.isValid ? 'Zone conforme' : 'Hors périmètre' }} ({{ detail.distanceFromCenterMeters }} m du centre)
+                </span>
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">Coordonnées GPS</span>
+              <small class="text-muted">{{ detail.latitude }}, {{ detail.longitude }}</small>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="modal-card__footer">
+        <button class="btn btn--primary" type="button" (click)="closeDetail()">Fermer</button>
+      </div>
+    </div>
+  </div>
+}

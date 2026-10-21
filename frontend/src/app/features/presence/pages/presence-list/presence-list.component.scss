@@ -2,7 +2,271 @@
 @use 'styles/mixins' as *;
 
 .presence-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// Align header title with action buttons
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $spacing-md;
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+}
+
+// Arrange KPI summary cards in a 3-column responsive grid
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-lg;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Style main white container enclosing search and table
+.table-card {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  padding: $spacing-lg;
+
+  &__toolbar {
+    width: 100%;
+  }
+}
+
+// Enable horizontal scroll on overflow
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+// Style tabular data grid
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  td {
+    padding: $spacing-md;
+    font-size: $font-size-sm;
+    color: $color-gray-800;
+    border-bottom: 1px solid $color-gray-100;
+    vertical-align: middle;
+  }
+
+  &__row {
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: $color-gray-50;
+    }
+  }
+}
+
+// Format visitor avatar and text details
+.visitor-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    // border-radius: $border-radius-full;
+    background-color: rgba($color-primary, 0.1);
+    color: $color-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-sm;
+    flex-shrink: 0;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    strong {
+      font-weight: $font-weight-semibold;
+      font-size: $font-size-base;
+      color: $color-gray-900;
+    }
+
+    small {
+      color: $color-gray-500;
+      font-size: $font-size-xs;
+    }
+  }
+}
+
+// Format status badge pill
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  // border-radius: $border-radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+
+  &--info {
+    background-color: #e0f2fe;
+    color: #0369a1;
+  }
+
+  &--warning {
+    background-color: #fef3c7;
+    color: #b45309;
+  }
+
+  &--default {
+    background-color: $color-gray-100;
+    color: $color-gray-700;
+  }
+
+  &--neutral {
+    background-color: $color-gray-100;
+    color: $color-gray-600;
+  }
+}
+
+// Action icon buttons
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: $color-gray-400;
+  padding: $spacing-xs;
+  // border-radius: $border-radius-sm;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+// Backdrop overlay for modal dialog
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $spacing-md;
+}
+
+// Modal card container
+.modal-card {
+  @include card;
+  background: $color-white;
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
   &__header {
-    margin-bottom: $spacing-xl;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-lg;
+    border-bottom: 1px solid $color-gray-100;
+  }
+
+  &__body {
+    padding: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: $spacing-md $spacing-lg;
+    border-top: 1px solid $color-gray-100;
+    background-color: $color-gray-50;
+  }
+}
+
+// Detail rows list
+.detail-grid-modal {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-xs 0;
+  border-bottom: 1px solid $color-gray-50;
+
+  .detail-label {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+    text-transform: uppercase;
+    font-weight: $font-weight-medium;
+  }
+
+  .detail-value {
+    font-size: $font-size-sm;
+    color: $color-gray-900;
+  }
+}
+
+// Geofence status tag
+.geofence-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  padding: 2px 8px;
+  // border-radius: $border-radius-sm;
+
+  &--valid {
+    background-color: #ecfdf5;
+    color: #059669;
+  }
+
+  &--invalid {
+    background-color: #fef2f2;
+    color: #dc2626;
   }
 }
