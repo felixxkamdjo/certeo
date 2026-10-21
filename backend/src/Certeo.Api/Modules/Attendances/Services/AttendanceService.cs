@@ -198,4 +198,49 @@ public sealed class AttendanceService : IAttendanceService
             qrCode.IsActive
         );
     }
+
+    // Fetch single attendance record joined with related relational data
+    public async Task<AttendanceItemResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var a = await _context.Attendances
+            .AsNoTracking()
+            .Include(x => x.Participant)
+                .ThenInclude(p => p!.Application)
+            .Include(x => x.Training)
+            .Include(x => x.VisitReason)
+            .Include(x => x.Profiles)
+                .ThenInclude(ap => ap.Profile)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+        if (a is null) return null;
+
+        var firstName = a.Participant?.Application?.FirstName ?? a.VisitorFirstName;
+        var lastName = a.Participant?.Application?.LastName ?? a.VisitorLastName;
+        var fullName = $"{firstName} {lastName}".Trim();
+        if (string.IsNullOrWhiteSpace(fullName)) fullName = "Visiteur";
+
+        var email = a.Participant?.Application?.Email ?? a.VisitorEmail ?? string.Empty;
+        var phone = a.Participant?.Application?.Phone ?? a.VisitorPhone;
+        var profile = a.Profiles?.FirstOrDefault()?.Profile?.Label ?? "Visiteur";
+
+        return new AttendanceItemResponse(
+            a.Id,
+            fullName,
+            firstName,
+            lastName,
+            email,
+            phone,
+            profile,
+            null,
+            a.VisitReasonId,
+            a.VisitReason?.Label ?? "Formation",
+            a.TrainingId,
+            a.Training?.Title,
+            (double)a.Latitude,
+            (double)a.Longitude,
+            (double)a.DistanceFromCenterMeters,
+            a.IsValid,
+            a.Timestamp.UtcDateTime
+        );
+    }
 }

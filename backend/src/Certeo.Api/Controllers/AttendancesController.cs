@@ -51,4 +51,13 @@ public sealed class AttendancesController : ControllerBase
         var result = await _attendanceService.GetActiveQrCodeAsync(cancellationToken);
         return Ok(result);
     }
+
+    // Fetch single attendance record by identifier
+    [HttpGet("{id:guid}")]
+    [Authorize(Roles = "SUPER_ADMIN,ADMIN,TRAINER")]
+    public async Task<ActionResult<AttendanceItemResponse>> GetById(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await _attendanceService.GetByIdAsync(id, cancellationToken);
+        return result is null ? NotFound() : Ok(result);
+    }
 }

@@ -21,4 +21,7 @@ public interface IAttendanceService
     // Retrieve active entrance QR code token
     Task<QrCodeDetailsResponse> GetActiveQrCodeAsync(
         CancellationToken cancellationToken = default);
+
+    // Retrieve single attendance entry details matching unique identifier
+    Task<AttendanceItemResponse?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

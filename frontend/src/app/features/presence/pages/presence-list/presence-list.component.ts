@@ -52,6 +52,11 @@ export class PresenceListComponent {
   readonly selectedTraining = signal<string>('');
   readonly currentPage = signal<number>(1);
 
+  // Manage selected presence detail state
+  readonly selectedDetail = signal<AttendanceItem | null>(null);
+  readonly isDetailOpen = signal<boolean>(false);
+  readonly isDetailLoading = signal<boolean>(false);
+
   // Trigger manual data reload pipeline
   private readonly refreshTrigger = signal<number>(0);
 
@@ -112,6 +117,28 @@ export class PresenceListComponent {
       checkInTime: item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—'
     }))
   );
+
+  // Fetch and open attendance detail dialog
+  viewDetails(record: PresenceEntryRow): void {
+    this.isDetailLoading.set(true);
+    this.isDetailOpen.set(true);
+    this.attendanceService.getAttendanceById(record.id).subscribe({
+      next: (data) => {
+        this.selectedDetail.set(data);
+        this.isDetailLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Failed to load attendance detail', err);
+        this.isDetailLoading.set(false);
+      }
+    });
+  }
+
+  // Close detail dialog and reset selection
+  closeDetail(): void {
+    this.isDetailOpen.set(false);
+    this.selectedDetail.set(null);
+  }
 
   // Compute filtered entries array matching search input
   readonly filteredEntries = computed(() => {

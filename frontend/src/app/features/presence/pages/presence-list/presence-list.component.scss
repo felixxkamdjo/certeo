@@ -176,3 +176,97 @@
     color: $color-primary;
   }
 }
+
+// Backdrop overlay for modal dialog
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $spacing-md;
+}
+
+// Modal card container
+.modal-card {
+  @include card;
+  background: $color-white;
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-lg;
+    border-bottom: 1px solid $color-gray-100;
+  }
+
+  &__body {
+    padding: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: $spacing-md $spacing-lg;
+    border-top: 1px solid $color-gray-100;
+    background-color: $color-gray-50;
+  }
+}
+
+// Detail rows list
+.detail-grid-modal {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-xs 0;
+  border-bottom: 1px solid $color-gray-50;
+
+  .detail-label {
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+    text-transform: uppercase;
+    font-weight: $font-weight-medium;
+  }
+
+  .detail-value {
+    font-size: $font-size-sm;
+    color: $color-gray-900;
+  }
+}
+
+// Geofence status tag
+.geofence-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  padding: 2px 8px;
+  // border-radius: $border-radius-sm;
+
+  &--valid {
+    background-color: #ecfdf5;
+    color: #059669;
+  }
+
+  &--invalid {
+    background-color: #fef2f2;
+    color: #dc2626;
+  }
+}

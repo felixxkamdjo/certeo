@@ -35,6 +35,11 @@ export class AttendanceService {
     return this.api.get<AttendancePagedResult>('attendances', params);
   }
 
+  // Fetch single attendance item details by unique identifier
+  getAttendanceById(id: string): Observable<AttendanceItem> {
+    return this.api.get<AttendanceItem>(`attendances/${id}`);
+  }
+
   // Retrieve current active reception center QR code
   getCenterQrCode(): Observable<QrCodeDetails> {
     return this.api.get<QrCodeDetails>('attendances/qrcode');

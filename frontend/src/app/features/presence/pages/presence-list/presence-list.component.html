@@ -81,7 +81,7 @@
         </thead>
         <tbody>
           @for (entry of pagedEntries(); track entry.id) {
-            <tr class="data-table__row">
+            <tr class="data-table__row" (click)="viewDetails(entry)">
               <td>
                 <div class="visitor-cell">
                   <div class="avatar">{{ entry.visitorName.charAt(0) }}</div>
@@ -100,8 +100,12 @@
               <td class="text-secondary">{{ entry.visitReason }}</td>
               <td class="text-secondary">{{ entry.trainingName || '—' }}</td>
               <td class="text-secondary">{{ entry.checkInTime }}</td>
-              <td class="text-right">
-                <button class="icon-btn icon-btn--view" type="button" [attr.aria-label]="'Voir ' + entry.visitorName">
+              <td class="text-right" (click)="$event.stopPropagation()">
+                <button
+                  class="icon-btn icon-btn--view"
+                  type="button"
+                  [attr.aria-label]="'Voir ' + entry.visitorName"
+                  (click)="viewDetails(entry)">
                   <span class="material-symbols-outlined">visibility</span>
                 </button>
               </td>
@@ -131,3 +135,89 @@
 
   </div>
 </div>
+
+<!-- Modale de consultation du pointage -->
+@if (isDetailOpen()) {
+  <div class="modal-backdrop" (click)="closeDetail()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-card__header">
+        <h2 class="heading-4">Détail du pointage</h2>
+        <button class="icon-btn" type="button" (click)="closeDetail()" aria-label="Fermer">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="modal-card__body">
+        @if (isDetailLoading()) {
+          <div class="loading-state">
+            <p>Chargement des détails...</p>
+          </div>
+        } @else if (selectedDetail(); as detail) {
+          <div class="detail-grid-modal">
+            <div class="detail-row">
+              <span class="detail-label">Visiteur / Apprenant</span>
+              <strong class="detail-value">{{ detail.fullName }}</strong>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">Email</span>
+              <span class="detail-value text-muted">{{ detail.email }}</span>
+            </div>
+
+            @if (detail.phone) {
+              <div class="detail-row">
+                <span class="detail-label">Téléphone</span>
+                <span class="detail-value">{{ detail.phone }}</span>
+              </div>
+            }
+
+            <div class="detail-row">
+              <span class="detail-label">Profil déclaré</span>
+              <span class="detail-value">
+                <span class="status-badge status-badge--{{ profileVariant(detail.profileLabel) }}">
+                  {{ detail.profileLabel || 'Visiteur' }}
+                </span>
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">Motif de visite</span>
+              <span class="detail-value">{{ detail.visitReasonLabel }}</span>
+            </div>
+
+            @if (detail.trainingTitle) {
+              <div class="detail-row">
+                <span class="detail-label">Formation associée</span>
+                <span class="detail-value">{{ detail.trainingTitle }}</span>
+              </div>
+            }
+
+            <div class="detail-row">
+              <span class="detail-label">Heure d'enregistrement</span>
+              <span class="detail-value">{{ detail.timestamp | date: 'dd/MM/yyyy à HH:mm:ss' }}</span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">Vérification Géofencing</span>
+              <span class="detail-value">
+                <span class="geofence-tag" [class.geofence-tag--valid]="detail.isValid" [class.geofence-tag--invalid]="!detail.isValid">
+                  <span class="material-symbols-outlined">{{ detail.isValid ? 'check_circle' : 'warning' }}</span>
+                  {{ detail.isValid ? 'Zone conforme' : 'Hors périmètre' }} ({{ detail.distanceFromCenterMeters }} m du centre)
+                </span>
+              </span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">Coordonnées GPS</span>
+              <small class="text-muted">{{ detail.latitude }}, {{ detail.longitude }}</small>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="modal-card__footer">
+        <button class="btn btn--primary" type="button" (click)="closeDetail()">Fermer</button>
+      </div>
+    </div>
+  </div>
+}
