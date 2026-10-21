@@ -2,8 +2,8 @@ import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@a
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
-import { AttendanceService } from '../../services/presence.service';
-import { AttendanceItem, AttendanceKpis } from '../../models/presence.model';
+import { PresenceService } from '../../services/presence.service';
+import { AttendanceItem, PresenceKpis } from '../../models/presence.model';
 import {
   KpiCardComponent,
   PaginationComponent,
@@ -41,7 +41,7 @@ export interface PresenceEntryRow {
   styleUrl: './presence-list.component.scss'
 })
 export class PresenceListComponent {
-  private readonly attendanceService = inject(AttendanceService);
+  private readonly presenceService = inject(PresenceService);
 
   // Define pagination sizing constant
   readonly itemsPerPage = 15;
@@ -69,7 +69,7 @@ export class PresenceListComponent {
     toObservable(this.refreshTrigger)
   ]).pipe(
     switchMap(([searchTerm, date, trainingId, page]) =>
-      this.attendanceService.getAttendances(
+      this.presenceService.getAttendances(
         page,
         this.itemsPerPage,
         searchTerm || undefined,
@@ -85,7 +85,7 @@ export class PresenceListComponent {
             page: 1,
             pageSize: this.itemsPerPage,
             totalPages: 1,
-            kpis: { todayCount: 0, weeklyAverage: 0, percentageTrend: 0, mostFrequentReason: 'Aucun', mostFrequentReasonPercentage: 0 } as AttendanceKpis
+            kpis: { todayCount: 0, weeklyAverage: 0, percentageTrend: 0, mostFrequentReason: 'Aucun', mostFrequentReasonPercentage: 0 } as PresenceKpis
           });
         })
       )
@@ -100,7 +100,7 @@ export class PresenceListComponent {
       page: 1,
       pageSize: this.itemsPerPage,
       totalPages: 1,
-      kpis: { todayCount: 0, weeklyAverage: 0, percentageTrend: 0, mostFrequentReason: 'Aucun', mostFrequentReasonPercentage: 0 } as AttendanceKpis
+      kpis: { todayCount: 0, weeklyAverage: 0, percentageTrend: 0, mostFrequentReason: 'Aucun', mostFrequentReasonPercentage: 0 } as PresenceKpis
     }
   });
 
@@ -122,7 +122,7 @@ export class PresenceListComponent {
   viewDetails(record: PresenceEntryRow): void {
     this.isDetailLoading.set(true);
     this.isDetailOpen.set(true);
-    this.attendanceService.getAttendanceById(record.id).subscribe({
+    this.presenceService.getAttendanceById(record.id).subscribe({
       next: (data) => {
         this.selectedDetail.set(data);
         this.isDetailLoading.set(false);
@@ -219,7 +219,7 @@ export class PresenceListComponent {
 
   // Trigger presence spreadsheet export stream
   exportCsv(): void {
-    this.attendanceService.exportCsv(this.selectedDate() || undefined, this.selectedTraining() || undefined)
+    this.presenceService.exportCsv(this.selectedDate() || undefined, this.selectedTraining() || undefined)
       .subscribe({
         next: file => {
           // Download file blob directly

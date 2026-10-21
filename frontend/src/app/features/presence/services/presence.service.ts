@@ -1,12 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '@core/services/api.service';
-import { AttendancePagedResult, AttendanceItem, QrCodeDetails, RecordAttendanceCommand } from '../models/presence.model';
+import { PresencePagedResult, AttendanceItem, QrCodeDetails, RecordAttendanceCommand } from '../models/presence.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AttendanceService {
+export class PresenceService {
   private readonly api = inject(ApiService);
 
   // Fetch paginated attendance records with search and date filters
@@ -16,7 +16,7 @@ export class AttendanceService {
     search?: string,
     date?: string,
     trainingId?: string
-  ): Observable<AttendancePagedResult> {
+  ): Observable<PresencePagedResult> {
     const params: Record<string, string | number> = { page, pageSize };
 
     const cleanSearch = search?.trim();
@@ -32,7 +32,7 @@ export class AttendanceService {
       params['trainingId'] = trainingId;
     }
 
-    return this.api.get<AttendancePagedResult>('attendances', params);
+    return this.api.get<PresencePagedResult>('attendances', params);
   }
 
   // Fetch single attendance item details by unique identifier
