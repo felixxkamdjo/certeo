@@ -2,7 +2,288 @@
 @use 'styles/mixins' as *;
 
 .qr-code-view {
-  &__header {
-    margin-bottom: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.breadcrumb-header {
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-sm;
+
+    &__link {
+      color: $color-gray-500;
+      text-decoration: none;
+      &:hover { color: $color-primary; }
+    }
+
+    &__sep {
+      font-size: 16px;
+      color: $color-gray-400;
+    }
+
+    &__active {
+      color: $color-gray-900;
+      font-weight: $font-weight-medium;
+    }
   }
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+}
+
+// 2-column layout for QR card and actions sidebar
+.qr-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: $spacing-xl;
+  align-items: start;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Center QR presentation card
+.qr-card {
+  @include card;
+  background: $color-white;
+  padding: $spacing-2xl;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xl;
+  text-align: center;
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: 6px 14px;
+    // border-radius: $border-radius-full;
+    background-color: #ecfdf5;
+    color: #059669;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #10b981;
+    }
+  }
+
+  &__site {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-lg;
+    color: $color-gray-900;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    font-size: $font-size-xs;
+    color: $color-gray-500;
+  }
+}
+
+.qr-instructions {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  width: 100%;
+  max-width: 440px;
+  text-align: left;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    font-size: $font-size-sm;
+    color: $color-gray-700;
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: rgba($color-primary, 0.1);
+      color: $color-primary;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: $font-weight-bold;
+      font-size: $font-size-xs;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.qr-frame {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $color-gray-200;
+  // border-radius: $border-radius-lg;
+  padding: $spacing-sm;
+  background: $color-white;
+
+  .qr-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    &--loading {
+      opacity: 0;
+    }
+  }
+
+  .qr-placeholder, .qr-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    color: $color-gray-500;
+    font-size: $font-size-xs;
+  }
+
+  .spin {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+// Right sidebar action cards
+.qr-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.action-card {
+  @include card;
+  background: $color-white;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $color-gray-900;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    line-height: 1.5;
+  }
+
+  &--danger {
+    border-color: #fee2e2;
+    background-color: #fffaf0;
+
+    .action-card__title {
+      color: #b45309;
+    }
+  }
+}
+
+.config-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    dt {
+      font-size: $font-size-xs;
+      color: $color-gray-500;
+      text-transform: uppercase;
+    }
+
+    dd {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      color: $color-gray-900;
+
+      &.url-dd {
+        word-break: break-all;
+        font-family: monospace;
+        font-size: $font-size-xs;
+        color: $color-primary;
+      }
+    }
+  }
+}
+
+.btn-danger-link {
+  background: none;
+  border: 1px solid #f87171;
+  color: #dc2626;
+  padding: 8px 16px;
+  // border-radius: $border-radius-md;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background-color: #fef2f2;
+  }
+}
+
+.print-only {
+  display: none;
 }
