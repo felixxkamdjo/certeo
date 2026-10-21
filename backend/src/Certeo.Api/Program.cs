@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using Certeo.Api.Modules.Trainings;
 using Certeo.Api.Infrastructure.Middleware;
 using Certeo.Api.Modules.Participants;
+using Certeo.Api.Modules.Attendance;
+using Certeo.Api.Modules.Attendance.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +61,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<SlugGenerator>();
 builder.Services.AddScoped<ITrainingService, TrainingService>();
 builder.Services.AddScoped<IParticipantService, ParticipantService>();
+builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
 // ==========================================
 // API, SWAGGER & CORS
