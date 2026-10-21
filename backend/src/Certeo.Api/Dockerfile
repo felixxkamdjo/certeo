@@ -1,19 +1,29 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-COPY ["backend/Certeo.sln", "backend/"]
-COPY ["backend/src/Certeo.Api/Certeo.Api.csproj", "backend/src/Certeo.Api/"]
-RUN dotnet restore "backend/src/Certeo.Api/Certeo.Api.csproj"
+# Copy project file and restore dependencies
+COPY ["src/Certeo.Api/Certeo.Api.csproj", "src/Certeo.Api/"]
+RUN dotnet restore "src/Certeo.Api/Certeo.Api.csproj"
 
-COPY backend/ .
-WORKDIR "/src/backend/src/Certeo.Api"
-RUN dotnet build "Certeo.Api.csproj" -c Release -o /app/build
-
-FROM build AS publish
+# Copy all source files and publish release
+COPY . .
+WORKDIR "/src/src/Certeo.Api"
 RUN dotnet publish "Certeo.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
-EXPOSE 5001
+EXPOSE 5239
+
+# Copy published binaries
+COPY --from=build /app/publish .
+
+# Create volume folder for uploaded documents (CVs, badges)
+RUN mkdir -p /app/uploads
+VOLUME ["/app/uploads"]
+
+ENV ASPNETCORE_URLS=http://+:5239
+ENV ASPNETCORE_ENVIRONMENT=Production
+
 ENTRYPOINT ["dotnet", "Certeo.Api.dll"]
